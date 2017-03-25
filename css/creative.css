@@ -3,8 +3,8 @@
  * Copyright 2013-2016 Start Bootstrap
  * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap/blob/gh-pages/LICENSE)
  */
-html,
-body {
+ html,
+ body {
   height: 100%;
   width: 100%;
 }
@@ -164,6 +164,7 @@ header .header-content {
   text-align: center;
   padding: 100px 15px 100px;
   width: 100%;
+  color: 0;
 }
 header .header-content .header-content-inner h1 {
   font-weight: 700;
