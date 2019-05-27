@@ -22,6 +22,18 @@
     <link href="/css/freelancer.css" rel="stylesheet">
 </head>
 
+<!--Custom CSS-->
+<style>
+    .blur {
+        -webkit-filter: blur(5px);
+        filter: blur(5px);
+    }
+    
+    .inactive {
+        pointer-events: none;
+    }
+</style>
+
 <body id="page-top">
     <nav id="mainNav" class="navbar navbar-default navbar-fixed-top">
         <div class="container-fluid">
@@ -124,9 +136,13 @@
                                         <i class="fa fa-search-plus fa-3x"></i>
                                     </div>
                                 </div>
-                                <img src="thumbnails/zigzag.png" filter="blur(8px);" alt="zigzag" class="img-responsive">
-                                <div class="centered">
-                                    <h1 style="color: orangered; text-align: center;">ZIG ZAG</h1>
+                                <blur>
+                                    <img src="thumbnails/zigzag.png" filter="blur(8px);" alt="zigzag" class="img-responsive">
+                                </blur>
+                                <div class="centered" cursor="defaul">
+                                    <h1 style="color: orangered; text-align: center;">
+                                        <inactive>ZIG ZAG</inactive>
+                                    </h1>
                                 </div>
                             </a>
                         </div>
@@ -237,7 +253,7 @@
                 </div>
                 <div class="modal-body">
                     <img alt="inkwell" src="full/inkwell.png" class="img-responsive img-centered">
-                    <p style="text-align: left; text-align: justify"> Blinded, you must find clever ways to find all three keys and escape the maze with for only tool: The ability to paint the walls around you. The player must come up with good spacial awareness strategies to avoid getting lost forever.
+                    <p style="text-align: left; text-align: justify"> Blinded, you must find clever ways to find all three keys and escape the maze with for only tool: The ability to paint the walls around you. The player must come up with good spatial awareness strategies to avoid getting lost forever.
                         <br><br> This research project had for purpose to help raise awareness of the difficulties blind people have to navigate in an environment mainly built for the sighted and through playing, come up with real world modifications
                         that could be implemented to help people suffering from that handicap. <br><br>
 
@@ -255,7 +271,7 @@
     <div class="portfolio-modal modal fade" id="sibtrip" tabindex="-1" role="dialog" aria-labelledby="sibtrip" aria-hidden="true">
         <div class="modal-dialog" role="document" border-radius="10px">
             <div class="modal-content modal-lg">
-                <h2 class="modal-title" id="sibtrip">sibtrip</h2>
+                <h2 class="modal-title" id="sibtrip">SibTrip</h2>
                 <div class="modal-header">
                     <hr class="star-primary">
                 </div>
@@ -300,7 +316,7 @@
                 </div>
                 <div class="modal-body">
                     <img alt="zigzag" src="full/zigzag.png" class="img-responsive img-centered">
-                    <p style="text-align: left; text-align: justify"> Grab as many crystals and try not to fall off the road in this addctive one tap game! <br><br> Assets by <a href="https://didiwalker.com/">Diaan Walker</a> <br><br> Download soon: <a href="https://play.google.com/store/apps/developer?id=Yukisando">Zig Zag</a>
+                    <p style="text-align: left; text-align: justify"> Grab as many crystals and try not to fall off the road in this addictive one tap game! <br><br> Assets by <a href="https://didiwalker.com/">Diaan Walker</a> <br><br> Download soon: <a href="https://play.google.com/store/apps/developer?id=Yukisando">Zig Zag</a>
                     </p>
                 </div>
                 <div class="modal-footer">
@@ -313,7 +329,7 @@
     <div class="portfolio-modal modal fade" id="concron" tabindex="-1" role="dialog" aria-labelledby="concron" aria-hidden="true">
         <div class="modal-dialog" role="document" border-radius="10px">
             <div class="modal-content modal-lg">
-                <h2 class="modal-title" id="concron">concron</h2>
+                <h2 class="modal-title" id="concron">Concron</h2>
                 <div class="modal-header">
                     <hr class="star-primary">
                 </div>
@@ -413,9 +429,9 @@
                             <img alt="magicarrow" src="full/magicarrow.png" class="img-responsive img-centered">
                             <p style="text-align: left; text-align: justify"> A Java Minecraft plug-in made to enhance the capabilities of the bow and arrow. Enabling this plug-in will add a block where the arrow lands depending on which block you are standing on. For example, if the player is standing
                                 on a Redstone block, a Redstone block will be created at the point of impact allowing the player to connect Redstone circuits from a distance. <br> This plug-in is initially made for players who like to create puzzle-based
-                                levels in Minecraft. <br><br> Some examples of effects:<br><br> Standing on gold: Teleports the player to arrow's location<br> Standing on Redstone: Creates a Redstone block at arrow's location<br> Standing on Lapis: Creates
-                                a water block at arrow's location
-                                <br> Standing on Sand: Creates a Sand block at arrow's location<br> Arrow through Lava: Kills the player if the arrow goes through Lava<br> <br> And some more... <br><br> Tested for multiplayer. </p>
+                                levels in Minecraft. <br><br> Some examples of effects:<br><br> Standing on gold: Teleports the player to arrow's location <br> Standing on Redstone: Creates a Redstone block at arrow's location <br> Standing on Lapis:
+                                Creates a water block at arrow's location
+                                <br> Standing on Sand: Creates a Sand block at arrow's location <br> Arrow through Lava: Kills the player if the arrow goes through Lava <br> <br> And some more... <br><br> Tested for multiplayer. </p>
                             <br>
                             <p><a href="https://github.com/Yukisando/magicarrow">GitHub</a> </p>
                         </div>
@@ -433,7 +449,7 @@
                             <h2 style="text-align: center;">Portable Mixing Table</h2>
                             <hr class="star-primary">
                             <img alt="osc" src="full/osc.png" class="img-responsive img-centered">
-                            <p style="text-align: left; text-align: justify"> A mobile application meant to be strapped onto your arm that gives you access to various osc panels connected to a MAX MSP patch via Bluetooth.
+                            <p style="text-align: left; text-align: justify"> A mobile application meant to be strapped onto your arm that gives you access to various OSC panels connected to a MAX MSP patch via Bluetooth.
                             </p>
                         </div>
                         <div class="modal-footer">
@@ -469,7 +485,7 @@
             <div class="modal-dialog" role="document" border-radius="10px">
                 <div class="modal-content modal-lg">
                     <div class="modal-body">
-                        <h2 style="text-align: center;">paknight</h2>
+                        <h2 style="text-align: center;">Paknight</h2>
                         <hr class="star-primary">
                         <img alt="paknight" src="full/paknight.png" class="img-responsive img-centered">
                         <p style="text-align: left; text-align: justify"> A horror game relying on path-finding, ray casting and state machines.<br><br></p>
