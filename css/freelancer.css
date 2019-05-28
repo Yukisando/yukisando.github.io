@@ -7,6 +7,15 @@
 
 /* Custom CSS */
 
+@media (min-width: 768px) {
+    .container-small {
+        width: 300px;
+    }
+    .container-large {
+        width: 970px;
+    }
+}
+
 .container {
     position: relative;
     width: 50%;
