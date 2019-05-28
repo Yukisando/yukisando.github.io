@@ -644,8 +644,6 @@ div#maincontent {
 
 /* Custom CSS */
 
-@media (max-width: 414px) {
-    .container {
-        padding: 0;
-    }
+.container-fluid {
+    max-width: 1170px;
 }
