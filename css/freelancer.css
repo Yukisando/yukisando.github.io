@@ -4,18 +4,6 @@
  * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap/blob/gh-pages/LICENSE)
  */
 
-
-/* Custom CSS */
-
-@media (min-width: 768px) {
-    .container-small {
-        width: 300px;
-    }
-    .container-large {
-        width: 970px;
-    }
-}
-
 .container {
     position: relative;
     width: 50%;
@@ -651,4 +639,13 @@ fieldset[disabled] .btn-success.active {
 
 div#maincontent {
     outline: none;
+}
+
+
+/* Custom CSS */
+
+@media (max-width: 414px) {
+    .container {
+        padding: 0;
+    }
 }
