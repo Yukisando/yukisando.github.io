@@ -647,3 +647,7 @@ div#maincontent {
 .container-fluid {
     max-width: 1170px;
 }
+
+.tail {
+    max-width: 400px;
+}
