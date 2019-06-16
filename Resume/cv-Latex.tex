@@ -1,0 +1,145 @@
+%%%%%%%%%%%%%%%%%
+% This is an sample CV template created using altacv.cls
+% (v1.1.5, 1 December 2018) written by LianTze Lim (liantze@gmail.com). Now compiles with pdfLaTeX, XeLaTeX and LuaLaTeX.
+%
+%% It may be distributed and/or modified under the
+%% conditions of the LaTeX Project Public License, either version 1.3
+%% of this license or (at your option) any later version.
+%% The latest version of this license is in
+%%    http://www.latex-project.org/lppl.txt
+%% and version 1.3 or later is part of all distributions of LaTeX
+%% version 2003/12/01 or later.
+%%%%%%%%%%%%%%%%
+
+%% If you need to pass whatever options to xcolor
+\PassOptionsToPackage{dvipsnames}{xcolor}
+
+%% If you are using \orcid or academicons
+%% icons, make sure you have the academicons
+%% option here, and compile with XeLaTeX
+%% or LuaLaTeX.
+% \documentclass[10pt,a4paper,academicons]{altacv}
+
+%% Use the "normalphoto" option if you want a normal photo instead of cropped to a circle
+% \documentclass[10pt,a4paper,normalphoto]{altacv}
+
+\documentclass[10pt,a4paper,ragged2e]{altacv}
+
+%% AltaCV uses the fontawesome and academicon fonts
+%% and packages.
+%% See texdoc.net/pkg/fontawecome and http://texdoc.net/pkg/academicons for full list of symbols. You MUST compile with XeLaTeX or LuaLaTeX if you want to use academicons.
+
+% Change the page layout if you need to
+\geometry{left=1cm,right=9cm,marginparwidth=6.8cm,marginparsep=1.2cm,top=1.25cm,bottom=1.25cm}
+
+% Change the font if you want to, depending on whether
+% you're using pdflatex or xelatex/lualatex
+\ifxetexorluatex
+  % If using xelatex or lualatex:
+  \setmainfont{Carlito}
+\else
+  % If using pdflatex:
+  \usepackage[utf8]{inputenc}
+  \usepackage[T1]{fontenc}
+  \usepackage[default]{lato}
+\fi
+
+% Change the colours if you want to
+\usepackage{hyperref}
+
+\definecolor{nathan}{HTML}{f05f40}
+\definecolor{Mulberry}{HTML}{f05f40}
+\definecolor{SlateGrey}{HTML}{222222}
+\definecolor{LightGrey}{HTML}{666666}
+\colorlet{heading}{Sepia}
+\colorlet{accent}{Mulberry}
+\colorlet{emphasis}{SlateGrey}
+\colorlet{body}{LightGrey}
+
+% Change the bullets for itemize and rating marker
+% for \cvskill if you want to
+\renewcommand{\itemmarker}{{\small\textbullet}}
+\renewcommand{\ratingmarker}{\faCircle}
+
+%\hypersetup{colorlinks=true, urlcolor=nathan}
+
+\begin{document}
+\name{Nathan de Castro}
+\tagline{Game Developer & Music Composer}
+\photo{2.8cm}{CV}
+\personalinfo{
+    \homepage{\href{www.nathandecastro.com}{nathandecastro.com}}
+    \email{\href{mailto:decastronathan@gmail.com}{decastronathan@gmail.com}}
+    \location{Den Haag, Netherlands}
+    \github{\href{https://github.com/Yukisando}{Yukisando}}
+    }
+
+    \begin{fullwidth}
+        \makecvheader
+    \end{fullwidth}
+
+    \AtBeginEnvironment{itemize}{\small}
+
+    \cvsection[page1sidebar]{SKILLS}
+    \cvskill{C\#, Unity, Java}{5}
+    \cvskill{C, C++, LUA, JavaScript}{3}
+    \cvskill{HTML, CSS, Python}{2}
+\divider
+\divider
+    \cvskill{MAX-MSP, Ableton & Live}{5}
+    \cvskill{Adobe Audition, Audacity}{5}
+    \cvskill{ProTools, MixCraft, Logic Studio}{2}
+\divider
+\divider
+    \cvskill{French, English}{5}
+    \cvskill{Spanish}{3}
+
+\cvsection{Work Experience}
+
+\cvevent{Virtual Reality consultant & Assistant game developer}{Virtual Reality Experiences}{2017 -- 2018}{London, UK}
+\begin{itemize}
+\item Set up and organize events with clients.
+\smallskip
+\item Assistant game developer.
+\smallskip
+\item Setup team-building exercises.
+\smallskip
+\item Managing sponsors.
+\end{itemize}
+
+\divider
+
+\cvevent{Goldsmiths Tech Society Committee Member}{Hacksmiths}{2014 -- 2017}{London, UK}
+\begin{itemize}
+\item Organized and participated in many hackathons and Global Game Jams.
+\smallskip
+\item Gave speeches, setup workshops and demo sessions.
+\item Brought people together and made them feel comfortable.
+\item Ensured organization and safety.
+\end{itemize}
+
+\cvsection{Projects}
+\cvproject{Human Statistics \emph{[Prototype]}}
+\begin{itemize}
+\item A Virtual Reality application with a unique take on environmental awareness.
+\end{itemize}
+\cvproject{Inkwell}
+\begin{itemize}
+\item A Virtual Reality application built around the use of sensory deprivation to increase public understanding of the challenges following blindness and a potential alternative therapy method for people suffering from phobias.
+\end{itemize}
+\smallskip
+\cvproject{Listen}
+\begin{itemize}
+\item A Virtual Reality horror game focused on the use of live microphone input data (FFT) to create a uniquely immersive experience.
+\end{itemize}
+\cvproject{DS4 Sample}
+\begin{itemize}
+\item Audio Interface that transforms any game pad into a multipurpose synthesizer made on MAX MSP
+\end{itemize}
+\smallskip
+\smallskip
+\cvproject{Portable mixing table}
+\begin{itemize}
+\item A virtual mixing table for mobile meant to be strapped onto your arm that gives you access to various panels connected to a MAX MSP patch via OSC (UDP packages transferred via Bluetooth).
+\end{itemize}
+\end{document}
