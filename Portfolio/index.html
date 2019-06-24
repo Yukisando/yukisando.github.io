@@ -38,13 +38,11 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
                     <li>
-                        <a class="page-scroll" href="/TailoredGames/">Tailored Games</a>
+                        <a class="page-scroll" href="../doc/cv.pdf">Resume</a>
                     </li>
+
                     <li>
-                        <a class="page-scroll" href="/Resume/">Resume</a>
-                    </li>
-                    <li>
-                        <a class="page-scroll" href="../#contact">Contact</a>
+                        <a class="page-scroll" href="https://decastronathan.wixsite.com/tailoredgames/">Tailored Games</a>
                     </li>
                 </ul>
             </div>
@@ -626,10 +624,16 @@
                 </div>
             </div>
         </div>
+        <div class="container-fluid" style="align-content: center; width:35%">
+            <div class="row">
+                <button type="button" class="btn btn-primary btn-lg btn-block" onClick="passWord()">The Vault</button>
+            </div>
+        </div>
     </section>
 
+
     <!--TailoredGames-->
-    <div class="container">
+    <div class="container" style="width: 20%; margin: auto">
         <a href="https://decastronathan.wixsite.com/tailoredgames/">
             <img src="../img/tailoredgames_us.png" class="imgstatic" data-toggle="modal">
             <div class="middle">
@@ -638,6 +642,29 @@
         </a>
     </div>
     <!--TailoredGames-->
+
+    <!-- Password manager -->
+    <SCRIPT>
+        function passWord() {
+            var pass = "jacaranda"
+            var testV = 1;
+            var pass1 = prompt('Please Enter Your Password', 'Password');
+            while (testV < 100) {
+                if (!pass1)
+                    history.go(-1);
+                if (pass1.toLowerCase() == pass) {
+                    window.open('jacaranda.html');
+                    break;
+                }
+                testV += 1;
+                var pass1 =
+                    prompt('Incorrect, Try again?', 'Password');
+            }
+            if (pass1.toLowerCase() != "password" & testV == 3)
+                history.go(-1);
+            return " ";
+        }
+    </SCRIPT>
 
     <!-- jQuery -->
     <script src="/vendor/jquery/jquery.js"></script>

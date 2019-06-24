@@ -1,7 +1,8 @@
 {
     "cSpell.enabled": false,
     "spellright.language": [
-        "en"
+        "en",
+        "fr"
     ],
     "spellright.documentTypes": [
         "markdown",
