@@ -20,7 +20,7 @@
         window.scrollTo(0, 1); //This automatically scrolls the page to remove the URL bar on mobile
         if (detectMob() == false) { // This bit detects if you're on mobile and alerts the user
             alert("Sorry, this demo only works on mobile devices");
-            history.go(-1);
+            // history.go(-1);
         }
         var fft, filter1;
         var carrier, modulator;
@@ -42,7 +42,7 @@
             } //The menu size
         var gyro = false; // turns Gyroscope detection on and off
         var dely = false; // turns delay on and off
-        var NoiseOff = false; // turns noise on and off
+        var NoiseOff = false; // turns noisy on and off
         var x = 0;
         var y = 0;
         var z = 0;
@@ -87,6 +87,8 @@
         }
 
         function setup() {
+            var context = new AudioContext();
+
             createCanvas(innerWidth, innerHeight); // the canvas takes the size of the browser
             background(0);
             cursor(CROSS); //looks better then the regular cursor
@@ -98,10 +100,10 @@
             rec = new p5.SoundRecorder(); //creates the record buffer
             soundFile = new p5.SoundFile();
             rec.setInput(); //Here the input is all the sound that comes out
-            noise = new p5.Noise();
-            noise.disconnect();
-            noise.connect(filter1);
-            noise.stop();
+            noisy = new p5.Noise();
+            noisy.disconnect();
+            noisy.connect(filter1);
+            noisy.stop();
             // Buttons and slider for the menu
             button1 = createButton("Sine");
             button1.position(20, 20);
@@ -187,7 +189,6 @@
         function touchStarted() { //detects when the device is touched
             adjustParams();
             setTimeout(env.triggerAttack(), 50); //this part is to make sure it detects the touch Before triggering the attack
-
         }
 
         function touchMoved() { //returns falls to prevent scrolling
@@ -212,7 +213,7 @@
         var delayOn = function() { //flips the dely variable
             dely = !dely;
         }
-        var NoiseOn = function() { //flips the noise variable
+        var NoiseOn = function() { //flips the noisy variable
                 NoiseOff = !NoiseOff;
             }
             // Effects
@@ -230,8 +231,8 @@
         }
 
         function adjustParams() {
-            modFreq = map(touchX, 0, width, 0.5, 100);
-            carFreq = map(touchY, 0, height, 10, 1000);
+            modFreq = map(mouseX, 0, width, 0.5, 100);
+            carFreq = map(mouseY, 0, height, 10, 1000);
 
             carrier.freq(carFreq);
             modulator.freq(modFreq);
@@ -239,10 +240,8 @@
         }
 
         function draw() {
-            if ((mouseX > rectMenu.x && mouseX < rectMenu.width && mouseY > rectMenu.y && mouseY < rectMenu.height) // detects if the mouse is over the menu
-                ||
-                (touchX > rectMenu.x && touchX < rectMenu.width && touchY > rectMenu.y && touchY < rectMenu.height)) // detects if your finger is over the menu
-            {
+            // detects if the mouse is over the menu
+            if (mouseX > rectMenu.x && mouseX < rectMenu.width && mouseY > rectMenu.y && mouseY < rectMenu.height) {
                 menu = true;
             } else {
                 menu = false;
@@ -265,10 +264,10 @@
             } else {
                 delay.process(carrier, 0, 0, 0);
             }
-            if (NoiseOff) { //turns noise and off..
-                noise.stop();
+            if (NoiseOff) { //turns noisy and off..
+                noisy.stop();
             } else {
-                noise.start();
+                noisy.start();
             }
             waveform = fft.waveform();
             fill(200, 0, 0);
