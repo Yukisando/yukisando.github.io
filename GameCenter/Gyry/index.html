@@ -1,0 +1,316 @@
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=0.66, user-scalable=no" ,orient="portrait">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <script language="javascript" src="libs/p5.js"></script>
+    <script language="javascript" src="libs/p5.dom.js"></script>
+    <script language="javascript" src="libs/p5.sound.js"></script>
+    <style>
+        body {
+            padding: 0;
+            margin: 0
+        }
+    </style>
+</head>
+
+<body>
+    <script>
+        document.oncontextmenu = document.body.oncontextmenu = function() {
+            return false;
+        }
+        window.scrollTo(0, 1); //This automatically scrolls the page to remove the URL bar on mobile
+        if (detectMob() == false) { // This bit detects if you're on mobile and alerts the user
+            alert("Sorry, this demo only works on mobile devices");
+            history.go(-1);
+        }
+        var fft, filter1;
+        var carrier, modulator;
+        var modFreq = 20;
+        var carFreq = 200;
+        var filterFreq;
+        var filterRes;
+        var rec;
+        var mic;
+        var env;
+        var button1, button2, button3, button4, button5, button6, button7; //p5-dom variables
+        var slider1;
+        var menu = false; //Variable that detects if the mouse is in the menu (so accessing the menu does not trigger the env)
+        var rectMenu = {
+                x: 5,
+                y: 5,
+                width: 480,
+                height: 80
+            } //The menu size
+        var gyro = false; // turns Gyroscope detection on and off
+        var dely = false; // turns delay on and off
+        var NoiseOff = false; // turns noise on and off
+        var x = 0;
+        var y = 0;
+        var z = 0;
+        // Speed - Velocity
+        var vx = 0;
+        var vy = 0;
+        var vz = 0;
+        // Acceleration
+        var ax = 0;
+        var ay = 0;
+        var az = 0;
+        var ai = 0;
+
+        // Effects
+        var arAlphaMod = 0;
+        var arBeta = 0;
+        var arGamma = 0;
+        var alphaMod = 0;
+        var beta = 0;
+        var gamma = 0;
+        if (typeof window.orientation == undefined) {
+            console.log("unsupported device!"); //if the device does not generate gyroscope information
+        } else {
+            // All the variables for the gyroscope axis and acceleration data
+            window.ondevicemotion = function(event) {
+                ax = Math.round(Math.abs(event.accelerationIncludingGravity.x * 1));
+                ay = Math.round(Math.abs(event.accelerationIncludingGravity.y * 1));
+                az = Math.round(Math.abs(event.accelerationIncludingGravity.z * 1));
+                ai = Math.round(event.interval * 100) / 100;
+                rR = event.rotationRate;
+                if (rR != null) {
+                    arAlphaMod = Math.round(rR.alphaMod);
+                    arBeta = Math.round(rR.beta);
+                    arGamma = Math.round(rR.gamma);
+                }
+            }
+            window.ondeviceorientation = function(event) {
+                alphaMod = Math.round(event.alphaMod);
+                beta = Math.round(event.beta);
+                gamma = Math.round(event.gamma);
+            }
+        }
+
+        function setup() {
+            createCanvas(innerWidth, innerHeight); // the canvas takes the size of the browser
+            background(0);
+            cursor(CROSS); //looks better then the regular cursor
+
+
+            filter1 = new p5.BandPass(); //creates the filter1
+            fft = new p5.FFT(); //creates the fft annalysis
+            delay = new p5.Delay(); //creates the delay
+            rec = new p5.SoundRecorder(); //creates the record buffer
+            soundFile = new p5.SoundFile();
+            rec.setInput(); //Here the input is all the sound that comes out
+            noise = new p5.Noise();
+            noise.disconnect();
+            noise.connect(filter1);
+            noise.stop();
+            // Buttons and slider for the menu
+            button1 = createButton("Sine");
+            button1.position(20, 20);
+            button1.mousePressed(waveformS);
+            button2 = createButton("Square");
+            button2.position(20, 50);
+            button2.mousePressed(waveformR);
+            button3 = createButton("Record");
+            button3.position(100, 20);
+            button3.mousePressed(record);
+            button3 = createButton("Noise");
+            button3.position(100, 50);
+            button3.mousePressed(NoiseOn);
+            button4 = createButton("Play");
+            button4.position(180, 20);
+            button4.mousePressed(play);
+            button4 = createButton("Stop");
+            button4.position(180, 50);
+            button4.mousePressed(stop);
+            button5 = createButton("Save");
+            button5.position(260, 20);
+            button5.mousePressed(SFsave);
+            slider1 = createSlider(0, 255, 20);
+            slider1.position(330, 50);
+            slider1.size(90);
+            button6 = createButton("Gyro/Mouse");
+            button6.position(320, 20);
+            button6.mousePressed(gyroOn);
+            button7 = createButton("Delay");
+            button7.position(420, 20);
+            button7.mousePressed(delayOn);
+            background(0);
+            frameRate(60);
+            env = new p5.Env(0.05, 1.0, // attack time & level
+                0.2, 0.7, //decay time & level
+                0.0, 0.7, //sustain time  & level
+                1); //release time
+            carrier = new p5.Oscillator('sine');
+            carrier.amp(env);
+            carrier.freq(carFreq);
+            carrier.connect();
+            carrier.start();
+            modulator = new p5.Oscillator('sine');
+            modulator.disconnect();
+            modulator.amp(50);
+            modulator.freq(modFreq);
+            modulator.start();
+            carrier.freq(modulator);
+        }
+
+        function detectMob() { //Detects which mobile device you are on
+            if (navigator.userAgent.match(/Android/i) ||
+                navigator.userAgent.match(/webOS/i) ||
+                navigator.userAgent.match(/iPhone/i) ||
+                navigator.userAgent.match(/iPad/i) ||
+                navigator.userAgent.match(/iPod/i) ||
+                navigator.userAgent.match(/BlackBerry/i) ||
+                navigator.userAgent.match(/Windows Phone/i)
+            ) {
+                return true;
+            } else { //I assume that if the device does not match, you are on desktop
+                return false;
+            }
+        }
+        if (detectMob()) { //the Gyro is turned off automaticaly if on desktop
+            gyro = true;
+        }
+        var record = function() { //turns recording on and off
+            rec.record(soundFile);
+        }
+        var play = function() { //turns play on and off
+            rec.stop();
+            soundFile.play();
+            soundFile.loop();
+        }
+        var stop = function() { // stops the recording
+            soundFile.stop();
+        }
+        var SFsave = function() { // saves the recording (desktop only)
+            save(soundFile, 'Your Recording.wav');
+        }
+
+        function touchStarted() { //detects when the device is touched
+            adjustParams();
+            setTimeout(env.triggerAttack(), 50); //this part is to make sure it detects the touch Before triggering the attack
+
+        }
+
+        function touchMoved() { //returns falls to prevent scrolling
+            adjustParams();
+            return false;
+        }
+
+        function touchEnded() {
+            env.triggerRelease();
+        }
+        var waveformS = function() { //sets the carrier freq to sine wave
+            carrier.setType("sine");
+            console.log("changed to sine!");
+        }
+        var waveformR = function() { //sets the carrier freq to square wave
+            carrier.setType("square");
+            console.log("changed to square!");
+        }
+        var gyroOn = function() { //flips the gyro variable
+            gyro = !gyro;
+        }
+        var delayOn = function() { //flips the dely variable
+            dely = !dely;
+        }
+        var NoiseOn = function() { //flips the noise variable
+                NoiseOff = !NoiseOff;
+            }
+            // Effects
+        function gyroParams() { //if gyro is turned to true then this opens up
+            if (gyro) {
+                if (detectMob()) { //if on mobile
+                    filterFreq = map(alphaMod, 0, width, 10, 10000);
+                    carFreq = map(beta, 0, width, 10, 100);
+                    modFreq = map(gamma, 0, width, 0.5, 100);
+                } else { //if on desktop
+
+                    filterFreq = map(mouseX, 0, width, 10, 10000);
+                }
+            }
+        }
+
+        function adjustParams() {
+            modFreq = map(touchX, 0, width, 0.5, 100);
+            carFreq = map(touchY, 0, height, 10, 1000);
+
+            carrier.freq(carFreq);
+            modulator.freq(modFreq);
+
+        }
+
+        function draw() {
+            if ((mouseX > rectMenu.x && mouseX < rectMenu.width && mouseY > rectMenu.y && mouseY < rectMenu.height) // detects if the mouse is over the menu
+                ||
+                (touchX > rectMenu.x && touchX < rectMenu.width && touchY > rectMenu.y && touchY < rectMenu.height)) // detects if your finger is over the menu
+            {
+                menu = true;
+            } else {
+                menu = false;
+            }
+            if (menu == true && detectMob() == false) {
+                carrier.disconnect();
+            } else if (menu == false) {
+                carrier.connect();
+            }
+            console.log("menu:  " + menu);
+            var bg = slider1.value(); //sets the "skin" of the app
+            background(bg); //that's just an impressive bit of code, don't worry about it =)
+            var spectrum = fft.analyze(); // variable to stop the fft analysis data
+            filter1.set(filterFreq, 600);
+            if (gyro) { // if the gyro variable is true, then the gyro data starts coming in
+                gyroParams();
+            }
+            if (dely) {
+                delay.process(carrier, .7, .3, 4000);
+            } else {
+                delay.process(carrier, 0, 0, 0);
+            }
+            if (NoiseOff) { //turns noise and off..
+                noise.stop();
+            } else {
+                noise.start();
+            }
+            waveform = fft.waveform();
+            fill(200, 0, 0);
+            ellipse(mouseX, mouseY, 20, 20);
+            for (var i = 0; i < spectrum.length; i++) {
+                noStroke();
+                var x = map(i, 0, spectrum.length / 20, 0, width / 2);
+                var h = -height + map(spectrum[i], 0, 255, height, 0);
+                rect(x, height, width / spectrum.length, h)
+            }
+            //Menu
+            beginShape(); //The menu 's outline
+            fill(50, 200);
+            stroke(204, 102, 0);
+            vertex(5, 5);
+            vertex(5, 80);
+            vertex(480, 80);
+            vertex(480, 5);
+            endShape(CLOSE);
+            //Wave
+
+            beginShape(); //shapes the lines for the spectrum
+            fill(100, 20);
+            for (var i = 0; i < waveform.length; i++) {
+                var x = map(i, 0, waveform.length, 0, width);
+                var y = map(waveform[i], 0, 256, -height / 2, height / 2);
+                vertex(x, y + height / 2);
+            }
+            endShape();
+        }
+
+        function keyPressed() { //just some shortcuts when using the app on desktop
+            if (keyCode === LEFT_ARROW) {
+                rec.record(soundFile);
+            } else if (keyCode === RIGHT_ARROW) {
+                rec.stop();
+                soundFile.play();
+                soundFile.loop();
+            } else if (keyCode === DOWN_ARROW) {
+                soundFile.stop();
+            }
+            return false; // prevent any default behavior
+        }
+    </script>
+</body>
