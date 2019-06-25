@@ -1,6 +1,6 @@
 <?php
 
-$dir = "files";
+$dir = "Home";
 
 // Run the recursive function 
 
@@ -35,7 +35,7 @@ function scan($dir){
 				);
 			}
 			
-			else {
+			else if (is_file($dir . '/' . $f)) {
 
 				// It is a file
 
@@ -60,7 +60,7 @@ function scan($dir){
 header('Content-type: application/json');
 
 echo json_encode(array(
-	"name" => "files",
+	"name" => basename($dir),
 	"type" => "folder",
 	"path" => $dir,
 	"items" => $response

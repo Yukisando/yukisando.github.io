@@ -15,8 +15,18 @@
 	Demo page
 -------------------------*/
 
-body {
-	background-color: #23232e;
+html {	
+    /* Full height */
+    height: 100%; 
+	/* The image used */
+    background-image: url("../../images/background.jpg");
+    
+    background-color: #373743;
+    /* Center and scale the image nicely */
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+
 	font: 14px normal Arial, Helvetica, sans-serif;
 	z-index: -4;
 }
@@ -50,7 +60,7 @@ body {
 .filemanager .breadcrumbs {
 	color: #ffffff;
 	margin-left:20px;
-	font-size: 24px;
+	font-size: 13px;
 	font-weight: 700;
 	line-height: 35px;
 }
@@ -66,7 +76,7 @@ body {
 
 .filemanager .breadcrumbs .arrow {
 	color:  #6a6a72;
-	font-size: 24px;
+	font-size: 13px;
 	font-weight: 700;
 	line-height: 20px;
 }
@@ -181,7 +191,6 @@ body {
 
 .filemanager .data li:hover {
 	background-color: #42424E;
-
 }
 
 .filemanager .data li a {
@@ -220,6 +229,7 @@ body {
 
 .filemanager .nothingfound {
 	background-color: #373743;
+	border-radius: 10px;
 	width: 23em;
 	height: 21em;
 	margin: 0 auto;
@@ -550,4 +560,92 @@ footer #tzine-actions iframe{
 
 @media (max-width: 1024px) {
 	#bsaHolder, footer{ display:none;}
+}
+
+
+
+
+/* Popup Test */
+
+.popup {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* The actual popup */
+.popup .popuptext {
+    visibility: hidden;
+    width: 160px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 8px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -80px;
+}
+
+/* Popup arrow */
+.popup .popuptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+}
+
+/* Toggle this class - hide and show the popup */
+.popup .show {
+    visibility: visible;
+    -webkit-animation: fadeIn 1s;
+    animation: fadeIn 1s;
+}
+
+/* Add animation (fade in the popup) */
+@-webkit-keyframes fadeIn {
+    from {opacity: 0;} 
+    to {opacity: 1;}
+}
+
+@keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity:1 ;}
+}
+
+.button {
+    background-color: #373743; 
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    margin-left: 10px;
+    margin-top:40px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    width: 200px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 3px;
+	cursor: pointer;
+	box-sizing: border-box;
+	transition: 0.3s background-color;
+}
+
+.button:hover {
+	background-color: #42424E;
+}
+
+.fancybox-content {
+	min-height: 700px;
 }

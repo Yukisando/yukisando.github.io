@@ -296,11 +296,29 @@ $(function(){
 
 					var itemsLength = f.items.length,
 						name = escapeHTML(f.name),
-						icon = '<span class="icon folder"></span>';
+						
+						icon = '<span class="icon folder"></span>',
+						iconpath = 'images/icons/' + f.path + '.png';
+					
+					
+					function imageExists(image_url){
 
-					if(itemsLength) {
+						var http = new XMLHttpRequest();
+
+						http.open('HEAD', image_url, false);
+						http.send();
+
+						return http.status != 404;
+
+					}
+					
+					if (imageExists(iconpath)) {
+						icon = '<div style="display:inline-block;margin:5px 5px 5px 5px;border-radius:8px;width:100px;height:100px;background-position: center center;background-size: cover; background-repeat:no-repeat;background-image: url(\'' +iconpath + '\');"></div>';
+					} else if(itemsLength) {
 						icon = '<span class="icon folder full"></span>';
 					}
+					
+					
 
 					if(itemsLength == 1) {
 						itemsLength += ' item';
@@ -311,9 +329,10 @@ $(function(){
 					else {
 						itemsLength = 'Empty';
 					}
-
+					
 					var folder = $('<li class="folders"><a href="'+ f.path +'" title="'+ f.path +'" class="folders">'+icon+'<span class="name">' + name + '</span> <span class="details">' + itemsLength + '</span></a></li>');
-					folder.appendTo(fileList);
+					fileList.append(folder)
+					
 				});
 
 			}
@@ -328,10 +347,40 @@ $(function(){
 						icon = '<span class="icon file"></span>';
 
 					fileType = fileType[fileType.length-1];
+					
+					if (fileType == "db") {
+						return;
+					}
 
-					icon = '<span class="icon file f-'+fileType+'">.'+fileType+'</span>';
-
-					var file = $('<li class="files"><a href="'+ f.path+'" title="'+ f.path +'" class="files">'+icon+'<span class="name">'+ name +'</span> <span class="details">'+fileSize+'</span></a></li>');
+					if (fileType == "jpg") {
+						icon = '<div style="display:inline-block;margin:20px 30px 0px 25px;border-radius:8px;width:60px;height:70px;background-position: center center;background-size: cover; background-repeat:no-repeat;background-image: url(\'' + f.path + '\');"></div>';
+					} else if (fileType == "jpeg") {
+						icon = '<div style="display:inline-block;margin:20px 30px 0px 25px;border-radius:8px;width:60px;height:70px;background-position: center center;background-size: cover; background-repeat:no-repeat;background-image: url(\'' + f.path + '\');"></div>';
+					} else if (fileType == "png") {
+						icon = '<div style="display:inline-block;margin:20px 30px 0px 25px;border-radius:8px;width:60px;height:70px;background-position: center center;background-size: cover; background-repeat:no-repeat;background-image: url(\'' + f.path + '\');"></div>';
+					} else if (fileType == "gif") {
+						icon = '<div style="display:inline-block;margin:20px 30px 0px 25px;border-radius:8px;width:60px;height:70px;background-position: center center;background-size: cover; background-repeat:no-repeat;background-image: url(\'' + f.path + '\');"></div>';
+					} else {
+						icon = '<span class="icon file f-'+fileType+'">.'+fileType+'</span>';
+					} 
+					
+					
+					if (fileType == "jpg") {
+						var file = $('<li class="files"><a data-fancybox="images" href="'+ f.path+'" title="'+ f.path +'" target="_blank" class="files">'+icon+'<span class="name">'+ name +'</span> <span class="details">'+fileSize+'</span></a></li>');
+					} else if (fileType == "jpeg") {
+							var file = $('<li class="files"><a data-fancybox="images" href="'+ f.path+'" title="'+ f.path +'" target="_blank" class="files">'+icon+'<span class="name">'+ name +'</span> <span class="details">'+fileSize+'</span></a></li>');file.appendTo(fileList);
+					} else if (fileType == "png") {
+							var file = $('<li class="files"><a data-fancybox="images" href="'+ f.path+'" title="'+ f.path +'" class="files">'+icon+'<span class="name">'+ name +'</span> <span class="details">'+fileSize+'</span></a></li>');file.appendTo(fileList);
+					} else if (fileType == "gif") {
+						var file = $('<li class="files"><a data-fancybox="images" href="'+ f.path+'" title="'+ f.path +'" class="files">'+icon+'<span class="name">'+ name +'</span> <span class="details">'+fileSize+'</span></a></li>');file.appendTo(fileList);
+					} else if (fileType == "pdf") {
+						var file = $('<li class="files"><a data-fancybox data-type="iframe" data-src="'+ f.path+'" title="'+ f.path +'" href="javascript:;" class="files">'+icon+'<span class="name">'+ name +'</span> <span class="details">'+fileSize+'</span></a></li>');
+					} else if (fileType == "mp4") {
+						var file = $('<li class="files"><a data-fancybox data-type="iframe" data-src="'+ f.path+'" title="'+ f.path +'" href="javascript:;" class="files">'+icon+'<span class="name">'+ name +'</span> <span class="details">'+fileSize+'</span></a></li>');
+					} else {
+						var file = $('<li class="files"><a href="'+ f.path+'" title="'+ f.path +'" target="_blank" class="files">'+icon+'<span class="name">'+ name +'</span> <span class="details">'+fileSize+'</span></a></li>');
+					}
+					
 					file.appendTo(fileList);
 				});
 
@@ -358,6 +407,8 @@ $(function(){
 
 					if (i !== breadcrumbsUrls.length - 1) {
 						url += '<a href="'+u+'"><span class="folderName">' + name[name.length-1] + '</span></a> <span class="arrow">→</span> ';
+						document.getElementById("backButton").href = "#"+u;
+						
 					}
 					else {
 						url += '<span class="folderName">' + name[name.length-1] + '</span>';
@@ -372,7 +423,7 @@ $(function(){
 
 			// Show the generated elements
 
-			fileList.animate({'display':'inline-block'});
+			fileList.fadeIn(); 
 
 		}
 
