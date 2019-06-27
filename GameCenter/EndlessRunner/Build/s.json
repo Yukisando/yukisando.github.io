@@ -1,0 +1,16 @@
+{
+"companyName": "io.TailoredGames",
+"productName": "EndlessRunner",
+"productVersion": "1",
+"dataUrl": "s.data.unityweb",
+"wasmCodeUrl": "s.wasm.code.unityweb",
+"wasmFrameworkUrl": "s.wasm.framework.unityweb",
+"graphicsAPI": ["WebGL 2.0","WebGL 1.0"],
+"webglContextAttributes": {"preserveDrawingBuffer": false},
+"splashScreenStyle": "Dark",
+"backgroundColor": "#231F20",
+"cacheControl": {"default": "must-revalidate"},
+"developmentBuild": false,
+"multithreading": false,
+"unityVersion": "2019.1.0f2"
+}
