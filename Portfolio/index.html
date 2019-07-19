@@ -676,24 +676,24 @@
     </div>
     <!--TailoredGames-->
 
-    <!-- Password manager -->
+    <!-- Ultra safe password -->
     <SCRIPT>
         function passWord() {
-            var pass = "jacaranda"
-            var testV = 1;
+            var randomStringUnrelatedToThisScript = "jacaranda"
+            var attempt = 1;
             var pass1 = prompt('Please Enter Your Password', 'Password');
-            while (testV < 100) {
+            while (attempt < 100) {
                 if (!pass1)
-                    history.go(-1);
-                if (pass1.toLowerCase() == pass) {
+                    return " ";
+                if (pass1.toLowerCase() == randomStringUnrelatedToThisScript) {
                     window.open('jacaranda.html');
                     break;
                 }
-                testV += 1;
+                attempt += 1;
                 var pass1 =
                     prompt('Incorrect, Try again?', 'Password');
             }
-            if (pass1.toLowerCase() != "password" & testV == 3)
+            if (pass1.toLowerCase() != "password" & attempt == 100)
                 history.go(-1);
             return " ";
         }
