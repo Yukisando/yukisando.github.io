@@ -1,7 +1,7 @@
 {
 "companyName": "tailoredgames.io",
 "productName": "Pygmak",
-"productVersion": ".90",
+"productVersion": "1",
 "dataUrl": "Pygmak.data.unityweb",
 "wasmCodeUrl": "Pygmak.wasm.code.unityweb",
 "wasmFrameworkUrl": "Pygmak.wasm.framework.unityweb",
@@ -12,5 +12,5 @@
 "cacheControl": {"default": "must-revalidate"},
 "developmentBuild": false,
 "multithreading": false,
-"unityVersion": "2019.2.0f1"
+"unityVersion": "2019.2.7f2"
 }
