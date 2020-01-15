@@ -47,16 +47,20 @@
 /* Custom CSS */
 
 body {
-    font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     overflow-x: hidden;
 }
 
 p {
     font-size: 20px;
+      font-weight: bold;
+
 }
 
 p.small {
     font-size: 16px;
+      font-weight: bold;
+
 }
 
 .centered {
@@ -80,7 +84,7 @@ h3,
 h4,
 h5,
 h6 {
-    font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
     text-transform: uppercase;
     font-weight: 700;
     text-align: center;
