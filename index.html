@@ -74,15 +74,19 @@
                 <script>
                     var button = document.getElementById("main-button");
                     var fn;
+                    var done = false;
                     function wee() {
+                        done = false;
                         var word = "We";
                         button.textContent = word;
                         fn = setInterval(addE, 50, button, word);
                     }
                     
                     function addE() {
+                        if(done) return;
                         button.textContent += "e";
                         if (button.textContent == "Weeeeeeeeeeeee") {
+                            done = true;
                             button.textContent = "Weeeeeeeeeeeee!";
                             clearInterval(fn);
                         }
@@ -180,7 +184,7 @@
                 <div class="col-lg-8 col-lg-offset-2 text-center">
                     <h2 class="section-heading">Work Experience</h2>
                     <hr class="light">
-                    <a class="text-faded">
+                    <div class="text-faded">
                         <div class="text-faded">
                             <p>
                                 Unity Game Developer at <a href="https://www.thebarngames.com" style="color: white;"> The Barn</a>.
@@ -201,8 +205,8 @@
                                 in all departments and from all backgrounds a chance to learn about and play with technology.
                             </p>
                         </div>
-
-                        <a href="#info" class="page-scroll btn btn-default btn-xl sr-button">The cake is a lie!</a>
+                    </div>
+                    <a href="#info" class="page-scroll btn btn-default btn-xl sr-button">The cake is a lie!</a>
                 </div>
             </div>
         </div>
