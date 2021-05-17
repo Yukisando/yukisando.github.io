@@ -70,16 +70,22 @@
                 </h1>
                 <hr>
                 <p style="font-weight: bold;"> May your hits be crits and your loot epics </p>
-                <a href="#about" class="btn btn-primary btn-xl page-scroll" id="main-button" onmousedown="wee()">Scrolling is overrated</a>
+                <a href="#about" class="btn btn-primary btn-xl page-scroll" id="main-button">Scrolling is overrated</a>
+
                 <script>
                     var button = document.getElementById("main-button");
-                    var fn;
+
+                    button.onclick = function(e){
+                        wee();
+                    }
+
+                    var loop;
                     var done = false;
                     function wee() {
                         done = false;
                         var word = "We";
                         button.textContent = word;
-                        fn = setInterval(addE, 50, button, word);
+                        loop = setInterval(addE, 50, button, word);
                     }
                     
                     function addE() {
@@ -87,8 +93,8 @@
                         button.textContent += "e";
                         if (button.textContent == "Weeeeeeeeeeeee") {
                             done = true;
-                            button.textContent = "Weeeeeeeeeeeee!";
-                            clearInterval(fn);
+                            button.textContent = "Scrolling is overrated";
+                            clearInterval(loop);
                         }
                     }
                 </script>
@@ -223,7 +229,7 @@
                 <br><br>
                 <h3>Other links</h3>
                 <a href="https://soundcloud.com/yukisound" class="btn btn-default btn-xl sr-button">Soundcloud</a>
-                <a href="https://www.instagram.com/yukimedo/" class="btn btn-default btn-xl sr-button">Instagram</a>
+                <a href="https://www.linkedin.com/in/nathan-de-castro-750439117/" class="btn btn-default btn-xl sr-button">LinkedIn</a>
             </div>
             <br>
         </div>
