@@ -65,11 +65,38 @@
             <div class="header-content">
                 <div class="header-content-inner">
                     <h1 id="homeHeading">
-                        <div style="color:#F05F40">Nathan de Castro</style>
-                        </div>
+                        <div style="color:#F05F40">Nathan de Castro</div>
                     </h1>
                     <hr>
-                    <p style="font-weight: bold;"> May your hits be crits and your loot epics </p>
+<p id="wave-text" style="font-weight: bold;">May your hits be crits and your loot epics</p>
+
+<script>
+const text = document.getElementById('wave-text');
+const letters = text.textContent.split('');
+text.textContent = '';
+letters.forEach((letter) => {
+    const span = document.createElement('span');
+    span.textContent = letter;
+    text.appendChild(span);
+});
+
+const wave = () => {
+    let offset = 0;
+    setInterval(() => {
+        const spans = text.querySelectorAll('span');
+        spans.forEach((span, index) => {
+            span.style.transform = `translateY(${Math.sin(offset + index)*10}px)`;
+        });
+        offset += 0.1;
+    }, 50);
+};
+
+window.addEventListener('load', wave);
+</script>
+
+
+
+
                     <a href="#about" class="btn btn-primary btn-xl page-scroll" id="main-button">Scrolling is
                         overrated</a>
 
