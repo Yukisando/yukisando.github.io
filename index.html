@@ -106,19 +106,43 @@
                     <hr class="light">
                     <div class="col-sm-7 text-justify">
                         <div class="text-faded">
-                            <p>I'm <em>Nathan</em>, your friendly neighborhood <em>Unity developer</em>. With a knack for crafting <em>educational</em> and enthralling video games, I'm always seeking inspiration, knowledge, and whether or not the cake is a lie.</p>
-                            <p>I wield C# like Snape to create <em>interactive</em> and <em>immersive experiences</em> all over the world where I was brought face-to-face with brilliant minds and wondrous cultures.</p>
+                            <p>I'm <em>Nathan</em>, your friendly neighborhood <em>Unity developer</em>. With a knack for crafting <em>educational</em> and enthralling video games, I'm always seeking inspiration, knowledge, or whether the princess is in another castle. 🪙</p>
+                            <p>I wield C# like Snape and create <em>interactive</em> and <em>immersive experiences</em> I have brought me face-to-face with brilliant minds and wondrous cultures all over the planet.</p>
                             <p>When I'm not harnessing the power of <em>Gamification</em> to change the world, I'm out on a hike, up in a tree or digging straight down looking for redstone. ⛏️</p>
-                            <p>Buckle up! 🌍🕹️🎶🚀</p>
+                            <p>Buckle up and join me on my pixelated quests!</p>
+                            <p>⬆️⬆️⬇️⬇️⬅️➡️⬅️➡️🅱️🅰️</p></p>
                         </div>
                     </div>
                     <div class="col-sm-5 text-center">
                         <img class="img-rounded" src="img/portrait.png" alt="portrait" style="width:50%;">
                     </div>
-                    <br />
-                    <a href="#services" class="page-scroll btn btn-default btn-xl sr-button">Hadoken!</a>
                 </div>
+                    <br />
+<a href="#services" class="page-scroll btn btn-default btn-xl sr-button" style="display: block; margin: 0 auto; width: fit-content;">Hadoken!</a>
             </div>
+            	<script>
+		// Define the Konami Code sequence
+		var konamiCode = ["ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowLeft", "ArrowRight", "ArrowLeft", "ArrowRight", "b", "a"];
+		var konamiCodePosition = 0;
+
+		// Listen for key presses
+		document.addEventListener("keydown", function(event) {
+            // Check if the key pressed matches the current position in the Konami Code sequence
+            if (event.key === konamiCode[konamiCodePosition]) {
+                konamiCodePosition++;
+                // Check if the entire Konami Code sequence has been entered
+                if (konamiCodePosition === konamiCode.length) {
+                    // Play the sound file when the Konami Code is entered
+                    var audio = new Audio("doc/konami.wav");
+                    console.log("KONAMI!");
+                    audio.play();
+                    konamiCodePosition = 0;
+                }
+            } else {
+                konamiCodePosition = 0;
+            }
+        });
+	</script>
         </section>
         <section id="services">
             <div class="container">
