@@ -157,9 +157,7 @@
                 if (event.changedTouches && event.changedTouches.length) {
                     var deltaX = startX - event.changedTouches[0].pageX;
                     var deltaY = startY - event.changedTouches[0].pageY;
-                    if (Math.abs(deltaX) > 30) {
-                        swipeDirection = (deltaX > 0) ? "left" : "right";
-                    } else if (Math.abs(deltaY) > 30) {
+                    if (Math.abs(deltaY) > 30 && Math.abs(deltaX) < 30) { // Only listen for vertical swipes
                         swipeDirection = (deltaY > 0) ? "up" : "down";
                     }
                 }
