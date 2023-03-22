@@ -107,6 +107,26 @@
                 transform: rotateY(360deg);
                 /* Add a 360 degree rotation */
             }
+
+            .emoji {
+                position: fixed;
+                font-size: 24px;
+                animation-name: fall;
+                animation-duration: 3s;
+                animation-iteration-count: infinite;
+                animation-timing-function: linear;
+            }
+
+            @keyframes fall {
+                0% {
+                    opacity: 1;
+                }
+
+                100% {
+                    top: 100%;
+                    opacity: 0;
+                }
+            }
         </style>
         <div class="container">
             <div class="row text-center align-items-center">
@@ -181,6 +201,7 @@
                         var audio = new Audio("doc/konami.wav");
                         console.log("KONAMI!");
                         audio.play();
+                        createEmojiRain();
                         konamiCodePosition = 0;
                         // Add the class konami-active to the underlined letters
                         var underlinedLetters = document.getElementsByClassName("konami");
@@ -192,6 +213,24 @@
                     konamiCodePosition = 0;
                 }
             }
+
+            function createEmojiRain() {
+                for (let i = 0; i < 30; i++) {
+                    setTimeout(() => {
+                        const emoji = document.createElement("div");
+                        emoji.classList.add("emoji");
+                        emoji.style.left = Math.random() * 100 + "vw";
+                        emoji.style.top = "-30px";
+                        emoji.style.animationDelay = Math.random() * 2 + "s";
+                        emoji.textContent = "🎮";
+                        document.body.appendChild(emoji);
+                        setTimeout(() => {
+                            emoji.remove();
+                        }, 3000);
+                    }, i * 100);
+                }
+            }
+
         </script>
     </section>
     <section id="services">
