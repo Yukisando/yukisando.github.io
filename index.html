@@ -166,30 +166,12 @@
             // Define the Konami Code sequence
             var konamiCode = ["ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowLeft", "ArrowRight", "ArrowLeft", "ArrowRight", "b", "a"];
             var konamiCodePosition = 0;
-            var swipeDirection = "";
 
             // Listen for key presses and swipe events
             document.addEventListener("keydown", function (event) {
                 checkKonamiCode(event.key);
             });
-            document.addEventListener("touchstart", function (event) {
-                swipeDirection = "";
-                startX = event.changedTouches[0].pageX;
-                startY = event.changedTouches[0].pageY;
-            });
-            document.addEventListener("touchmove", function (event) {
-                if (event.changedTouches && event.changedTouches.length) {
-                    var deltaX = startX - event.changedTouches[0].pageX;
-                    var deltaY = startY - event.changedTouches[0].pageY;
-                    if (Math.abs(deltaY) > 30 && Math.abs(deltaX) < 30) { // Only listen for vertical swipes
-                        swipeDirection = (deltaY > 0) ? "up" : "down";
-                    }
-                }
-            });
-            document.addEventListener("touchend", function (event) {
-                checkKonamiCode(swipeDirection);
-            });
-
+           
             // Check if the input matches the Konami Code sequence
             function checkKonamiCode(input) {
                 // Check if the input matches the current position in the Konami Code sequence
@@ -198,7 +180,7 @@
                     // Check if the entire Konami Code sequence has been entered
                     if (konamiCodePosition === konamiCode.length) {
                         // Play the sound file when the Konami Code is entered
-                        var audio = new Audio("doc/konami.wav");
+                        var audio = new Audio("audio/konami-glados.wav");
                         console.log("KONAMI!");
                         audio.play();
                         createEmojiRain();
@@ -302,6 +284,7 @@
                     <hr class="primary">
                     <img class="img-rounded" src="img/smile.png" alt="tailoredgames" width="150">
                 </div>
+                <br>
                 <div class="col-lg-4 col-lg-offset-2 text-center">
                     <i class="fa fa-phone fa-3x sr-contact"></i>
                     <br><br>
