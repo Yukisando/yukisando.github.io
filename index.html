@@ -162,67 +162,17 @@
                 style="display: block; margin: 0 auto; width: fit-content;">Hadoken!</a>
         </div>
 
-        <style>
-            .touchArea {
-                position: fixed;
-                width: 50%;
-                height: 100%;
-                z-index: 9999;
-                opacity: 0;
-                /* make the touch areas invisible */
-            }
 
-            #touchAreaA {
-                left: 0;
-            }
-
-            #touchAreaB {
-                right: 0;
-            }
-        </style>
-
-        <div id="touchAreaA" class="touchArea"></div>
-        <div id="touchAreaB" class="touchArea"></div>
 
         <script>
             // Define the Konami Code sequence
             var konamiCode = ["ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowLeft", "ArrowRight", "ArrowLeft", "ArrowRight", "b", "a"];
             var konamiCodePosition = 0;
-            var lastTilt = null;
 
             // Listen for key presses and swipe events
             document.addEventListener("keydown", function (event) {
                 checkKonamiCode(event.key);
             });
-
-            window.addEventListener("deviceorientation", handleDeviceOrientation);
-
-            document.getElementById("touchAreaA").addEventListener("touchstart", function (event) {
-                event.preventDefault();
-                checkKonamiCode("A");
-            });
-            document.getElementById("touchAreaB").addEventListener("touchstart", function (event) {
-                event.preventDefault();
-                checkKonamiCode("B");
-            });
-
-            function handleDeviceOrientation(event) {
-                var gamma = event.gamma; // left-right tilt
-                var beta = event.beta; // front-back tilt
-
-                var tilt = null;
-                if (beta > 45) tilt = "Down";
-                else if (beta < -45) tilt = "Up";
-                else if (gamma > 45) tilt = "Right";
-                else if (gamma < -45) tilt = "Left";
-
-                if (tilt && tilt !== lastTilt) {
-                    lastTilt = tilt;
-                    checkKonamiCode(tilt);
-                } else if (!tilt) {
-                    lastTilt = null;
-                }
-            }
 
             // Check if the input matches the Konami Code sequence
             function checkKonamiCode(input) {
