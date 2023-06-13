@@ -324,7 +324,6 @@
                 </div>
             </div>
         </section>
-
         <section>
             <!-- CPPS Modal -->
             <div class="portfolio-modal modal fade" id="cpps" tabindex="-1"
@@ -338,13 +337,13 @@
                             <hr class="star-primary">
                         </div>
                         <div class="modal-body" style="text-align: center">
-                            <img alt="listen" src="cpps/cpps (2).jpg"
+                            <img id="dynamic-img" alt="listen"
+                                src="cpps/cpps (2).jpg"
                                 class="img-responsive img-centered">
-
                             <p style="text-align: left; text-align: justify">
                                 Three sections make up the CPPS: the exhibit,
                                 the simulator, and first aid.
-
+                                <br><br>
                                 Large touch screens with our original mini-games
                                 that teach visitors about earthquake causes,
                                 effects, and preparation tips are incorporated
@@ -380,6 +379,16 @@
                         </div>
                     </div>
                 </div>
+                <script>
+                    var images = ["cpps/cpps (1).jpg", "cpps/cpps (2).jpg", "cpps/cpps (3).jpg", "cpps/cpps (4).jpg", "cpps/cpps (5).jpg", "cpps/cpps (6).jpg", "cpps/cpps (7).jpg", "cpps/cpps (8).jpg", "cpps/cpps (9).jpg"];
+                    var currentIndex = 0;
+                    var imageElement = document.getElementById("dynamic-img");
+                    
+                    setInterval(function() {
+                      currentIndex = (currentIndex + 1) % images.length; // increment the index, and wrap around to 0 if it exceeds the length of the array
+                      imageElement.src = images[currentIndex];
+                    }, 2000); // switch every 5000ms (or 5 seconds)
+                    </script>
             </div>
             <!-- Pygmak Modal -->
             <div class="portfolio-modal modal fade" id="pygmak" tabindex="-1"
