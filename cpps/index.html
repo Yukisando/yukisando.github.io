@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Firebase Portal</title>
+
+    <!-- Bootstrap CSS CDN -->
+    <link rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+      integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+      crossorigin="anonymous" />
+
+    <!-- jQuery CDN -->
+    <script
+      src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+      integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
+      crossorigin="anonymous" />
+
+    <!-- JsTree CSS & JS -->
+    <link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
+
+    <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+
+    <!-- If you enabled Realtime Database -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+    <!-- Firebase Config -->
+    <script src="firebase-config.js"></script>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css" />
+
+    <!-- Custom JS -->
+    <script src="main.js"></script>
+  </head>
+  <body>
+    <div class="container mt-5">
+      <h1 class="text-center">Escape with Wallis<br />Admin Portal</h1>
+      <div class="form-group d-flex align-items-center">
+        <button id="readyButton" type="button" class="btn btn-primary ml-2"
+          onclick="setReady()">
+          Set Ready
+        </button>
+      </div>
+
+      <div class="mt-5">
+        <h6 id="remainingTime">No session is online.</h6>
+        <div class="btn-group">
+          <button id="playButton" type="button" class="btn btn-success"
+            onclick="pauseGame()">
+            <i id="playIcon" class="fa fa-play"></i>
+          </button>
+          <button type="button" class="btn btn-danger" onclick="endGame()">
+            <i class="fas fa-stop"></i>
+            End game
+          </button>
+          <button type="button" class="btn btn-warning" onclick="clearData()">
+            <i class="fas fa-trash"></i>
+            Archive & restart
+          </button>
+        </div>
+
+        <!-- Advanced section -->
+        <br />
+        <button id="toggleButton" type="button" class="btn btn-primary mt-3"
+          onclick="toggleAdvancedSection()">Show Advanced Section</button>
+
+        <div id="advancedSection" style="display: none;">
+          <div class="mt-5">
+            <form id="update-form"
+              onsubmit="event.preventDefault(); updateData(key.value, value.value);"
+              class="mt-3">
+              <div class="form-group">
+                <label for="key">Key:</label>
+                <input type="text" id="key" name="key" class="form-control"
+                  required />
+              </div>
+              <div class="form-group">
+                <label for="value">Value:</label>
+                <input type="text" id="value" name="value" class="form-control"
+                  required />
+              </div>
+              <div class="form-group">
+                <div class="btn-group flex-md-row">
+                  <button type="submit" class="btn btn-primary mb-0 mb-md-0">
+                    <i class="fas fa-plus"></i>
+                    Update Data
+                  </button>
+                  <button type="button" class="btn btn-danger"
+                    onclick="removeData(key.value)">
+                    <i class="fas fa-minus"></i>
+                    Remove Data
+                  </button>
+                </div>
+                <div id="firebaseDataTree"></div>
+              </div>
+            </form>
+
+          </div>
+        </div>
+        <!-- End of advanced section -->
+
+      </div>
+    </div>
+  </body>
+</html>

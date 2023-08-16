@@ -1,0 +1,51 @@
+body {
+  background: linear-gradient(to right, #667eea, #764ba2);
+  color: #fff;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+h1 {
+  font-size: 36px;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.btn {
+  color: #fff;
+}
+
+.btn-success {
+  background-color: #28a745;
+}
+
+.btn-danger {
+  background-color: #dc3545;
+}
+
+.btn-warning {
+  background-color: #ffc107;
+}
+
+.btn-primary {
+  background-color: #007bff;
+}
+
+.form-group label {
+  font-weight: bold;
+}
+
+#advancedSection {
+  margin-top: 40px;
+}
+
+#firebaseDataTree {
+  margin-top: 20px;
+}
+
+.btn:disabled {
+  opacity: 0.65;
+}
