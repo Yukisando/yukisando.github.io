@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1004309297211",
+    "project_id": "cpps-bf80d",
+    "storage_bucket": "cpps-bf80d.appspot.com",
+    "firebase_url": "https://cpps-bf80d-default-rtdb.europe-west1.firebasedatabase.app/"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1004309297211:android:9ba201391fbd80fc7e441e",
+        "android_client_info": {
+          "package_name": "com.valbilon.cpps"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1004309297211-l75l27vpufsvheg8lsgsr70ipgeev1ej.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyArDLmALgw0rRz_qnW7Uzh3StVkd_Y9CQo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1004309297211-l75l27vpufsvheg8lsgsr70ipgeev1ej.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
