@@ -1,25 +1,25 @@
 <!DOCTYPE html>
 <html lang="en-us">
-<head>
+  <head>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>Unity WebGL Player | EduScape</title>
     <link rel="shortcut icon" href="TemplateData/favicon.ico">
     <link rel="stylesheet" href="TemplateData/style.css">
     <link rel="manifest" href="manifest.webmanifest">
-</head>
-<body>
-<div id="unity-container">
-    <canvas id="unity-canvas" width=1200 height=2000 tabindex="-1"></canvas>
-    <div id="unity-loading-bar">
+  </head>
+  <body>
+    <div id="unity-container">
+      <canvas id="unity-canvas" width=1200 height=2000 tabindex="-1"></canvas>
+      <div id="unity-loading-bar">
         <div id="unity-logo"></div>
         <div id="unity-progress-bar-empty">
-            <div id="unity-progress-bar-full"></div>
+          <div id="unity-progress-bar-full"></div>
         </div>
+      </div>
+      <div id="unity-warning"> </div>
     </div>
-    <div id="unity-warning"> </div>
-</div>
-<style>
+    <style>
     #unity-container {
         display: flex;
         justify-content: center;
@@ -32,7 +32,7 @@
     }
 
 </style>
-<script>
+    <script>
     window.addEventListener("load", function () {
       if ("serviceWorker" in navigator) {
         navigator.serviceWorker.register("ServiceWorker.js");
@@ -78,7 +78,6 @@
       streamingAssetsUrl: "StreamingAssets",
       companyName: "Valbilon",
       productName: "EduScape",
-      productVersion: "99775",
       showBanner: unityShowBanner,
     };
 
@@ -142,5 +141,5 @@ resizeCanvas();
 resizeCanvas(); // Call this after canvas variable is defined
 
 </script>
-</body>
+  </body>
 </html>
