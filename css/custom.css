@@ -1,0 +1,13 @@
+
+/* Custom button styles */
+.btn-custom {
+    border-radius: 25px; /* Adjust this value for more or less rounded corners */
+    background-color: #FF5722; /* Custom orange color */
+    color: #FFFFFF; /* White text */
+    border: none; /* No border */
+}
+
+.btn-custom:hover {
+    background-color: #E64A19; /* Darker shade for hover */
+    color: #FFFFFF;
+}
