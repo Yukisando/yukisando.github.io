@@ -29,43 +29,6 @@
     <!-- Plugin CSS -->
     <link href="vendor/magnific-popup/magnific-popup.css" rel="stylesheet" />
 
-    <!-- <link href="css/freelancer.css" rel="stylesheet"> -->
-    <style>
-      /* For Firefox */
-      * {
-        scrollbar-color: #333333 #1c1c1c;
-        scrollbar-width: thin;
-      }
-
-      /* For Chrome, Edge, and Safari */
-      *::-webkit-scrollbar {
-        width: 0.5em;
-        background-color: #1c1c1c;
-      }
-
-      *::-webkit-scrollbar-thumb {
-        background-color: #c84b15;
-        border-radius: 10px;
-      }
-
-      *::-webkit-scrollbar-thumb:hover {
-        background-color: #555555;
-      }
-
-      .button-link img {
-        translate: -30px 100px;
-        transition: transform 0.1s ease;
-      }
-
-      .button-link img:hover {
-        transform: translateX(10px);
-      }
-
-      .button-link img:active {
-        transform: translateX(5px);
-      }
-    </style>
-
     <!-- Bootstrap CSS -->
     <link
       rel="stylesheet"
@@ -314,6 +277,22 @@
             }, i * 100);
           }
         }
+
+        document.addEventListener("click", function (event) {
+          var isClickInside = document
+            .getElementById("mainNav")
+            .contains(event.target);
+          var isHamburger = document
+            .querySelector(".navbar-toggle")
+            .contains(event.target);
+
+          if (!isClickInside && !isHamburger) {
+            var opened = document.querySelector(".navbar-collapse");
+            if (opened && opened.classList.contains("in")) {
+              opened.classList.remove("in");
+            }
+          }
+        });
       </script>
     </section>
     <section id="services">

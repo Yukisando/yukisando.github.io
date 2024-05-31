@@ -1,13 +1,33 @@
+      /* For Firefox */
+      * {
+          scrollbar-color: #333333 #1c1c1c;
+          scrollbar-width: thin;
+      }
 
-/* Custom button styles */
-.btn-custom {
-    border-radius: 25px; /* Adjust this value for more or less rounded corners */
-    background-color: #FF5722; /* Custom orange color */
-    color: #FFFFFF; /* White text */
-    border: none; /* No border */
-}
+      /* For Chrome, Edge, and Safari */
+      *::-webkit-scrollbar {
+          width: 0.5em;
+          background-color: #1c1c1c;
+      }
 
-.btn-custom:hover {
-    background-color: #E64A19; /* Darker shade for hover */
-    color: #FFFFFF;
-}
+      *::-webkit-scrollbar-thumb {
+          background-color: #c84b15;
+          border-radius: 10px;
+      }
+
+      *::-webkit-scrollbar-thumb:hover {
+          background-color: #555555;
+      }
+
+      .button-link img {
+          translate: -30px 100px;
+          transition: transform 0.1s ease;
+      }
+
+      .button-link img:hover {
+          transform: translateX(10px);
+      }
+
+      .button-link img:active {
+          transform: translateX(5px);
+      }
