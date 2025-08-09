@@ -1,0 +1,71 @@
+/* Simple Portfolio CSS */
+body {
+  background: #1a1a1a;
+  color: #ffffff;
+  font-family: 'Poppins', 'Open Sans', sans-serif;
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+}
+
+#portfolio {
+  padding-top: 100px;
+  padding-bottom: 50px;
+  min-height: 100vh;
+}
+
+.portfolio-section {
+  margin-bottom: 80px;
+}
+
+.portfolio-card {
+  transition: all 0.3s ease !important;
+}
+
+.portfolio-card:hover {
+  transform: translateY(-5px) !important;
+}
+
+.simple-modal {
+  backdrop-filter: blur(5px);
+}
+
+.simple-modal > div {
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  #portfolio {
+    padding-top: 80px;
+  }
+  
+  .portfolio-section h2 {
+    font-size: 2rem !important;
+  }
+  
+  .simple-modal {
+    padding: 10px !important;
+  }
+  
+  .simple-modal > div {
+    max-height: 95vh !important;
+  }
+  
+  .simple-modal .modal-body {
+    padding: 15px !important;
+  }
+  
+  .simple-modal h2 {
+    font-size: 1.5rem !important;
+    padding-right: 40px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .portfolio-section > div:last-child {
+    grid-template-columns: 1fr !important;
+    gap: 20px !important;
+    padding: 0 15px !important;
+  }
+}

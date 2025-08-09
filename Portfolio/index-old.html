@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Nathan de Castro - Game Developer Portfolio - Creative games and interactive experiences">
+  <meta name="author" content="Nathan de Castro">
+  <meta name="theme-color" content="#ff6b6b">
+  <title>Nathan de Castro - Game Developer Portfolio 🎮</title>
+  <link rel="shortcut icon" type="image/png" href="/img/spock.png" />
+  
+  <!-- Modern Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Bootstrap Core CSS -->
+  <link href="/vendor/bootstrap/css/bootstrap.css" rel="stylesheet">
+  <!-- Custom Fonts -->
+  <link href="/vendor/font-awesome/css/font-awesome.css" rel="stylesheet" type="text/css">
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
+  <!-- Plugin CSS -->
+  <link href="/vendor/magnific-popup/magnific-popup.css" rel="stylesheet">
+  <!-- Theme CSS -->
+  <link href="/css/freelancer.css" rel="stylesheet">
+  <!-- New Portfolio CSS -->
+  <link href="/Portfolio/css/portfolio.css" rel="stylesheet">
+</head>
+
+<body id="page-top">
+  <nav id="mainNav" class="navbar navbar-default navbar-fixed-top" style="background: rgba(34, 34, 34, 0.95); backdrop-filter: blur(10px); border: none; box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" style="border-color: #F05F40;">
+          <span class="sr-only">Toggle navigation</span>
+          <i class="fa fa-bars" style="color: #F05F40;"></i>
+        </button>
+        <a class="navbar-brand page-scroll" href="/" style="color: #F05F40; font-weight: 700; font-size: 1.4rem;">Nathan de Castro</a>
+      </div>
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav navbar-right">
+          <li><a class="page-scroll" href="/Portfolio/" style="color: #ffffff; font-weight: 600; transition: all 0.3s ease;">Portfolio</a></li>
+          <li><a class="page-scroll" href="/doc/cv_en.pdf" id="nav-cv-link" style="color: #ffffff; font-weight: 600; transition: all 0.3s ease;">Resume/CV</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Portfolio Root: Sections and cards will be injected here -->
+  <section id="portfolio" style="padding-top: 100px;">
+    <div id="portfolio-root"></div>
+  </section>
+
+  <!-- Modals container (injected) -->
+  <div id="portfolio-modals"></div>
+
+  <!-- jQuery -->
+  <script src="/vendor/jquery/jquery.js"></script>
+  <!-- Bootstrap Core JavaScript -->
+  <script src="/vendor/bootstrap/js/bootstrap.js"></script>
+  <!-- Plugin JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.js"></script>
+  <script src="/vendor/scrollreveal/scrollreveal.js"></script>
+  <script src="/vendor/magnific-popup/jquery.magnific-popup.js"></script>
+  <!-- Theme JavaScript -->
+  <script src="/js/creative.js"></script>
+  <script src="/js/freelancer.js"></script>
+  <!-- New Portfolio Renderer -->
+  <script src="/Portfolio/js/portfolio.js"></script>
+  <script>
+    // Language detection for CV link
+    (function(){
+      function setupCVLanguage() {
+        const userLanguage = navigator.language || navigator.userLanguage;
+        const isFrench = userLanguage && userLanguage.toLowerCase().startsWith('fr');
+        const navCvLink = document.getElementById('nav-cv-link');
+        if (navCvLink) navCvLink.href = isFrench ? '/doc/cv_fr.pdf' : '/doc/cv_en.pdf';
+      }
+      
+      // Add hover effects to navigation
+      function setupNavEffects() {
+        const navLinks = document.querySelectorAll('.navbar-nav a');
+        navLinks.forEach(link => {
+          link.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-1px)';
+            this.style.color = '#F05F40';
+          });
+          
+          link.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0)';
+            this.style.color = '#ffffff';
+          });
+        });
+      }
+      
+      // Add smooth scrolling for better UX
+      function setupSmoothScroll() {
+        document.documentElement.style.scrollBehavior = 'smooth';
+      }
+      
+      document.addEventListener('DOMContentLoaded', function() {
+        setupCVLanguage();
+        setupNavEffects();
+        setupSmoothScroll();
+      });
+    })();
+  </script>
+</body>
+
+</html>

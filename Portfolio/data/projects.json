@@ -1,0 +1,132 @@
+[
+  {
+    "id": "research-listen",
+    "category": "Research",
+    "kind": "doc",
+    "title": "Thesis — Listen",
+    "subtitle": "Thesis",
+    "href": "doc/listen.pdf",
+    "thumbnail": "thumbnails/listen.png"
+  },
+  {
+    "id": "research-inkwell",
+    "category": "Research",
+    "kind": "doc",
+    "title": "Paper — Inkwell",
+    "subtitle": "Paper",
+    "href": "doc/inkwell.pdf",
+    "thumbnail": "thumbnails/inkwell.png"
+  },
+  {
+    "id": "research-humanstats",
+    "category": "Research",
+    "kind": "doc",
+    "title": "Paper — Human Statistics",
+    "subtitle": "Paper",
+    "href": "doc/humanstats.pdf",
+    "thumbnail": "thumbnails/humanstats.png"
+  },
+  {
+    "id": "cpps",
+    "category": "Highlighted Projects",
+    "kind": "gallery",
+    "title": "CPPS — Exhibit",
+    "thumbnail": "thumbnails/cpps.jpg",
+    "media": [
+      "cpps/cpps (1).jpg",
+      "cpps/cpps (2).jpg",
+      "cpps/cpps (3).jpg",
+      "cpps/cpps (4).jpg",
+      "cpps/cpps (5).jpg",
+      "cpps/cpps (6).jpg",
+      "cpps/cpps (7).jpg",
+      "cpps/cpps (8).jpg",
+      "cpps/cpps (9).jpg"
+    ],
+    "description": "Three sections make up the CPPS: the exhibit, the simulator, and first aid. Large touch screens with our original mini-games that teach visitors about earthquake causes, effects, and preparation tips are incorporated into the exhibit space. Additionally, we developed a platform for a fleet of tablets that are placed strategically on walls throughout the museum and are each running a variety of software. With the help of these tablets, visitors can learn more about the activity they are currently engaged in and have a more engaging learning experience. Visitors have the option to learn at their own pace and receive guidance that is specifically suited to their needs. An escape game will also assist visitors in learning as much as possible while having fun. Finishing the game should take about an hour.",
+    "links": [
+      { "label": "More info", "href": "https://www.valbilon.com/projects/cpps-exhibit" }
+    ]
+  },
+  {
+    "id": "pygmak",
+    "category": "Highlighted Projects",
+    "kind": "video",
+    "title": "Pygmak",
+    "thumbnail": "thumbnails/pygmak.png",
+    "media": ["video/pygmak.mp4"],
+    "description": "Battle your way through endless waves of falling containers and redeem the precious loot they carry for upgrades! Pygmak is an addictive, simple, rewarding game you won't stop going back to.",
+    "links": []
+  },
+  {
+    "id": "inkwell",
+    "category": "Highlighted Projects",
+    "kind": "video",
+    "title": "Inkwell",
+    "thumbnail": "thumbnails/inkwell.png",
+    "media": ["video/inkwell.mp4"],
+    "description": "Blinded, you must find clever ways to find all three keys and escape the maze with one tool: the ability to paint the walls around you. The player must come up with good spatial awareness strategies to avoid getting lost forever. This research project raises awareness of the difficulties blind people have navigating environments mainly built for the sighted.",
+    "links": [
+      { "label": "Request download", "href": "mailto:decastronathan@gmail.com?Subject=Inkwell%20-%20Download%20request" }
+    ]
+  },
+  {
+    "id": "listen",
+    "category": "Highlighted Projects",
+    "kind": "image",
+    "title": "Listen",
+    "thumbnail": "thumbnails/listen.png",
+    "media": ["full/listen.png"],
+    "description": "A virtual reality navigation game based on echolocation. The game uses live microphone data—if you want to be quiet in the game, you must be quiet outside the game—creating a uniquely scary and immersive experience.",
+    "links": [
+      { "label": "Thesis (PDF)", "href": "/doc/listen.pdf" },
+      { "label": "GitHub", "href": "https://github.com/Yukisando/listen" }
+    ]
+  },
+  {
+    "id": "ds4",
+    "category": "Highlighted Projects",
+    "kind": "image",
+    "title": "DS4 Controller",
+    "thumbnail": "thumbnails/ds4.png",
+    "media": ["full/ds4.png"],
+    "description": "A MAX/MSP tool that turns any direct input controller into a fully featured synthesizer and sampler over UDP.",
+    "links": [
+      { "label": "GitHub", "href": "https://github.com/Yukisando/ds4" }
+    ]
+  },
+  {
+    "id": "magicarrow",
+    "category": "Highlighted Projects",
+    "kind": "image",
+    "title": "Magic Arrow",
+    "thumbnail": "thumbnails/magicarrow.png",
+    "media": ["full/magicarrow.png"],
+    "description": "A Java Minecraft plugin that augments bows with block-placing and other effects based on the block you're standing on.",
+    "links": [
+      { "label": "GitHub", "href": "https://github.com/Yukisando/magicarrow" }
+    ]
+  },
+  {
+    "id": "osc",
+    "category": "Highlighted Projects",
+    "kind": "image",
+    "title": "Portable Mixing Table (OSC)",
+    "thumbnail": "thumbnails/osc.png",
+    "media": ["full/osc.png"],
+    "description": "A mobile application strapped onto your arm that gives access to various OSC panels connected to a MAX/MSP patch via Bluetooth.",
+    "links": []
+  },
+  {
+    "id": "ai",
+    "category": "Highlighted Projects",
+    "kind": "image",
+    "title": "AI Swimming Competition",
+    "thumbnail": "thumbnails/ai.png",
+    "media": ["full/ai.png"],
+    "description": "A comparison of pathfinding algorithms (Backtracking, DFS, Dijkstra, A*) in a simulated race environment.",
+    "links": [
+      { "label": "GitLab", "href": "http://gitlab.doc.gold.ac.uk/ndeca001/GAI/tree/master/Assignements/CourseWork1" }
+    ]
+  }
+]
