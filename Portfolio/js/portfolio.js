@@ -153,13 +153,13 @@
       }
     });
 
-    // Create modal content
+    // Create modal content (larger for PDFs)
     const modalContent = create('div', {
       style: {
         background: '#2c2c2c',
         borderRadius: '12px',
-        maxWidth: '900px',
-        maxHeight: '90vh',
+        maxWidth: item.kind === 'pdf' ? '95vw' : '900px',
+        maxHeight: item.kind === 'pdf' ? '95vh' : '90vh',
         width: '100%',
         overflow: 'auto',
         position: 'relative',
@@ -248,6 +248,65 @@
           }
         });
         mediaContainer.appendChild(video);
+      } else if (item.kind === 'pdf') {
+        // PDF viewer with clean iframe
+        const pdfContainer = create('div', {
+          style: {
+            width: '100%',
+            height: item.kind === 'pdf' ? 'calc(95vh - 150px)' : '600px',
+            minHeight: '500px',
+            border: '2px solid #F05F40',
+            borderRadius: '8px',
+            overflow: 'hidden',
+            background: '#f5f5f5',
+            position: 'relative'
+          }
+        });
+
+        const iframe = create('iframe', {
+          src: item.media[0],
+          style: {
+            width: '100%',
+            height: '100%',
+            border: 'none',
+            borderRadius: '6px'
+          },
+          title: `${item.title} PDF Document`
+        });
+
+        // Add fallback link if iframe fails
+        const fallbackLink = create('div', {
+          style: {
+            position: 'absolute',
+            top: '10px',
+            right: '10px',
+            background: 'rgba(240, 95, 64, 0.9)',
+            borderRadius: '6px',
+            zIndex: '1'
+          }
+        });
+
+        const openLink = create('a', {
+          href: item.media[0],
+          target: '_blank',
+          rel: 'noopener',
+          style: {
+            color: 'white',
+            padding: '8px 12px',
+            textDecoration: 'none',
+            fontSize: '0.9rem',
+            fontWeight: '600',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '5px'
+          },
+          innerHTML: '<i class="fa fa-external-link"></i> Open PDF'
+        });
+
+        fallbackLink.appendChild(openLink);
+        pdfContainer.appendChild(iframe);
+        pdfContainer.appendChild(fallbackLink);
+        mediaContainer.appendChild(pdfContainer);
       } else if (item.kind === 'gallery' && item.media.length > 1) {
         // Simple gallery
         let currentIndex = 0;
