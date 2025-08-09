@@ -153,13 +153,13 @@
       }
     });
 
-    // Create modal content (larger for PDFs)
+    // Create modal content (larger for PDFs and docs)
     const modalContent = create('div', {
       style: {
         background: '#2c2c2c',
         borderRadius: '12px',
-        maxWidth: item.kind === 'pdf' ? '95vw' : '900px',
-        maxHeight: item.kind === 'pdf' ? '95vh' : '90vh',
+        maxWidth: (item.kind === 'pdf' || item.kind === 'doc') ? '95vw' : '900px',
+        maxHeight: (item.kind === 'pdf' || item.kind === 'doc') ? '95vh' : '90vh',
         width: '100%',
         overflow: 'auto',
         position: 'relative',
@@ -230,7 +230,7 @@
     });
 
     // Media section
-    if (item.media && item.media.length > 0) {
+    if ((item.media && item.media.length > 0) || (item.kind === 'doc' && item.href)) {
       const mediaContainer = create('div', {
         style: {
           marginBottom: '20px'
@@ -248,12 +248,15 @@
           }
         });
         mediaContainer.appendChild(video);
-      } else if (item.kind === 'pdf') {
-        // PDF viewer with clean iframe
+      } else if (item.kind === 'pdf' || item.kind === 'doc') {
+        // Get PDF URL from either media array or href
+        const pdfUrl = item.kind === 'doc' ? item.href : item.media[0];
+        
+        // PDF viewer with native embed
         const pdfContainer = create('div', {
           style: {
             width: '100%',
-            height: item.kind === 'pdf' ? 'calc(95vh - 150px)' : '600px',
+            height: 'calc(80vh - 100px)',
             minHeight: '500px',
             border: '2px solid #F05F40',
             borderRadius: '8px',
@@ -263,49 +266,90 @@
           }
         });
 
-        const iframe = create('iframe', {
-          src: item.media[0],
+        // Use embed for better PDF support
+        const pdfEmbed = create('embed', {
+          src: pdfUrl + '#toolbar=1&navpanes=1&scrollbar=1&view=FitH',
+          type: 'application/pdf',
           style: {
             width: '100%',
             height: '100%',
-            border: 'none',
-            borderRadius: '6px'
-          },
-          title: `${item.title} PDF Document`
+            border: 'none'
+          }
         });
 
-        // Add fallback link if iframe fails
-        const fallbackLink = create('div', {
+        // Fallback message for browsers that can't display PDFs
+        const fallbackMessage = create('div', {
+          style: {
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            padding: '40px',
+            textAlign: 'center',
+            color: '#666',
+            background: 'white',
+            borderRadius: '8px',
+            boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
+            zIndex: '1'
+          }
+        });
+
+        const fallbackLink = create('a', {
+          href: pdfUrl,
+          target: '_blank',
+          rel: 'noopener',
+          style: {
+            background: '#F05F40',
+            color: 'white',
+            padding: '15px 25px',
+            textDecoration: 'none',
+            borderRadius: '8px',
+            fontWeight: '600',
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '8px',
+            fontSize: '1.1rem'
+          },
+          innerHTML: '<i class="fa fa-file-pdf-o"></i> View PDF Document'
+        });
+
+        fallbackMessage.appendChild(create('p', {
+          style: { marginBottom: '20px', fontSize: '1.1rem' }
+        }, 'PDF cannot be displayed inline in this browser.'));
+        fallbackMessage.appendChild(fallbackLink);
+
+        // Add direct link overlay for easy access
+        const openLink = create('a', {
+          href: pdfUrl,
+          target: '_blank',
+          rel: 'noopener',
           style: {
             position: 'absolute',
             top: '10px',
             right: '10px',
             background: 'rgba(240, 95, 64, 0.9)',
-            borderRadius: '6px',
-            zIndex: '1'
-          }
-        });
-
-        const openLink = create('a', {
-          href: item.media[0],
-          target: '_blank',
-          rel: 'noopener',
-          style: {
             color: 'white',
             padding: '8px 12px',
             textDecoration: 'none',
             fontSize: '0.9rem',
             fontWeight: '600',
+            borderRadius: '6px',
+            zIndex: '10',
             display: 'flex',
             alignItems: 'center',
             gap: '5px'
           },
-          innerHTML: '<i class="fa fa-external-link"></i> Open PDF'
+          innerHTML: '<i class="fa fa-external-link"></i> Open'
         });
 
-        fallbackLink.appendChild(openLink);
-        pdfContainer.appendChild(iframe);
-        pdfContainer.appendChild(fallbackLink);
+        pdfContainer.appendChild(pdfEmbed);
+        pdfContainer.appendChild(openLink);
+        
+        // Check if PDF loaded, show fallback if not
+        pdfEmbed.onerror = () => {
+          pdfContainer.appendChild(fallbackMessage);
+        };
+
         mediaContainer.appendChild(pdfContainer);
       } else if (item.kind === 'gallery' && item.media.length > 1) {
         // Simple gallery
@@ -476,6 +520,9 @@
     modalContent.appendChild(header);
     modalContent.appendChild(body);
     backdrop.appendChild(modalContent);
+    
+    // Prevent background scrolling
+    document.body.style.overflow = 'hidden';
     document.body.appendChild(backdrop);
 
     // Animate in
@@ -507,6 +554,10 @@
     if (modalContent) {
       modalContent.style.transform = 'scale(0.9)';
     }
+    
+    // Restore background scrolling
+    document.body.style.overflow = '';
+    
     setTimeout(() => {
       backdrop.remove();
     }, 300);
