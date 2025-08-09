@@ -6,7 +6,7 @@
     "title": "Thesis — Listen",
     "subtitle": "Thesis",
     "href": "doc/listen.pdf",
-    "thumbnail": "thumbnails/listen.png"
+    "media": ["full/listen.png"]
   },
   {
     "id": "research-inkwell",
@@ -15,7 +15,8 @@
     "title": "Paper — Inkwell",
     "subtitle": "Paper",
     "href": "doc/inkwell.pdf",
-    "thumbnail": "thumbnails/inkwell.png"
+    "media": ["full/inkwell.png"]
+
   },
   {
     "id": "research-humanstats",
@@ -24,14 +25,13 @@
     "title": "Paper — Human Statistics",
     "subtitle": "Paper",
     "href": "doc/humanstats.pdf",
-    "thumbnail": "thumbnails/humanstats.png"
+    "media": ["full/humanstats.jpg"]
   },
   {
     "id": "cpps",
     "category": "Highlighted Projects",
     "kind": "gallery",
     "title": "CPPS — Exhibit",
-    "thumbnail": "thumbnails/cpps.jpg",
     "media": [
       "cpps/cpps (1).jpg",
       "cpps/cpps (2).jpg",
@@ -53,8 +53,7 @@
     "category": "Highlighted Projects",
     "kind": "video",
     "title": "Pygmak",
-    "thumbnail": "thumbnails/pygmak.png",
-    "media": ["video/pygmak.mp4"],
+    "media": ["full/pygmak.png", "video/pygmak.mp4"],
     "description": "Battle your way through endless waves of falling containers and redeem the precious loot they carry for upgrades! Pygmak is an addictive, simple, rewarding game you won't stop going back to.",
     "links": []
   },
@@ -63,8 +62,7 @@
     "category": "Highlighted Projects",
     "kind": "video",
     "title": "Inkwell",
-    "thumbnail": "thumbnails/inkwell.png",
-    "media": ["video/inkwell.mp4"],
+    "media": ["full/inkwell.png", "video/inkwell.mp4"],
     "description": "Blinded, you must find clever ways to find all three keys and escape the maze with one tool: the ability to paint the walls around you. The player must come up with good spatial awareness strategies to avoid getting lost forever. This research project raises awareness of the difficulties blind people have navigating environments mainly built for the sighted.",
     "links": [
       { "label": "Request download", "href": "mailto:decastronathan@gmail.com?Subject=Inkwell%20-%20Download%20request" }
@@ -75,11 +73,9 @@
     "category": "Highlighted Projects",
     "kind": "image",
     "title": "Listen",
-    "thumbnail": "thumbnails/listen.png",
     "media": ["full/listen.png"],
     "description": "A virtual reality navigation game based on echolocation. The game uses live microphone data—if you want to be quiet in the game, you must be quiet outside the game—creating a uniquely scary and immersive experience.",
     "links": [
-      { "label": "Thesis (PDF)", "href": "/doc/listen.pdf" },
       { "label": "GitHub", "href": "https://github.com/Yukisando/listen" }
     ]
   },
@@ -88,7 +84,6 @@
     "category": "Highlighted Projects",
     "kind": "image",
     "title": "DS4 Controller",
-    "thumbnail": "thumbnails/ds4.png",
     "media": ["full/ds4.png"],
     "description": "A MAX/MSP tool that turns any direct input controller into a fully featured synthesizer and sampler over UDP.",
     "links": [
@@ -100,7 +95,6 @@
     "category": "Highlighted Projects",
     "kind": "image",
     "title": "Magic Arrow",
-    "thumbnail": "thumbnails/magicarrow.png",
     "media": ["full/magicarrow.png"],
     "description": "A Java Minecraft plugin that augments bows with block-placing and other effects based on the block you're standing on.",
     "links": [
@@ -112,7 +106,6 @@
     "category": "Highlighted Projects",
     "kind": "image",
     "title": "Portable Mixing Table (OSC)",
-    "thumbnail": "thumbnails/osc.png",
     "media": ["full/osc.png"],
     "description": "A mobile application strapped onto your arm that gives access to various OSC panels connected to a MAX/MSP patch via Bluetooth.",
     "links": []
@@ -122,7 +115,6 @@
     "category": "Highlighted Projects",
     "kind": "image",
     "title": "AI Swimming Competition",
-    "thumbnail": "thumbnails/ai.png",
     "media": ["full/ai.png"],
     "description": "A comparison of pathfinding algorithms (Backtracking, DFS, Dijkstra, A*) in a simulated race environment.",
     "links": [

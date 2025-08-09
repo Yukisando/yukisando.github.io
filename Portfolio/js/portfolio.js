@@ -40,14 +40,6 @@
   }
 
   function createCard(item) {
-    // Get thumbnail
-    let thumbnail = null;
-    if (item.thumbnail && item.thumbnail.trim()) {
-      thumbnail = item.thumbnail;
-    } else if (item.media && item.media.length > 0) {
-      thumbnail = item.media[0];
-    }
-
     const card = create('div', { 
       className: 'portfolio-card',
       style: {
@@ -61,20 +53,23 @@
       }
     });
 
-    // Thumbnail
-    if (thumbnail) {
+    // Always use first media item with blur effect (with safety check)
+    if (item.media && item.media.length > 0) {
       const img = create('img', {
-        src: thumbnail,
+        src: item.media[0],
         alt: item.title,
         style: {
           width: '100%',
           height: '200px',
           objectFit: 'cover',
-          display: 'block'
+          display: 'block',
+          filter: 'blur(1.5px)',
+          transition: 'filter 0.3s ease'
         }
       });
       card.appendChild(img);
     } else {
+      // Placeholder for items without media
       const placeholder = create('div', {
         style: {
           width: '100%',
@@ -105,16 +100,23 @@
     card.appendChild(title);
 
     // Hover effects
+    const cardImg = card.querySelector('img');
     card.addEventListener('mouseenter', () => {
       card.style.transform = 'translateY(-5px)';
       card.style.borderColor = '#F05F40';
       card.style.boxShadow = '0 10px 30px rgba(240, 95, 64, 0.2)';
+      if (cardImg) {
+        cardImg.style.filter = 'blur(0px)';
+      }
     });
 
     card.addEventListener('mouseleave', () => {
       card.style.transform = 'translateY(0)';
       card.style.borderColor = 'transparent';
       card.style.boxShadow = 'none';
+      if (cardImg) {
+        cardImg.style.filter = 'blur(1.5px)';
+      }
     });
 
     // Click handler
@@ -325,8 +327,8 @@
           rel: 'noopener',
           style: {
             position: 'absolute',
-            top: '10px',
-            right: '10px',
+            bottom: '30px',
+            right: '30px',
             background: 'rgba(240, 95, 64, 0.9)',
             color: 'white',
             padding: '8px 12px',
