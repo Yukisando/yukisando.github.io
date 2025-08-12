@@ -95,8 +95,7 @@
     "category": "Highlighted Projects",
     "kind": "image",
     "title": "Scrunch",
-    "media": ["full/scrunch.png",
-  "video/scrunch.mp4"],
+    "media": ["full/scrunch.png", "video/scrunch.mp4"],
     "description": "A fun and engaging game that challenges players to solve puzzles by manipulating a virtual environment."
   },
   {
