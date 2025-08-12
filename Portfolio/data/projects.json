@@ -15,7 +15,7 @@
     "title": "Paper — Inkwell",
     "subtitle": "Paper",
     "href": "doc/inkwell.pdf",
-    "media": ["full/inkwell.png"]
+    "media": ["full/inkwell-2.png"]
 
   },
   {
@@ -25,7 +25,7 @@
     "title": "Paper — Human Statistics",
     "subtitle": "Paper",
     "href": "doc/humanstats.pdf",
-    "media": ["full/humanstats.jpg"]
+    "media": ["full/humanstats.png"]
   },
   {
     "id": "cpps",
@@ -89,6 +89,15 @@
     "links": [
       { "label": "GitHub", "href": "https://github.com/Yukisando/ds4" }
     ]
+  },
+  {
+    "id": "Scrunch",
+    "category": "Highlighted Projects",
+    "kind": "image",
+    "title": "Scrunch",
+    "media": ["full/scrunch.png",
+  "video/scrunch.mp4"],
+    "description": "A fun and engaging game that challenges players to solve puzzles by manipulating a virtual environment."
   },
   {
     "id": "magicarrow",
