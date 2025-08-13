@@ -74,7 +74,9 @@
               <a class="page-scroll" href="/Portfolio/">Personal Portfolio</a>
             </li>
             <li>
-              <a class="page-scroll" href="/doc/cv_en.pdf" id="nav-cv-link">Resume/CV</a> 
+              <a class="page-scroll" href="/doc/cv_en.pdf" id="nav-cv-link"
+                >Resume/CV</a
+              >
             </li>
             <li>
               <a class="page-scroll" href="#contact">Contact</a>
@@ -130,22 +132,23 @@
             // Language detection for CV links
             function setupCVLanguage() {
               const userLanguage = navigator.language || navigator.userLanguage;
-              const isFrench = userLanguage.toLowerCase().startsWith('fr');
-              
-              const navCvLink = document.getElementById('nav-cv-link');
-              const cvDownloadLink = document.getElementById('cv-download-link');
-              
+              const isFrench = userLanguage.toLowerCase().startsWith("fr");
+
+              const navCvLink = document.getElementById("nav-cv-link");
+              const cvDownloadLink =
+                document.getElementById("cv-download-link");
+
               if (isFrench) {
-                if (navCvLink) navCvLink.href = '/doc/cv_fr.pdf';
-                if (cvDownloadLink) cvDownloadLink.href = '/doc/cv_fr.pdf';
+                if (navCvLink) navCvLink.href = "/doc/cv_fr.pdf";
+                if (cvDownloadLink) cvDownloadLink.href = "/doc/cv_fr.pdf";
               } else {
-                if (navCvLink) navCvLink.href = '/doc/cv_en.pdf';
-                if (cvDownloadLink) cvDownloadLink.href = '/doc/cv_en.pdf';
+                if (navCvLink) navCvLink.href = "/doc/cv_en.pdf";
+                if (cvDownloadLink) cvDownloadLink.href = "/doc/cv_en.pdf";
               }
             }
 
             // Run the language setup when the page loads
-            document.addEventListener('DOMContentLoaded', setupCVLanguage);
+            document.addEventListener("DOMContentLoaded", setupCVLanguage);
           </script>
         </div>
       </div>
@@ -361,7 +364,10 @@
       <div class="container text-center">
         <div class="call-to-action">
           <h2>Curriculum Vitae</h2>
-          <a href="/doc/cv_en.pdf" class="btn btn-default btn-xl sr-button" id="cv-download-link"
+          <a
+            href="/doc/cv_en.pdf"
+            class="btn btn-default btn-xl sr-button"
+            id="cv-download-link"
             >View / Download</a
           >
           <a href="/Portfolio/" class="btn btn-default btn-xl sr-button"
@@ -380,9 +386,6 @@
             href="https://www.codementor.io/@decastronathan?refer=badge"
             class="btn btn-default btn-xl sr-button"
             >CodeMentor</a
-          >
-          <a href="dev/Shifu/" class="btn btn-default btn-xl sr-button"
-            >Save Shifu</a
           >
           <br /><br />
           <a
