@@ -44,6 +44,10 @@
     return src.toLowerCase().includes('.mp4') || src.toLowerCase().includes('.webm') || src.toLowerCase().includes('.ogg');
   }
 
+  function isAudio(src) {
+    return src.toLowerCase().includes('.mp3') || src.toLowerCase().includes('.wav') || src.toLowerCase().includes('.ogg') || src.toLowerCase().includes('.m4a');
+  }
+
   function createNavigationButton(direction, onClick) {
     const isNext = direction === 'next';
     const button = create('button', {
@@ -94,15 +98,243 @@
       });
       
       return video;
+    } else if (isAudio(src)) {
+      // Create custom audio player
+      const audioContainer = create('div', {
+        style: {
+          width: '100%',
+          maxHeight: '400px',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          background: 'linear-gradient(135deg, #2c2c2c, #3a3a3a)',
+          borderRadius: '8px',
+          padding: '30px 20px',
+          gap: '25px'
+        }
+      });
+
+      // Audio icon
+      const audioIcon = create('div', {
+        style: {
+          fontSize: '4rem',
+          color: '#F05F40',
+          marginBottom: '10px'
+        },
+        innerHTML: '<i class="fa fa-podcast"></i>'
+      });
+
+      // Create hidden HTML5 audio element
+      const audio = create('audio', {
+        src,
+        preload: 'metadata'
+      });
+
+      // Custom player controls container
+      const playerContainer = create('div', {
+        style: {
+          width: '100%',
+          maxWidth: '500px',
+          background: '#1a1a1a',
+          borderRadius: '15px',
+          padding: '20px',
+          boxShadow: '0 8px 25px rgba(0,0,0,0.3)'
+        }
+      });
+
+      // Progress bar container
+      const progressContainer = create('div', {
+        style: {
+          width: '100%',
+          height: '8px',
+          background: '#333',
+          borderRadius: '4px',
+          marginBottom: '15px',
+          cursor: 'pointer',
+          position: 'relative'
+        }
+      });
+
+      const progressBar = create('div', {
+        style: {
+          width: '0%',
+          height: '100%',
+          background: 'linear-gradient(90deg, #F05F40, #d44e34)',
+          borderRadius: '4px',
+          transition: 'width 0.1s ease'
+        }
+      });
+
+      progressContainer.appendChild(progressBar);
+
+      // Controls row
+      const controlsRow = create('div', {
+        style: {
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          gap: '15px'
+        }
+      });
+
+      // Play/Pause button
+      const playPauseBtn = create('button', {
+        innerHTML: '<i class="fa fa-play"></i>',
+        style: {
+          background: '#F05F40',
+          border: 'none',
+          borderRadius: '50%',
+          width: '50px',
+          height: '50px',
+          color: 'white',
+          fontSize: '1.2rem',
+          cursor: 'pointer',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          transition: 'all 0.3s ease'
+        }
+      });
+
+      // Time display
+      const timeDisplay = create('div', {
+        style: {
+          color: '#ccc',
+          fontSize: '0.9rem',
+          fontFamily: 'monospace',
+          minWidth: '100px'
+        }
+      }, '0:00 / 0:00');
+
+      // Volume container
+      const volumeContainer = create('div', {
+        style: {
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px'
+        }
+      });
+
+      const volumeIcon = create('div', {
+        style: {
+          color: '#ccc',
+          fontSize: '1rem'
+        },
+        innerHTML: '<i class="fa fa-volume-up"></i>'
+      });
+
+      const volumeSlider = create('input', {
+        type: 'range',
+        min: '0',
+        max: '100',
+        value: '80',
+        className: 'custom-audio-slider',
+        style: {
+          width: '80px'
+        }
+      });
+
+      // Set initial volume
+      audio.volume = 0.8;
+
+      // Player functionality
+      let isPlaying = false;
+      let duration = 0;
+
+      // Format time helper
+      function formatTime(seconds) {
+        if (isNaN(seconds)) return '0:00';
+        const mins = Math.floor(seconds / 60);
+        const secs = Math.floor(seconds % 60);
+        return `${mins}:${secs.toString().padStart(2, '0')}`;
+      }
+
+      // Update progress and time
+      function updateProgress() {
+        if (audio.duration) {
+          const progressPercent = (audio.currentTime / audio.duration) * 100;
+          progressBar.style.width = `${progressPercent}%`;
+          timeDisplay.textContent = `${formatTime(audio.currentTime)} / ${formatTime(audio.duration)}`;
+        }
+      }
+
+      // Play/pause functionality
+      playPauseBtn.addEventListener('click', () => {
+        if (isPlaying) {
+          audio.pause();
+          playPauseBtn.innerHTML = '<i class="fa fa-play"></i>';
+          playPauseBtn.style.background = '#F05F40';
+        } else {
+          audio.play();
+          playPauseBtn.innerHTML = '<i class="fa fa-pause"></i>';
+          playPauseBtn.style.background = '#d44e34';
+        }
+        isPlaying = !isPlaying;
+      });
+
+      // Progress bar click
+      progressContainer.addEventListener('click', (e) => {
+        if (audio.duration) {
+          const rect = progressContainer.getBoundingClientRect();
+          const clickX = e.clientX - rect.left;
+          const clickRatio = clickX / rect.width;
+          audio.currentTime = clickRatio * audio.duration;
+        }
+      });
+
+      // Volume control
+      volumeSlider.addEventListener('input', (e) => {
+        audio.volume = e.target.value / 100;
+        const volumeLevel = e.target.value;
+        if (volumeLevel == 0) {
+          volumeIcon.innerHTML = '<i class="fa fa-volume-off"></i>';
+        } else if (volumeLevel < 50) {
+          volumeIcon.innerHTML = '<i class="fa fa-volume-down"></i>';
+        } else {
+          volumeIcon.innerHTML = '<i class="fa fa-volume-up"></i>';
+        }
+      });
+
+      // Audio event listeners
+      audio.addEventListener('loadedmetadata', () => {
+        duration = audio.duration;
+        timeDisplay.textContent = `0:00 / ${formatTime(duration)}`;
+      });
+
+      audio.addEventListener('timeupdate', updateProgress);
+
+      audio.addEventListener('ended', () => {
+        isPlaying = false;
+        playPauseBtn.innerHTML = '<i class="fa fa-play"></i>';
+        playPauseBtn.style.background = '#F05F40';
+      });
+
+      // Assemble controls
+      volumeContainer.appendChild(volumeIcon);
+      volumeContainer.appendChild(volumeSlider);
+      
+      controlsRow.appendChild(playPauseBtn);
+      controlsRow.appendChild(timeDisplay);
+      controlsRow.appendChild(volumeContainer);
+
+      playerContainer.appendChild(progressContainer);
+      playerContainer.appendChild(controlsRow);
+
+      audioContainer.appendChild(audioIcon);
+      audioContainer.appendChild(playerContainer);
+      audioContainer.appendChild(audio); // Hidden audio element
+      
+      return audioContainer;
     } else {
       return create('img', {
-        src,
         alt: title,
         style: {
           width: '100%',
           maxHeight: '400px',
           objectFit: 'contain',
-          display: 'block'
+          display: 'block',
+          transition: 'opacity 0.2s ease'
         }
       });
     }
@@ -124,7 +356,7 @@
         maxHeight: '400px',
         borderRadius: '8px',
         overflow: 'hidden',
-        background: '#000',
+        background: 'transparent', // Changed from #000 to transparent
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center'
@@ -132,8 +364,29 @@
     });
 
     function updateMedia(index) {
-      mediaWrapper.innerHTML = '';
-      mediaWrapper.appendChild(createMediaElement(item.media[index], item.title));
+      // Add fade transition
+      mediaWrapper.style.opacity = '0';
+      mediaWrapper.style.transition = 'opacity 0.2s ease';
+      
+      setTimeout(() => {
+        mediaWrapper.innerHTML = '';
+        const newMedia = createMediaElement(item.media[index], item.title);
+        
+        // Preload the media to prevent jitter
+        if (newMedia.tagName === 'IMG') {
+          newMedia.onload = () => {
+            mediaWrapper.appendChild(newMedia);
+            mediaWrapper.style.opacity = '1';
+          };
+          // Set source after onload to ensure it triggers
+          if (!newMedia.src) {
+            newMedia.src = item.media[index];
+          }
+        } else {
+          mediaWrapper.appendChild(newMedia);
+          mediaWrapper.style.opacity = '1';
+        }
+      }, 100); // Small delay for smooth transition
     }
 
     updateMedia(0);
@@ -190,19 +443,59 @@
 
     // Always use first media item with blur effect (with safety check)
     if (item.media && item.media.length > 0) {
-      const img = create('img', {
-        src: item.media[0],
-        alt: item.title,
-        style: {
-          width: '100%',
-          height: '200px',
-          objectFit: 'cover',
-          display: 'block',
-          filter: 'blur(1.5px)',
-          transition: 'filter 0.3s ease'
-        }
-      });
-      card.appendChild(img);
+      if (item.kind === 'audio') {
+        // Special handling for audio/podcast items
+        const audioPreview = create('div', {
+          style: {
+            width: '100%',
+            height: '200px',
+            background: 'linear-gradient(135deg, #F05F40, #d44e34)',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: 'white',
+            gap: '15px',
+            transition: 'all 0.3s ease'
+          }
+        });
+
+        const podcastIcon = create('div', {
+          style: {
+            fontSize: '3rem',
+            opacity: '0.9'
+          },
+          innerHTML: '<i class="fa fa-podcast"></i>'
+        });
+
+        const episodeLabel = create('div', {
+          style: {
+            fontSize: '1rem',
+            fontWeight: '600',
+            textTransform: 'uppercase',
+            letterSpacing: '1px',
+            opacity: '0.9'
+          }
+        }, 'Podcast Episode');
+
+        audioPreview.appendChild(podcastIcon);
+        audioPreview.appendChild(episodeLabel);
+        card.appendChild(audioPreview);
+      } else {
+        const img = create('img', {
+          src: item.media[0],
+          alt: item.title,
+          style: {
+            width: '100%',
+            height: '200px',
+            objectFit: 'cover',
+            display: 'block',
+            filter: 'blur(1.5px)',
+            transition: 'filter 0.3s ease'
+          }
+        });
+        card.appendChild(img);
+      }
     } else {
       // Placeholder for items without media
       const placeholder = create('div', {
@@ -236,12 +529,17 @@
 
     // Hover effects
     const cardImg = card.querySelector('img');
+    const audioPreview = card.querySelector('div[style*="gradient"]');
+    
     card.addEventListener('mouseenter', () => {
       card.style.transform = 'translateY(-5px)';
       card.style.borderColor = '#F05F40';
       card.style.boxShadow = '0 10px 30px rgba(240, 95, 64, 0.2)';
       if (cardImg) {
         cardImg.style.filter = 'blur(0px)';
+      }
+      if (audioPreview && item.kind === 'audio') {
+        audioPreview.style.background = 'linear-gradient(135deg, #d44e34, #c13d28)';
       }
     });
 
@@ -251,6 +549,9 @@
       card.style.boxShadow = 'none';
       if (cardImg) {
         cardImg.style.filter = 'blur(1.5px)';
+      }
+      if (audioPreview && item.kind === 'audio') {
+        audioPreview.style.background = 'linear-gradient(135deg, #F05F40, #d44e34)';
       }
     });
 
@@ -484,6 +785,10 @@
         // Single media item (image or video)
         const singleMedia = createMediaElement(item.media[0], item.title);
         singleMedia.style.borderRadius = '8px';
+        // For single images, ensure src is set properly
+        if (singleMedia.tagName === 'IMG') {
+          singleMedia.src = item.media[0];
+        }
         mediaContainer.appendChild(singleMedia);
       }
 
@@ -497,9 +802,14 @@
           color: '#ddd',
           lineHeight: '1.6',
           marginBottom: '20px',
-          fontSize: '1.1rem'
+          fontSize: '1.1rem',
+          whiteSpace: 'pre-line' // This will handle \n as line breaks
         }
-      }, item.description);
+      });
+      // Set innerHTML to handle markdown-style formatting
+      description.innerHTML = item.description
+        .replace(/\*\*(.*?)\*\*/g, '<strong style="color: #F05F40;">$1</strong>')
+        .replace(/\n/g, '<br>');
       body.appendChild(description);
     }
 
@@ -599,8 +909,67 @@
     container.innerHTML = '';
 
     const groups = groupBy(data, 'category');
+    
+    // Define the desired order of categories
+    const categoryOrder = ['Research', 'Highlighted Projects', 'Podcast - Spiritual Journeys', 'Podcast - Faith & Family'];
+    
+    // Render categories in the specified order
+    categoryOrder.forEach(category => {
+      const items = groups[category];
+      if (!items || items.length === 0) return;
 
+      const section = create('div', {
+        className: 'portfolio-section',
+        style: {
+          marginBottom: '60px'
+        }
+      });
+
+      const title = create('h2', {
+        style: {
+          textAlign: 'center',
+          color: '#F05F40',
+          fontSize: '2.5rem',
+          marginBottom: '20px',
+          fontWeight: '700'
+        }
+      }, category);
+
+      const divider = create('div', {
+        style: {
+          width: '100px',
+          height: '4px',
+          background: '#F05F40',
+          margin: '0 auto 40px',
+          borderRadius: '2px'
+        }
+      });
+
+      const grid = create('div', {
+        style: {
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
+          gap: '30px',
+          padding: '0 30px',
+          maxWidth: '1200px',
+          margin: '0 auto'
+        }
+      });
+
+      items.forEach(item => {
+        grid.appendChild(createCard(item));
+      });
+
+      section.appendChild(title);
+      section.appendChild(divider);
+      section.appendChild(grid);
+      container.appendChild(section);
+    });
+    
+    // Render any remaining categories not in the specified order
     Object.entries(groups).forEach(([category, items]) => {
+      if (categoryOrder.includes(category)) return;
+      
       const section = create('div', {
         className: 'portfolio-section',
         style: {

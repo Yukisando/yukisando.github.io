@@ -6,7 +6,9 @@
     "title": "Thesis — Listen",
     "subtitle": "Thesis",
     "href": "doc/listen.pdf",
-    "media": ["full/listen.png"]
+    "media": [
+      "full/listen.png"
+    ]
   },
   {
     "id": "research-inkwell",
@@ -15,8 +17,9 @@
     "title": "Paper — Inkwell",
     "subtitle": "Paper",
     "href": "doc/inkwell.pdf",
-    "media": ["full/inkwell-2.png"]
-
+    "media": [
+      "full/inkwell-2.png"
+    ]
   },
   {
     "id": "research-humanstats",
@@ -25,7 +28,9 @@
     "title": "Paper — Human Statistics",
     "subtitle": "Paper",
     "href": "doc/humanstats.pdf",
-    "media": ["full/humanstats.png"]
+    "media": [
+      "full/humanstats.png"
+    ]
   },
   {
     "id": "cpps",
@@ -45,16 +50,34 @@
     ],
     "description": "Three sections make up the CPPS: the exhibit, the simulator, and first aid. Large touch screens with our original mini-games that teach visitors about earthquake causes, effects, and preparation tips are incorporated into the exhibit space. Additionally, we developed a platform for a fleet of tablets that are placed strategically on walls throughout the museum and are each running a variety of software. With the help of these tablets, visitors can learn more about the activity they are currently engaged in and have a more engaging learning experience. Visitors have the option to learn at their own pace and receive guidance that is specifically suited to their needs. An escape game will also assist visitors in learning as much as possible while having fun. Finishing the game should take about an hour.",
     "links": [
-      { "label": "More info", "href": "https://www.valbilon.com/projects/cpps-exhibit" }
+      {
+        "label": "More info",
+        "href": "https://www.valbilon.com/projects/cpps-exhibit"
+      }
     ]
   },
   {
-    "id": "pygmak",
+    "id": "mobile-games",
     "category": "Highlighted Projects",
-    "kind": "video",
-    "title": "Pygmak",
-    "media": ["full/pygmak.png", "video/pygmak.mp4"],
-    "description": "Battle your way through endless waves of falling containers and redeem the precious loot they carry for upgrades! Pygmak is an addictive, simple, rewarding game you won't stop going back to.",
+    "kind": "gallery",
+    "title": "Mobile Games Collection",
+    "media": [
+      "full/pygmak.png",
+      "video/pygmak.mp4",
+      "full/concron.png",
+      "video/concron.mp4",
+      "full/scrunch.png",
+      "video/scrunch.mp4",
+      "full/endlessrunner.png",
+      "video/endlessrunner.mp4",
+      "full/paknight.png",
+      "full/shooterhero.png",
+      "full/sibtrip.png",
+      "video/sibtrip.mp4",
+      "full/zigzag.png",
+      "video/zigzag.mp4"
+    ],
+    "description": "A comprehensive collection of mobile games developed for Android platforms, showcasing diverse gameplay mechanics and engaging experiences.\n\n• **Pygmak** - An addictive container-catching game where you battle endless waves of falling containers and redeem precious loot for upgrades\n\n• **Concron** - A strategic puzzle experience that challenges your problem-solving skills\n\n• **Scrunch** - A fun puzzle manipulation game where players solve challenges by interacting with the virtual environment\n\n• **Endless Runner** - A fast-paced infinite running adventure with dynamic obstacles and challenges\n\n• **Paknight** - An action-packed knight adventure featuring combat and exploration\n\n• **Shooter Hero** - An intense shooting experience with engaging combat mechanics\n\n• **Sibtrip** - An immersive journey game that takes players on a unique adventure\n\n• **Zigzag** - A challenging reflex-based game that tests your timing and coordination\n\nEach game demonstrates different aspects of mobile game development, from casual arcade mechanics to more complex gameplay systems, showcasing versatility in mobile gaming experiences.",
     "links": []
   },
   {
@@ -62,71 +85,62 @@
     "category": "Highlighted Projects",
     "kind": "video",
     "title": "Inkwell",
-    "media": ["full/inkwell.png", "video/inkwell.mp4"],
+    "media": [
+      "full/inkwell.png",
+      "video/inkwell.mp4"
+    ],
     "description": "Blinded, you must find clever ways to find all three keys and escape the maze with one tool: the ability to paint the walls around you. The player must come up with good spatial awareness strategies to avoid getting lost forever. This research project raises awareness of the difficulties blind people have navigating environments mainly built for the sighted.",
     "links": [
-      { "label": "Request download", "href": "mailto:decastronathan@gmail.com?Subject=Inkwell%20-%20Download%20request" }
+      {
+        "label": "Request download",
+        "href": "mailto:decastronathan@gmail.com?Subject=Inkwell%20-%20Download%20request"
+      }
     ]
-  },
-  {
-    "id": "listen",
-    "category": "Highlighted Projects",
-    "kind": "image",
-    "title": "Listen",
-    "media": ["full/listen.png"],
-    "description": "A virtual reality navigation game based on echolocation. The game uses live microphone data—if you want to be quiet in the game, you must be quiet outside the game—creating a uniquely scary and immersive experience.",
-    "links": [
-      { "label": "GitHub", "href": "https://github.com/Yukisando/listen" }
-    ]
-  },
-  {
-    "id": "ds4",
-    "category": "Highlighted Projects",
-    "kind": "image",
-    "title": "DS4 Controller",
-    "media": ["full/ds4.png"],
-    "description": "A MAX/MSP tool that turns any direct input controller into a fully featured synthesizer and sampler over UDP.",
-    "links": [
-      { "label": "GitHub", "href": "https://github.com/Yukisando/ds4" }
-    ]
-  },
-  {
-    "id": "Scrunch",
-    "category": "Highlighted Projects",
-    "kind": "image",
-    "title": "Scrunch",
-    "media": ["full/scrunch.png", "video/scrunch.mp4"],
-    "description": "A fun and engaging game that challenges players to solve puzzles by manipulating a virtual environment."
   },
   {
     "id": "magicarrow",
     "category": "Highlighted Projects",
     "kind": "image",
     "title": "Magic Arrow",
-    "media": ["full/magicarrow.png"],
+    "media": [
+      "full/magicarrow.png"
+    ],
     "description": "A Java Minecraft plugin that augments bows with block-placing and other effects based on the block you're standing on.",
     "links": [
-      { "label": "GitHub", "href": "https://github.com/Yukisando/magicarrow" }
+      {
+        "label": "GitHub",
+        "href": "https://github.com/Yukisando/magicarrow"
+      }
     ]
   },
   {
-    "id": "osc",
-    "category": "Highlighted Projects",
-    "kind": "image",
-    "title": "Portable Mixing Table (OSC)",
-    "media": ["full/osc.png"],
-    "description": "A mobile application strapped onto your arm that gives access to various OSC panels connected to a MAX/MSP patch via Bluetooth.",
-    "links": []
+    "id": "podcast-dean",
+    "category": "Podcast - Spiritual Journeys",
+    "kind": "audio",
+    "title": "Dean - The Spiritual Journey",
+    "media": [
+      "vault/Dean.mp3"
+    ],
+    "description": "A fascinating conversation with Dean, an ex-Jehovah's Witness who embarked on an extraordinary spiritual journey through many different religions. We explore his path of discovery, the various faiths he encountered along the way, and discuss the unique spiritual state he has reached today after years of searching and questioning."
   },
   {
-    "id": "ai",
-    "category": "Highlighted Projects",
-    "kind": "image",
-    "title": "AI Swimming Competition",
-    "media": ["full/ai.png"],
-    "description": "A comparison of pathfinding algorithms (Backtracking, DFS, Dijkstra, A*) in a simulated race environment.",
-    "links": [
-      { "label": "GitLab", "href": "http://gitlab.doc.gold.ac.uk/ndeca001/GAI/tree/master/Assignements/CourseWork1" }
-    ]
+    "id": "podcast-frank",
+    "category": "Podcast - Faith & Family",
+    "kind": "audio",
+    "title": "Frank - The Elder's Perspective",
+    "media": [
+      "vault/Frank.mp3"
+    ],
+    "description": "An intimate interview with Frank, a Jehovah's Witness elder, where we discuss not only religious beliefs and practices, but also deeply personal topics including the heartbreaking reality of living next to his shunned daughter. Frank shares his journey to becoming an elder and provides insight into the complex emotional and spiritual challenges of his faith."
+  },
+  {
+    "id": "podcast-frank2",
+    "category": "Podcast - Faith & Family",
+    "kind": "audio",
+    "title": "Frank Part 2 - Deeper Conversations",
+    "media": [
+      "vault/Frank2.mp3"
+    ],
+    "description": "The continuation of our conversation with Frank, delving deeper into the complexities of his role as an elder, the personal cost of religious conviction, and further exploration of the difficult balance between faith and family relationships within the Jehovah's Witness community."
   }
 ]

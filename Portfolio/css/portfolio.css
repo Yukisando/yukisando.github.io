@@ -48,11 +48,56 @@ body {
   transform: translateY(-5px) !important;
 }
 
+/* Custom Audio Player Styles */
+.custom-audio-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 4px;
+  background: #333;
+  outline: none;
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+.custom-audio-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #F05F40;
+  cursor: pointer;
+  border: 2px solid #fff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  transition: all 0.2s ease;
+}
+
+.custom-audio-slider::-webkit-slider-thumb:hover {
+  background: #d44e34;
+  transform: scale(1.1);
+}
+
+.custom-audio-slider::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #F05F40;
+  cursor: pointer;
+  border: 2px solid #fff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  transition: all 0.2s ease;
+}
+
+.custom-audio-slider::-moz-range-thumb:hover {
+  background: #d44e34;
+  transform: scale(1.1);
+}
+
 .simple-modal {
   backdrop-filter: blur(5px);
 }
 
-.simple-modal > div {
+.simple-modal>div {
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
 }
 
@@ -61,23 +106,23 @@ body {
   #portfolio {
     padding-top: 80px;
   }
-  
+
   .portfolio-section h2 {
     font-size: 2rem !important;
   }
-  
+
   .simple-modal {
     padding: 10px !important;
   }
-  
-  .simple-modal > div {
+
+  .simple-modal>div {
     max-height: 95vh !important;
   }
-  
+
   .simple-modal .modal-body {
     padding: 15px !important;
   }
-  
+
   .simple-modal h2 {
     font-size: 1.5rem !important;
     padding-right: 40px !important;
@@ -85,7 +130,7 @@ body {
 }
 
 @media (max-width: 480px) {
-  .portfolio-section > div:last-child {
+  .portfolio-section>div:last-child {
     grid-template-columns: 1fr !important;
     gap: 20px !important;
     padding: 0 15px !important;
