@@ -77,6 +77,247 @@
     return button;
   }
 
+  function createCompactAudioPlayer(src, title) {
+    // Create hidden HTML5 audio element
+    const audio = create('audio', {
+      src,
+      preload: 'metadata'
+    });
+
+    // Compact player container
+    const playerContainer = create('div', {
+      style: {
+        width: '100%',
+        maxWidth: '100%',
+        background: '#1a1a1a',
+        borderRadius: '8px',
+        padding: '15px',
+        border: '1px solid #444',
+        boxSizing: 'border-box'
+      }
+    });
+
+    // Audio icon and title row
+    const headerRow = create('div', {
+      style: {
+        display: 'flex',
+        alignItems: 'center',
+        gap: '10px',
+        marginBottom: '12px'
+      }
+    });
+
+    const audioIcon = create('div', {
+      style: {
+        fontSize: '1.5rem',
+        color: '#F05F40'
+      },
+      innerHTML: '<i class="fa fa-podcast"></i>'
+    });
+
+    const episodeLabel = create('div', {
+      style: {
+        color: '#ccc',
+        fontSize: '0.9rem',
+        fontWeight: '500'
+      }
+    }, 'Podcast Episode');
+
+    headerRow.appendChild(audioIcon);
+    headerRow.appendChild(episodeLabel);
+
+    // Progress bar container
+    const progressContainer = create('div', {
+      style: {
+        width: '100%',
+        height: '6px',
+        background: '#333',
+        borderRadius: '3px',
+        marginBottom: '12px',
+        cursor: 'pointer',
+        position: 'relative'
+      }
+    });
+
+    const progressBar = create('div', {
+      style: {
+        width: '0%',
+        height: '100%',
+        background: 'linear-gradient(90deg, #F05F40, #d44e34)',
+        borderRadius: '3px',
+        transition: 'width 0.1s ease'
+      }
+    });
+
+    progressContainer.appendChild(progressBar);
+
+    // Controls row
+    const controlsRow = create('div', {
+      style: {
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        gap: '8px',
+        width: '100%',
+        boxSizing: 'border-box'
+      }
+    });
+
+    // Play/Pause button (smaller)
+    const playPauseBtn = create('button', {
+      innerHTML: '<i class="fa fa-play"></i>',
+      style: {
+        background: '#F05F40',
+        border: 'none',
+        borderRadius: '50%',
+        width: '36px',
+        height: '36px',
+        color: 'white',
+        fontSize: '1rem',
+        cursor: 'pointer',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        transition: 'all 0.3s ease'
+      }
+    });
+
+    // Time display (smaller)
+    const timeDisplay = create('div', {
+      style: {
+        color: '#ccc',
+        fontSize: '0.75rem',
+        fontFamily: 'monospace',
+        minWidth: '75px',
+        textAlign: 'center',
+        flex: '0 0 auto'
+      }
+    }, '0:00 / 0:00');
+
+    // Volume container (smaller)
+    const volumeContainer = create('div', {
+      style: {
+        display: 'flex',
+        alignItems: 'center',
+        gap: '4px',
+        flex: '0 0 auto'
+      }
+    });
+
+    const volumeIcon = create('div', {
+      style: {
+        color: '#ccc',
+        fontSize: '0.9rem'
+      },
+      innerHTML: '<i class="fa fa-volume-up"></i>'
+    });
+
+    const volumeSlider = create('input', {
+      type: 'range',
+      min: '0',
+      max: '100',
+      value: '80',
+      style: {
+        width: '50px',
+        height: '4px',
+        background: '#333',
+        outline: 'none',
+        borderRadius: '2px',
+        flexShrink: '0'
+      }
+    });
+
+    // Set initial volume
+    audio.volume = 0.8;
+
+    // Player functionality
+    let isPlaying = false;
+    let duration = 0;
+
+    // Format time helper
+    function formatTime(seconds) {
+      if (isNaN(seconds)) return '0:00';
+      const mins = Math.floor(seconds / 60);
+      const secs = Math.floor(seconds % 60);
+      return `${mins}:${secs.toString().padStart(2, '0')}`;
+    }
+
+    // Update progress and time
+    function updateProgress() {
+      if (audio.duration) {
+        const progressPercent = (audio.currentTime / audio.duration) * 100;
+        progressBar.style.width = `${progressPercent}%`;
+        timeDisplay.textContent = `${formatTime(audio.currentTime)} / ${formatTime(audio.duration)}`;
+      }
+    }
+
+    // Play/pause functionality
+    playPauseBtn.addEventListener('click', () => {
+      if (isPlaying) {
+        audio.pause();
+        playPauseBtn.innerHTML = '<i class="fa fa-play"></i>';
+        playPauseBtn.style.background = '#F05F40';
+      } else {
+        audio.play();
+        playPauseBtn.innerHTML = '<i class="fa fa-pause"></i>';
+        playPauseBtn.style.background = '#d44e34';
+      }
+      isPlaying = !isPlaying;
+    });
+
+    // Progress bar click
+    progressContainer.addEventListener('click', (e) => {
+      if (audio.duration) {
+        const rect = progressContainer.getBoundingClientRect();
+        const clickX = e.clientX - rect.left;
+        const clickRatio = clickX / rect.width;
+        audio.currentTime = clickRatio * audio.duration;
+      }
+    });
+
+    // Volume control
+    volumeSlider.addEventListener('input', (e) => {
+      audio.volume = e.target.value / 100;
+      const volumeLevel = e.target.value;
+      if (volumeLevel == 0) {
+        volumeIcon.innerHTML = '<i class="fa fa-volume-off"></i>';
+      } else if (volumeLevel < 50) {
+        volumeIcon.innerHTML = '<i class="fa fa-volume-down"></i>';
+      } else {
+        volumeIcon.innerHTML = '<i class="fa fa-volume-up"></i>';
+      }
+    });
+
+    // Audio event listeners
+    audio.addEventListener('loadedmetadata', () => {
+      duration = audio.duration;
+      timeDisplay.textContent = `0:00 / ${formatTime(duration)}`;
+    });
+
+    audio.addEventListener('timeupdate', updateProgress);
+
+    audio.addEventListener('ended', () => {
+      isPlaying = false;
+      playPauseBtn.innerHTML = '<i class="fa fa-play"></i>';
+      playPauseBtn.style.background = '#F05F40';
+    });
+
+    // Assemble controls
+    volumeContainer.appendChild(volumeIcon);
+    volumeContainer.appendChild(volumeSlider);
+    
+    controlsRow.appendChild(playPauseBtn);
+    controlsRow.appendChild(timeDisplay);
+    controlsRow.appendChild(volumeContainer);
+
+    playerContainer.appendChild(headerRow);
+    playerContainer.appendChild(progressContainer);
+    playerContainer.appendChild(controlsRow);
+    playerContainer.appendChild(audio); // Hidden audio element
+    
+    return playerContainer;
+  }
+
   function createMediaElement(src, title) {
     if (isVideo(src)) {
       const video = create('video', {
@@ -427,7 +668,134 @@
     return galleryContainer;
   }
 
+  function createPodcastCard(item) {
+    const card = create('div', { 
+      className: 'podcast-card',
+      style: {
+        background: '#2c2c2c',
+        borderRadius: '12px',
+        overflow: 'hidden',
+        transition: 'all 0.3s ease',
+        border: '2px solid transparent',
+        position: 'relative',
+        padding: '20px',
+        minHeight: 'auto'
+      }
+    });
+
+    // Title (smaller)
+    const title = create('h3', {
+      style: {
+        color: '#F05F40',
+        fontSize: '1.2rem',
+        fontWeight: '600',
+        margin: '0 0 15px 0',
+        textAlign: 'center',
+        lineHeight: '1.3'
+      }
+    }, item.title);
+
+    // Description section (full width, above player)
+    const descriptionSection = create('div', {
+      className: 'podcast-description',
+      style: {
+        width: '100%',
+        marginBottom: '20px'
+      }
+    });
+
+    const description = create('div', {
+      style: {
+        color: '#ddd',
+        lineHeight: '1.5',
+        fontSize: '0.95rem',
+        whiteSpace: 'pre-line'
+      }
+    });
+    
+    description.innerHTML = item.description
+      .replace(/\*\*(.*?)\*\*/g, '<strong style="color: #F05F40;">$1</strong>')
+      .replace(/\n/g, '<br>');
+
+    descriptionSection.appendChild(description);
+
+    // Audio player section (below description, centered)
+    const audioSection = create('div', {
+      className: 'podcast-audio',
+      style: {
+        width: '100%',
+        display: 'flex',
+        justifyContent: 'center',
+        marginTop: '15px'
+      }
+    });
+
+    // Create the compact audio player
+    if (item.media && item.media.length > 0) {
+      const audioPlayer = createCompactAudioPlayer(item.media[0], item.title);
+      audioSection.appendChild(audioPlayer);
+    }
+
+    card.appendChild(title);
+    card.appendChild(descriptionSection);
+    card.appendChild(audioSection);
+
+    // Add responsive CSS to the document head if not already added
+    const styleId = 'podcast-responsive-styles';
+    if (!document.querySelector(`#${styleId}`)) {
+      const style = create('style', { id: styleId });
+      style.textContent = `
+        .podcast-card {
+          box-sizing: border-box;
+        }
+        .podcast-card * {
+          box-sizing: border-box;
+        }
+        @media (max-width: 767px) {
+          .podcast-card {
+            margin: 0 5px;
+            padding: 18px !important;
+          }
+          .portfolio-grid[data-podcast-grid="true"] {
+            grid-template-columns: 1fr !important;
+            padding: 0 15px !important;
+            gap: 25px !important;
+          }
+        }
+        @media (max-width: 650px) {
+          .portfolio-grid {
+            padding: 0 10px !important;
+          }
+          .podcast-card {
+            padding: 15px !important;
+          }
+        }
+      `;
+      document.head.appendChild(style);
+    }
+
+    // Hover effects
+    card.addEventListener('mouseenter', () => {
+      card.style.transform = 'translateY(-2px)';
+      card.style.borderColor = '#F05F40';
+      card.style.boxShadow = '0 6px 20px rgba(240, 95, 64, 0.12)';
+    });
+
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = 'translateY(0)';
+      card.style.borderColor = 'transparent';
+      card.style.boxShadow = 'none';
+    });
+
+    return card;
+  }
+
   function createCard(item) {
+    // Use special layout for audio/podcast items
+    if (item.kind === 'audio') {
+      return createPodcastCard(item);
+    }
+
     const card = create('div', { 
       className: 'portfolio-card',
       style: {
@@ -443,59 +811,19 @@
 
     // Always use first media item with blur effect (with safety check)
     if (item.media && item.media.length > 0) {
-      if (item.kind === 'audio') {
-        // Special handling for audio/podcast items
-        const audioPreview = create('div', {
-          style: {
-            width: '100%',
-            height: '200px',
-            background: 'linear-gradient(135deg, #F05F40, #d44e34)',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            color: 'white',
-            gap: '15px',
-            transition: 'all 0.3s ease'
-          }
-        });
-
-        const podcastIcon = create('div', {
-          style: {
-            fontSize: '3rem',
-            opacity: '0.9'
-          },
-          innerHTML: '<i class="fa fa-podcast"></i>'
-        });
-
-        const episodeLabel = create('div', {
-          style: {
-            fontSize: '1rem',
-            fontWeight: '600',
-            textTransform: 'uppercase',
-            letterSpacing: '1px',
-            opacity: '0.9'
-          }
-        }, 'Podcast Episode');
-
-        audioPreview.appendChild(podcastIcon);
-        audioPreview.appendChild(episodeLabel);
-        card.appendChild(audioPreview);
-      } else {
-        const img = create('img', {
-          src: item.media[0],
-          alt: item.title,
-          style: {
-            width: '100%',
-            height: '200px',
-            objectFit: 'cover',
-            display: 'block',
-            filter: 'blur(1.5px)',
-            transition: 'filter 0.3s ease'
-          }
-        });
-        card.appendChild(img);
-      }
+      const img = create('img', {
+        src: item.media[0],
+        alt: item.title,
+        style: {
+          width: '100%',
+          height: '200px',
+          objectFit: 'cover',
+          display: 'block',
+          filter: 'blur(1.5px)',
+          transition: 'filter 0.3s ease'
+        }
+      });
+      card.appendChild(img);
     } else {
       // Placeholder for items without media
       const placeholder = create('div', {
@@ -529,7 +857,6 @@
 
     // Hover effects
     const cardImg = card.querySelector('img');
-    const audioPreview = card.querySelector('div[style*="gradient"]');
     
     card.addEventListener('mouseenter', () => {
       card.style.transform = 'translateY(-5px)';
@@ -537,9 +864,6 @@
       card.style.boxShadow = '0 10px 30px rgba(240, 95, 64, 0.2)';
       if (cardImg) {
         cardImg.style.filter = 'blur(0px)';
-      }
-      if (audioPreview && item.kind === 'audio') {
-        audioPreview.style.background = 'linear-gradient(135deg, #d44e34, #c13d28)';
       }
     });
 
@@ -549,9 +873,6 @@
       card.style.boxShadow = 'none';
       if (cardImg) {
         cardImg.style.filter = 'blur(1.5px)';
-      }
-      if (audioPreview && item.kind === 'audio') {
-        audioPreview.style.background = 'linear-gradient(135deg, #F05F40, #d44e34)';
       }
     });
 
@@ -945,16 +1266,27 @@
         }
       });
 
+      // Use different grid layout for podcast categories
+      const isPodcastCategory = category.includes('Podcast');
+      
       const grid = create('div', {
+        className: 'portfolio-grid',
         style: {
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
-          gap: '30px',
+          gridTemplateColumns: isPodcastCategory 
+            ? 'repeat(auto-fill, minmax(min(500px, 100%), 1fr))' 
+            : 'repeat(auto-fill, minmax(300px, 1fr))',
+          gap: '25px',
           padding: '0 30px',
           maxWidth: '1200px',
           margin: '0 auto'
         }
       });
+
+      // Add data attribute for podcast categories
+      if (isPodcastCategory) {
+        grid.setAttribute('data-podcast-grid', 'true');
+      }
 
       items.forEach(item => {
         grid.appendChild(createCard(item));
@@ -997,16 +1329,27 @@
         }
       });
 
+      // Use different grid layout for podcast categories
+      const isPodcastCategory = category.includes('Podcast');
+      
       const grid = create('div', {
+        className: 'portfolio-grid',
         style: {
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
-          gap: '30px',
+          gridTemplateColumns: isPodcastCategory 
+            ? 'repeat(auto-fill, minmax(min(500px, 100%), 1fr))' 
+            : 'repeat(auto-fill, minmax(300px, 1fr))',
+          gap: '25px',
           padding: '0 30px',
           maxWidth: '1200px',
           margin: '0 auto'
         }
       });
+
+      // Add data attribute for podcast categories
+      if (isPodcastCategory) {
+        grid.setAttribute('data-podcast-grid', 'true');
+      }
 
       items.forEach(item => {
         grid.appendChild(createCard(item));
