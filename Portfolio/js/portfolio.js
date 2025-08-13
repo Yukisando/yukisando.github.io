@@ -39,6 +39,141 @@
     }, {});
   }
 
+  // Utility functions
+  function isVideo(src) {
+    return src.toLowerCase().includes('.mp4') || src.toLowerCase().includes('.webm') || src.toLowerCase().includes('.ogg');
+  }
+
+  function createNavigationButton(direction, onClick) {
+    const isNext = direction === 'next';
+    const button = create('button', {
+      innerHTML: `<i class="fa fa-chevron-${isNext ? 'right' : 'left'}"></i>`,
+      style: {
+        position: 'absolute',
+        [isNext ? 'right' : 'left']: '10px',
+        top: '50%',
+        transform: 'translateY(-50%)',
+        background: 'rgba(240, 95, 64, 0.8)',
+        border: 'none',
+        color: 'white',
+        width: '40px',
+        height: '40px',
+        borderRadius: '50%',
+        cursor: 'pointer',
+        fontSize: '1.2rem',
+        zIndex: '10'
+      }
+    });
+
+    button.addEventListener('click', (e) => {
+      e.stopPropagation();
+      onClick();
+    });
+
+    return button;
+  }
+
+  function createMediaElement(src, title) {
+    if (isVideo(src)) {
+      const video = create('video', {
+        src,
+        autoplay: true,
+        loop: true,
+        muted: true,
+        playsInline: true,
+        style: {
+          width: '100%',
+          maxHeight: '400px',
+          objectFit: 'contain',
+          display: 'block'
+        }
+      });
+      
+      video.addEventListener('loadeddata', () => {
+        video.play().catch(e => console.log('Video autoplay failed:', e));
+      });
+      
+      return video;
+    } else {
+      return create('img', {
+        src,
+        alt: title,
+        style: {
+          width: '100%',
+          maxHeight: '400px',
+          objectFit: 'contain',
+          display: 'block'
+        }
+      });
+    }
+  }
+
+  function createGallery(item) {
+    let currentIndex = 0;
+    
+    const galleryContainer = create('div', {
+      style: {
+        position: 'relative',
+        textAlign: 'center'
+      }
+    });
+
+    const mediaWrapper = create('div', {
+      style: {
+        width: '100%',
+        maxHeight: '400px',
+        borderRadius: '8px',
+        overflow: 'hidden',
+        background: '#000',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
+      }
+    });
+
+    function updateMedia(index) {
+      mediaWrapper.innerHTML = '';
+      mediaWrapper.appendChild(createMediaElement(item.media[index], item.title));
+    }
+
+    updateMedia(0);
+
+    const counter = create('div', {
+      style: {
+        position: 'absolute',
+        top: '10px',
+        right: '10px',
+        background: 'rgba(0, 0, 0, 0.7)',
+        color: 'white',
+        padding: '5px 10px',
+        borderRadius: '15px',
+        fontSize: '0.9rem'
+      }
+    }, `1 / ${item.media.length}`);
+
+    if (item.media.length > 1) {
+      const prevBtn = createNavigationButton('prev', () => {
+        currentIndex = currentIndex > 0 ? currentIndex - 1 : item.media.length - 1;
+        updateMedia(currentIndex);
+        counter.textContent = `${currentIndex + 1} / ${item.media.length}`;
+      });
+
+      const nextBtn = createNavigationButton('next', () => {
+        currentIndex = (currentIndex + 1) % item.media.length;
+        updateMedia(currentIndex);
+        counter.textContent = `${currentIndex + 1} / ${item.media.length}`;
+      });
+
+      galleryContainer.appendChild(prevBtn);
+      galleryContainer.appendChild(nextBtn);
+    }
+
+    galleryContainer.appendChild(mediaWrapper);
+    galleryContainer.appendChild(counter);
+    
+    return galleryContainer;
+  }
+
   function createCard(item) {
     const card = create('div', { 
       className: 'portfolio-card',
@@ -239,167 +374,7 @@
         }
       });
 
-      if (item.kind === 'video') {
-        // For video kind, if multiple media items exist, create gallery
-        if (item.media.length > 1) {
-          let currentIndex = 0;
-          
-          const galleryContainer = create('div', {
-            style: {
-              position: 'relative',
-              textAlign: 'center'
-            }
-          });
-
-          const mediaWrapper = create('div', {
-            style: {
-              width: '100%',
-              maxHeight: '400px',
-              borderRadius: '8px',
-              overflow: 'hidden',
-              background: '#000',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center'
-            }
-          });
-
-          function isVideo(src) {
-            return src.toLowerCase().includes('.mp4') || src.toLowerCase().includes('.webm') || src.toLowerCase().includes('.ogg');
-          }
-
-          function updateMedia(index) {
-            mediaWrapper.innerHTML = '';
-            
-            if (isVideo(item.media[index])) {
-              const video = create('video', {
-                src: item.media[index],
-                autoplay: true,
-                loop: true,
-                muted: true,
-                playsInline: true,
-                style: {
-                  width: '100%',
-                  maxHeight: '400px',
-                  objectFit: 'contain',
-                  display: 'block'
-                }
-              });
-              
-              video.addEventListener('loadeddata', () => {
-                video.play().catch(e => console.log('Video autoplay failed:', e));
-              });
-              
-              mediaWrapper.appendChild(video);
-            } else {
-              const img = create('img', {
-                src: item.media[index],
-                alt: item.title,
-                style: {
-                  width: '100%',
-                  maxHeight: '400px',
-                  objectFit: 'contain',
-                  display: 'block'
-                }
-              });
-              mediaWrapper.appendChild(img);
-            }
-          }
-
-          updateMedia(0);
-
-          const counter = create('div', {
-            style: {
-              position: 'absolute',
-              top: '10px',
-              right: '10px',
-              background: 'rgba(0, 0, 0, 0.7)',
-              color: 'white',
-              padding: '5px 10px',
-              borderRadius: '15px',
-              fontSize: '0.9rem'
-            }
-          }, `1 / ${item.media.length}`);
-
-          const prevBtn = create('button', {
-            innerHTML: '<i class="fa fa-chevron-left"></i>',
-            style: {
-              position: 'absolute',
-              left: '10px',
-              top: '50%',
-              transform: 'translateY(-50%)',
-              background: 'rgba(240, 95, 64, 0.8)',
-              border: 'none',
-              color: 'white',
-              width: '40px',
-              height: '40px',
-              borderRadius: '50%',
-              cursor: 'pointer',
-              fontSize: '1.2rem',
-              zIndex: '10'
-            }
-          });
-
-          const nextBtn = create('button', {
-            innerHTML: '<i class="fa fa-chevron-right"></i>',
-            style: {
-              position: 'absolute',
-              right: '10px',
-              top: '50%',
-              transform: 'translateY(-50%)',
-              background: 'rgba(240, 95, 64, 0.8)',
-              border: 'none',
-              color: 'white',
-              width: '40px',
-              height: '40px',
-              borderRadius: '50%',
-              cursor: 'pointer',
-              fontSize: '1.2rem',
-              zIndex: '10'
-            }
-          });
-
-          prevBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            currentIndex = currentIndex > 0 ? currentIndex - 1 : item.media.length - 1;
-            updateMedia(currentIndex);
-            counter.textContent = `${currentIndex + 1} / ${item.media.length}`;
-          });
-
-          nextBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            currentIndex = (currentIndex + 1) % item.media.length;
-            updateMedia(currentIndex);
-            counter.textContent = `${currentIndex + 1} / ${item.media.length}`;
-          });
-
-          galleryContainer.appendChild(prevBtn);
-          galleryContainer.appendChild(nextBtn);
-          galleryContainer.appendChild(mediaWrapper);
-          galleryContainer.appendChild(counter);
-          mediaContainer.appendChild(galleryContainer);
-        } else {
-          // Single video
-          const video = create('video', {
-            src: item.media[0],
-            autoplay: true,
-            loop: true,
-            muted: true,
-            playsInline: true,
-            style: {
-              width: '100%',
-              maxHeight: '400px',
-              borderRadius: '8px'
-            }
-          });
-          
-          video.addEventListener('loadeddata', () => {
-            video.play().catch(e => console.log('Video autoplay failed:', e));
-          });
-          
-          mediaContainer.appendChild(video);
-        }
-      } else if (item.kind === 'pdf' || item.kind === 'doc') {
+      if (item.kind === 'pdf' || item.kind === 'doc') {
         // Get PDF URL from either media array or href
         const pdfUrl = item.kind === 'doc' ? item.href : item.media[0];
         
@@ -502,332 +477,14 @@
         };
 
         mediaContainer.appendChild(pdfContainer);
-      } else if (item.kind === 'gallery' && item.media.length > 1) {
-        // Gallery with image and video support
-        let currentIndex = 0;
-        
-        const galleryContainer = create('div', {
-          style: {
-            position: 'relative',
-            textAlign: 'center'
-          }
-        });
-
-        // Create media container that will hold either img or video
-        const mediaWrapper = create('div', {
-          style: {
-            width: '100%',
-            maxHeight: '400px',
-            borderRadius: '8px',
-            overflow: 'hidden',
-            background: '#000',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center'
-          }
-        });
-
-        function isVideo(src) {
-          return src.toLowerCase().includes('.mp4') || src.toLowerCase().includes('.webm') || src.toLowerCase().includes('.ogg');
-        }
-
-        function updateMedia(index) {
-          mediaWrapper.innerHTML = ''; // Clear previous media
-          
-          if (isVideo(item.media[index])) {
-            const video = create('video', {
-              src: item.media[index],
-              autoplay: true,
-              loop: true,
-              muted: true,
-              playsInline: true,
-              style: {
-                width: '100%',
-                maxHeight: '400px',
-                objectFit: 'contain',
-                display: 'block'
-              }
-            });
-            
-            // Ensure video starts playing
-            video.addEventListener('loadeddata', () => {
-              video.play().catch(e => console.log('Video autoplay failed:', e));
-            });
-            
-            mediaWrapper.appendChild(video);
-          } else {
-            const img = create('img', {
-              src: item.media[index],
-              alt: item.title,
-              style: {
-                width: '100%',
-                maxHeight: '400px',
-                objectFit: 'contain',
-                display: 'block'
-              }
-            });
-            mediaWrapper.appendChild(img);
-          }
-        }
-
-        // Initialize with first media item
-        updateMedia(0);
-
-        const counter = create('div', {
-          style: {
-            position: 'absolute',
-            top: '10px',
-            right: '10px',
-            background: 'rgba(0, 0, 0, 0.7)',
-            color: 'white',
-            padding: '5px 10px',
-            borderRadius: '15px',
-            fontSize: '0.9rem'
-          }
-        }, `1 / ${item.media.length}`);
-
-        if (item.media.length > 1) {
-          const prevBtn = create('button', {
-            innerHTML: '<i class="fa fa-chevron-left"></i>',
-            style: {
-              position: 'absolute',
-              left: '10px',
-              top: '50%',
-              transform: 'translateY(-50%)',
-              background: 'rgba(240, 95, 64, 0.8)',
-              border: 'none',
-              color: 'white',
-              width: '40px',
-              height: '40px',
-              borderRadius: '50%',
-              cursor: 'pointer',
-              fontSize: '1.2rem',
-              zIndex: '10'
-            }
-          });
-
-          const nextBtn = create('button', {
-            innerHTML: '<i class="fa fa-chevron-right"></i>',
-            style: {
-              position: 'absolute',
-              right: '10px',
-              top: '50%',
-              transform: 'translateY(-50%)',
-              background: 'rgba(240, 95, 64, 0.8)',
-              border: 'none',
-              color: 'white',
-              width: '40px',
-              height: '40px',
-              borderRadius: '50%',
-              cursor: 'pointer',
-              fontSize: '1.2rem',
-              zIndex: '10'
-            }
-          });
-
-          prevBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            currentIndex = currentIndex > 0 ? currentIndex - 1 : item.media.length - 1;
-            updateMedia(currentIndex);
-            counter.textContent = `${currentIndex + 1} / ${item.media.length}`;
-          });
-
-          nextBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            currentIndex = (currentIndex + 1) % item.media.length;
-            updateMedia(currentIndex);
-            counter.textContent = `${currentIndex + 1} / ${item.media.length}`;
-          });
-
-          galleryContainer.appendChild(prevBtn);
-          galleryContainer.appendChild(nextBtn);
-        }
-
-        galleryContainer.appendChild(mediaWrapper);
-        galleryContainer.appendChild(counter);
-        mediaContainer.appendChild(galleryContainer);
       } else if (item.media.length > 1) {
-        // Multiple media items (mixed gallery)
-        let currentIndex = 0;
-        
-        const galleryContainer = create('div', {
-          style: {
-            position: 'relative',
-            textAlign: 'center'
-          }
-        });
-
-        // Create media container that will hold either img or video
-        const mediaWrapper = create('div', {
-          style: {
-            width: '100%',
-            maxHeight: '400px',
-            borderRadius: '8px',
-            overflow: 'hidden',
-            background: '#000',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center'
-          }
-        });
-
-        function isVideo(src) {
-          return src.toLowerCase().includes('.mp4') || src.toLowerCase().includes('.webm') || src.toLowerCase().includes('.ogg');
-        }
-
-        function updateMedia(index) {
-          mediaWrapper.innerHTML = ''; // Clear previous media
-          
-          if (isVideo(item.media[index])) {
-            const video = create('video', {
-              src: item.media[index],
-              autoplay: true,
-              loop: true,
-              muted: true,
-              playsInline: true,
-              style: {
-                width: '100%',
-                maxHeight: '400px',
-                objectFit: 'contain',
-                display: 'block'
-              }
-            });
-            
-            // Ensure video starts playing
-            video.addEventListener('loadeddata', () => {
-              video.play().catch(e => console.log('Video autoplay failed:', e));
-            });
-            
-            mediaWrapper.appendChild(video);
-          } else {
-            const img = create('img', {
-              src: item.media[index],
-              alt: item.title,
-              style: {
-                width: '100%',
-                maxHeight: '400px',
-                objectFit: 'contain',
-                display: 'block'
-              }
-            });
-            mediaWrapper.appendChild(img);
-          }
-        }
-
-        // Initialize with first media item
-        updateMedia(0);
-
-        const counter = create('div', {
-          style: {
-            position: 'absolute',
-            top: '10px',
-            right: '10px',
-            background: 'rgba(0, 0, 0, 0.7)',
-            color: 'white',
-            padding: '5px 10px',
-            borderRadius: '15px',
-            fontSize: '0.9rem'
-          }
-        }, `1 / ${item.media.length}`);
-
-        const prevBtn = create('button', {
-          innerHTML: '<i class="fa fa-chevron-left"></i>',
-          style: {
-            position: 'absolute',
-            left: '10px',
-            top: '50%',
-            transform: 'translateY(-50%)',
-            background: 'rgba(240, 95, 64, 0.8)',
-            border: 'none',
-            color: 'white',
-            width: '40px',
-            height: '40px',
-            borderRadius: '50%',
-            cursor: 'pointer',
-            fontSize: '1.2rem',
-            zIndex: '10'
-          }
-        });
-
-        const nextBtn = create('button', {
-          innerHTML: '<i class="fa fa-chevron-right"></i>',
-          style: {
-            position: 'absolute',
-            right: '10px',
-            top: '50%',
-            transform: 'translateY(-50%)',
-            background: 'rgba(240, 95, 64, 0.8)',
-            border: 'none',
-            color: 'white',
-            width: '40px',
-            height: '40px',
-            borderRadius: '50%',
-            cursor: 'pointer',
-            fontSize: '1.2rem',
-            zIndex: '10'
-          }
-        });
-
-        prevBtn.addEventListener('click', (e) => {
-          e.stopPropagation();
-          currentIndex = currentIndex > 0 ? currentIndex - 1 : item.media.length - 1;
-          updateMedia(currentIndex);
-          counter.textContent = `${currentIndex + 1} / ${item.media.length}`;
-        });
-
-        nextBtn.addEventListener('click', (e) => {
-          e.stopPropagation();
-          currentIndex = (currentIndex + 1) % item.media.length;
-          updateMedia(currentIndex);
-          counter.textContent = `${currentIndex + 1} / ${item.media.length}`;
-        });
-
-        galleryContainer.appendChild(prevBtn);
-        galleryContainer.appendChild(nextBtn);
-        galleryContainer.appendChild(mediaWrapper);
-        galleryContainer.appendChild(counter);
-        mediaContainer.appendChild(galleryContainer);
+        // Multiple media items - use gallery
+        mediaContainer.appendChild(createGallery(item));
       } else {
         // Single media item (image or video)
-        function isVideo(src) {
-          return src.toLowerCase().includes('.mp4') || src.toLowerCase().includes('.webm') || src.toLowerCase().includes('.ogg');
-        }
-
-        if (isVideo(item.media[0])) {
-          const video = create('video', {
-            src: item.media[0],
-            autoplay: true,
-            loop: true,
-            muted: true,
-            playsInline: true,
-            style: {
-              width: '100%',
-              maxHeight: '400px',
-              objectFit: 'contain',
-              borderRadius: '8px'
-            }
-          });
-          
-          // Ensure video starts playing
-          video.addEventListener('loadeddata', () => {
-            video.play().catch(e => console.log('Video autoplay failed:', e));
-          });
-          
-          mediaContainer.appendChild(video);
-        } else {
-          // Single image
-          const img = create('img', {
-            src: item.media[0],
-            alt: item.title,
-            style: {
-              width: '100%',
-              maxHeight: '400px',
-              objectFit: 'contain',
-              borderRadius: '8px'
-            }
-          });
-          mediaContainer.appendChild(img);
-        }
+        const singleMedia = createMediaElement(item.media[0], item.title);
+        singleMedia.style.borderRadius = '8px';
+        mediaContainer.appendChild(singleMedia);
       }
 
       body.appendChild(mediaContainer);
@@ -851,6 +508,7 @@
       const linksContainer = create('div', {
         style: {
           display: 'flex',
+          justifyContent: 'center',
           gap: '10px',
           flexWrap: 'wrap'
         }
