@@ -1,13 +1,10 @@
 {
-    "cSpell.enabled": true,
-    "spellright.language": [
-        "en",
-        "fr"
-    ],
-    "spellright.documentTypes": [
-        "markdown",
-        "latex",
-        "plaintext"
-    ],
-    "liveServer.settings.port": 5501
+  "cSpell.enabled": true,
+  "spellright.language": ["en", "fr"],
+  "spellright.documentTypes": ["markdown", "latex", "plaintext"],
+  "liveServer.settings.port": 5501,
+  "workbench.colorCustomizations": {
+    "minimap.background": "#00000000",
+    "scrollbar.shadow": "#00000000"
+  }
 }
