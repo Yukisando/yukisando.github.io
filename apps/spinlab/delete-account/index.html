@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete SpinLab Account</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        }
+        h1 { 
+            color: #1a73e8;
+            margin-top: 0;
+        }
+        h2 { 
+            color: #5f6368;
+            margin-top: 30px;
+        }
+        .warning {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        .danger {
+            background: #f8d7da;
+            border-left: 4px solid #dc3545;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        .info {
+            background: #d1ecf1;
+            border-left: 4px solid #0dcaf0;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        ul {
+            margin: 15px 0;
+        }
+        li {
+            margin: 8px 0;
+        }
+        a {
+            color: #1a73e8;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .button {
+            display: inline-block;
+            background: #1a73e8;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            margin-top: 20px;
+        }
+        .button:hover {
+            background: #1557b0;
+            text-decoration: none;
+        }
+        .email-link {
+            background: #dc3545;
+        }
+        .email-link:hover {
+            background: #bb2d3b;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Delete Your SpinLab Account</h1>
+        
+        <div class="warning">
+            <strong>⚠️ Important:</strong> Account deletion is permanent and cannot be undone.
+        </div>
+
+        <h2>How to Delete Your Account</h2>
+        
+        <div class="info">
+            <strong>Recommended Method: In-App Deletion</strong>
+            <ol>
+                <li>Open the SpinLab mobile app</li>
+                <li>Go to your <strong>Profile</strong> screen</li>
+                <li>Scroll down and tap <strong>"Delete Account"</strong></li>
+                <li>Confirm the deletion</li>
+            </ol>
+            <p>Your account will be deleted immediately, and you will be signed out.</p>
+        </div>
+
+        <h2>Alternative: Request Deletion via Email</h2>
+        <p>If you cannot access the app, you can request account deletion by contacting us:</p>
+        
+        <a href="mailto:support@nathandecastro.com?subject=SpinLab Account Deletion Request&body=Please delete my SpinLab account.%0D%0A%0D%0AEmail: [Your registered email]%0D%0AUser ID (if known): [Your user ID]" 
+           class="button email-link">
+            📧 Email Account Deletion Request
+        </a>
+
+        <p style="margin-top: 15px; font-size: 0.95em; color: #5f6368;">
+            Include your registered email address in the message. We will process your request within 7 business days.
+        </p>
+
+        <div class="danger">
+            <h3 style="margin-top: 0;">What Will Be Deleted</h3>
+            <p>When you delete your account, the following data will be permanently removed:</p>
+            <ul>
+                <li>Your profile information (name, email, phone number, photo)</li>
+                <li>All future bookings (will be automatically cancelled)</li>
+                <li>All reviews you've written</li>
+                <li>Your coach profile (if you registered as a coach)</li>
+                <li>Your Firebase authentication account</li>
+            </ul>
+        </div>
+
+        <h2>What Happens to Past Bookings?</h2>
+        <p>Completed bookings may be retained in anonymized form for financial, legal, and tax compliance purposes. Personal identifying information will be removed, but transaction records required by law (e.g., for Stripe, tax authorities) may be retained.</p>
+
+        <h2>Questions?</h2>
+        <p>If you have questions about account deletion or data retention, contact us:</p>
+        <ul>
+            <li><strong>Email:</strong> <a href="mailto:support@nathandecastro.com">support@nathandecastro.com</a></li>
+            <li><strong>Privacy Policy:</strong> <a href="https://nathandecastro.com/apps/spinlab/privacy/">View Privacy Policy</a></li>
+        </ul>
+
+        <hr style="margin-top: 40px; border: none; border-top: 1px solid #ddd;">
+        <p style="text-align: center; color: #5f6368; font-size: 0.9em;">
+            © 2026 SpinLab. All rights reserved.
+        </p>
+    </div>
+</body>
+</html>
