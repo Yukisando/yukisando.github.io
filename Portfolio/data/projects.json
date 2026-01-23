@@ -57,6 +57,27 @@
     ]
   },
   {
+    "id": "mobile-apps",
+    "category": "Highlighted Projects",
+    "kind": "gallery",
+    "title": "SpinLab - La plateforme gratuite qui connecte coachs et joueurs",
+    "media": [
+      "spinlab/spinlab (1).jpeg",
+      "spinlab/spinlab (2).jpeg",
+      "spinlab/spinlab (3).jpeg",
+      "spinlab/spinlab (4).jpeg",
+      "spinlab/spinlab (5).jpeg",
+      "spinlab/spinlab (6).jpeg"
+    ],
+    "description": "Coachs géolocalisés, réservations instantanées, paiement sécurisé, suivi d’entraînement… Tout ce dont vous avez besoin, dans une seule application",
+    "links": [
+      {
+        "label": "More info",
+        "href": "https://spinlab.fr"
+      }
+    ]
+  },
+  {
     "id": "mobile-games",
     "category": "Highlighted Projects",
     "kind": "gallery",
