@@ -583,89 +583,356 @@
 
   function createGallery(item) {
     let currentIndex = 0;
+    const totalSlides = item.media.length;
     
     const galleryContainer = create('div', {
+      className: 'portfolio-carousel',
       style: {
         position: 'relative',
         textAlign: 'center'
       }
     });
 
-    const mediaWrapper = create('div', {
+    // Fixed height carousel container
+    const carouselContainer = create('div', {
       style: {
+        position: 'relative',
         width: '100%',
-        maxHeight: '400px',
-        borderRadius: '8px',
+        height: '350px',
         overflow: 'hidden',
-        background: 'transparent', // Changed from #000 to transparent
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center'
+        borderRadius: '8px',
+        background: '#1a1a1a'
       }
     });
 
-    function updateMedia(index) {
-      // Add fade transition
-      mediaWrapper.style.opacity = '0';
-      mediaWrapper.style.transition = 'opacity 0.2s ease';
-      
-      setTimeout(() => {
-        mediaWrapper.innerHTML = '';
-        const newMedia = createMediaElement(item.media[index], item.title);
-        
-        // Preload the media to prevent jitter
-        if (newMedia.tagName === 'IMG') {
-          newMedia.onload = () => {
-            mediaWrapper.appendChild(newMedia);
-            mediaWrapper.style.opacity = '1';
-          };
-          // Set source after onload to ensure it triggers
-          if (!newMedia.src) {
-            newMedia.src = item.media[index];
-          }
-        } else {
-          mediaWrapper.appendChild(newMedia);
-          mediaWrapper.style.opacity = '1';
+    // Create all slides
+    const slidesWrapper = create('div', {
+      className: 'slides-wrapper',
+      style: {
+        position: 'relative',
+        width: '100%',
+        height: '100%'
+      }
+    });
+
+    // Create slides for each media item
+    item.media.forEach((mediaSrc, index) => {
+      const slide = create('div', {
+        className: 'carousel-slide',
+        style: {
+          position: 'absolute',
+          top: '0',
+          left: '0',
+          width: '100%',
+          height: '100%',
+          opacity: index === 0 ? '1' : '0',
+          transition: 'opacity 0.4s ease',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center'
         }
-      }, 100); // Small delay for smooth transition
+      });
+
+      if (isVideo(mediaSrc)) {
+        const video = create('video', {
+          src: mediaSrc,
+          autoplay: true,
+          loop: true,
+          muted: true,
+          playsInline: true,
+          style: {
+            maxWidth: '100%',
+            maxHeight: '100%',
+            objectFit: 'contain'
+          }
+        });
+        video.addEventListener('loadeddata', () => {
+          video.play().catch(e => console.log('Video autoplay failed:', e));
+        });
+        slide.appendChild(video);
+      } else if (isAudio(mediaSrc)) {
+        const audioContainer = create('div', {
+          style: {
+            width: '100%',
+            height: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            background: 'linear-gradient(135deg, #2c2c2c, #3a3a3a)',
+            padding: '20px'
+          }
+        });
+        const audioIcon = create('div', {
+          style: { fontSize: '4rem', color: '#F05F40', marginBottom: '20px' },
+          innerHTML: '<i class="fa fa-podcast"></i>'
+        });
+        const audioPlayer = createCompactAudioPlayer(mediaSrc, item.title);
+        audioContainer.appendChild(audioIcon);
+        audioContainer.appendChild(audioPlayer);
+        slide.appendChild(audioContainer);
+      } else {
+        const img = create('img', {
+          src: mediaSrc,
+          alt: item.title,
+          style: {
+            maxWidth: '100%',
+            maxHeight: '100%',
+            objectFit: 'contain',
+            cursor: 'pointer',
+            transition: 'transform 0.3s ease'
+          }
+        });
+        // Click to zoom
+        img.addEventListener('click', (e) => {
+          e.stopPropagation();
+          openImageZoom(mediaSrc);
+        });
+        img.addEventListener('mouseenter', () => {
+          img.style.transform = 'scale(1.02)';
+        });
+        img.addEventListener('mouseleave', () => {
+          img.style.transform = 'scale(1)';
+        });
+        slide.appendChild(img);
+      }
+
+      slidesWrapper.appendChild(slide);
+    });
+
+    carouselContainer.appendChild(slidesWrapper);
+
+    // Navigation buttons (only if multiple items)
+    if (totalSlides > 1) {
+      const prevBtn = create('button', {
+        innerHTML: '<i class="fa fa-chevron-left"></i>',
+        style: {
+          position: 'absolute',
+          left: '10px',
+          top: '50%',
+          transform: 'translateY(-50%)',
+          background: 'rgba(0, 0, 0, 0.7)',
+          color: 'white',
+          border: 'none',
+          width: '45px',
+          height: '45px',
+          borderRadius: '50%',
+          cursor: 'pointer',
+          fontSize: '1.2rem',
+          zIndex: '10',
+          transition: 'background 0.3s ease'
+        }
+      });
+
+      const nextBtn = create('button', {
+        innerHTML: '<i class="fa fa-chevron-right"></i>',
+        style: {
+          position: 'absolute',
+          right: '10px',
+          top: '50%',
+          transform: 'translateY(-50%)',
+          background: 'rgba(0, 0, 0, 0.7)',
+          color: 'white',
+          border: 'none',
+          width: '45px',
+          height: '45px',
+          borderRadius: '50%',
+          cursor: 'pointer',
+          fontSize: '1.2rem',
+          zIndex: '10',
+          transition: 'background 0.3s ease'
+        }
+      });
+
+      prevBtn.addEventListener('mouseenter', () => { prevBtn.style.background = '#F05F40'; });
+      prevBtn.addEventListener('mouseleave', () => { prevBtn.style.background = 'rgba(0, 0, 0, 0.7)'; });
+      nextBtn.addEventListener('mouseenter', () => { nextBtn.style.background = '#F05F40'; });
+      nextBtn.addEventListener('mouseleave', () => { nextBtn.style.background = 'rgba(0, 0, 0, 0.7)'; });
+
+      function updateSlides() {
+        const slides = slidesWrapper.querySelectorAll('.carousel-slide');
+        slides.forEach((slide, index) => {
+          slide.style.opacity = index === currentIndex ? '1' : '0';
+        });
+        counter.textContent = `${currentIndex + 1} / ${totalSlides}`;
+        // Update dots
+        dots.forEach((dot, index) => {
+          dot.style.background = index === currentIndex ? '#F05F40' : 'rgba(255, 255, 255, 0.3)';
+          dot.style.width = index === currentIndex ? '30px' : '10px';
+        });
+      }
+
+      prevBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
+        updateSlides();
+      });
+
+      nextBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        currentIndex = (currentIndex + 1) % totalSlides;
+        updateSlides();
+      });
+
+      carouselContainer.appendChild(prevBtn);
+      carouselContainer.appendChild(nextBtn);
     }
 
-    updateMedia(0);
+    galleryContainer.appendChild(carouselContainer);
 
+    // Dots navigation
+    const dotsContainer = create('div', {
+      style: {
+        display: 'flex',
+        justifyContent: 'center',
+        gap: '8px',
+        marginTop: '15px'
+      }
+    });
+
+    const dots = [];
+    if (totalSlides > 1) {
+      item.media.forEach((_, index) => {
+        const dot = create('button', {
+          style: {
+            width: index === 0 ? '30px' : '10px',
+            height: '10px',
+            borderRadius: '5px',
+            background: index === 0 ? '#F05F40' : 'rgba(255, 255, 255, 0.3)',
+            border: 'none',
+            cursor: 'pointer',
+            transition: 'all 0.3s ease',
+            padding: '0'
+          }
+        });
+        dot.addEventListener('click', (e) => {
+          e.stopPropagation();
+          currentIndex = index;
+          const slides = slidesWrapper.querySelectorAll('.carousel-slide');
+          slides.forEach((slide, i) => {
+            slide.style.opacity = i === currentIndex ? '1' : '0';
+          });
+          counter.textContent = `${currentIndex + 1} / ${totalSlides}`;
+          dots.forEach((d, i) => {
+            d.style.background = i === currentIndex ? '#F05F40' : 'rgba(255, 255, 255, 0.3)';
+            d.style.width = i === currentIndex ? '30px' : '10px';
+          });
+        });
+        dots.push(dot);
+        dotsContainer.appendChild(dot);
+      });
+      galleryContainer.appendChild(dotsContainer);
+    }
+
+    // Counter
     const counter = create('div', {
       style: {
-        position: 'absolute',
-        top: '10px',
-        right: '10px',
-        background: 'rgba(0, 0, 0, 0.7)',
-        color: 'white',
-        padding: '5px 10px',
-        borderRadius: '15px',
-        fontSize: '0.9rem'
+        textAlign: 'center',
+        color: 'rgba(255, 255, 255, 0.5)',
+        fontSize: '0.85rem',
+        marginTop: '10px'
       }
-    }, `1 / ${item.media.length}`);
-
-    if (item.media.length > 1) {
-      const prevBtn = createNavigationButton('prev', () => {
-        currentIndex = currentIndex > 0 ? currentIndex - 1 : item.media.length - 1;
-        updateMedia(currentIndex);
-        counter.textContent = `${currentIndex + 1} / ${item.media.length}`;
-      });
-
-      const nextBtn = createNavigationButton('next', () => {
-        currentIndex = (currentIndex + 1) % item.media.length;
-        updateMedia(currentIndex);
-        counter.textContent = `${currentIndex + 1} / ${item.media.length}`;
-      });
-
-      galleryContainer.appendChild(prevBtn);
-      galleryContainer.appendChild(nextBtn);
+    }, `1 / ${totalSlides}`);
+    
+    if (totalSlides > 1) {
+      galleryContainer.appendChild(counter);
     }
-
-    galleryContainer.appendChild(mediaWrapper);
-    galleryContainer.appendChild(counter);
     
     return galleryContainer;
+  }
+
+  // Image zoom modal function
+  function openImageZoom(imageSrc) {
+    // Remove any existing zoom modal
+    const existingZoom = document.querySelector('.image-zoom-modal');
+    if (existingZoom) existingZoom.remove();
+
+    const zoomOverlay = create('div', {
+      className: 'image-zoom-modal',
+      style: {
+        position: 'fixed',
+        top: '0',
+        left: '0',
+        width: '100%',
+        height: '100%',
+        background: 'rgba(0, 0, 0, 0.95)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        zIndex: '20000',
+        cursor: 'zoom-out',
+        opacity: '0',
+        transition: 'opacity 0.3s ease'
+      }
+    });
+
+    const closeBtn = create('button', {
+      innerHTML: '&times;',
+      style: {
+        position: 'absolute',
+        top: '20px',
+        right: '20px',
+        background: 'rgba(255, 255, 255, 0.1)',
+        border: 'none',
+        color: 'white',
+        fontSize: '2rem',
+        width: '50px',
+        height: '50px',
+        borderRadius: '50%',
+        cursor: 'pointer',
+        transition: 'background 0.3s ease',
+        zIndex: '10'
+      }
+    });
+
+    closeBtn.addEventListener('mouseenter', () => {
+      closeBtn.style.background = '#F05F40';
+    });
+    closeBtn.addEventListener('mouseleave', () => {
+      closeBtn.style.background = 'rgba(255, 255, 255, 0.1)';
+    });
+
+    const zoomImage = create('img', {
+      src: imageSrc,
+      alt: 'Zoomed image',
+      style: {
+        maxWidth: '95vw',
+        maxHeight: '95vh',
+        objectFit: 'contain',
+        borderRadius: '8px',
+        boxShadow: '0 20px 60px rgba(0, 0, 0, 0.5)'
+      }
+    });
+
+    zoomOverlay.appendChild(closeBtn);
+    zoomOverlay.appendChild(zoomImage);
+    document.body.appendChild(zoomOverlay);
+
+    // Animate in
+    requestAnimationFrame(() => {
+      zoomOverlay.style.opacity = '1';
+    });
+
+    // Close handlers
+    const closeZoom = () => {
+      zoomOverlay.style.opacity = '0';
+      setTimeout(() => zoomOverlay.remove(), 300);
+    };
+
+    zoomOverlay.addEventListener('click', closeZoom);
+    closeBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      closeZoom();
+    });
+
+    // Escape key to close
+    const escHandler = (e) => {
+      if (e.key === 'Escape') {
+        closeZoom();
+        document.removeEventListener('keydown', escHandler);
+      }
+    };
+    document.addEventListener('keydown', escHandler);
   }
 
   function createPodcastCard(item) {
@@ -679,7 +946,10 @@
         border: '2px solid transparent',
         position: 'relative',
         padding: '20px',
-        minHeight: 'auto'
+        minHeight: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        boxSizing: 'border-box'
       }
     });
 
@@ -695,12 +965,13 @@
       }
     }, item.title);
 
-    // Description section (full width, above player)
+    // Description section (full width, above player) - flex-grow to push player down
     const descriptionSection = create('div', {
       className: 'podcast-description',
       style: {
         width: '100%',
-        marginBottom: '20px'
+        marginBottom: '20px',
+        flex: '1 1 auto'
       }
     });
 
@@ -719,14 +990,16 @@
 
     descriptionSection.appendChild(description);
 
-    // Audio player section (below description, centered)
+    // Audio player section (below description, centered) - anchored to bottom
     const audioSection = create('div', {
       className: 'podcast-audio',
       style: {
         width: '100%',
         display: 'flex',
         justifyContent: 'center',
-        marginTop: '15px'
+        marginTop: 'auto',
+        paddingTop: '15px',
+        flex: '0 0 auto'
       }
     });
 

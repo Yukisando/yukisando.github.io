@@ -136,3 +136,35 @@ body {
     padding: 0 15px !important;
   }
 }
+
+/* Carousel Styles */
+.portfolio-carousel .carousel-slide {
+  pointer-events: none;
+}
+
+.portfolio-carousel .carousel-slide.active,
+.portfolio-carousel .carousel-slide[style*="opacity: 1"] {
+  pointer-events: auto;
+}
+
+/* Responsive carousel */
+@media (max-width: 768px) {
+  .portfolio-carousel > div:first-child {
+    height: 250px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .portfolio-carousel > div:first-child {
+    height: 200px !important;
+  }
+}
+
+/* Podcast card grid alignment */
+.portfolio-grid[data-podcast-grid="true"] {
+  align-items: stretch;
+}
+
+.portfolio-grid[data-podcast-grid="true"] .podcast-card {
+  height: 100%;
+}
