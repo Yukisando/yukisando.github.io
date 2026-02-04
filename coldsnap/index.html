@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="ColdSnap - Gamification company creating Unity educational games and cross-platform Flutter apps">
+  <meta name="author" content="Nathan de Castro">
+  <meta name="theme-color" content="#3B82F6">
+  <title>ColdSnap — Gamification Studio</title>
+  <link rel="shortcut icon" type="image/png" href="/img/spock.png" />
+  
+  <!-- Modern Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700' rel='stylesheet' type='text/css'>
+  
+  <!-- Font Awesome -->
+  <link href="/vendor/font-awesome/css/font-awesome.css" rel="stylesheet" type="text/css">
+  
+  <!-- ColdSnap CSS -->
+  <link href="/coldsnap/css/coldsnap.css" rel="stylesheet">
+</head>
+
+<body>
+  <!-- Navigation -->
+  <nav class="coldsnap-nav">
+    <div class="nav-container">
+      <a href="/coldsnap/" class="nav-brand">
+        <img src="/coldsnap/assets/coldnsap_logo.png" alt="ColdSnap" class="brand-logo">
+        <span>ColdSnap</span>
+      </a>
+      
+      <div class="nav-links">
+        <a href="#unity-games">Games</a>
+        <a href="#flutter-apps">Apps</a>
+        <a href="/">Back to Portfolio</a>
+      </div>
+      
+      <button class="mobile-toggle" onclick="toggleMobileMenu()">
+        <i class="fa fa-bars"></i>
+      </button>
+    </div>
+    
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="#unity-games" onclick="closeMobileMenu()">Games</a>
+      <a href="#flutter-apps" onclick="closeMobileMenu()">Apps</a>
+      <a href="/">Back to Portfolio</a>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <header class="hero">
+    <div class="hero-content">
+      <img src="/coldsnap/assets/coldnsap_logo.png" alt="ColdSnap Logo" class="hero-logo">
+      <div class="hero-badge">Gamification Studio</div>
+      <h1>
+        <span class="gradient-text">ColdSnap</span>
+      </h1>
+      <p class="hero-subtitle">Creating impactful educational games and cross-platform applications</p>
+      <div class="hero-tags">
+        <span class="tag"><i class="fa fa-gamepad"></i> Unity Games</span>
+        <span class="tag"><i class="fa fa-mobile"></i> Flutter Apps</span>
+        <span class="tag"><i class="fa fa-globe"></i> Web Platforms</span>
+      </div>
+      <a href="#unity-games" class="cta-button">View Projects</a>
+    </div>
+    <div class="hero-visual">
+      <div class="floating-card card-1">🎮</div>
+      <div class="floating-card card-2">📱</div>
+      <div class="floating-card card-3">🎯</div>
+    </div>
+  </header>
+
+  <!-- Projects Container -->
+  <main id="projects-container">
+    <!-- Projects will be dynamically loaded here -->
+  </main>
+
+  <!-- Footer -->
+  <footer class="coldsnap-footer">
+    <div class="footer-content">
+      <div class="footer-brand">
+        <img src="/coldsnap/assets/coldnsap_logo.png" alt="ColdSnap" class="footer-logo">
+        <span>ColdSnap</span>
+      </div>
+      <p>Making learning fun through gamification</p>
+      <div class="footer-links">
+        <a href="/">Main Portfolio</a>
+        <a href="mailto:decastronathan@gmail.com">Contact</a>
+        <a href="https://www.linkedin.com/in/nathan-de-castro-750439117/">LinkedIn</a>
+      </div>
+      <p class="copyright">© 2026 ColdSnap. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Project Modal -->
+  <div class="modal-overlay" id="projectModal" onclick="closeModal(event)">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <button class="modal-close" onclick="closeModal()">&times;</button>
+      <div id="modalBody">
+        <!-- Modal content loaded dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Image Zoom Modal -->
+  <div class="zoom-overlay" id="zoomModal" onclick="closeZoom()">
+    <button class="zoom-close" onclick="closeZoom()">&times;</button>
+    <img id="zoomImage" src="" alt="Zoomed image">
+  </div>
+
+  <!-- ColdSnap JavaScript -->
+  <script src="/coldsnap/js/coldsnap.js"></script>
+  <script src="/coldsnap/data/projects.js"></script>
+  <script>
+    // Initialize the page
+    document.addEventListener('DOMContentLoaded', () => {
+      renderProjects();
+    });
+  </script>
+</body>
+
+</html>
