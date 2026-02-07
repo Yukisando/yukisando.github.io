@@ -113,6 +113,12 @@ const COLDSNAP_PROJECTS = [
     shortDescription: 'Backup World of Warcraft addon data to Google Drive automatically',
     description: 'A desktop utility that securely backs up your World of Warcraft addon data to Google Drive. Never lose your addon settings, keybindings, or UI configurations again.',
     icon: '🎮',
+    thumbnail: '/Portfolio/waddonsync/waddonsync (1).jpeg',
+    media: [
+      '/Portfolio/waddonsync/waddonsync (1).jpeg',
+      '/Portfolio/waddonsync/waddonsync (2).jpeg',
+      '/Portfolio/waddonsync/waddonsync (3).jpeg',
+    ],
     tech: ['Flutter', 'Dart', 'Google Drive API', 'OAuth 2.0'],
     features: [
       'Automatic backup scheduling',
