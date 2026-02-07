@@ -121,14 +121,13 @@ const COLDSNAP_PROJECTS = [
     ],
     tech: ['Flutter', 'Dart', 'Google Drive API', 'OAuth 2.0'],
     features: [
-      'Automatic backup scheduling',
+      'Backup and restore of WoW addon data',
       'Secure Google Drive integration',
       'Multiple WoW installation support',
-      'Easy restore functionality'
+      'Easy selection of interface options'
     ],
     links: [
-      { label: 'Learn More', href: '/apps/waddonsync/', icon: 'fa-info-circle' },
-      { label: 'Privacy Policy', href: '/apps/waddonsync/privacy/', icon: 'fa-shield' }
+      { label: 'Learn More', href: '/apps/waddonsync/', icon: 'fa-info-circle' }
     ]
   },
 
