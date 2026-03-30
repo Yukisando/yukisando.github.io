@@ -127,7 +127,8 @@ const COLDSNAP_PROJECTS = [
       'Easy selection of interface options'
     ],
     links: [
-      { label: 'Learn More', href: '/apps/waddonsync/', icon: 'fa-info-circle' }
+      { label: 'GitHub', href: 'https://github.com/Yukisando/WaddonSync', icon: 'fa-github' },
+      { label: 'Privacy Policy', href: '/apps/waddonsync/privacy/', icon: 'fa-shield' }
     ]
   },
 
@@ -152,7 +153,9 @@ const COLDSNAP_PROJECTS = [
       'Push notifications via FCM',
       'Multi-language support'
     ],
-    links: []
+    links: [
+      { label: 'Privacy Policy', href: '/apps/generic/privacy/', icon: 'fa-shield' }
+    ]
   },
   {
     id: 'posti',
@@ -189,7 +192,9 @@ const COLDSNAP_PROJECTS = [
       'Firebase profile cloud storage',
       'Material Design 3 UI'
     ],
-    links: []
+    links: [
+      { label: 'Privacy Policy', href: '/apps/generic/privacy/', icon: 'fa-shield' }
+    ]
   },
   {
     id: 'colismarket',
@@ -207,7 +212,9 @@ const COLDSNAP_PROJECTS = [
       'Relay point operator dashboard',
       'Local persistent storage'
     ],
-    links: []
+    links: [
+      { label: 'Privacy Policy', href: '/apps/generic/privacy/', icon: 'fa-shield' }
+    ]
   },
   {
     id: 'patoune',
