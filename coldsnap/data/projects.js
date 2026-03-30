@@ -32,9 +32,9 @@
  * }
  * 
  * CATEGORIES:
- * - 'Unity Games' - Games built with Unity
- * - 'Educational Games' - Learning-focused games
- * - 'Flutter Apps' - Cross-platform mobile apps
+ * - 'Interactive Installations' - Museum kiosks, training centres, large-screen exhibits
+ * - 'Games' - PC, mobile and web games
+ * - 'Flutter Apps' - Cross-platform mobile/desktop apps
  * - 'Web Platforms' - Web applications and sites
  * 
  * You can also create custom categories!
@@ -42,12 +42,12 @@
 
 const COLDSNAP_PROJECTS = [
   // ============================================
-  // UNITY GAMES
+  // INTERACTIVE INSTALLATIONS
   // ============================================
   {
     id: 'cpps-exhibit',
-    category: 'Unity Games',
-    type: 'Educational Game',
+    category: 'Interactive Installations',
+    type: 'Museum Installation',
     title: 'CPPS Earthquake Museum',
     shortDescription: 'Interactive exhibit teaching earthquake preparedness through engaging mini-games',
     description: 'A comprehensive educational exhibit at the Cyprus Civil Defence Museum. Features interactive touchscreen mini-games teaching visitors about earthquake causes, effects, and preparation. Includes an escape room experience and tablet-based learning stations throughout the museum.',
@@ -130,6 +130,54 @@ const COLDSNAP_PROJECTS = [
       { label: 'GitHub', href: 'https://github.com/Yukisando/WaddonSync', icon: 'fa-github' },
       { label: 'Privacy Policy', href: '/apps/waddonsync/privacy/', icon: 'fa-shield' }
     ]
+  },
+
+  // ============================================
+  // GAMES
+  // ============================================
+  {
+    id: 'grapplegrove',
+    category: 'Games',
+    type: 'PC Game',
+    title: 'GrappleGroove',
+    shortDescription: 'First-person grappling hook parkour game — swing, climb and launch through physics-driven levels',
+    description: 'A fast-paced first-person parkour game built around dual grappling hooks and momentum physics. Players combine rope and pole grapples with wall-running, vaulting, sliding and dynamic spring platforms to blast through increasingly creative levels. Includes a built-in level editor used during development by a multi-person team.',
+    icon: '🪝',
+    tech: ['Unity 6', 'C#', 'URP', 'Spring Physics', 'Android', 'PC'],
+    features: [
+      'Dual grappling hooks (rope and pole types)',
+      'Full parkour system — wall-run, vault, slide, sprint',
+      'Momentum-based spring platforms and physics objects',
+      'Throwable and grabbable interactive objects',
+      'Checkpoint and respawn system',
+      'In-engine level editor',
+      'Multi-designer level set'
+    ],
+    links: []
+  },
+  {
+    id: 'pygmak',
+    category: 'Games',
+    type: 'Mobile Game',
+    title: 'Pygmak',
+    shortDescription: 'Endless cannon-shooter — blast waves of crates with power-ups and corrupted modifiers',
+    description: 'An endless mobile arcade game where players aim a turret to destroy incoming waves of crates before they breach. Power-ups like freeze, electrify, blaze and scatter shot keep the loop fresh, while corrupted crates introduce chaos modifiers — blindness, reversed aim, explosions and splits. Features a wave-based upgrade system, cosmetic shop, and ad-supported revive.',
+    icon: '🎯',
+    thumbnail: '/Portfolio/full/pygmak.png',
+    media: [
+      '/Portfolio/full/pygmak.png',
+      '/Portfolio/video/pygmak.mp4'
+    ],
+    tech: ['Unity 6', 'C#', 'URP', 'LevelPlay Ads', 'Android', 'WebGL'],
+    features: [
+      'Wave-based endless arcade loop',
+      'Power-ups: freeze, electric, fire, scatter, damage boost',
+      'Corrupted crates with chaos modifiers',
+      'Upgrade system and cosmetic shop',
+      'Ad-supported revive system',
+      'WebGL and Android build targets'
+    ],
+    links: []
   },
 
   // ============================================
