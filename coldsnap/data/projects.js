@@ -202,7 +202,7 @@ const COLDSNAP_PROJECTS = [
       'Multi-language support'
     ],
     links: [
-      { label: 'Privacy Policy', href: '/apps/generic/privacy/', icon: 'fa-shield' }
+      { label: 'Privacy Policy', href: '/apps/generic/privacy/', icon: 'fa-shield', secondary: true }
     ]
   },
   {
@@ -241,7 +241,7 @@ const COLDSNAP_PROJECTS = [
       'Material Design 3 UI'
     ],
     links: [
-      { label: 'Privacy Policy', href: '/apps/generic/privacy/', icon: 'fa-shield' }
+      { label: 'Privacy Policy', href: '/apps/generic/privacy/', icon: 'fa-shield', secondary: true }
     ]
   },
   {
@@ -261,7 +261,7 @@ const COLDSNAP_PROJECTS = [
       'Local persistent storage'
     ],
     links: [
-      { label: 'Privacy Policy', href: '/apps/generic/privacy/', icon: 'fa-shield' }
+      { label: 'Privacy Policy', href: '/apps/generic/privacy/', icon: 'fa-shield', secondary: true }
     ]
   },
   {
@@ -282,7 +282,7 @@ const COLDSNAP_PROJECTS = [
       'Android and Windows support'
     ],
     links: [
-      { label: 'Privacy Policy', href: '/apps/patoune/privacy/', icon: 'fa-shield' }
+      { label: 'Privacy Policy', href: '/apps/patoune/privacy/', icon: 'fa-shield', secondary: true }
     ]
   },
 
