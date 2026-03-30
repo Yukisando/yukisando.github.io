@@ -16,6 +16,29 @@
         offset: 51
     });
 
+    function syncNavToHash() {
+        var hash = window.location.hash;
+
+        if (!hash || hash.charAt(0) !== '#') {
+            return;
+        }
+
+        var target = document.getElementById(hash.slice(1));
+
+        if (!target) {
+            return;
+        }
+
+        $('html, body').stop(true, true).scrollTop($(target).offset().top - 50);
+        $('body').scrollspy('refresh');
+        $('.navbar-fixed-top .nav li').removeClass('active');
+        $('.navbar-fixed-top a[href="' + hash + '"]').parent('li').addClass('active');
+    }
+
+    $(window).on('load hashchange', function() {
+        window.requestAnimationFrame(syncNavToHash);
+    });
+
     // Closes the Responsive Menu on Menu Item Click
     $('.navbar-collapse ul li a').click(function() {
         $('.navbar-toggle:visible').click();
