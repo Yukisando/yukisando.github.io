@@ -238,19 +238,21 @@ function renderProjects() {
   
   // Define section icons
   const sectionIcons = {
-    'Unity Games': 'fa-gamepad',
-    'Educational Games': 'fa-graduation-cap',
+    'Interactive Installations': 'fa-desktop',
+    'Games': 'fa-gamepad',
     'Flutter Apps': 'fa-mobile',
     'Web Platforms': 'fa-globe',
+    'Open Source': 'fa-code',
     'Other': 'fa-folder'
   };
   
   // Define section descriptions
   const sectionDescriptions = {
-    'Unity Games': 'Interactive gaming experiences built with Unity and C#',
-    'Educational Games': 'Making learning fun through engaging gameplay',
-    'Flutter Apps': 'Cross-platform mobile applications for iOS and Android',
-    'Web Platforms': 'Full-stack web applications and platforms'
+    'Interactive Installations': 'Museum kiosks, training centre exhibits and large-format touchscreen experiences',
+    'Games': 'PC and mobile games built for fun',
+    'Flutter Apps': 'Cross-platform mobile and desktop applications',
+    'Web Platforms': 'Full-stack web applications and internal tools',
+    'Open Source': 'Public tools, libraries and plugins'
   };
   
   // Build HTML for each category

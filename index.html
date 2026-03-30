@@ -17,14 +17,14 @@
       "@type": "Person",
       "name": "Nathan de Castro",
       "url": "https://nathandecastro.com",
-      "jobTitle": "Unity Developer & Gamification Specialist",
+      "jobTitle": "Software Developer & Creative Technologist",
       "email": "decastronathan@gmail.com",
       "sameAs": [
         "https://www.linkedin.com/in/nathan-de-castro-750439117/",
         "https://soundcloud.com/yukisound",
         "https://www.codementor.io/@decastronathan"
       ],
-      "knowsAbout": ["Unity", "C#", "Flutter", "Gamification", "Educational Games", "Game Development"]
+      "knowsAbout": ["Flutter", "Dart", "Unity", "C#", "Game Development", "Interactive Installations", "Mobile Apps", "Cross-Platform Development"]
     }
     </script>
 
@@ -192,50 +192,68 @@
             opacity: 0;
           }
         }
+
+        .about-row {
+          display: flex;
+          align-items: center;
+          flex-wrap: wrap;
+        }
+
+        .about-portrait img {
+          width: 100%;
+          max-width: 220px;
+        }
+
+        @media (max-width: 767px) {
+          .about-portrait {
+            margin-top: 2rem;
+          }
+          .about-portrait img {
+            max-width: 140px;
+          }
+        }
       </style>
       <div class="container">
-        <div class="row text-center align-items-center">
-          <h2 class="section-heading">Greetings, fellow adventurer!</h2>
-          <hr class="light" />
+        <h2 class="section-heading text-center">Greetings, fellow adventurer!</h2>
+        <hr class="light" />
+        <div class="row about-row">
           <div class="col-sm-7 text-justify">
             <div class="text-faded">
               <p>
-                I'm <em>Nathan</em>, your friendly neighborhood
-                <em>Unity developer</em>. With a <u class="konami">k</u>nack f<u
-                  class="konami"
-                  >o</u
-                >r crafti<u class="konami">n</u>g
-                <em>educ<u class="konami">a</u>tional</em> and enthralling video
-                ga<u class="konami">m</u>es, I'm always seek<u class="konami"
-                  >i</u
-                >ng inspiration, knowledge, and whether or not the cake is a
-                lie. 🍰
-              </p>
-
-              <p>
-                I wield C# like Gandalf 🧙‍♂️ to develop
-                <em>meaningful and impactful</em> software. Most of which have
-                introduced me to brilliant minds and wondrous cultures all over
-                the planet.
+                I'm Nathan, a developer wor<u class="konami">k</u>ing somewhere
+                between games and software.
               </p>
               <p>
-                My background in music computing re-inforced my belief that good
-                audio has the power to transforms even the most ordinary
-                interactions into memorable experiences! 📼🎶
+                I build Unity experiences such as games and large-scale interactive
+                installati<u class="konami">o</u>ns, alongside cross-platform mobile and web apps
+                with Flutter that are actually pleasant
+                to use.
               </p>
               <p>
-                When I'm not harnessing the power of <em>Gamification</em> to
-                change the world, I'm out on a hike, up in a tree or digging
-                straight down looking for redstone. ⛏️🚨
+                My work lea<u class="konami">n</u>s on cognitive science and
+                interaction design. I like systems that feel intuitive,
+                responsive, and don't get in the way.
+              </p>
+              <p>
+                I tend to build tools the same w<u class="konami">a</u>y  I build games.
+                Clear feedback, <u class="konami">m</u>inimal friction,
+                and just enough polish to make them enjoyable to use.
+              </p>
+              <p>
+                At the core, I'm just a geek who likes building
+                useful things and making complex systems feel simple.
+              </p>
+              <p>
+                When I'm not harnessing the power of Gamification to change the world,
+                 I'm out on a h<u class="konami">i</u>ke, up in a tree or digging straight down looking for redstone.
               </p>
             </div>
           </div>
-          <div class="col-sm-5 text-center">
+          <div class="col-xs-8 col-xs-offset-2 col-sm-5 col-sm-offset-0 text-center about-portrait">
             <img
               class="img-rounded"
               src="img/portrait.png"
               alt="portrait"
-              style="width: 50%"
             />
           </div>
         </div>
@@ -391,17 +409,17 @@
             <a
               href="https://www.linkedin.com/in/nathan-de-castro-750439117/"
               class="btn btn-default btn-xl sr-button"
-              ><i class="fa fa-linkedin"></i> LinkedIn</a
+              ><i class="fa fa-linkedin"></i><br>LinkedIn</a
             >
             <a
               href="https://www.codementor.io/@decastronathan?refer=badge"
               class="btn btn-default btn-xl sr-button"
-              ><i class="fa fa-code"></i> CodeMentor</a
+              ><i class="fa fa-code"></i><br>CodeMentor</a
             >
             <a
               href="https://soundcloud.com/yukisound"
               class="btn btn-default btn-xl sr-button"
-              ><i class="fa fa-soundcloud"></i> Soundcloud</a
+              ><i class="fa fa-soundcloud"></i><br> Soundcloud</a
             >
           </div>
         </div>

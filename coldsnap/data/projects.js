@@ -315,6 +315,25 @@ const COLDSNAP_PROJECTS = [
   // OPEN SOURCE
   // ============================================
   {
+    id: 'magic-arrow',
+    category: 'Open Source',
+    type: 'Minecraft Plugin',
+    title: 'Magic Arrow',
+    shortDescription: 'Minecraft plugin adding block-placing and elemental abilities to bows based on the block you stand on',
+    description: 'A Java Minecraft plugin built from scratch that gives the bow and arrow context-sensitive superpowers. The effect fired depends on the block under the player\'s feet — standing on ice fires a freeze arrow, on TNT fires an explosive, on grass places blocks, and so on. A fun exploration of the Bukkit/Spigot API.',
+    icon: '🏹',
+    tech: ['Java', 'Bukkit/Spigot API', 'Minecraft'],
+    features: [
+      'Context-sensitive bow abilities based on standing block',
+      'Block-placing arrows',
+      'Elemental effects (freeze, explode, and more)',
+      'Built from scratch on the Bukkit/Spigot API'
+    ],
+    links: [
+      { label: 'GitHub', href: 'https://github.com/Yukisando/MagicArrow', icon: 'fa-github' }
+    ]
+  },
+  {
     id: 'bolt',
     category: 'Open Source',
     type: 'WoW Addon',
