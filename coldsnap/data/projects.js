@@ -132,28 +132,176 @@ const COLDSNAP_PROJECTS = [
   },
 
   // ============================================
-  // WEB PLATFORMS
+  // FLUTTER APPS (continued)
   // ============================================
-  // Example entry - uncomment and modify as needed:
-  // {
-  //   id: 'example-web-project',
-  //   category: 'Web Platforms',
-  //   type: 'Website',
-  //   title: 'Example Web Project',
-  //   shortDescription: 'A brief description of the web project',
-  //   description: 'Full description goes here...',
-  //   icon: '🌐',
-  //   tech: ['React', 'Node.js', 'MongoDB'],
-  //   links: [
-  //     { label: 'Visit Site', href: 'https://example.com', icon: 'fa-globe' }
-  //   ]
-  // },
+  {
+    id: 'maya',
+    category: 'Flutter Apps',
+    type: 'Mobile App',
+    title: 'Maya',
+    shortDescription: 'Local commerce loyalty app connecting shoppers with small businesses in southern France',
+    description: 'A mobile loyalty and rewards platform designed to revive local commerce in small towns across southern France. Shoppers discover nearby businesses on an interactive map, earn points with each purchase, and unlock exclusive local offers and event deals. Merchants get a full dashboard to manage offers and track customer engagement.',
+    icon: '🛍️',
+    tech: ['Flutter', 'Dart', 'Firebase', 'Google Maps', 'FCM', 'QR Code'],
+    features: [
+      'Interactive map of local businesses',
+      'Points and rewards system',
+      'Exclusive local offers and events',
+      'Merchant dashboard with analytics',
+      'QR code scanning for in-store purchases',
+      'Push notifications via FCM',
+      'Multi-language support'
+    ],
+    links: []
+  },
+  {
+    id: 'posti',
+    category: 'Flutter Apps',
+    type: 'Desktop App',
+    title: 'Posti',
+    shortDescription: 'Minimalist always-on-top system tray todo and notes app for desktop',
+    description: 'A lightweight desktop productivity app that lives in your system tray. Posti stays always-on-top for instant access to todos and quick notes without switching context. Designed for minimal friction — capture a thought in seconds and get back to work.',
+    icon: '📌',
+    tech: ['Flutter', 'Dart', 'Windows', 'macOS'],
+    features: [
+      'System tray integration',
+      'Always-on-top window',
+      'Quick todo and note capture',
+      'Persistent background process',
+      'Minimal, distraction-free UI'
+    ],
+    links: []
+  },
+  {
+    id: 'badger',
+    category: 'Flutter Apps',
+    type: 'Mobile App',
+    title: 'Badger',
+    shortDescription: 'NFC-powered digital business card — share contacts by tapping phones',
+    description: 'A modern replacement for physical business cards. Badger lets you share your contact details instantly by tapping phones via NFC, or via QR code as a fallback. Create beautiful digital card profiles, export as VCF, and manage all your shared contacts in one place.',
+    icon: '🪪',
+    tech: ['Flutter', 'Dart', 'NFC', 'Firebase', 'QR Code', 'Material Design 3'],
+    features: [
+      'NFC contact sharing (NDEF format)',
+      'QR code fallback for non-NFC devices',
+      'Beautiful digital card templates',
+      'VCF export and sharing',
+      'Firebase profile cloud storage',
+      'Material Design 3 UI'
+    ],
+    links: []
+  },
+  {
+    id: 'colismarket',
+    category: 'Flutter Apps',
+    type: 'Mobile App',
+    title: 'ColisMarket',
+    shortDescription: 'Parcel relay point management app with OCR scanning for package tracking',
+    description: 'A mobile app for managing package pickup and delivery relay points. Features ML Kit-powered OCR to scan and extract parcel information directly from labels, streamlining the package intake process for relay operators.',
+    icon: '📦',
+    tech: ['Flutter', 'Dart', 'Google ML Kit', 'OCR', 'Android'],
+    features: [
+      'ML Kit OCR for parcel label scanning',
+      'Package intake and tracking management',
+      'Image capture and document scanning',
+      'Relay point operator dashboard',
+      'Local persistent storage'
+    ],
+    links: []
+  },
+  {
+    id: 'patoune',
+    category: 'Flutter Apps',
+    type: 'Mobile App',
+    title: 'Patoune',
+    shortDescription: 'Cat claw trimming tracker — visualize and schedule your cat\'s nail maintenance',
+    description: 'A charming companion app for cat owners that makes claw maintenance easy and stress-free. Patoune provides a visual paw diagram to track which claws have been trimmed, colour-coded reminders when trimming is due, and guidance on safe trimming techniques.',
+    icon: '🐾',
+    tech: ['Flutter', 'Dart', 'SharedPreferences', 'SVG', 'i18n'],
+    features: [
+      'Visual paw diagram for per-claw tracking',
+      'Colour-coded trimming reminders',
+      'Safe trimming technique guidance',
+      'Multi-language support',
+      'Custom SVG paw assets',
+      'Android and Windows support'
+    ],
+    links: [
+      { label: 'Privacy Policy', href: '/apps/patoune/privacy/', icon: 'fa-shield' }
+    ]
+  },
 
   // ============================================
-  // EDUCATIONAL GAMES
+  // WEB PLATFORMS
   // ============================================
-  // Add educational games here following the same format
-  
+  {
+    id: 'winston',
+    category: 'Web Platforms',
+    type: 'Web App',
+    title: 'Winston',
+    shortDescription: 'Company-wide admin butler — accounting, contracts, invoicing, and AI-powered LinkedIn management in one dashboard',
+    description: 'Winston is an internal company-wide admin platform built to run the full back-office of a multi-company studio. It handles quotes, invoices, business expenses, and contracts end-to-end, with PDF generation and export throughout. On top of that, it features an AI-powered LinkedIn content pipeline that automatically generates and publishes professional posts from news articles using GPT-4o-mini. Multi-company support means the same dashboard manages all entities under the studio umbrella.',
+    icon: '🤖',
+    tech: ['Flutter Web', 'Dart', 'Firebase', 'OpenAI GPT-4o-mini', 'LinkedIn API', 'Cloud Functions'],
+    features: [
+      'Quotes, invoices, and business expense management',
+      'Contract creation and tracking',
+      'PDF generation and export for all documents',
+      'Multi-company management from a single dashboard',
+      'AI LinkedIn post generation from articles (GPT-4o-mini)',
+      'Direct LinkedIn publishing via OAuth',
+      'Firebase Authentication and Firestore backend',
+      'Serverless Cloud Functions architecture'
+    ],
+    links: []
+  },
+
+  // ============================================
+  // OPEN SOURCE
+  // ============================================
+  {
+    id: 'bolt',
+    category: 'Open Source',
+    type: 'WoW Addon',
+    title: 'B.O.L.T',
+    shortDescription: 'Modular World of Warcraft addon with quality-of-life improvements that don\'t change core mechanics',
+    description: 'Brittle and Occasionally Lethal Tweaks — a modular World of Warcraft addon delivering quality-of-life improvements without altering core gameplay. Features game menu enhancements, advanced skyriding controls, chat notifications, nameplate mana-user highlighting, saved instance tracking, and more. Actively maintained with 113+ versioned releases.',
+    icon: '⚔️',
+    tech: ['Lua', 'World of Warcraft API', 'GitHub Actions', 'CI/CD'],
+    features: [
+      'Game Menu enhancements (Leave Group, Reload UI, Group Tools)',
+      'Mouse-activated skyriding flight controls',
+      'Configurable chat channel sound alerts',
+      'Nameplate mana-user colour highlighting',
+      'Saved instances lockout overview',
+      'Party frames centered growth fix',
+      'Per-module enable/disable configuration',
+      '113+ versioned releases via CI/CD'
+    ],
+    links: [
+      { label: 'GitHub', href: 'https://github.com/Yukisando/B.O.L.T', icon: 'fa-github' }
+    ]
+  },
+  {
+    id: 'coldsnap-utilities',
+    category: 'Open Source',
+    type: 'Unity Package',
+    title: 'ColdSnap Utilities',
+    shortDescription: 'Reusable Unity C# utility package shared across all ColdSnap projects',
+    description: 'An open-source Unity Package Manager (UPM) library providing shared utilities, helpers, and tools used across all ColdSnap projects. Reduces boilerplate and ensures consistency throughout the studio\'s internal Unity development pipeline.',
+    icon: '🛠️',
+    tech: ['Unity', 'C#', 'UPM'],
+    features: [
+      'Unity Package Manager (UPM) compatible',
+      'Reusable C# utility scripts',
+      'Shared across all ColdSnap Unity projects',
+      'Actively maintained'
+    ],
+    links: [
+      { label: 'GitHub', href: 'https://github.com/Yukisando/com.coldsnap.utilities', icon: 'fa-github' }
+    ]
+  },
+
 ];
 
 // Export for module systems (if needed)
