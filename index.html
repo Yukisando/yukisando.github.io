@@ -51,53 +51,14 @@
 
     <!-- Theme CSS -->
     <link href="css/creative.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css/site-nav.css" />
 
     <!-- Your custom CSS -->
     <link rel="stylesheet" href="css/custom.css" />
   </head>
 
   <body id="page-top">
-    <nav id="mainNav" class="navbar navbar-default navbar-fixed-top">
-      <div class="container-fluid">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-          <button
-            type="button"
-            class="navbar-toggle collapsed"
-            data-toggle="collapse"
-            data-target="#bs-example-navbar-collapse-1"
-          >
-            <span class="sr-only">Toggle navigation</span
-            ><i class="fa fa-bars"></i>
-          </button>
-          <a class="navbar-brand page-scroll" href="/">Nathan de Castro</a>
-        </div>
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-          <ul class="nav navbar-nav navbar-right">
-            <li>
-              <a class="page-scroll" href="#about">About</a>
-            </li>
-            <li>
-              <a class="page-scroll" href="/coldsnap/">ColdSnap</a>
-            </li>
-            <li>
-              <a class="page-scroll" href="/doc/cv_en.pdf" id="nav-cv-link"
-                >Resume</a
-              >
-            </li>
-            <li>
-              <a class="page-scroll" href="#contact">Contact</a>
-            </li>
-            <li>
-              <a class="page-scroll nav-link--secondary" href="/Portfolio/">Stuff</a>
-            </li>
-          </ul>
-        </div>
-        <!-- /.navbar-collapse -->
-      </div>
-      <!-- /.container-fluid -->
-    </nav>
+    <nav class="site-nav" data-site-nav data-site-nav-page="home" data-site-nav-mode="overlay"></nav>
     <header>
       <div class="header-content">
         <div class="header-content-inner">
@@ -400,9 +361,8 @@
             >View / Download</a
           >
           <a href="/Portfolio/" class="btn btn-default btn-xl sr-button"
-            >Stuff</a
+            >Research</a
           >
-          <!-- <a href="/GameCenter/" class="btn btn-default btn-xl sr-button">Game Center</a> -->
           <br /><br />
           <h3>Other links</h3>
           <div style="margin-top: 20px; display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 10px;">
@@ -469,6 +429,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.js" defer></script>
     <script src="vendor/scrollreveal/scrollreveal.js" defer></script>
     <script src="vendor/magnific-popup/jquery.magnific-popup.js" defer></script>
+    <script src="js/site-nav.js" defer></script>
     <!-- Theme JavaScript -->
     <script src="js/creative.js" defer></script>
     <script src="js/freelancer.js" defer></script>

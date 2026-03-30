@@ -1,4 +1,9 @@
 /* Simple Portfolio CSS */
+:root {
+  --accent: #F05F40;
+  --accent-dark: #d44e34;
+}
+
 body {
   background: #1a1a1a;
   color: #ffffff;
