@@ -8,27 +8,33 @@
 let currentSlide = 0;
 let totalSlides = 0;
 
-// Mobile menu toggle
-function toggleMobileMenu() {
-  const mobileMenu = document.getElementById('mobileMenu');
-  mobileMenu.classList.toggle('active');
+function stopProjectModalMedia(reset = false) {
+  const modal = document.getElementById('projectModal');
+  if (!modal) return;
+
+  modal.querySelectorAll('video').forEach((video) => {
+    video.pause();
+    if (reset) {
+      video.currentTime = 0;
+    }
+  });
 }
 
-function closeMobileMenu() {
-  const mobileMenu = document.getElementById('mobileMenu');
-  mobileMenu.classList.remove('active');
-}
+function syncProjectModalMedia() {
+  const slides = document.querySelectorAll('.carousel-slide');
 
-// Close mobile menu when clicking outside
-document.addEventListener('click', function(event) {
-  const nav = document.querySelector('.coldsnap-nav');
-  const mobileMenu = document.getElementById('mobileMenu');
-  const toggle = document.querySelector('.mobile-toggle');
-  
-  if (!nav.contains(event.target) && mobileMenu.classList.contains('active')) {
-    mobileMenu.classList.remove('active');
-  }
-});
+  slides.forEach((slide, index) => {
+    const video = slide.querySelector('video');
+    if (!video) return;
+
+    if (index === currentSlide) {
+      video.play().catch((error) => console.log('Video autoplay failed:', error));
+    } else {
+      video.pause();
+      video.currentTime = 0;
+    }
+  });
+}
 
 // Carousel functions
 function initCarousel() {
@@ -44,6 +50,8 @@ function updateCarousel() {
   slides.forEach((slide, index) => {
     slide.classList.toggle('active', index === currentSlide);
   });
+
+  syncProjectModalMedia();
   
   dots.forEach((dot, index) => {
     dot.classList.toggle('active', index === currentSlide);
@@ -95,6 +103,8 @@ function openModal(projectId) {
   
   const modal = document.getElementById('projectModal');
   const modalBody = document.getElementById('modalBody');
+
+  stopProjectModalMedia(true);
   
   // Build carousel HTML for media
   let galleryHTML = '';
@@ -104,7 +114,7 @@ function openModal(projectId) {
     const slides = project.media.map((item, index) => {
       if (item.endsWith('.mp4') || item.endsWith('.webm')) {
         return `<div class="carousel-slide ${index === 0 ? 'active' : ''}">
-          <video src="${item}" controls playsinline></video>
+          <video src="${item}" controls autoplay muted loop playsinline preload="metadata"></video>
         </div>`;
       } else {
         return `<div class="carousel-slide ${index === 0 ? 'active' : ''}">
@@ -190,9 +200,15 @@ function closeModal(event) {
   if (event && event.target !== event.currentTarget) return;
   
   const modal = document.getElementById('projectModal');
+  stopProjectModalMedia(true);
   modal.classList.remove('active');
+  const modalBody = document.getElementById('modalBody');
+  if (modalBody) {
+    modalBody.innerHTML = '';
+  }
   document.body.style.overflow = '';
   currentSlide = 0;
+  totalSlides = 0;
 }
 
 // Close modal with Escape key

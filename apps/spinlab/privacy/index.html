@@ -4,19 +4,24 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SpinLab Privacy Policy</title>
+    <link rel="stylesheet" href="/css/site-nav.css" />
     <style>
       body {
         font-family:
           -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu,
           Cantarell, sans-serif;
-        line-height: 1.6;
+        margin: 0;
+        color: #333;
+        background: #faf7f4;
+      }
+      main {
         max-width: 800px;
         margin: 0 auto;
-        padding: 20px;
-        color: #333;
+        padding: 120px 20px 40px;
+        line-height: 1.6;
       }
       h1 {
-        color: #1a73e8;
+        color: #f05f40;
       }
       h2 {
         color: #5f6368;
@@ -31,11 +36,47 @@
         font-size: 0.9em;
       }
       a {
-        color: #1a73e8;
+        color: #c14a33;
       }
     </style>
   </head>
   <body>
+    <nav class="site-nav" data-site-nav>
+      <div class="site-nav__inner">
+        <a href="/" class="site-nav__brand">Nathan de Castro</a>
+        <div class="site-nav__links">
+          <a href="/#about" class="site-nav__link">About</a>
+          <a href="/coldsnap/" class="site-nav__link">ColdSnap</a>
+          <a href="/doc/cv_en.pdf" class="site-nav__link" data-cv-link>Resume</a>
+          <a href="/#contact" class="site-nav__link">Contact</a>
+          <a href="/Portfolio/" class="site-nav__link site-nav__link--secondary">Stuff</a>
+        </div>
+        <button
+          type="button"
+          class="site-nav__toggle"
+          aria-controls="site-nav-mobile"
+          aria-expanded="false"
+          data-site-nav-toggle
+        >
+          Menu
+        </button>
+      </div>
+      <div class="site-nav__mobile" id="site-nav-mobile" data-site-nav-menu>
+        <a href="/#about" class="site-nav__link">About</a>
+        <a href="/coldsnap/" class="site-nav__link">ColdSnap</a>
+        <a href="/doc/cv_en.pdf" class="site-nav__link" data-cv-link>Resume</a>
+        <a href="/#contact" class="site-nav__link">Contact</a>
+        <a href="/Portfolio/" class="site-nav__link site-nav__link--secondary">Stuff</a>
+      </div>
+    </nav>
+
+    <main>
+      <div class="site-context-bar">
+        <a href="/apps/spinlab/privacy/" class="site-context-link is-active">Privacy Policy</a>
+        <a href="/apps/spinlab/tos/" class="site-context-link">Terms of Service</a>
+        <a href="/apps/spinlab/delete-account/" class="site-context-link">Delete Account</a>
+      </div>
+
     <h1>Privacy Policy for SpinLab</h1>
     <p class="updated"><strong>Last Updated:</strong> January 21, 2026</p>
 
@@ -308,5 +349,7 @@
     <p style="text-align: center; color: #5f6368; font-size: 0.9em">
       © 2026 SpinLab. All rights reserved.
     </p>
+    </main>
+    <script src="/js/site-nav.js" defer></script>
   </body>
 </html>

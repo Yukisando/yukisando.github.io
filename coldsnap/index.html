@@ -22,6 +22,7 @@
   
   <!-- ColdSnap CSS -->
   <link href="/coldsnap/css/coldsnap.css" rel="stylesheet">
+  <link href="/css/site-nav.css" rel="stylesheet">
 
   <!-- Structured Data -->
   <script type="application/ld+json">
@@ -44,32 +45,32 @@
 
 <body>
   <!-- Navigation -->
-  <nav class="coldsnap-nav">
-    <div class="nav-container">
-      <a href="/coldsnap/" class="nav-brand">
-        <img src="/coldsnap/assets/coldnsap_logo.png" alt="ColdSnap" class="brand-logo">
-        <span>ColdSnap</span>
-      </a>
-      
-      <div class="nav-links">
-        <a href="#interactive-installations">Installations</a>
-        <a href="#games">Games</a>
-        <a href="#flutter-apps">Apps</a>
-        <a href="/Portfolio/">Personal</a>
-        <a href="/">Home</a>
+  <nav class="site-nav coldsnap-nav" data-site-nav>
+    <div class="site-nav__inner">
+      <a href="/" class="site-nav__brand">Nathan de Castro</a>
+      <div class="site-nav__links">
+        <a href="/#about" class="site-nav__link">About</a>
+        <a href="/coldsnap/" class="site-nav__link is-active">ColdSnap</a>
+        <a href="/doc/cv_en.pdf" class="site-nav__link" data-cv-link>Resume</a>
+        <a href="/#contact" class="site-nav__link">Contact</a>
+        <a href="/Portfolio/" class="site-nav__link site-nav__link--secondary">Stuff</a>
       </div>
-      
-      <button class="mobile-toggle" onclick="toggleMobileMenu()">
-        <i class="fa fa-bars"></i>
+      <button
+        type="button"
+        class="site-nav__toggle"
+        aria-controls="site-nav-mobile"
+        aria-expanded="false"
+        data-site-nav-toggle
+      >
+        Menu
       </button>
     </div>
-    
-    <div class="mobile-menu" id="mobileMenu">
-      <a href="#interactive-installations" onclick="closeMobileMenu()">Installations</a>
-      <a href="#games" onclick="closeMobileMenu()">Games</a>
-      <a href="#flutter-apps" onclick="closeMobileMenu()">Apps</a>
-      <a href="/Portfolio/" onclick="closeMobileMenu()">Personal</a>
-      <a href="/">Home</a>
+    <div class="site-nav__mobile" id="site-nav-mobile" data-site-nav-menu>
+      <a href="/#about" class="site-nav__link">About</a>
+      <a href="/coldsnap/" class="site-nav__link is-active">ColdSnap</a>
+      <a href="/doc/cv_en.pdf" class="site-nav__link" data-cv-link>Resume</a>
+      <a href="/#contact" class="site-nav__link">Contact</a>
+      <a href="/Portfolio/" class="site-nav__link site-nav__link--secondary">Stuff</a>
     </div>
   </nav>
 
@@ -88,13 +89,17 @@
         <span class="tag"><i class="fa fa-mobile"></i> Flutter Apps</span>
         <span class="tag"><i class="fa fa-globe"></i> Web Platforms</span>
       </div>
-      <a href="#unity-games" class="cta-button">View Projects</a>
+      <a href="#projects-container" class="cta-button">View Projects</a>
     </div>
     <div class="hero-visual">
       <div class="floating-card card-1">🎮</div>
       <div class="floating-card card-2">📱</div>
       <div class="floating-card card-3">🎯</div>
     </div>
+    <a href="#projects-container" class="scroll-hint">
+      <span class="scroll-hint__label">Scroll to see my work</span>
+      <span class="scroll-hint__arrow" aria-hidden="true">v</span>
+    </a>
   </header>
 
   <!-- Projects Container -->
@@ -111,7 +116,7 @@
       </div>
       <p>Making learning fun through gamification</p>
       <div class="footer-links">
-      <a href="/Portfolio/">Personal</a>
+      <a href="/Portfolio/">Stuff</a>
         <a href="mailto:decastronathan@gmail.com">Contact</a>
         <a href="https://www.linkedin.com/in/nathan-de-castro-750439117/">LinkedIn</a>
       </div>
@@ -136,6 +141,7 @@
   </div>
 
   <!-- ColdSnap JavaScript -->
+  <script src="/js/site-nav.js" defer></script>
   <script src="/coldsnap/js/coldsnap.js" defer></script>
   <script src="/coldsnap/data/projects.js" defer></script>
   <script>

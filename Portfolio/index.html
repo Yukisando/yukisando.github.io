@@ -5,10 +5,10 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Nathan de Castro — Research, Podcasts & Personal Projects">
+  <meta name="description" content="Nathan de Castro — Research, podcasts, experiments, and other stuff">
   <meta name="author" content="Nathan de Castro">
   <meta name="theme-color" content="#F05F40">
-  <title>Nathan de Castro — Research & Personal</title>
+  <title>Nathan de Castro — Stuff & Research</title>
   <link rel="shortcut icon" type="image/png" href="/img/spock.png" />
   
   <!-- Modern Fonts -->
@@ -22,65 +22,37 @@
   
   <!-- Simple Portfolio CSS -->
   <link href="/Portfolio/css/portfolio.css" rel="stylesheet">
+  <link href="/css/site-nav.css" rel="stylesheet">
 </head>
 
 <body>
   <!-- Navigation -->
-  <nav style="
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    background: rgba(34, 34, 34, 0.95);
-    backdrop-filter: blur(10px);
-    z-index: 1000;
-    padding: 15px 0;
-    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
-  ">
-    <div style="
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 30px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    ">
-      <a href="/" style="
-        color: #F05F40;
-        font-weight: 700;
-        font-size: 1.4rem;
-        text-decoration: none;
-      ">Nathan de Castro</a>
-      
-      <div style="display: flex; gap: 30px; align-items: center;">
-        <a href="/#about" style="
-          color: white;
-          text-decoration: none;
-          font-weight: 600;
-          transition: color 0.3s ease;
-        " onmouseover="this.style.color='#F05F40'" onmouseout="this.style.color='white'">About</a>
-
-        <a href="/coldsnap/" style="
-          color: white;
-          text-decoration: none;
-          font-weight: 600;
-          transition: color 0.3s ease;
-        " onmouseover="this.style.color='#F05F40'" onmouseout="this.style.color='white'">ColdSnap</a>
-
-        <a href="/doc/cv_en.pdf" id="nav-cv-link" style="
-          color: white;
-          text-decoration: none;
-          font-weight: 600;
-          transition: color 0.3s ease;
-        " onmouseover="this.style.color='#F05F40'" onmouseout="this.style.color='white'">Resume/CV</a>
-
-        <a href="/#contact" style="
-          color: white;
-          text-decoration: none;
-          font-weight: 600;
-          transition: color 0.3s ease;
-        " onmouseover="this.style.color='#F05F40'" onmouseout="this.style.color='white'">Contact</a>
+  <nav class="site-nav" data-site-nav>
+    <div class="site-nav__inner">
+      <a href="/" class="site-nav__brand">Nathan de Castro</a>
+      <div class="site-nav__links">
+        <a href="/#about" class="site-nav__link">About</a>
+        <a href="/coldsnap/" class="site-nav__link">ColdSnap</a>
+        <a href="/doc/cv_en.pdf" class="site-nav__link" data-cv-link>Resume</a>
+        <a href="/#contact" class="site-nav__link">Contact</a>
+        <a href="/Portfolio/" class="site-nav__link site-nav__link--secondary is-active">Stuff</a>
       </div>
+      <button
+        type="button"
+        class="site-nav__toggle"
+        aria-controls="site-nav-mobile"
+        aria-expanded="false"
+        data-site-nav-toggle
+      >
+        Menu
+      </button>
+    </div>
+    <div class="site-nav__mobile" id="site-nav-mobile" data-site-nav-menu>
+      <a href="/#about" class="site-nav__link">About</a>
+      <a href="/coldsnap/" class="site-nav__link">ColdSnap</a>
+      <a href="/doc/cv_en.pdf" class="site-nav__link" data-cv-link>Resume</a>
+      <a href="/#contact" class="site-nav__link">Contact</a>
+      <a href="/Portfolio/" class="site-nav__link site-nav__link--secondary is-active">Stuff</a>
     </div>
   </nav>
 
@@ -91,17 +63,7 @@
 
   <!-- Simple Portfolio Script -->
   <script src="/Portfolio/js/portfolio.js"></script>
-
-  <script>
-    // Language detection for CV link
-    (function() {
-      var lang = (navigator.language || navigator.userLanguage || '').toLowerCase();
-      if (lang.startsWith('fr')) {
-        var cvLink = document.getElementById('nav-cv-link');
-        if (cvLink) cvLink.href = '/doc/cv_fr.pdf';
-      }
-    })();
-  </script>
+  <script src="/js/site-nav.js" defer></script>
 </body>
 
 </html>

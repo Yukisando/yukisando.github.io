@@ -31,3 +31,13 @@
       .button-link img:active {
           transform: translateX(5px);
       }
+
+      #mainNav .nav > li > a.nav-link--secondary {
+          opacity: 0.68;
+          font-weight: 500;
+      }
+
+      #mainNav .nav > li > a.nav-link--secondary:hover,
+      #mainNav .nav > li > a.nav-link--secondary:focus {
+          opacity: 1;
+      }

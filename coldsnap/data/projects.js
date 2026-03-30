@@ -52,13 +52,13 @@ const COLDSNAP_PROJECTS = [
     shortDescription: 'Interactive exhibit teaching earthquake preparedness through engaging mini-games',
     description: 'A comprehensive educational exhibit at the Cyprus Civil Defence Museum. Features interactive touchscreen mini-games teaching visitors about earthquake causes, effects, and preparation. Includes an escape room experience and tablet-based learning stations throughout the museum.',
     icon: '🏛️',
-    thumbnail: '/Portfolio/cpps/cpps (1).jpg',
+    thumbnail: '/coldsnap/assets/projects/cpps/cpps-1.jpg',
     media: [
-      '/Portfolio/cpps/cpps (1).jpg',
-      '/Portfolio/cpps/cpps (2).jpg',
-      '/Portfolio/cpps/cpps (3).jpg',
-      '/Portfolio/cpps/cpps (4).jpg',
-      '/Portfolio/cpps/cpps (5).jpg'
+      '/coldsnap/assets/projects/cpps/cpps-1.jpg',
+      '/coldsnap/assets/projects/cpps/cpps-2.jpg',
+      '/coldsnap/assets/projects/cpps/cpps-3.jpg',
+      '/coldsnap/assets/projects/cpps/cpps-4.jpg',
+      '/coldsnap/assets/projects/cpps/cpps-5.jpg'
     ],
     tech: ['Unity', 'C#', 'Touch UI', 'Gamification'],
     features: [
@@ -84,12 +84,12 @@ const COLDSNAP_PROJECTS = [
     shortDescription: 'Platform connecting tennis players with certified coaches for booking lessons',
     description: 'A comprehensive platform that connects tennis players with certified coaches. Features include geolocated coach discovery, instant booking, secure payment processing, and training progress tracking. Built with Flutter for seamless cross-platform experience.',
     icon: '🎾',
-    thumbnail: '/Portfolio/spinlab/spinlab (1).jpeg',
+    thumbnail: '/coldsnap/assets/projects/spinlab/spinlab-1.jpeg',
     media: [
-      '/Portfolio/spinlab/spinlab (1).jpeg',
-      '/Portfolio/spinlab/spinlab (2).jpeg',
-      '/Portfolio/spinlab/spinlab (3).jpeg',
-      '/Portfolio/spinlab/spinlab (4).jpeg'
+      '/coldsnap/assets/projects/spinlab/spinlab-1.jpeg',
+      '/coldsnap/assets/projects/spinlab/spinlab-2.jpeg',
+      '/coldsnap/assets/projects/spinlab/spinlab-3.jpeg',
+      '/coldsnap/assets/projects/spinlab/spinlab-4.jpeg'
     ],
     tech: ['Flutter', 'Dart', 'Firebase', 'Stripe', 'Google Maps'],
     features: [
@@ -113,11 +113,11 @@ const COLDSNAP_PROJECTS = [
     shortDescription: 'Backup World of Warcraft addon data to Google Drive automatically',
     description: 'A desktop utility that securely backs up your World of Warcraft addon data to Google Drive. Never lose your addon settings, keybindings, or UI configurations again.',
     icon: '🎮',
-    thumbnail: '/Portfolio/waddonsync/waddonsync (1).png',
+    thumbnail: '/coldsnap/assets/projects/waddonsync/waddonsync-1.png',
     media: [
-      '/Portfolio/waddonsync/waddonsync (1).png',
-      '/Portfolio/waddonsync/waddonsync (2).png',
-      '/Portfolio/waddonsync/waddonsync (3).png',
+      '/coldsnap/assets/projects/waddonsync/waddonsync-1.png',
+      '/coldsnap/assets/projects/waddonsync/waddonsync-2.png',
+      '/coldsnap/assets/projects/waddonsync/waddonsync-3.png',
     ],
     tech: ['Flutter', 'Dart', 'Google Drive API', 'OAuth 2.0'],
     features: [
@@ -163,10 +163,11 @@ const COLDSNAP_PROJECTS = [
     shortDescription: 'Endless cannon-shooter — blast waves of crates with power-ups and corrupted modifiers',
     description: 'An endless mobile arcade game where players aim a turret to destroy incoming waves of crates before they breach. Power-ups like freeze, electrify, blaze and scatter shot keep the loop fresh, while corrupted crates introduce chaos modifiers — blindness, reversed aim, explosions and splits. Features a wave-based upgrade system, cosmetic shop, and ad-supported revive.',
     icon: '🎯',
-    thumbnail: '/Portfolio/full/pygmak.png',
+    thumbnail: '/coldsnap/assets/projects/pygmak/pygmak-1.jpg',
     media: [
-      '/Portfolio/full/pygmak.png',
-      '/Portfolio/video/pygmak.mp4'
+      '/coldsnap/assets/projects/pygmak/pygmak-1.jpg',
+      '/coldsnap/assets/projects/pygmak/pygmak-2.jpg',
+      '/coldsnap/assets/projects/pygmak/pygmak-demo.mp4'
     ],
     tech: ['Unity 6', 'C#', 'URP', 'LevelPlay Ads', 'Android', 'WebGL'],
     features: [

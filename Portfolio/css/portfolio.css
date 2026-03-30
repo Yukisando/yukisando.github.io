@@ -31,7 +31,7 @@ body {
 }
 
 #portfolio {
-  padding-top: 100px;
+  padding-top: 110px;
   padding-bottom: 50px;
   min-height: 100vh;
 }
@@ -104,7 +104,7 @@ body {
 /* Responsive adjustments */
 @media (max-width: 768px) {
   #portfolio {
-    padding-top: 80px;
+    padding-top: 92px;
   }
 
   .portfolio-section h2 {

@@ -293,6 +293,53 @@ body {
   box-shadow: 0 6px 20px rgba(245, 132, 26, 0.4);
 }
 
+.scroll-hint {
+  position: absolute;
+  left: 50%;
+  bottom: 28px;
+  transform: translateX(-50%);
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 0.95rem;
+  letter-spacing: 0.04em;
+  z-index: 1;
+  transition: var(--transition);
+}
+
+.scroll-hint:hover {
+  color: var(--orange);
+}
+
+.scroll-hint__label {
+  font-weight: 600;
+}
+
+.scroll-hint__arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.04);
+  animation: scrollHintBounce 1.8s ease-in-out infinite;
+}
+
+@keyframes scrollHintBounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(6px);
+  }
+}
+
 .hero-visual {
   position: absolute;
   width: 100%;
@@ -341,6 +388,10 @@ body {
   
   .floating-card {
     display: none;
+  }
+
+  .scroll-hint {
+    bottom: 20px;
   }
 }
 

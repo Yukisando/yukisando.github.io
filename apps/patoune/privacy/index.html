@@ -9,76 +9,124 @@
       rel="canonical"
       href="https://nathandecastro.com/apps/patoune/privacy/"
     />
+    <link rel="stylesheet" href="/css/site-nav.css" />
     <style>
       body {
         font-family: system-ui, Segoe UI, Roboto, Arial;
-        margin: 28px;
+        margin: 0;
         color: #111;
+        background: #faf7f4;
+      }
+      main {
+        max-width: 700px;
+        margin: 0 auto;
+        padding: 120px 28px 40px;
+        line-height: 1.6;
       }
       h1 {
         margin-bottom: 8px;
+        color: #f05f40;
       }
       section {
         margin-top: 16px;
       }
+      a {
+        color: #c14a33;
+      }
     </style>
   </head>
   <body>
-    <h1>Privacy Policy for Patoune</h1>
-    <p><em>Last updated: February 9, 2026</em></p>
+    <nav class="site-nav" data-site-nav>
+      <div class="site-nav__inner">
+        <a href="/" class="site-nav__brand">Nathan de Castro</a>
+        <div class="site-nav__links">
+          <a href="/#about" class="site-nav__link">About</a>
+          <a href="/coldsnap/" class="site-nav__link">ColdSnap</a>
+          <a href="/doc/cv_en.pdf" class="site-nav__link" data-cv-link>Resume</a>
+          <a href="/#contact" class="site-nav__link">Contact</a>
+          <a href="/Portfolio/" class="site-nav__link site-nav__link--secondary">Stuff</a>
+        </div>
+        <button
+          type="button"
+          class="site-nav__toggle"
+          aria-controls="site-nav-mobile"
+          aria-expanded="false"
+          data-site-nav-toggle
+        >
+          Menu
+        </button>
+      </div>
+      <div class="site-nav__mobile" id="site-nav-mobile" data-site-nav-menu>
+        <a href="/#about" class="site-nav__link">About</a>
+        <a href="/coldsnap/" class="site-nav__link">ColdSnap</a>
+        <a href="/doc/cv_en.pdf" class="site-nav__link" data-cv-link>Resume</a>
+        <a href="/#contact" class="site-nav__link">Contact</a>
+        <a href="/Portfolio/" class="site-nav__link site-nav__link--secondary">Stuff</a>
+      </div>
+    </nav>
 
-    <section>
-      <h2>Summary</h2>
-      <p>
-        Patoune is a small utility app that helps cat owners remember which
-        claws they trimmed recently. The app stores only the minimal information
-        necessary to provide this function (e.g., paw identifiers and dates).
-        We do <strong>not</strong> collect personal information or analytics.
-      </p>
-    </section>
+    <main>
+      <div class="site-context-bar">
+        <a href="/apps/patoune/privacy/" class="site-context-link is-active">Privacy Policy</a>
+      </div>
 
-    <section>
-      <h2>Data we access</h2>
-      <p>
-        All data created by Patoune is stored locally on your device (in the
-        app's local storage). We do not transmit or back up this information to
-        any server by default.
-      </p>
-    </section>
+      <h1>Privacy Policy for Patoune</h1>
+      <p><em>Last updated: February 9, 2026</em></p>
 
-    <section>
-      <h2>How we use your data</h2>
-      <p>
-        The data is used only to show the history of trimmed claws and to help
-        you track future trims. The app does not share or sell any of this
-        information.
-      </p>
-    </section>
+      <section>
+        <h2>Summary</h2>
+        <p>
+          Patoune is a small utility app that helps cat owners remember which
+          claws they trimmed recently. The app stores only the minimal information
+          necessary to provide this function (e.g., paw identifiers and dates).
+          We do <strong>not</strong> collect personal information or analytics.
+        </p>
+      </section>
 
-    <section>
-      <h2>Third-party services</h2>
-      <p>
-        Patoune does not use third-party analytics, advertising, or cloud
-        services. If you choose to export or back up your data using another
-        service, that action is handled by the tools you select, not by
-        Patoune.
-      </p>
-    </section>
+      <section>
+        <h2>Data we access</h2>
+        <p>
+          All data created by Patoune is stored locally on your device (in the
+          app's local storage). We do not transmit or back up this information to
+          any server by default.
+        </p>
+      </section>
 
-    <section>
-      <h2>Your rights</h2>
-      <p>
-        You can delete all app data at any time via the app settings or by
-        uninstalling the app. If you have questions or want assistance, contact
-        us at the address below.
-      </p>
-    </section>
+      <section>
+        <h2>How we use your data</h2>
+        <p>
+          The data is used only to show the history of trimmed claws and to help
+          you track future trims. The app does not share or sell any of this
+          information.
+        </p>
+      </section>
 
-    <footer>
-      <p>
-        Contact:
-        <a href="mailto:decastronathan@gmail.com">decastronathan@gmail.com</a>
-      </p>
-    </footer>
+      <section>
+        <h2>Third-party services</h2>
+        <p>
+          Patoune does not use third-party analytics, advertising, or cloud
+          services. If you choose to export or back up your data using another
+          service, that action is handled by the tools you select, not by
+          Patoune.
+        </p>
+      </section>
+
+      <section>
+        <h2>Your rights</h2>
+        <p>
+          You can delete all app data at any time via the app settings or by
+          uninstalling the app. If you have questions or want assistance, contact
+          us at the address below.
+        </p>
+      </section>
+
+      <footer>
+        <p>
+          Contact:
+          <a href="mailto:decastronathan@gmail.com">decastronathan@gmail.com</a>
+        </p>
+      </footer>
+    </main>
+    <script src="/js/site-nav.js" defer></script>
   </body>
 </html>

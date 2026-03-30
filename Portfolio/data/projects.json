@@ -7,7 +7,7 @@
     "subtitle": "Thesis",
     "href": "doc/listen.pdf",
     "media": [
-      "full/listen.png"
+      "assets/research/listen.png"
     ]
   },
   {
@@ -18,7 +18,7 @@
     "subtitle": "Paper",
     "href": "doc/inkwell.pdf",
     "media": [
-      "full/inkwell-2.png"
+      "assets/research/inkwell-2.png"
     ]
   },
   {
@@ -29,7 +29,7 @@
     "subtitle": "Paper",
     "href": "doc/humanstats.pdf",
     "media": [
-      "full/humanstats.png"
+      "assets/research/humanstats.png"
     ]
   },
   {
@@ -38,7 +38,7 @@
     "kind": "audio",
     "title": "Dean - The Spiritual Journey",
     "media": [
-      "vault/Dean.mp3"
+      "assets/audio/dean.mp3"
     ],
     "description": "A fascinating conversation with Dean, an ex-Jehovah's Witness who embarked on an extraordinary spiritual journey through many different religions. We explore his path of discovery, the various faiths he encountered along the way, and discuss the unique spiritual state he has reached today after years of searching and questioning."
   },
@@ -48,7 +48,7 @@
     "kind": "audio",
     "title": "Frank - The Elder's Perspective",
     "media": [
-      "vault/Frank.mp3"
+      "assets/audio/frank.mp3"
     ],
     "description": "An intimate interview with Frank, a Jehovah's Witness elder, where we discuss not only religious beliefs and practices, but also deeply personal topics including the heartbreaking reality of living next to his shunned daughter. Frank shares his journey to becoming an elder and provides insight into the complex emotional and spiritual challenges of his faith."
   },
@@ -58,7 +58,7 @@
     "kind": "audio",
     "title": "Frank Part 2 - Deeper Conversations",
     "media": [
-      "vault/Frank2.mp3"
+      "assets/audio/frank2.mp3"
     ],
     "description": "The continuation of our conversation with Frank, delving deeper into the complexities of his role as an elder, the personal cost of religious conviction, and further exploration of the difficult balance between faith and family relationships within the Jehovah's Witness community."
   }
