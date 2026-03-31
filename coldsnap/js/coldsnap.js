@@ -103,6 +103,7 @@ function openModal(projectId) {
   
   const modal = document.getElementById('projectModal');
   const modalBody = document.getElementById('modalBody');
+  const modalFooter = document.getElementById('modalFooter');
 
   stopProjectModalMedia(true);
   
@@ -183,9 +184,13 @@ function openModal(projectId) {
         </ul>
       ` : ''}
       ${techHTML}
-      ${linksHTML}
     </div>
   `;
+
+  if (modalFooter) {
+    modalFooter.innerHTML = linksHTML;
+    modalFooter.classList.toggle('is-empty', !linksHTML);
+  }
   
   modal.classList.add('active');
   document.body.style.overflow = 'hidden';
@@ -203,8 +208,13 @@ function closeModal(event) {
   stopProjectModalMedia(true);
   modal.classList.remove('active');
   const modalBody = document.getElementById('modalBody');
+  const modalFooter = document.getElementById('modalFooter');
   if (modalBody) {
     modalBody.innerHTML = '';
+  }
+  if (modalFooter) {
+    modalFooter.innerHTML = '';
+    modalFooter.classList.add('is-empty');
   }
   document.body.style.overflow = '';
   currentSlide = 0;
