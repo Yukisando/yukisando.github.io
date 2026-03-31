@@ -218,7 +218,9 @@
 
 .site-nav__mobile .site-nav__link {
   display: block;
+  position: relative;
   padding: 10px 0;
+  padding-left: 18px;
   border-radius: 0;
   color: var(--site-nav-text);
 }
@@ -226,13 +228,22 @@
 .site-nav__mobile .site-nav__link::after {
   display: block;
   left: 0;
-  right: 0;
-  bottom: 0;
+  right: auto;
+  top: 9px;
+  bottom: 9px;
+  width: 4px;
+  height: auto;
+  transform: scaleY(0);
+  transform-origin: center;
 }
 
 .site-nav__mobile .site-nav__link.is-active {
   background-color: transparent;
   box-shadow: none;
+}
+
+.site-nav__mobile .site-nav__link.is-active::after {
+  transform: scaleY(1);
 }
 
 .site-nav--overlay:not(.is-affixed) {

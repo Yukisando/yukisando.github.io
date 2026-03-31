@@ -4,13 +4,6 @@ document.addEventListener('DOMContentLoaded', function () {
   const anchorSelectionHoldMs = 1600;
   const navItems = [
     {
-      key: 'about',
-      label: 'About',
-      href: '/#about',
-      homeHref: '#about',
-      usePageScrollOnHome: true,
-    },
-    {
       key: 'coldsnap',
       label: 'ColdSnap',
       href: '/coldsnap/',
@@ -26,6 +19,13 @@ document.addEventListener('DOMContentLoaded', function () {
       label: 'Contact',
       href: '/#contact',
       homeHref: '#contact',
+      usePageScrollOnHome: true,
+    },
+    {
+      key: 'about',
+      label: 'About',
+      href: '/#about',
+      homeHref: '#about',
       usePageScrollOnHome: true,
     },
     {
@@ -203,6 +203,32 @@ document.addEventListener('DOMContentLoaded', function () {
     return `<a href="${href}" class="${classes.join(' ')}"${cvAttribute}${keyAttribute}>${item.label}</a>`;
   }
 
+  function findNavItemByHomeHash(hash) {
+    if (!hash || !hash.startsWith('#')) {
+      return null;
+    }
+
+    return navItems.find(function (item) {
+      return item.homeHref === hash;
+    }) || null;
+  }
+
+  function syncRequestedKeyFromHash(nav) {
+    if ((nav.dataset.siteNavPage || '') !== 'home') {
+      return;
+    }
+
+    const matchedItem = findNavItemByHomeHash(window.location.hash);
+    if (!matchedItem) {
+      delete nav.dataset.siteNavRequestedKey;
+      delete nav.dataset.siteNavRequestedUntil;
+      return;
+    }
+
+    nav.dataset.siteNavRequestedKey = matchedItem.key;
+    nav.dataset.siteNavRequestedUntil = String(Date.now() + anchorSelectionHoldMs);
+  }
+
   function renderNav(nav, index) {
     const currentPage = nav.dataset.siteNavPage || '';
     const mode = nav.dataset.siteNavMode || 'solid';
@@ -262,10 +288,9 @@ document.addEventListener('DOMContentLoaded', function () {
       element.classList.remove('is-active');
     });
 
-    const nextActive = nav.querySelector('[data-nav-key="' + activeKey + '"]');
-    if (nextActive) {
-      nextActive.classList.add('is-active');
-    }
+    nav.querySelectorAll('[data-nav-key="' + activeKey + '"]').forEach(function (element) {
+      element.classList.add('is-active');
+    });
   }
 
   function getHomeActiveKey(nav) {
@@ -307,6 +332,7 @@ document.addEventListener('DOMContentLoaded', function () {
   navs.forEach(function (nav, index) {
     renderNav(nav, index);
     applyNavPalette(nav);
+    syncRequestedKeyFromHash(nav);
     updateNavActiveState(nav);
 
     const toggle = nav.querySelector('[data-site-nav-toggle]');
@@ -392,8 +418,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   window.addEventListener('hashchange', function () {
     navs.forEach(function (nav) {
-      delete nav.dataset.siteNavRequestedKey;
-      delete nav.dataset.siteNavRequestedUntil;
+      syncRequestedKeyFromHash(nav);
     });
     navs.forEach(updateNavActiveState);
   });
