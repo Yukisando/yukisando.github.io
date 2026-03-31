@@ -581,6 +581,36 @@
     }
   }
 
+  function stopMediaPlayback(container, reset = false) {
+    if (!container) return;
+
+    container.querySelectorAll('video, audio').forEach((media) => {
+      media.pause();
+      if (reset) {
+        media.currentTime = 0;
+      }
+    });
+  }
+
+  function syncMediaPlayback(container) {
+    if (!container) return;
+
+    container.querySelectorAll('video, audio').forEach((media) => {
+      const slide = media.closest('.carousel-slide');
+      const isVisible = !slide || slide.style.opacity === '1' || slide.classList.contains('active');
+
+      if (!isVisible) {
+        media.pause();
+        media.currentTime = 0;
+        return;
+      }
+
+      if (media.tagName === 'VIDEO') {
+        media.play().catch((error) => console.log('Video autoplay failed:', error));
+      }
+    });
+  }
+
   function createGallery(item) {
     let currentIndex = 0;
     const totalSlides = item.media.length;
@@ -754,6 +784,7 @@
         slides.forEach((slide, index) => {
           slide.style.opacity = index === currentIndex ? '1' : '0';
         });
+        syncMediaPlayback(slidesWrapper);
         counter.textContent = `${currentIndex + 1} / ${totalSlides}`;
         // Update dots
         dots.forEach((dot, index) => {
@@ -812,6 +843,7 @@
           slides.forEach((slide, i) => {
             slide.style.opacity = i === currentIndex ? '1' : '0';
           });
+          syncMediaPlayback(slidesWrapper);
           counter.textContent = `${currentIndex + 1} / ${totalSlides}`;
           dots.forEach((d, i) => {
             d.style.background = i === currentIndex ? '#F05F40' : 'rgba(255, 255, 255, 0.3)';
@@ -837,6 +869,8 @@
     if (totalSlides > 1) {
       galleryContainer.appendChild(counter);
     }
+
+    syncMediaPlayback(slidesWrapper);
     
     return galleryContainer;
   }
@@ -1161,6 +1195,7 @@
     // Remove any existing modal
     const existingModal = document.querySelector('.simple-modal');
     if (existingModal) {
+      stopMediaPlayback(existingModal, true);
       existingModal.remove();
     }
 
@@ -1462,6 +1497,7 @@
     requestAnimationFrame(() => {
       backdrop.style.opacity = '1';
       modalContent.style.transform = 'scale(1)';
+      syncMediaPlayback(backdrop);
     });
 
     // Close on backdrop click
@@ -1482,6 +1518,7 @@
   }
 
   function closeModal(backdrop) {
+    stopMediaPlayback(backdrop, true);
     backdrop.style.opacity = '0';
     const modalContent = backdrop.querySelector('div');
     if (modalContent) {

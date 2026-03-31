@@ -17,14 +17,14 @@
       "@type": "Person",
       "name": "Nathan de Castro",
       "url": "https://nathandecastro.com",
-      "jobTitle": "Unity Developer & Gamification Specialist",
+      "jobTitle": "Software Developer & Creative Technologist",
       "email": "decastronathan@gmail.com",
       "sameAs": [
         "https://www.linkedin.com/in/nathan-de-castro-750439117/",
         "https://soundcloud.com/yukisound",
         "https://www.codementor.io/@decastronathan"
       ],
-      "knowsAbout": ["Unity", "C#", "Flutter", "Gamification", "Educational Games", "Game Development"]
+      "knowsAbout": ["Flutter", "Dart", "Unity", "C#", "Game Development", "Interactive Installations", "Mobile Apps", "Cross-Platform Development"]
     }
     </script>
 
@@ -51,53 +51,12 @@
 
     <!-- Theme CSS -->
     <link href="css/creative.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css/site-nav.css" />
 
     <!-- Your custom CSS -->
     <link rel="stylesheet" href="css/custom.css" />
   </head>
-
-  <body id="page-top">
-    <nav id="mainNav" class="navbar navbar-default navbar-fixed-top">
-      <div class="container-fluid">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-          <button
-            type="button"
-            class="navbar-toggle collapsed"
-            data-toggle="collapse"
-            data-target="#bs-example-navbar-collapse-1"
-          >
-            <span class="sr-only">Toggle navigation</span
-            ><i class="fa fa-bars"></i>
-          </button>
-          <a class="navbar-brand page-scroll" href="/">Nathan de Castro</a>
-        </div>
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-          <ul class="nav navbar-nav navbar-right">
-            <li>
-              <a class="page-scroll" href="/Portfolio/">Personal Portfolio</a>
-            </li>
-            <li>
-              <a class="page-scroll" href="/coldsnap/">ColdSnap</a>
-            </li>
-            <li>
-              <a class="page-scroll" href="/doc/cv_en.pdf" id="nav-cv-link"
-                >Resume/CV</a
-              >
-            </li>
-              <li>
-                <a class="page-scroll" href="#about">About</a>
-              </li>
-            <li>
-              <a class="page-scroll" href="#contact">Contact</a>
-            </li>
-          </ul>
-        </div>
-        <!-- /.navbar-collapse -->
-      </div>
-      <!-- /.container-fluid -->
-    </nav>
+    <nav class="site-nav" data-site-nav data-site-nav-page="home" data-site-nav-mode="overlay"></nav>
     <header>
       <div class="header-content">
         <div class="header-content-inner">
@@ -192,50 +151,68 @@
             opacity: 0;
           }
         }
+
+        .about-row {
+          display: flex;
+          align-items: center;
+          flex-wrap: wrap;
+        }
+
+        .about-portrait img {
+          width: 100%;
+          max-width: 220px;
+        }
+
+        @media (max-width: 767px) {
+          .about-portrait {
+            margin-top: 2rem;
+          }
+          .about-portrait img {
+            max-width: 140px;
+          }
+        }
       </style>
       <div class="container">
-        <div class="row text-center align-items-center">
-          <h2 class="section-heading">Greetings, fellow adventurer!</h2>
-          <hr class="light" />
+        <h2 class="section-heading text-center">Greetings, fellow adventurer!</h2>
+        <hr class="light" />
+        <div class="row about-row">
           <div class="col-sm-7 text-justify">
             <div class="text-faded">
               <p>
-                I'm <em>Nathan</em>, your friendly neighborhood
-                <em>Unity developer</em>. With a <u class="konami">k</u>nack f<u
-                  class="konami"
-                  >o</u
-                >r crafti<u class="konami">n</u>g
-                <em>educ<u class="konami">a</u>tional</em> and enthralling video
-                ga<u class="konami">m</u>es, I'm always seek<u class="konami"
-                  >i</u
-                >ng inspiration, knowledge, and whether or not the cake is a
-                lie. 🍰
-              </p>
-
-              <p>
-                I wield C# like Gandalf 🧙‍♂️ to develop
-                <em>meaningful and impactful</em> software. Most of which have
-                introduced me to brilliant minds and wondrous cultures all over
-                the planet.
+                I'm Nathan, a developer wor<u class="konami">k</u>ing somewhere
+                between games and software.
               </p>
               <p>
-                My background in music computing re-inforced my belief that good
-                audio has the power to transforms even the most ordinary
-                interactions into memorable experiences! 📼🎶
+                I build Unity experiences such as games and large-scale interactive
+                installati<u class="konami">o</u>ns, alongside cross-platform mobile and web apps
+                with Flutter that are actually pleasant
+                to use.
               </p>
               <p>
-                When I'm not harnessing the power of <em>Gamification</em> to
-                change the world, I'm out on a hike, up in a tree or digging
-                straight down looking for redstone. ⛏️🚨
+                My work lea<u class="konami">n</u>s on cognitive science and
+                interaction design. I like systems that feel intuitive,
+                responsive, and don't get in the way.
+              </p>
+              <p>
+                I tend to build tools the same w<u class="konami">a</u>y  I build games.
+                Clear feedback, <u class="konami">m</u>inimal friction,
+                and just enough polish to make them enjoyable to use.
+              </p>
+              <p>
+                At the core, I'm just a geek who likes building
+                useful things and making complex systems feel simple.
+              </p>
+              <p>
+                When I'm not harnessing the power of Gamification to change the world,
+                 I'm out on a h<u class="konami">i</u>ke, up in a tree or digging straight down looking for redstone.
               </p>
             </div>
           </div>
-          <div class="col-sm-5 text-center">
+          <div class="col-xs-8 col-xs-offset-2 col-sm-5 col-sm-offset-0 text-center about-portrait">
             <img
               class="img-rounded"
               src="img/portrait.png"
               alt="portrait"
-              style="width: 50%"
             />
           </div>
         </div>
@@ -382,26 +359,25 @@
             >View / Download</a
           >
           <a href="/Portfolio/" class="btn btn-default btn-xl sr-button"
-            >Portfolio</a
+            >Research</a
           >
-          <!-- <a href="/GameCenter/" class="btn btn-default btn-xl sr-button">Game Center</a> -->
           <br /><br />
           <h3>Other links</h3>
           <div style="margin-top: 20px; display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 10px;">
             <a
               href="https://www.linkedin.com/in/nathan-de-castro-750439117/"
               class="btn btn-default btn-xl sr-button"
-              ><i class="fa fa-linkedin"></i> LinkedIn</a
+              ><i class="fa fa-linkedin"></i><br>LinkedIn</a
             >
             <a
               href="https://www.codementor.io/@decastronathan?refer=badge"
               class="btn btn-default btn-xl sr-button"
-              ><i class="fa fa-code"></i> CodeMentor</a
+              ><i class="fa fa-code"></i><br>CodeMentor</a
             >
             <a
               href="https://soundcloud.com/yukisound"
               class="btn btn-default btn-xl sr-button"
-              ><i class="fa fa-soundcloud"></i> Soundcloud</a
+              ><i class="fa fa-soundcloud"></i><br> Soundcloud</a
             >
           </div>
         </div>
@@ -451,6 +427,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.js" defer></script>
     <script src="vendor/scrollreveal/scrollreveal.js" defer></script>
     <script src="vendor/magnific-popup/jquery.magnific-popup.js" defer></script>
+    <script src="js/site-nav.js" defer></script>
     <!-- Theme JavaScript -->
     <script src="js/creative.js" defer></script>
     <script src="js/freelancer.js" defer></script>

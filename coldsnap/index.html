@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="ColdSnap - Gamification company creating Unity educational games and cross-platform Flutter apps">
   <meta name="author" content="Nathan de Castro">
-  <meta name="theme-color" content="#3B82F6">
+  <meta name="theme-color" content="#F5841A">
   <title>ColdSnap — Gamification Studio | Educational Games & Apps</title>
   <link rel="canonical" href="https://nathandecastro.com/coldsnap/" />
   <link rel="shortcut icon" type="image/png" href="/img/spock.png" />
@@ -22,6 +22,7 @@
   
   <!-- ColdSnap CSS -->
   <link href="/coldsnap/css/coldsnap.css" rel="stylesheet">
+  <link href="/css/site-nav.css" rel="stylesheet">
 
   <!-- Structured Data -->
   <script type="application/ld+json">
@@ -44,30 +45,7 @@
 
 <body>
   <!-- Navigation -->
-  <nav class="coldsnap-nav">
-    <div class="nav-container">
-      <a href="/coldsnap/" class="nav-brand">
-        <img src="/coldsnap/assets/coldnsap_logo.png" alt="ColdSnap" class="brand-logo">
-        <span>ColdSnap</span>
-      </a>
-      
-      <div class="nav-links">
-        <a href="#unity-games">Games</a>
-        <a href="#flutter-apps">Apps</a>
-        <a href="/">Back to Portfolio</a>
-      </div>
-      
-      <button class="mobile-toggle" onclick="toggleMobileMenu()">
-        <i class="fa fa-bars"></i>
-      </button>
-    </div>
-    
-    <div class="mobile-menu" id="mobileMenu">
-      <a href="#unity-games" onclick="closeMobileMenu()">Games</a>
-      <a href="#flutter-apps" onclick="closeMobileMenu()">Apps</a>
-      <a href="/">Back to Portfolio</a>
-    </div>
-  </nav>
+  <nav class="site-nav" data-site-nav data-site-nav-page="coldsnap" data-site-nav-mode="overlay"></nav>
 
   <!-- Hero Section -->
   <header class="hero">
@@ -79,17 +57,22 @@
       </h1>
       <p class="hero-subtitle">Creating impactful educational games and cross-platform applications</p>
       <div class="hero-tags">
-        <span class="tag"><i class="fa fa-gamepad"></i> Unity Games</span>
+        <span class="tag"><i class="fa fa-desktop"></i> Interactive Installations</span>
+        <span class="tag"><i class="fa fa-gamepad"></i> Games</span>
         <span class="tag"><i class="fa fa-mobile"></i> Flutter Apps</span>
         <span class="tag"><i class="fa fa-globe"></i> Web Platforms</span>
       </div>
-      <a href="#unity-games" class="cta-button">View Projects</a>
+      <a href="#projects-container" class="cta-button">View Projects</a>
     </div>
     <div class="hero-visual">
       <div class="floating-card card-1">🎮</div>
       <div class="floating-card card-2">📱</div>
       <div class="floating-card card-3">🎯</div>
     </div>
+    <a href="#projects-container" class="scroll-hint">
+      <span class="scroll-hint__label">Scroll to see my work</span>
+      <span class="scroll-hint__arrow" aria-hidden="true">v</span>
+    </a>
   </header>
 
   <!-- Projects Container -->
@@ -106,7 +89,7 @@
       </div>
       <p>Making learning fun through gamification</p>
       <div class="footer-links">
-        <a href="/">Main Portfolio</a>
+      <a href="/Portfolio/">Stuff</a>
         <a href="mailto:decastronathan@gmail.com">Contact</a>
         <a href="https://www.linkedin.com/in/nathan-de-castro-750439117/">LinkedIn</a>
       </div>
@@ -131,6 +114,7 @@
   </div>
 
   <!-- ColdSnap JavaScript -->
+  <script src="/js/site-nav.js" defer></script>
   <script src="/coldsnap/js/coldsnap.js" defer></script>
   <script src="/coldsnap/data/projects.js" defer></script>
   <script>

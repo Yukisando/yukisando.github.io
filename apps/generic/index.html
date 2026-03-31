@@ -12,26 +12,33 @@
       rel="canonical"
       href="https://nathandecastro.com/apps/generic/"
     />
+    <link rel="stylesheet" href="/css/site-nav.css" />
     <style>
       body {
         font-family: system-ui, Segoe UI, Roboto, Arial, sans-serif;
-        margin: 28px;
+        margin: 0;
         color: #111;
-        line-height: 1.6;
+        background: #faf7f4;
+      }
+      main {
         max-width: 700px;
+        margin: 0 auto;
+        padding: 120px 28px 40px;
+        line-height: 1.6;
       }
       h1 {
         margin-bottom: 8px;
-        color: #1a73e8;
+        color: #f05f40;
       }
       ul {
         margin-top: 24px;
+        padding-left: 20px;
       }
       li {
         margin-bottom: 12px;
       }
       a {
-        color: #1a73e8;
+        color: #c14a33;
         font-size: 1.1em;
       }
       footer {
@@ -42,21 +49,32 @@
     </style>
   </head>
   <body>
-    <h1>App Policies</h1>
-    <p>
-      Legal documents for apps and games developed by Nathan De Castro.
-    </p>
+    <nav class="site-nav" data-site-nav data-site-nav-mode="solid"></nav>
 
-    <ul>
-      <li><a href="privacy/">Privacy Policy</a></li>
-      <li><a href="tos/">Terms of Service</a></li>
-    </ul>
+    <main>
+      <div class="site-context-bar">
+        <a href="/apps/generic/" class="site-context-link is-active">Overview</a>
+        <a href="/apps/generic/privacy/" class="site-context-link">Privacy Policy</a>
+        <a href="/apps/generic/tos/" class="site-context-link">Terms of Service</a>
+      </div>
 
-    <footer>
+      <h1>App Policies</h1>
       <p>
-        <strong>Contact:</strong>
-        <a href="mailto:decastronathan@gmail.com">decastronathan@gmail.com</a>
+        Legal documents for apps and games developed by Nathan De Castro.
       </p>
-    </footer>
+
+      <ul>
+        <li><a href="privacy/">Privacy Policy</a></li>
+        <li><a href="tos/">Terms of Service</a></li>
+      </ul>
+
+      <footer>
+        <p>
+          <strong>Contact:</strong>
+          <a href="mailto:decastronathan@gmail.com">decastronathan@gmail.com</a>
+        </p>
+      </footer>
+    </main>
+    <script src="/js/site-nav.js" defer></script>
   </body>
 </html>

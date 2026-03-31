@@ -9,67 +9,90 @@
       rel="canonical"
       href="https://nathandecastro.com/apps/waddonsync/privacy/"
     />
+    <link rel="stylesheet" href="/css/site-nav.css" />
     <style>
       body {
         font-family: system-ui, Segoe UI, Roboto, Arial;
-        margin: 28px;
+        margin: 0;
         color: #111;
+        background: #faf7f4;
+      }
+      main {
+        max-width: 700px;
+        margin: 0 auto;
+        padding: 120px 28px 40px;
+        line-height: 1.6;
       }
       h1 {
         margin-bottom: 8px;
+        color: #f05f40;
       }
       section {
         margin-top: 16px;
       }
+      a {
+        color: #c14a33;
+      }
     </style>
   </head>
   <body>
-    <h1>Privacy Policy for WaddonSync</h1>
-    <p><em>Last updated: January 12, 2026</em></p>
+    <nav class="site-nav" data-site-nav data-site-nav-mode="solid"></nav>
 
-    <section>
-      <h2>Summary</h2>
-      <p>
-        WaddonSync is a desktop app that stores your addon backups in your
-        Google Drive. We do <strong>not</strong> collect personal data.
-      </p>
-    </section>
+    <main>
+      <div class="site-context-bar">
+        <a href="/apps/waddonsync/" class="site-context-link">Overview</a>
+        <a href="/apps/waddonsync/privacy/" class="site-context-link is-active">Privacy Policy</a>
+        <a href="/apps/waddonsync/tos/" class="site-context-link">Terms of Service</a>
+      </div>
 
-    <section>
-      <h2>Data we access</h2>
-      <p>
-        The app only accesses files it creates in your Google Drive (a folder
-        named <strong>WaddonSync Backups</strong>).
-      </p>
-    </section>
+      <h1>Privacy Policy for WaddonSync</h1>
+      <p><em>Last updated: January 12, 2026</em></p>
 
-    <section>
-      <h2>How we use your data</h2>
-      <p>
-        Backups are stored in your Google Drive. The app retains the 3 most
-        recent backups; you can delete them anytime from Google Drive.
-      </p>
-    </section>
+      <section>
+        <h2>Summary</h2>
+        <p>
+          WaddonSync is a desktop app that stores your addon backups in your
+          Google Drive. We do <strong>not</strong> collect personal data.
+        </p>
+      </section>
 
-    <section>
-      <h2>Third-party services</h2>
-      <p>We use the Google Drive API to store files in your Drive.</p>
-    </section>
+      <section>
+        <h2>Data we access</h2>
+        <p>
+          The app only accesses files it creates in your Google Drive (a folder
+          named <strong>WaddonSync Backups</strong>).
+        </p>
+      </section>
 
-    <section>
-      <h2>Your rights</h2>
-      <p>
-        You can revoke Google Drive access via your Google Account > Security >
-        Manage third-party access. Contact us to delete any hosted content or
-        for questions.
-      </p>
-    </section>
+      <section>
+        <h2>How we use your data</h2>
+        <p>
+          Backups are stored in your Google Drive. The app retains the 3 most
+          recent backups; you can delete them anytime from Google Drive.
+        </p>
+      </section>
 
-    <footer>
-      <p>
-        Contact:
-        <a href="mailto:decastronathan@gmail.com">decastronathan@gmail.com</a>
-      </p>
-    </footer>
+      <section>
+        <h2>Third-party services</h2>
+        <p>We use the Google Drive API to store files in your Drive.</p>
+      </section>
+
+      <section>
+        <h2>Your rights</h2>
+        <p>
+          You can revoke Google Drive access via your Google Account > Security >
+          Manage third-party access. Contact us to delete any hosted content or
+          for questions.
+        </p>
+      </section>
+
+      <footer>
+        <p>
+          Contact:
+          <a href="mailto:decastronathan@gmail.com">decastronathan@gmail.com</a>
+        </p>
+      </footer>
+    </main>
+    <script src="/js/site-nav.js" defer></script>
   </body>
 </html>

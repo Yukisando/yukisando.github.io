@@ -9,26 +9,48 @@
       content="WaddonSync backs up World of Warcraft addon data to your Google Drive."
     />
     <link rel="canonical" href="https://nathandecastro.com/apps/waddonsync/" />
+    <link rel="stylesheet" href="/css/site-nav.css" />
     <style>
       body {
         font-family: system-ui, Segoe UI, Roboto, Arial;
-        margin: 32px;
+        margin: 0;
         color: #111;
+        background: #faf7f4;
+      }
+      main {
+        max-width: 700px;
+        margin: 0 auto;
+        padding: 120px 32px 40px;
+        line-height: 1.6;
       }
       a {
-        color: #0366d6;
+        color: #c14a33;
+      }
+      h1 {
+        color: #f05f40;
       }
     </style>
   </head>
   <body>
-    <h1>WaddonSync</h1>
-    <p>
-      WaddonSync securely backs up your World of Warcraft addon data to your
-      Google Drive in a <strong>WaddonSync Backups</strong> folder.
-    </p>
-    <p>
-      <a href="/apps/waddonsync/privacy/">Privacy policy</a> ·
-      <a href="/apps/waddonsync/tos/">Terms of Service</a>
-    </p>
+    <nav class="site-nav" data-site-nav data-site-nav-mode="solid"></nav>
+
+    <main>
+      <div class="site-context-bar">
+        <a href="/apps/waddonsync/" class="site-context-link is-active">Overview</a>
+        <a href="/apps/waddonsync/privacy/" class="site-context-link">Privacy Policy</a>
+        <a href="/apps/waddonsync/tos/" class="site-context-link">Terms of Service</a>
+      </div>
+
+      <h1>WaddonSync</h1>
+      <p>
+        WaddonSync securely backs up your World of Warcraft addon data to your
+        Google Drive in a <strong>WaddonSync Backups</strong> folder.
+      </p>
+      <p>
+        <a href="/apps/waddonsync/privacy/">Privacy Policy</a> ·
+        <a href="/apps/waddonsync/tos/">Terms of Service</a>
+      </p>
+    </main>
+    <script src="/js/site-nav.js" defer></script>
   </body>
 </html>
