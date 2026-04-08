@@ -1,6 +1,13 @@
-@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800');
+@font-face {
+  font-family: 'Comfortaa';
+  src: url('../fonts/Comfortaa-VariableFont_wght.ttf') format('truetype');
+  font-weight: 300 700;
+  font-style: normal;
+  font-display: swap;
+}
 
 :root {
+  --site-font-sans: 'Comfortaa', 'Segoe UI', Arial, sans-serif;
   --site-nav-bg: var(--site-nav-solid-bg, #ffffff);
   --site-nav-bg-strong: var(--site-nav-solid-bg, #ffffff);
   --site-nav-border: var(--site-nav-solid-border, rgba(34, 34, 34, 0.05));
@@ -20,6 +27,15 @@
   --site-nav-overlay-text: rgba(255, 255, 255, 0.82);
 }
 
+html,
+body,
+button,
+input,
+select,
+textarea {
+  font-family: var(--site-font-sans);
+}
+
 .site-nav {
   position: fixed;
   top: 0;
@@ -31,7 +47,7 @@
   -webkit-backdrop-filter: none;
   border-bottom: 1px solid var(--site-nav-border);
   box-shadow: none;
-  font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif;
+  font-family: var(--site-font-sans);
   transition:
     background-color 0.35s ease,
     border-color 0.35s ease,
