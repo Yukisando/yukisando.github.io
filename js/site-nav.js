@@ -152,8 +152,18 @@ document.addEventListener('DOMContentLoaded', function () {
     const pageBackground = backgroundSource.backgroundColor || getCssColor(root, '--bg-dark') || fallbackBackground;
     const hasHeroImage = backgroundSource.hasBackgroundImage;
     const isDarkSurface = hasHeroImage || relativeLuminance(pageBackground) < 0.42;
-    const solidBackground = { r: 255, g: 255, b: 255, a: 1 };
-    const solidText = { r: 34, g: 34, b: 34, a: 1 };
+    const solidBackground = isDarkSurface
+      ? mixColors(pageBackground, { r: 0, g: 0, b: 0, a: 1 }, 0.24)
+      : { r: 255, g: 255, b: 255, a: 1 };
+    const solidText = isDarkSurface
+      ? { r: 240, g: 240, b: 240, a: 1 }
+      : { r: 34, g: 34, b: 34, a: 1 };
+    const solidBorder = isDarkSurface
+      ? 'rgba(255, 255, 255, 0.08)'
+      : 'rgba(34, 34, 34, 0.05)';
+    const solidTextSoft = isDarkSurface
+      ? 'rgba(240, 240, 240, 0.7)'
+      : 'rgba(34, 34, 34, 0.74)';
     const overlayBase = isDarkSurface
       ? mixColors(pageBackground, { r: 0, g: 0, b: 0, a: 1 }, 0.18)
       : mixColors(pageBackground, { r: 255, g: 255, b: 255, a: 1 }, 0.08);
@@ -173,9 +183,9 @@ document.addEventListener('DOMContentLoaded', function () {
     nav.style.setProperty('--site-nav-accent', colorToRgbString(accent));
     nav.style.setProperty('--site-nav-accent-dark', colorToRgbString(accentDark));
     nav.style.setProperty('--site-nav-solid-bg', colorToRgbString(solidBackground));
-    nav.style.setProperty('--site-nav-solid-border', 'rgba(34, 34, 34, 0.05)');
+    nav.style.setProperty('--site-nav-solid-border', solidBorder);
     nav.style.setProperty('--site-nav-solid-text', colorToRgbString(solidText));
-    nav.style.setProperty('--site-nav-solid-text-soft', 'rgba(34, 34, 34, 0.74)');
+    nav.style.setProperty('--site-nav-solid-text-soft', solidTextSoft);
     nav.style.setProperty('--site-nav-overlay-bg', colorToRgbString(overlayBase, isDarkSurface ? 0.16 : 0.58));
     nav.style.setProperty('--site-nav-overlay-bg-mobile', colorToRgbString(mobileOverlayBase, isDarkSurface ? 0.78 : 0.9));
     nav.style.setProperty('--site-nav-overlay-menu-bg', colorToRgbString(menuBackground, isDarkSurface ? 0.92 : 0.96));

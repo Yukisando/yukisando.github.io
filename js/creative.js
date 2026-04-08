@@ -1,12 +1,27 @@
 (function($) {
     "use strict"; // Start of use strict
 
-    // jQuery for page scrolling feature - requires jQuery Easing plugin
+    // Native smooth scrolling for in-page CTA navigation
     $(document).on('click', 'a.page-scroll', function(event) {
-        var $anchor = $(this);
-        $('html, body').stop().animate({
-            scrollTop: ($($anchor.attr('href')).offset().top - 50)
-        }, 1250, 'easeInOutExpo');
+        var targetSelector = $(this).attr('href');
+
+        if (!targetSelector || targetSelector.charAt(0) !== '#') {
+            return;
+        }
+
+        var target = document.querySelector(targetSelector);
+
+        if (!target) {
+            return;
+        }
+
+        var targetTop = target.getBoundingClientRect().top + window.pageYOffset - 50;
+
+        window.scrollTo({
+            top: targetTop,
+            behavior: 'smooth'
+        });
+
         event.preventDefault();
     });
 
