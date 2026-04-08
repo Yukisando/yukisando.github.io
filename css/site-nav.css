@@ -317,6 +317,31 @@ textarea {
   -webkit-backdrop-filter: none;
 }
 
+.site-nav[data-site-nav-theme='dark'].is-affixed,
+.site-nav[data-site-nav-theme='dark'].site-nav--solid {
+  background-color: var(--site-nav-bg-strong);
+  border-bottom-color: var(--site-nav-border-soft);
+}
+
+.site-nav[data-site-nav-theme='dark'].is-affixed .site-nav__link,
+.site-nav[data-site-nav-theme='dark'].is-affixed .site-nav__toggle,
+.site-nav[data-site-nav-theme='dark'].site-nav--solid .site-nav__link,
+.site-nav[data-site-nav-theme='dark'].site-nav--solid .site-nav__toggle {
+  color: var(--site-nav-text);
+}
+
+.site-nav[data-site-nav-theme='dark'].is-affixed .site-nav__brand,
+.site-nav[data-site-nav-theme='dark'].site-nav--solid .site-nav__brand {
+  color: var(--site-nav-overlay-text);
+}
+
+.site-nav[data-site-nav-theme='dark'].is-affixed .site-nav__brand:hover,
+.site-nav[data-site-nav-theme='dark'].is-affixed .site-nav__brand:focus,
+.site-nav[data-site-nav-theme='dark'].site-nav--solid .site-nav__brand:hover,
+.site-nav[data-site-nav-theme='dark'].site-nav--solid .site-nav__brand:focus {
+  color: #ffffff;
+}
+
 .site-context-bar {
   display: flex;
   flex-wrap: wrap;

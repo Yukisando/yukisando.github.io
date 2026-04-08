@@ -182,6 +182,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
     nav.style.setProperty('--site-nav-accent', colorToRgbString(accent));
     nav.style.setProperty('--site-nav-accent-dark', colorToRgbString(accentDark));
+    nav.style.setProperty('--site-nav-bg', colorToRgbString(solidBackground));
+    nav.style.setProperty('--site-nav-bg-strong', colorToRgbString(solidBackground));
+    nav.style.setProperty('--site-nav-border', solidBorder);
+    nav.style.setProperty('--site-nav-border-soft', solidBorder);
+    nav.style.setProperty('--site-nav-text', colorToRgbString(solidText));
+    nav.style.setProperty('--site-nav-text-soft', solidTextSoft);
     nav.style.setProperty('--site-nav-solid-bg', colorToRgbString(solidBackground));
     nav.style.setProperty('--site-nav-solid-border', solidBorder);
     nav.style.setProperty('--site-nav-solid-text', colorToRgbString(solidText));
