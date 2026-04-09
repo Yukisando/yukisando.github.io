@@ -92,15 +92,12 @@
               const userLanguage = navigator.language || navigator.userLanguage;
               const isFrench = userLanguage.toLowerCase().startsWith("fr");
 
-              const navCvLink = document.getElementById("nav-cv-link");
               const cvDownloadLink =
                 document.getElementById("cv-download-link");
 
               if (isFrench) {
-                if (navCvLink) navCvLink.href = "/doc/cv_fr.pdf";
                 if (cvDownloadLink) cvDownloadLink.href = "/doc/cv_fr.pdf";
               } else {
-                if (navCvLink) navCvLink.href = "/doc/cv_en.pdf";
                 if (cvDownloadLink) cvDownloadLink.href = "/doc/cv_en.pdf";
               }
             }
