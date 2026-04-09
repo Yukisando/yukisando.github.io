@@ -72,6 +72,29 @@ const COLDSNAP_PROJECTS = [
       { label: 'Learn More', href: 'https://www.valbilon.com/projects/cpps-exhibit', icon: 'fa-external-link' }
     ]
   },
+  {
+    id: 'sdana-installation',
+    category: 'Interactive Installations',
+    type: 'Touchscreen Installation',
+    title: 'SDANA Natural Hazards Installation',
+    shortDescription: 'Large-format educational touchscreen teaching visitors about natural hazards in Valais',
+    description: 'An interactive installation created for SDANA, the Service des dangers naturels du Valais. Designed for a massive touchscreen at the SDANA facility, the experience helps visitors understand major natural hazards, their mechanisms, and the right behaviours to adopt through multilingual educational scenes and guided visual exploration.',
+    thumbnail: '/coldsnap/assets/projects/sdana/sdana-1.png',
+    media: [
+      '/coldsnap/assets/projects/sdana/sdana-1.png',
+      '/coldsnap/assets/projects/sdana/sdana-2.png',
+      '/coldsnap/assets/projects/sdana/sdana-3.png'
+    ],
+    tech: ['Interactive Installation', 'Large Touchscreen', 'Multi-language UX'],
+    features: [
+      'Built for a large public touchscreen display',
+      'Covers multiple natural hazards and risk scenarios',
+      'Explains hazard mechanisms with guided visual content',
+      'Behaviour and safety guidance for visitors',
+      'Multi-language navigation and content'
+    ],
+    links: []
+  },
 
   // ============================================
   // FLUTTER APPS
