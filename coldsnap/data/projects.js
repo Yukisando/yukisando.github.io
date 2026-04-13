@@ -129,30 +129,71 @@ const COLDSNAP_PROJECTS = [
     ]
   },
   {
-    id: 'waddonsync',
+    id: 'winston',
     category: 'Flutter Apps',
-    type: 'Desktop App',
-    title: 'WaddonSync',
-    shortDescription: 'Backup World of Warcraft addon data to Google Drive automatically',
-    description: 'A desktop utility that securely backs up your World of Warcraft addon data to Google Drive. Never lose your addon settings, keybindings, or UI configurations again.',
-    icon: '🎮',
-    thumbnail: '/coldsnap/assets/projects/waddonsync/waddonsync-1.png',
-    media: [
-      '/coldsnap/assets/projects/waddonsync/waddonsync-1.png',
-      '/coldsnap/assets/projects/waddonsync/waddonsync-2.png',
-      '/coldsnap/assets/projects/waddonsync/waddonsync-3.png',
-    ],
-    tech: ['Flutter', 'Dart', 'Google Drive API', 'OAuth 2.0'],
+    type: 'Web App',
+    title: 'Winston',
+    shortDescription: 'Company-wide admin butler — accounting, contracts, invoicing, and AI-powered LinkedIn management in one dashboard',
+    description: 'Winston is an internal company-wide admin platform built to run the full back-office of a multi-company studio. It handles quotes, invoices, business expenses, and contracts end-to-end, with PDF generation and export throughout. On top of that, it features an AI-powered LinkedIn content pipeline that automatically generates and publishes professional posts from news articles using GPT-4o-mini. Multi-company support means the same dashboard manages all entities under the studio umbrella.',
+    icon: '🤖',
+    tech: ['Flutter Web', 'Dart', 'Firebase', 'OpenAI GPT-4o-mini', 'LinkedIn API', 'Cloud Functions'],
     features: [
-      'Backup and restore of WoW addon data',
-      'Secure Google Drive integration',
-      'Multiple WoW installation support',
-      'Easy selection of interface options'
+      'Quotes, invoices, and business expense management',
+      'Contract creation and tracking',
+      'PDF generation and export for all documents',
+      'Multi-company management from a single dashboard',
+      'AI LinkedIn post generation from articles (GPT-4o-mini)',
+      'Direct LinkedIn publishing via OAuth',
+      'Firebase Authentication and Firestore backend',
+      'Serverless Cloud Functions architecture'
     ],
-    links: [
-      { label: 'GitHub', href: 'https://github.com/Yukisando/WaddonSync', icon: 'fa-github' },
-      { label: 'Privacy Policy', href: '/apps/waddonsync/privacy/', icon: 'fa-shield' }
-    ]
+    links: []
+  },
+  {
+    id: 'sandlog',
+    category: 'Flutter Apps',
+    type: 'Mobile/Web App',
+    title: 'Sandlog',
+    shortDescription: 'Dream journal built for half-asleep voice capture — open it, speak, and let it save for you',
+    description: 'Sandlog is a dream logging app designed for late-night use when looking at a screen is the last thing you want. The app opens straight into recording so users can speak immediately, capture a dream before it fades, and save it with minimal interaction. Built to support lucid dreaming habits and effortless dream journaling, it keeps the experience dark, quiet, and fast.',
+    thumbnail: '/coldsnap/assets/projects/Sandlog/sandlog%20(2).png',
+    media: [
+      '/coldsnap/assets/projects/Sandlog/sandlog%20(2).png',
+      '/coldsnap/assets/projects/Sandlog/sandlog%20(1).png'
+    ],
+    tech: ['Flutter', 'Dart', 'Android', 'Web', 'Speech-to-Text'],
+    features: [
+      'Starts recording as soon as the app opens',
+      'Dark interface designed for nighttime use',
+      'Hands-free voice capture for dream journaling',
+      'Fast save flow with minimal on-screen interaction',
+      'Supports lucid dream logging habits',
+      'Shortcut-friendly open-and-record workflow'
+    ],
+    links: []
+  },
+  {
+    id: 'vidanim',
+    category: 'Flutter Apps',
+    type: 'Mobile/Web App',
+    title: 'Vidanim',
+    shortDescription: 'Activity library for teachers and animators to document, estimate, and share creative work',
+    description: 'Vidanim helps teachers and animators keep track of the activities they create for children. Each entry can include photos, required materials, and the time it took to prepare, making it easier to reuse successful ideas and plan future sessions. The app also supports sharing activities with other Vidanim users so teams can collaborate and build a reusable knowledge base together.',
+    thumbnail: '/coldsnap/assets/projects/Vidanim/vidanim%20(1).jpg',
+    media: [
+      '/coldsnap/assets/projects/Vidanim/vidanim%20(1).jpg',
+      '/coldsnap/assets/projects/Vidanim/vidanim%20(2).jpg'
+    ],
+    tech: ['Flutter', 'Dart', 'Android', 'Web'],
+    features: [
+      'Create and archive kids activity ideas',
+      'Attach multiple photos to each activity',
+      'Track required materials and preparation notes',
+      'Record how long an activity took to create',
+      'Share activities with other users for collaboration',
+      'Build a reusable activity library for future sessions'
+    ],
+    links: []
   },
 
   // ============================================
@@ -311,33 +352,34 @@ const COLDSNAP_PROJECTS = [
   },
 
   // ============================================
-  // WEB PLATFORMS
-  // ============================================
-  {
-    id: 'winston',
-    category: 'Web Platforms',
-    type: 'Web App',
-    title: 'Winston',
-    shortDescription: 'Company-wide admin butler — accounting, contracts, invoicing, and AI-powered LinkedIn management in one dashboard',
-    description: 'Winston is an internal company-wide admin platform built to run the full back-office of a multi-company studio. It handles quotes, invoices, business expenses, and contracts end-to-end, with PDF generation and export throughout. On top of that, it features an AI-powered LinkedIn content pipeline that automatically generates and publishes professional posts from news articles using GPT-4o-mini. Multi-company support means the same dashboard manages all entities under the studio umbrella.',
-    icon: '🤖',
-    tech: ['Flutter Web', 'Dart', 'Firebase', 'OpenAI GPT-4o-mini', 'LinkedIn API', 'Cloud Functions'],
-    features: [
-      'Quotes, invoices, and business expense management',
-      'Contract creation and tracking',
-      'PDF generation and export for all documents',
-      'Multi-company management from a single dashboard',
-      'AI LinkedIn post generation from articles (GPT-4o-mini)',
-      'Direct LinkedIn publishing via OAuth',
-      'Firebase Authentication and Firestore backend',
-      'Serverless Cloud Functions architecture'
-    ],
-    links: []
-  },
-
-  // ============================================
   // OPEN SOURCE
   // ============================================
+  {
+    id: 'waddonsync',
+    category: 'Open Source',
+    type: 'Desktop App',
+    title: 'WaddonSync',
+    shortDescription: 'Backup World of Warcraft addon data to Google Drive automatically',
+    description: 'A desktop utility that securely backs up your World of Warcraft addon data to Google Drive. Never lose your addon settings, keybindings, or UI configurations again.',
+    icon: '🎮',
+    thumbnail: '/coldsnap/assets/projects/waddonsync/waddonsync-1.png',
+    media: [
+      '/coldsnap/assets/projects/waddonsync/waddonsync-1.png',
+      '/coldsnap/assets/projects/waddonsync/waddonsync-2.png',
+      '/coldsnap/assets/projects/waddonsync/waddonsync-3.png',
+    ],
+    tech: ['Flutter', 'Dart', 'Google Drive API', 'OAuth 2.0'],
+    features: [
+      'Backup and restore of WoW addon data',
+      'Secure Google Drive integration',
+      'Multiple WoW installation support',
+      'Easy selection of interface options'
+    ],
+    links: [
+      { label: 'GitHub', href: 'https://github.com/Yukisando/WaddonSync', icon: 'fa-github' },
+      { label: 'Privacy Policy', href: '/apps/waddonsync/privacy/', icon: 'fa-shield' }
+    ]
+  },
   {
     id: 'magic-arrow',
     category: 'Open Source',
