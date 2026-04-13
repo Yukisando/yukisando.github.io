@@ -36,8 +36,6 @@
       rel="stylesheet"
       type="text/css"
     />
-    <!-- Plugin CSS -->
-    <link href="vendor/magnific-popup/magnific-popup.css" rel="stylesheet" />
 
     <!-- Theme CSS -->
     <link href="css/creative.css" rel="stylesheet" />
@@ -94,15 +92,12 @@
               const userLanguage = navigator.language || navigator.userLanguage;
               const isFrench = userLanguage.toLowerCase().startsWith("fr");
 
-              const navCvLink = document.getElementById("nav-cv-link");
               const cvDownloadLink =
                 document.getElementById("cv-download-link");
 
               if (isFrench) {
-                if (navCvLink) navCvLink.href = "/doc/cv_fr.pdf";
                 if (cvDownloadLink) cvDownloadLink.href = "/doc/cv_fr.pdf";
               } else {
-                if (navCvLink) navCvLink.href = "/doc/cv_en.pdf";
                 if (cvDownloadLink) cvDownloadLink.href = "/doc/cv_en.pdf";
               }
             }
@@ -203,6 +198,8 @@
               class="img-rounded"
               src="img/portrait.png"
               alt="portrait"
+              loading="lazy"
+              decoding="async"
             />
           </div>
         </div>
@@ -400,14 +397,6 @@
         <div class="row contact-section__content">
           <div class="col-lg-5 col-lg-offset-1 col-md-6">
             <div class="contact-card contact-card--intro">
-              <div class="contact-card__media">
-                <img
-                  class="img-rounded contact-card__avatar"
-                  src="img/smile.png"
-                  alt="smile"
-                  width="150"
-                />
-              </div>
               <div class="contact-card__body">
                 <p class="contact-card__eyebrow">Available for</p>
                 <p>
@@ -446,21 +435,16 @@
         class="button-link"
         alt="4-4-3-16-11-5-3-12"
       >
-        <img src="img/yuki_bg.png" alt="WoW Armory" width="60" />
+        <img src="img/yuki_bg.png" alt="WoW Armory" width="60" loading="lazy" decoding="async" />
       </a>
     </section>
 
     <!-- jQuery -->
-    <script src="vendor/jquery/jquery.js"></script>
+    <script src="vendor/jquery/jquery.min.js"></script>
     <!-- Bootstrap Core JavaScript -->
-    <script src="vendor/bootstrap/js/bootstrap.js" defer></script>
-    <!-- Plugin JavaScript -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.js" defer></script>
-    <script src="vendor/scrollreveal/scrollreveal.js" defer></script>
-    <script src="vendor/magnific-popup/jquery.magnific-popup.js" defer></script>
+    <script src="vendor/bootstrap/js/bootstrap.min.js" defer></script>
     <script src="js/site-nav.js" defer></script>
     <!-- Theme JavaScript -->
     <script src="js/creative.js" defer></script>
-    <script src="js/freelancer.js" defer></script>
   </body>
 </html>

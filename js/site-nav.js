@@ -2,18 +2,9 @@ document.addEventListener('DOMContentLoaded', function () {
   const navs = Array.from(document.querySelectorAll('[data-site-nav]'));
   const affixOffset = 100;
   const anchorSelectionHoldMs = 1600;
+  const routeTransitionDurationMs = 180;
+  const prefetchedNavTargets = new Set();
   const navItems = [
-    {
-      key: 'coldsnap',
-      label: 'ColdSnap',
-      href: '/coldsnap/',
-    },
-    {
-      key: 'resume',
-      label: 'Resume',
-      href: '/doc/cv_en.pdf',
-      cvLink: true,
-    },
     {
       key: 'contact',
       label: 'Contact',
@@ -27,6 +18,11 @@ document.addEventListener('DOMContentLoaded', function () {
       href: '/#about',
       homeHref: '#about',
       usePageScrollOnHome: true,
+    },
+    {
+      key: 'coldsnap',
+      label: 'ColdSnap',
+      href: '/coldsnap/',
     },
     {
       key: 'stuff',
@@ -213,10 +209,9 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     const href = isHomePage && item.homeHref ? item.homeHref : item.href;
-    const cvAttribute = item.cvLink ? ' data-cv-link' : '';
     const keyAttribute = ' data-nav-key="' + item.key + '"';
 
-    return `<a href="${href}" class="${classes.join(' ')}"${cvAttribute}${keyAttribute}>${item.label}</a>`;
+    return `<a href="${href}" class="${classes.join(' ')}"${keyAttribute}>${item.label}</a>`;
   }
 
   function findNavItemByHomeHash(hash) {
@@ -317,18 +312,43 @@ document.addEventListener('DOMContentLoaded', function () {
       return requestedKey;
     }
 
-    const anchorItems = navItems.filter(function (item) {
-      return item.homeHref && item.homeHref.startsWith('#');
-    });
-    const scrollMarker = window.scrollY + nav.offsetHeight + 24;
+    const anchorSections = navItems
+      .filter(function (item) {
+        return item.homeHref && item.homeHref.startsWith('#');
+      })
+      .map(function (item) {
+        return {
+          item: item,
+          section: document.querySelector(item.homeHref),
+        };
+      })
+      .filter(function (entry) {
+        return Boolean(entry.section);
+      })
+      .sort(function (left, right) {
+        return left.section.offsetTop - right.section.offsetTop;
+      });
+
+    if (!anchorSections.length) {
+      return 'home';
+    }
+
+    const viewportTop = window.scrollY + nav.offsetHeight + 24;
+    const viewportBottom = window.scrollY + window.innerHeight - Math.max(window.innerHeight * 0.22, 96);
     let activeKey = 'home';
 
-    anchorItems.forEach(function (item) {
-      const section = document.querySelector(item.homeHref);
-      if (section && section.offsetTop <= scrollMarker) {
-        activeKey = item.key;
+    anchorSections.forEach(function (entry) {
+      const sectionTop = entry.section.offsetTop;
+      const sectionBottom = sectionTop + entry.section.offsetHeight;
+
+      if (sectionBottom > viewportTop && sectionTop <= viewportBottom) {
+        activeKey = entry.item.key;
       }
     });
+
+    if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 8) {
+      activeKey = anchorSections[anchorSections.length - 1].item.key;
+    }
 
     return activeKey;
   }
@@ -343,6 +363,101 @@ document.addEventListener('DOMContentLoaded', function () {
     const mode = nav.dataset.siteNavMode || 'solid';
     const shouldAffix = mode !== 'overlay' || window.scrollY > affixOffset;
     nav.classList.toggle('is-affixed', shouldAffix);
+  }
+
+  function canPrefetchDocuments() {
+    const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+
+    if (!document.head) {
+      return false;
+    }
+
+    if (connection && (connection.saveData || /(?:^|-)2g$/i.test(connection.effectiveType || ''))) {
+      return false;
+    }
+
+    return true;
+  }
+
+  function normalizePrefetchTarget(href) {
+    if (!href || href.startsWith('#')) {
+      return null;
+    }
+
+    let url;
+
+    try {
+      url = new URL(href, window.location.href);
+    } catch (error) {
+      return null;
+    }
+
+    if (url.origin !== window.location.origin) {
+      return null;
+    }
+
+    if (url.pathname === window.location.pathname && url.search === window.location.search) {
+      return null;
+    }
+
+    return url;
+  }
+
+  function prefetchNavTarget(href) {
+    if (!canPrefetchDocuments()) {
+      return;
+    }
+
+    const url = normalizePrefetchTarget(href);
+    if (!url) {
+      return;
+    }
+
+    const cacheKey = url.pathname + url.search;
+    if (prefetchedNavTargets.has(cacheKey)) {
+      return;
+    }
+
+    prefetchedNavTargets.add(cacheKey);
+
+    const prefetchLink = document.createElement('link');
+    prefetchLink.rel = 'prefetch';
+    prefetchLink.href = cacheKey;
+    prefetchLink.as = 'document';
+    document.head.appendChild(prefetchLink);
+  }
+
+  function isModifiedNavigation(event) {
+    return event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0;
+  }
+
+  function shouldAnimateRoute(link, href, event) {
+    if (!href || href.startsWith('#') || isModifiedNavigation(event)) {
+      return false;
+    }
+
+    if (link.hasAttribute('download')) {
+      return false;
+    }
+
+    const target = link.getAttribute('target');
+    if (target && target !== '_self') {
+      return false;
+    }
+
+    const url = normalizePrefetchTarget(href);
+    return Boolean(url);
+  }
+
+  function navigateWithRouteAnimation(href) {
+    if (document.documentElement.classList.contains('site-route-leaving')) {
+      return;
+    }
+
+    document.documentElement.classList.add('site-route-leaving');
+    window.setTimeout(function () {
+      window.location.href = href;
+    }, routeTransitionDurationMs);
   }
 
   navs.forEach(function (nav, index) {
@@ -417,6 +532,29 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     });
 
+    nav.querySelectorAll('a[href]').forEach(function (link) {
+      const queuePrefetch = function () {
+        prefetchNavTarget(link.getAttribute('href'));
+      };
+
+      link.addEventListener('click', function (event) {
+        const href = link.getAttribute('href') || '';
+
+        if (!shouldAnimateRoute(link, href, event)) {
+          return;
+        }
+
+        event.preventDefault();
+        prefetchNavTarget(href);
+        navigateWithRouteAnimation(href);
+      });
+
+      link.addEventListener('pointerenter', queuePrefetch, { passive: true, once: true });
+      link.addEventListener('focus', queuePrefetch, { passive: true, once: true });
+      link.addEventListener('touchstart', queuePrefetch, { passive: true, once: true });
+      link.addEventListener('pointerdown', queuePrefetch, { passive: true, once: true });
+    });
+
     updateNavAffixState(nav);
     updateNavActiveState(nav);
   });
@@ -438,11 +576,4 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     navs.forEach(updateNavActiveState);
   });
-
-  const language = (navigator.language || navigator.userLanguage || '').toLowerCase();
-  if (language.startsWith('fr')) {
-    document.querySelectorAll('[data-cv-link]').forEach(function (link) {
-      link.href = '/doc/cv_fr.pdf';
-    });
-  }
 });
