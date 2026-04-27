@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="Nathan de Castro — Unity developer & gamification specialist crafting educational games, Flutter apps, and interactive experiences." />
     <meta name="author" content="Nathan de Castro" />
-    <title>Nathan de Castro — Unity Developer & Gamification Specialist</title>
+    <title>Nathan de Castro - Gamification Consultant</title>
     <link rel="canonical" href="https://nathandecastro.com/" />
     <link rel="shortcut icon" type="image/png" href="img/spock.png" />
 
@@ -59,32 +59,40 @@
             href="#about"
             class="btn btn-primary btn-xl page-scroll site-button site-button--primary"
             id="main-button"
+            data-scroll-duration="2000"
             >Scrolling is overrated</a
           >
 
           <script>
             const button = document.getElementById("main-button");
+            const scrollDuration =
+              parseInt(button.getAttribute("data-scroll-duration"), 10) || 0;
 
-            button.onclick = function () {
+            button.addEventListener("click", function () {
+              // Defer to creative.js's page-scroll handler for the actual scroll;
+              // we only drive the text animation here and reset when scrolling ends.
               wee();
-            };
+              setTimeout(finishWee, scrollDuration);
+            });
 
             let loop;
             let done = false;
 
             function wee() {
               done = false;
-              const word = "We";
-              button.textContent = word;
+              button.textContent = "We";
               loop = setInterval(() => {
                 if (done) return;
-                button.textContent += "e";
-                if (button.textContent == "Weeeeeeeeeeeee") {
-                  done = true;
-                  button.textContent = "Scrolling is overrated";
-                  clearInterval(loop);
+                if (button.textContent.length < 13) {
+                  button.textContent += "e";
                 }
               }, 50);
+            }
+
+            function finishWee() {
+              done = true;
+              if (loop) clearInterval(loop);
+              button.textContent = "Scrolling is overrated";
             }
 
             // Language detection for CV links

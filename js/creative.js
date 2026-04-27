@@ -1,7 +1,10 @@
 (function($) {
     "use strict"; // Start of use strict
 
-    // Native smooth scrolling for in-page CTA navigation
+    // Smooth scrolling for in-page CTA navigation.
+    // Optional `data-scroll-duration` attribute (in ms) overrides the default
+    // native smooth scroll with a custom-duration tween, so individual links
+    // can tweak their speed without changing the rest.
     $(document).on('click', 'a.page-scroll', function(event) {
         var targetSelector = $(this).attr('href');
 
@@ -16,14 +19,40 @@
         }
 
         var targetTop = target.getBoundingClientRect().top + window.pageYOffset - 50;
+        var durationAttr = this.getAttribute('data-scroll-duration');
+        var duration = durationAttr ? parseInt(durationAttr, 10) : NaN;
 
-        window.scrollTo({
-            top: targetTop,
-            behavior: 'smooth'
-        });
+        if (!isNaN(duration) && duration > 0) {
+            tweenScrollTo(targetTop, duration);
+        } else {
+            window.scrollTo({
+                top: targetTop,
+                behavior: 'smooth'
+            });
+        }
 
         event.preventDefault();
     });
+
+    function tweenScrollTo(targetTop, duration) {
+        var startY = window.pageYOffset;
+        var distance = targetTop - startY;
+        var startTime = performance.now();
+
+        function easeInOutCubic(t) {
+            return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+        }
+
+        function step(now) {
+            var progress = Math.min((now - startTime) / duration, 1);
+            window.scrollTo(0, startY + distance * easeInOutCubic(progress));
+            if (progress < 1) {
+                requestAnimationFrame(step);
+            }
+        }
+
+        requestAnimationFrame(step);
+    }
 
     // Highlight the top nav as scrolling occurs
     $('body').scrollspy({
