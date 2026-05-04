@@ -276,7 +276,7 @@ function renderProjects() {
   const sectionDescriptions = {
     'Interactive Installations': 'Museum kiosks, training centre exhibits and large-format touchscreen experiences',
     'Games': 'PC and mobile games built for fun',
-    'Flutter Apps': 'Cross-platform mobile and desktop applications',
+    'Flutter Apps': 'Cross-platform mobile, web, and desktop applications',
     'Web Platforms': 'Full-stack web applications and internal tools',
     'Open Source': 'Public tools, libraries and plugins'
   };

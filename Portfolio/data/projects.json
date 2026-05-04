@@ -61,5 +61,12 @@
       "assets/audio/frank2.mp3"
     ],
     "description": "The continuation of our conversation with Frank, delving deeper into the complexities of his role as an elder, the personal cost of religious conviction, and further exploration of the difficult balance between faith and family relationships within the Jehovah's Witness community."
+  },
+  {
+    "id": "yukisan-fan-club",
+    "category": "Just for Fun",
+    "kind": "link",
+    "title": "Yükisan Fan Club",
+    "href": "http://yukisanfan.club/"
   }
 ]

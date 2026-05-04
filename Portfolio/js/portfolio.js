@@ -1103,6 +1103,55 @@
       return createPodcastCard(item);
     }
 
+    // Direct link cards: no modal, no thumbnail, just go straight to the URL
+    if (item.kind === 'link') {
+      const targetHref = item.href || (item.links && item.links[0] && item.links[0].href);
+      const linkCard = create('a', {
+        className: 'portfolio-card portfolio-card--link',
+        href: targetHref || '#',
+        target: '_blank',
+        rel: 'noopener',
+        style: {
+          background: '#2c2c2c',
+          borderRadius: '12px',
+          overflow: 'hidden',
+          cursor: 'pointer',
+          transition: 'all 0.3s ease',
+          border: '2px solid transparent',
+          position: 'relative',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          minHeight: '80px',
+          padding: '18px 20px',
+          textDecoration: 'none',
+          textAlign: 'center'
+        }
+      });
+
+      const inner = create('div', {
+        style: {
+          color: '#F05F40',
+          fontSize: '1.2rem',
+          fontWeight: '600'
+        }
+      }, item.title);
+      linkCard.appendChild(inner);
+
+      linkCard.addEventListener('mouseenter', () => {
+        linkCard.style.transform = 'translateY(-3px)';
+        linkCard.style.borderColor = '#F05F40';
+        linkCard.style.boxShadow = '0 6px 20px rgba(240, 95, 64, 0.18)';
+      });
+      linkCard.addEventListener('mouseleave', () => {
+        linkCard.style.transform = 'translateY(0)';
+        linkCard.style.borderColor = 'transparent';
+        linkCard.style.boxShadow = 'none';
+      });
+
+      return linkCard;
+    }
+
     const card = create('div', { 
       className: 'portfolio-card',
       style: {
