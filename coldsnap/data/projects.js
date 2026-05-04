@@ -215,6 +215,12 @@ const COLDSNAP_PROJECTS = [
     shortDescription: 'Local commerce loyalty app connecting shoppers with small businesses in southern France',
     description: 'A mobile loyalty and rewards platform designed to revive local commerce in small towns across southern France. Shoppers discover nearby businesses on an interactive map, earn points with each purchase, and unlock exclusive local offers and event deals. Merchants get a full dashboard to manage offers and track customer engagement.',
     icon: '🛍️',
+    thumbnail: '/coldsnap/assets/projects/maya/maya-1.jpg',
+    media: [
+      '/coldsnap/assets/projects/maya/maya-1.jpg',
+      '/coldsnap/assets/projects/maya/maya-2.jpg',
+      '/coldsnap/assets/projects/maya/maya-3.jpg'
+    ],
     tech: ['Flutter', 'Dart', 'Firebase', 'Google Maps', 'FCM', 'QR Code'],
     features: [
       'Interactive map of local businesses',
@@ -255,6 +261,12 @@ const COLDSNAP_PROJECTS = [
     shortDescription: 'NFC-powered digital business card — share contacts by tapping phones',
     description: 'A modern replacement for physical business cards. Badger lets you share your contact details instantly by tapping phones via NFC, or via QR code as a fallback. Create beautiful digital card profiles, export as VCF, and manage all your shared contacts in one place.',
     icon: '🪪',
+    thumbnail: '/coldsnap/assets/projects/badger/badger-1.jpg',
+    media: [
+      '/coldsnap/assets/projects/badger/badger-1.jpg',
+      '/coldsnap/assets/projects/badger/badger-2.jpg',
+      '/coldsnap/assets/projects/badger/badger-3.jpg'
+    ],
     tech: ['Flutter', 'Dart', 'NFC', 'Firebase', 'QR Code', 'Material Design 3'],
     features: [
       'NFC contact sharing (NDEF format)',
@@ -276,6 +288,13 @@ const COLDSNAP_PROJECTS = [
     shortDescription: 'Parcel relay point management app with OCR scanning for package tracking',
     description: 'A mobile app for managing package pickup and delivery relay points. Features ML Kit-powered OCR to scan and extract parcel information directly from labels, streamlining the package intake process for relay operators.',
     icon: '📦',
+    thumbnail: '/coldsnap/assets/projects/colismarket/colismarket-1.jpg',
+    media: [
+      '/coldsnap/assets/projects/colismarket/colismarket-1.jpg',
+      '/coldsnap/assets/projects/colismarket/colismarket-2.jpg',
+      '/coldsnap/assets/projects/colismarket/colismarket-3.jpg',
+      '/coldsnap/assets/projects/colismarket/colismarket-4.jpg'
+    ],
     tech: ['Flutter', 'Dart', 'Google ML Kit', 'OCR', 'Android'],
     features: [
       'ML Kit OCR for parcel label scanning',
@@ -289,6 +308,31 @@ const COLDSNAP_PROJECTS = [
     ]
   },
   {
+    id: 'sandlog',
+    category: 'Flutter Apps',
+    type: 'Mobile App',
+    title: 'Sandlog',
+    shortDescription: 'Voice dream journal — open the app, speak, and your dream is saved automatically',
+    description: 'A frictionless dream journaling app designed to capture dreams the moment you wake up. Open the app and speak — Sandlog automatically stops recording when silence is detected and saves your dream entry. Recordings can be exported to the user\'s Google Drive for safe cloud storage.',
+    icon: '🌙',
+    thumbnail: '/coldsnap/assets/projects/sandlog/sandlog-1.jpg',
+    media: [
+      '/coldsnap/assets/projects/sandlog/sandlog-1.jpg',
+      '/coldsnap/assets/projects/sandlog/sandlog-2.jpg',
+      '/coldsnap/assets/projects/sandlog/sandlog-3.jpg'
+    ],
+    tech: ['Flutter', 'Dart', 'Google Drive API', 'Voice Recording', 'Silence Detection'],
+    features: [
+      'Instant recording on app open — no buttons needed',
+      'Automatic stop on silence detection',
+      'Voice dream entry storage',
+      'Google Drive export for cloud backup'
+    ],
+    links: [
+      { label: 'Privacy Policy', href: '/apps/generic/privacy/', icon: 'fa-shield', secondary: true }
+    ]
+  },
+  {
     id: 'patoune',
     category: 'Flutter Apps',
     type: 'Mobile App',
@@ -296,6 +340,11 @@ const COLDSNAP_PROJECTS = [
     shortDescription: 'Cat claw trimming tracker — visualize and schedule your cat\'s nail maintenance',
     description: 'A charming companion app for cat owners that makes claw maintenance easy and stress-free. Patoune provides a visual paw diagram to track which claws have been trimmed, colour-coded reminders when trimming is due, and guidance on safe trimming techniques.',
     icon: '🐾',
+    thumbnail: '/coldsnap/assets/projects/patoune/patoune-1.jpg',
+    media: [
+      '/coldsnap/assets/projects/patoune/patoune-1.jpg',
+      '/coldsnap/assets/projects/patoune/patoune-2.jpg'
+    ],
     tech: ['Flutter', 'Dart', 'SharedPreferences', 'SVG', 'i18n'],
     features: [
       'Visual paw diagram for per-claw tracking',
@@ -321,6 +370,10 @@ const COLDSNAP_PROJECTS = [
     shortDescription: 'Company-wide admin butler — accounting, contracts, invoicing, and AI-powered LinkedIn management in one dashboard',
     description: 'Winston is an internal company-wide admin platform built to run the full back-office of a multi-company studio. It handles quotes, invoices, business expenses, and contracts end-to-end, with PDF generation and export throughout. On top of that, it features an AI-powered LinkedIn content pipeline that automatically generates and publishes professional posts from news articles using GPT-4o-mini. Multi-company support means the same dashboard manages all entities under the studio umbrella.',
     icon: '🤖',
+    thumbnail: '/coldsnap/assets/projects/winston/winston-1.png',
+    media: [
+      '/coldsnap/assets/projects/winston/winston-1.png'
+    ],
     tech: ['Flutter Web', 'Dart', 'Firebase', 'OpenAI GPT-4o-mini', 'LinkedIn API', 'Cloud Functions'],
     features: [
       'Quotes, invoices, and business expense management',
