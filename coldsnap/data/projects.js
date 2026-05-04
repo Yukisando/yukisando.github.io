@@ -124,8 +124,10 @@ const COLDSNAP_PROJECTS = [
       'Review and rating system'
     ],
     links: [
-      { label: 'Visit Website', href: 'https://spinlab.fr', icon: 'fa-globe' },
-      { label: 'Privacy Policy', href: '/apps/spinlab/privacy/', icon: 'fa-shield' }
+      { label: 'Google Play', href: 'https://play.google.com/store/apps/details?id=com.coldsnap.spinlab', icon: 'fa-android', style: 'play-store' },
+      { label: 'App Store', href: 'https://apps.apple.com/fr/app/spinlab/id6758303721', icon: 'fa-apple', style: 'app-store' },
+      { label: 'Visit Website', href: 'https://spinlab.fr', icon: 'fa-globe', secondary: true },
+      { label: 'Privacy Policy', href: '/apps/spinlab/privacy/', icon: 'fa-shield', secondary: true }
     ]
   },
   {
@@ -174,7 +176,9 @@ const COLDSNAP_PROJECTS = [
       'Share activities with other users for collaboration',
       'Build a reusable activity library for future sessions'
     ],
-    links: []
+    links: [
+      { label: 'Google Play', href: 'https://play.google.com/store/apps/details?id=com.coldsnap.vidanim', icon: 'fa-android', style: 'play-store' }
+    ]
   },
 
   // ============================================
@@ -223,7 +227,9 @@ const COLDSNAP_PROJECTS = [
       'Ad-supported revive system',
       'WebGL and Android build targets'
     ],
-    links: []
+    links: [
+      { label: 'Google Play', href: 'https://play.google.com/store/apps/details?id=com.coldsnap.pygmak', icon: 'fa-android', style: 'play-store' }
+    ]
   },
 
   // ============================================
@@ -303,6 +309,7 @@ const COLDSNAP_PROJECTS = [
       'Material Design 3 UI'
     ],
     links: [
+      { label: 'Google Play', href: 'https://play.google.com/store/apps/details?id=com.coldsnap.badger', icon: 'fa-android', style: 'play-store' },
       { label: 'Privacy Policy', href: '/apps/generic/privacy/', icon: 'fa-shield', secondary: true }
     ]
   },
@@ -355,6 +362,7 @@ const COLDSNAP_PROJECTS = [
       'Google Drive export for cloud backup'
     ],
     links: [
+      { label: 'Google Play', href: 'https://play.google.com/store/apps/details?id=com.coldsnap.sandlog', icon: 'fa-android', style: 'play-store' },
       { label: 'Privacy Policy', href: '/apps/generic/privacy/', icon: 'fa-shield', secondary: true }
     ]
   },
@@ -381,6 +389,7 @@ const COLDSNAP_PROJECTS = [
       'Android and Windows support'
     ],
     links: [
+      { label: 'Google Play', href: 'https://play.google.com/store/apps/details?id=com.patoune.app.patoune', icon: 'fa-android', style: 'play-store' },
       { label: 'Privacy Policy', href: '/apps/patoune/privacy/', icon: 'fa-shield', secondary: true }
     ]
   },
@@ -410,8 +419,9 @@ const COLDSNAP_PROJECTS = [
       'Easy selection of interface options'
     ],
     links: [
-      { label: 'GitHub', href: 'https://github.com/Yukisando/WaddonSync', icon: 'fa-github' },
-      { label: 'Privacy Policy', href: '/apps/waddonsync/privacy/', icon: 'fa-shield' }
+      { label: 'Download', href: 'https://github.com/Yukisando/WaddonSync/releases', icon: 'fa-download' },
+      { label: 'GitHub', href: 'https://github.com/Yukisando/WaddonSync', icon: 'fa-github', secondary: true },
+      { label: 'Privacy Policy', href: '/apps/waddonsync/privacy/', icon: 'fa-shield', secondary: true }
     ]
   },
   {
@@ -458,7 +468,8 @@ const COLDSNAP_PROJECTS = [
       '113+ versioned releases via CI/CD'
     ],
     links: [
-      { label: 'GitHub', href: 'https://github.com/Yukisando/B.O.L.T', icon: 'fa-github' }
+      { label: 'CurseForge', href: 'https://www.curseforge.com/wow/addons/bolt', icon: 'fa-download', style: 'curseforge' },
+      { label: 'GitHub', href: 'https://github.com/Yukisando/B.O.L.T', icon: 'fa-github', secondary: true }
     ]
   },
   {

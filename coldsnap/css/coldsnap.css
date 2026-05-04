@@ -862,6 +862,36 @@ main {
   color: var(--bg-darker);
 }
 
+.modal-link.play-store {
+  background: #01875f;
+  color: white;
+}
+
+.modal-link.play-store:hover {
+  background: #016b4c;
+  transform: translateY(-2px);
+}
+
+.modal-link.app-store {
+  background: #0071e3;
+  color: white;
+}
+
+.modal-link.app-store:hover {
+  background: #005bbf;
+  transform: translateY(-2px);
+}
+
+.modal-link.curseforge {
+  background: #f16436;
+  color: white;
+}
+
+.modal-link.curseforge:hover {
+  background: #d94e22;
+  transform: translateY(-2px);
+}
+
 /* Footer */
 .coldsnap-footer {
   background: var(--bg-darker);
