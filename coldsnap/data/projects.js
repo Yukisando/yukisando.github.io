@@ -133,9 +133,13 @@ const COLDSNAP_PROJECTS = [
     category: 'Flutter Apps',
     type: 'Web App',
     title: 'Winston',
-    shortDescription: 'Company-wide admin butler — accounting, contracts, invoicing, and AI-powered LinkedIn management in one dashboard',
+    shortDescription: 'Company-wide admin butler: accounting, contracts, invoicing and AI-powered LinkedIn management in one dashboard',
     description: 'Winston is an internal company-wide admin platform built to run the full back-office of a multi-company studio. It handles quotes, invoices, business expenses, and contracts end-to-end, with PDF generation and export throughout. On top of that, it features an AI-powered LinkedIn content pipeline that automatically generates and publishes professional posts from news articles using GPT-4o-mini. Multi-company support means the same dashboard manages all entities under the studio umbrella.',
     icon: '🤖',
+    thumbnail: '/coldsnap/assets/projects/winston/winston-1.png',
+    media: [
+      '/coldsnap/assets/projects/winston/winston-1.png'
+    ],
     tech: ['Flutter Web', 'Dart', 'Firebase', 'OpenAI GPT-4o-mini', 'LinkedIn API', 'Cloud Functions'],
     features: [
       'Quotes, invoices, and business expense management',
@@ -146,29 +150,6 @@ const COLDSNAP_PROJECTS = [
       'Direct LinkedIn publishing via OAuth',
       'Firebase Authentication and Firestore backend',
       'Serverless Cloud Functions architecture'
-    ],
-    links: []
-  },
-  {
-    id: 'sandlog',
-    category: 'Flutter Apps',
-    type: 'Mobile/Web App',
-    title: 'Sandlog',
-    shortDescription: 'Dream journal built for half-asleep voice capture — open it, speak, and let it save for you',
-    description: 'Sandlog is a dream logging app designed for late-night use when looking at a screen is the last thing you want. The app opens straight into recording so users can speak immediately, capture a dream before it fades, and save it with minimal interaction. Built to support lucid dreaming habits and effortless dream journaling, it keeps the experience dark, quiet, and fast.',
-    thumbnail: '/coldsnap/assets/projects/Sandlog/sandlog%20(2).png',
-    media: [
-      '/coldsnap/assets/projects/Sandlog/sandlog%20(2).png',
-      '/coldsnap/assets/projects/Sandlog/sandlog%20(1).png'
-    ],
-    tech: ['Flutter', 'Dart', 'Android', 'Web', 'Speech-to-Text'],
-    features: [
-      'Starts recording as soon as the app opens',
-      'Dark interface designed for nighttime use',
-      'Hands-free voice capture for dream journaling',
-      'Fast save flow with minimal on-screen interaction',
-      'Supports lucid dream logging habits',
-      'Shortcut-friendly open-and-record workflow'
     ],
     links: []
   },
@@ -204,13 +185,13 @@ const COLDSNAP_PROJECTS = [
     category: 'Games',
     type: 'PC Game',
     title: 'GrappleGroove',
-    shortDescription: 'First-person grappling hook parkour game — swing, climb and launch through physics-driven levels',
+    shortDescription: 'First-person grappling hook parkour game: swing, climb and launch through physics-driven levels',
     description: 'A fast-paced first-person parkour game built around dual grappling hooks and momentum physics. Players combine rope and pole grapples with wall-running, vaulting, sliding and dynamic spring platforms to blast through increasingly creative levels. Includes a built-in level editor used during development by a multi-person team.',
     icon: '🪝',
     tech: ['Unity 6', 'C#', 'URP', 'Spring Physics', 'Android', 'PC'],
     features: [
       'Dual grappling hooks (rope and pole types)',
-      'Full parkour system — wall-run, vault, slide, sprint',
+      'Full parkour system: wall-run, vault, slide, sprint',
       'Momentum-based spring platforms and physics objects',
       'Throwable and grabbable interactive objects',
       'Checkpoint and respawn system',
@@ -224,8 +205,8 @@ const COLDSNAP_PROJECTS = [
     category: 'Games',
     type: 'Mobile Game',
     title: 'Pygmak',
-    shortDescription: 'Endless cannon-shooter — blast waves of crates with power-ups and corrupted modifiers',
-    description: 'An endless mobile arcade game where players aim a turret to destroy incoming waves of crates before they breach. Power-ups like freeze, electrify, blaze and scatter shot keep the loop fresh, while corrupted crates introduce chaos modifiers — blindness, reversed aim, explosions and splits. Features a wave-based upgrade system, cosmetic shop, and ad-supported revive.',
+    shortDescription: 'Endless cannon-shooter: blast waves of crates with power-ups and corrupted modifiers',
+    description: 'An endless mobile arcade game where players aim a turret to destroy incoming waves of crates before they breach. Power-ups like freeze, electrify, blaze and scatter shot keep the loop fresh, while corrupted crates introduce chaos modifiers: blindness, reversed aim, explosions and splits. Features a wave-based upgrade system, cosmetic shop, and ad-supported revive.',
     icon: '🎯',
     thumbnail: '/coldsnap/assets/projects/pygmak/pygmak-1.jpg',
     media: [
@@ -282,8 +263,12 @@ const COLDSNAP_PROJECTS = [
     type: 'Desktop App',
     title: 'Posti',
     shortDescription: 'Minimalist always-on-top system tray todo and notes app for desktop',
-    description: 'A lightweight desktop productivity app that lives in your system tray. Posti stays always-on-top for instant access to todos and quick notes without switching context. Designed for minimal friction — capture a thought in seconds and get back to work.',
+    description: 'A lightweight desktop productivity app that lives in your system tray. Posti stays always-on-top for instant access to todos and quick notes without switching context. Designed for minimal friction, capture a thought in seconds and get back to work.',
     icon: '📌',
+    thumbnail: '/coldsnap/assets/projects/posti/posti-1.png',
+    media: [
+      '/coldsnap/assets/projects/posti/posti-1.png'
+    ],
     tech: ['Flutter', 'Dart', 'Windows', 'macOS'],
     features: [
       'System tray integration',
@@ -299,7 +284,7 @@ const COLDSNAP_PROJECTS = [
     category: 'Flutter Apps',
     type: 'Mobile App',
     title: 'Badger',
-    shortDescription: 'NFC-powered digital business card — share contacts by tapping phones',
+    shortDescription: 'NFC-powered digital business card, share contacts by tapping phones',
     description: 'A modern replacement for physical business cards. Badger lets you share your contact details instantly by tapping phones via NFC, or via QR code as a fallback. Create beautiful digital card profiles, export as VCF, and manage all your shared contacts in one place.',
     icon: '🪪',
     thumbnail: '/coldsnap/assets/projects/badger/badger-1.jpg',
@@ -353,8 +338,8 @@ const COLDSNAP_PROJECTS = [
     category: 'Flutter Apps',
     type: 'Mobile App',
     title: 'Sandlog',
-    shortDescription: 'Voice dream journal — open the app, speak, and your dream is saved automatically',
-    description: 'A frictionless dream journaling app designed to capture dreams the moment you wake up. Open the app and speak — Sandlog automatically stops recording when silence is detected and saves your dream entry. Recordings can be exported to the user\'s Google Drive for safe cloud storage.',
+    shortDescription: 'Voice dream journal: open the app, speak, and your dream is saved automatically',
+    description: 'A frictionless dream journaling app designed to capture dreams the moment you wake up. Open the app and speak; Sandlog automatically stops recording when silence is detected and saves your dream entry. Recordings can be exported to the user\'s Google Drive for safe cloud storage.',
     icon: '🌙',
     thumbnail: '/coldsnap/assets/projects/sandlog/sandlog-1.jpg',
     media: [
@@ -364,7 +349,7 @@ const COLDSNAP_PROJECTS = [
     ],
     tech: ['Flutter', 'Dart', 'Google Drive API', 'Voice Recording', 'Silence Detection'],
     features: [
-      'Instant recording on app open — no buttons needed',
+      'Instant recording on app open, no buttons needed',
       'Automatic stop on silence detection',
       'Voice dream entry storage',
       'Google Drive export for cloud backup'
@@ -378,7 +363,7 @@ const COLDSNAP_PROJECTS = [
     category: 'Flutter Apps',
     type: 'Mobile App',
     title: 'Patoune',
-    shortDescription: 'Cat claw trimming tracker — visualize and schedule your cat\'s nail maintenance',
+    shortDescription: 'Cat claw trimming tracker to visualize and schedule your cat\'s nail maintenance',
     description: 'A charming companion app for cat owners that makes claw maintenance easy and stress-free. Patoune provides a visual paw diagram to track which claws have been trimmed, colour-coded reminders when trimming is due, and guidance on safe trimming techniques.',
     icon: '🐾',
     thumbnail: '/coldsnap/assets/projects/patoune/patoune-1.jpg',
@@ -398,35 +383,6 @@ const COLDSNAP_PROJECTS = [
     links: [
       { label: 'Privacy Policy', href: '/apps/patoune/privacy/', icon: 'fa-shield', secondary: true }
     ]
-  },
-
-  // ============================================
-  // WEB PLATFORMS
-  // ============================================
-  {
-    id: 'winston',
-    category: 'Web Platforms',
-    type: 'Web App',
-    title: 'Winston',
-    shortDescription: 'Company-wide admin butler — accounting, contracts, invoicing, and AI-powered LinkedIn management in one dashboard',
-    description: 'Winston is an internal company-wide admin platform built to run the full back-office of a multi-company studio. It handles quotes, invoices, business expenses, and contracts end-to-end, with PDF generation and export throughout. On top of that, it features an AI-powered LinkedIn content pipeline that automatically generates and publishes professional posts from news articles using GPT-4o-mini. Multi-company support means the same dashboard manages all entities under the studio umbrella.',
-    icon: '🤖',
-    thumbnail: '/coldsnap/assets/projects/winston/winston-1.png',
-    media: [
-      '/coldsnap/assets/projects/winston/winston-1.png'
-    ],
-    tech: ['Flutter Web', 'Dart', 'Firebase', 'OpenAI GPT-4o-mini', 'LinkedIn API', 'Cloud Functions'],
-    features: [
-      'Quotes, invoices, and business expense management',
-      'Contract creation and tracking',
-      'PDF generation and export for all documents',
-      'Multi-company management from a single dashboard',
-      'AI LinkedIn post generation from articles (GPT-4o-mini)',
-      'Direct LinkedIn publishing via OAuth',
-      'Firebase Authentication and Firestore backend',
-      'Serverless Cloud Functions architecture'
-    ],
-    links: []
   },
 
   // ============================================
@@ -464,7 +420,7 @@ const COLDSNAP_PROJECTS = [
     type: 'Minecraft Plugin',
     title: 'Magic Arrow',
     shortDescription: 'Minecraft plugin adding block-placing and elemental abilities to bows based on the block you stand on',
-    description: 'A Java Minecraft plugin built from scratch that gives the bow and arrow context-sensitive superpowers. The effect fired depends on the block under the player\'s feet — standing on ice fires a freeze arrow, on TNT fires an explosive, on grass places blocks, and so on. A fun exploration of the Bukkit/Spigot API.',
+    description: 'A Java Minecraft plugin built from scratch that gives the bow and arrow context-sensitive superpowers. The effect fired depends on the block under the player\'s feet: standing on ice fires a freeze arrow, on TNT fires an explosive, on grass places blocks, and so on. A fun exploration of the Bukkit/Spigot API.',
     icon: '🏹',
     tech: ['Java', 'Bukkit/Spigot API', 'Minecraft'],
     features: [
@@ -483,8 +439,13 @@ const COLDSNAP_PROJECTS = [
     type: 'WoW Addon',
     title: 'B.O.L.T',
     shortDescription: 'Modular World of Warcraft addon with quality-of-life improvements that don\'t change core mechanics',
-    description: 'Brittle and Occasionally Lethal Tweaks — a modular World of Warcraft addon delivering quality-of-life improvements without altering core gameplay. Features game menu enhancements, advanced skyriding controls, chat notifications, nameplate mana-user highlighting, saved instance tracking, and more. Actively maintained with 113+ versioned releases.',
+    description: 'Brittle and Occasionally Lethal Tweaks. A modular World of Warcraft addon delivering quality-of-life improvements without altering core gameplay. Features game menu enhancements, advanced skyriding controls, chat notifications, nameplate mana-user highlighting, saved instance tracking, and more. Actively maintained with 113+ versioned releases.',
     icon: '⚔️',
+    thumbnail: '/coldsnap/assets/projects/bolt/bolt-1.png',
+    media: [
+      '/coldsnap/assets/projects/bolt/bolt-1.png',
+      '/coldsnap/assets/projects/bolt/bolt-2.png'
+    ],
     tech: ['Lua', 'World of Warcraft API', 'GitHub Actions', 'CI/CD'],
     features: [
       'Game Menu enhancements (Leave Group, Reload UI, Group Tools)',
@@ -508,6 +469,10 @@ const COLDSNAP_PROJECTS = [
     shortDescription: 'Reusable Unity C# utility package shared across all ColdSnap projects',
     description: 'An open-source Unity Package Manager (UPM) library providing shared utilities, helpers, and tools used across all ColdSnap projects. Reduces boilerplate and ensures consistency throughout the studio\'s internal Unity development pipeline.',
     icon: '🛠️',
+    thumbnail: '/coldsnap/assets/projects/coldsnap-utilities/utilities-1.png',
+    media: [
+      '/coldsnap/assets/projects/coldsnap-utilities/utilities-1.png'
+    ],
     tech: ['Unity', 'C#', 'UPM'],
     features: [
       'Unity Package Manager (UPM) compatible',
