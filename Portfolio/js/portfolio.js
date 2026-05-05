@@ -1174,7 +1174,7 @@
             textTransform: 'uppercase',
             marginBottom: '10px'
           }
-        }, 'Armory');
+        }, 'Lore & Armory');
 
         const charName = create('div', {
           style: {
@@ -1206,7 +1206,7 @@
             fontWeight: '600',
             letterSpacing: '0.02em'
           }
-        }, 'Open Blizzard Armory →');
+        }, 'Got to Yükisan Fan Club →');
 
         content.appendChild(topSection);
         content.appendChild(openLink);
