@@ -160,7 +160,7 @@ function openModal(projectId) {
     linksHTML = `
       <div class="modal-links">
         ${project.links.map((link, i) => `
-          <a href="${link.href}" class="modal-link ${(link.secondary || i > 0) ? 'secondary' : ''}" target="_blank" rel="noopener">
+          <a href="${link.href}" class="modal-link ${link.style ? link.style : (link.secondary ? 'secondary' : '')}" target="_blank" rel="noopener">
             ${link.icon ? `<i class="fa ${link.icon}"></i>` : ''}
             ${link.label}
           </a>

@@ -1106,6 +1106,129 @@
     // Direct link cards: no modal, no thumbnail, just go straight to the URL
     if (item.kind === 'link') {
       const targetHref = item.href || (item.links && item.links[0] && item.links[0].href);
+
+      // Special Blizzard Armory-style card for the Yükisan Fan Club
+      if (item.id === 'yukisan-fan-club') {
+        const armoryCard = create('a', {
+          className: 'portfolio-card portfolio-card--armory',
+          href: targetHref || '#',
+          target: '_blank',
+          rel: 'noopener',
+          style: {
+            display: 'block',
+            position: 'relative',
+            background: '#111',
+            borderRadius: '16px',
+            overflow: 'hidden',
+            textDecoration: 'none',
+            cursor: 'pointer',
+            transition: 'transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease',
+            border: '1px solid #2e2e2e',
+            minHeight: '300px'
+          }
+        });
+
+        const portrait = create('img', {
+          src: '/img/yuki_portrait.png',
+          alt: 'Yükisan',
+          style: {
+            position: 'absolute',
+            right: '0',
+            bottom: '0',
+            height: '100%',
+            width: '65%',
+            objectFit: 'cover',
+            objectPosition: 'top center',
+            display: 'block'
+          }
+        });
+
+        const overlay = create('div', {
+          style: {
+            position: 'absolute',
+            inset: '0',
+            background: 'linear-gradient(to right, rgba(17,17,17,1) 38%, rgba(17,17,17,0.55) 65%, rgba(17,17,17,0.1) 100%)',
+            pointerEvents: 'none'
+          }
+        });
+
+        const content = create('div', {
+          style: {
+            position: 'absolute',
+            inset: '0',
+            padding: '22px 22px',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between'
+          }
+        });
+
+        const topSection = create('div', {});
+
+        const armoryLabel = create('div', {
+          style: {
+            color: '#F05F40',
+            fontSize: '0.7rem',
+            fontWeight: '700',
+            letterSpacing: '0.12em',
+            textTransform: 'uppercase',
+            marginBottom: '10px'
+          }
+        }, 'Lore & Armory');
+
+        const charName = create('div', {
+          style: {
+            color: '#ffffff',
+            fontSize: '1.9rem',
+            fontWeight: '700',
+            lineHeight: '1.1',
+            marginBottom: '8px',
+            textShadow: '0 2px 8px rgba(0,0,0,0.6)'
+          }
+        }, 'Yükisan');
+
+        const serverInfo = create('div', {
+          style: {
+            color: '#999',
+            fontSize: '0.85rem',
+            fontWeight: '500'
+          }
+        }, 'Dalaran · EU');
+
+        topSection.appendChild(armoryLabel);
+        topSection.appendChild(charName);
+        topSection.appendChild(serverInfo);
+
+        const openLink = create('div', {
+          style: {
+            color: '#F05F40',
+            fontSize: '0.85rem',
+            fontWeight: '600',
+            letterSpacing: '0.02em'
+          }
+        }, 'Got to Yükisan Fan Club →');
+
+        content.appendChild(topSection);
+        content.appendChild(openLink);
+
+        armoryCard.appendChild(portrait);
+        armoryCard.appendChild(overlay);
+        armoryCard.appendChild(content);
+
+        armoryCard.addEventListener('mouseenter', () => {
+          armoryCard.style.transform = 'translateY(-5px)';
+          armoryCard.style.borderColor = '#F05F40';
+          armoryCard.style.boxShadow = '0 12px 32px rgba(240, 95, 64, 0.25)';
+        });
+        armoryCard.addEventListener('mouseleave', () => {
+          armoryCard.style.transform = 'translateY(0)';
+          armoryCard.style.borderColor = '#2e2e2e';
+          armoryCard.style.boxShadow = 'none';
+        });
+
+        return armoryCard;
+      }
+
       const linkCard = create('a', {
         className: 'portfolio-card portfolio-card--link',
         href: targetHref || '#',
