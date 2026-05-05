@@ -255,7 +255,46 @@
           box-shadow: 0 14px 36px rgba(0, 0, 0, 0.2);
       }
 
-      .contact-card__eyebrow {
+      .contact-card__company-cta {
+          display: flex;
+          flex-direction: column;
+          margin-top: 22px;
+          padding: 16px 18px;
+          border-radius: 14px;
+          background: rgba(240, 95, 64, 0.1);
+          border: 1px solid rgba(240, 95, 64, 0.22);
+          text-decoration: none !important;
+          transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+      }
+
+      .contact-card__company-cta:hover,
+      .contact-card__company-cta:focus {
+          background: rgba(240, 95, 64, 0.18);
+          border-color: rgba(240, 95, 64, 0.45);
+          transform: translateY(-2px);
+      }
+
+      .contact-card__company-label {
+          font-size: 11px;
+          letter-spacing: 0.14em;
+          text-transform: uppercase;
+          color: rgba(255, 255, 255, 0.45);
+          margin-bottom: 4px;
+      }
+
+      .contact-card__company-name {
+          font-size: 15px;
+          font-weight: 700;
+          color: #F05F40;
+          letter-spacing: 0.02em;
+      }
+
+      .contact-card__company-name .fa {
+          font-size: 12px;
+          margin-left: 5px;
+          vertical-align: middle;
+      }
+
           margin-bottom: 10px;
           font-size: 12px;
           letter-spacing: 0.18em;
