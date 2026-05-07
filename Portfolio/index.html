@@ -2,11 +2,31 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,follow">
   <meta http-equiv="refresh" content="0; url=/coldsnap/">
-  <title>Redirecting…</title>
-  <link rel="canonical" href="/coldsnap/">
+  <link rel="canonical" href="https://nathandecastro.com/coldsnap/">
+  <title>Redirecting to ColdSnap…</title>
+  <script>
+    // Preserve any hash/query (e.g. /Portfolio/?ref=x#section)
+    (function () {
+      var target = '/coldsnap/' + (window.location.search || '') + (window.location.hash || '');
+      window.location.replace(target);
+    })();
+  </script>
+  <style>
+    html, body { margin: 0; padding: 0; height: 100%; background: #111; color: #eee;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    .wrap { display: flex; align-items: center; justify-content: center; height: 100%;
+      text-align: center; padding: 1.5rem; }
+    a { color: #F05F40; }
+  </style>
 </head>
 <body>
-  <p>Redirecting to <a href="/coldsnap/">ColdSnap</a>…</p>
+  <div class="wrap">
+    <noscript>
+      <p>This page has moved. Continue to <a href="/coldsnap/">ColdSnap</a>.</p>
+    </noscript>
+  </div>
 </body>
 </html>

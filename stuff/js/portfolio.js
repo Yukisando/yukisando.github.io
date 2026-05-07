@@ -1100,99 +1100,145 @@
   function activateDemolitionCar(e) {
     if (document.getElementById('demolition-car-el')) return;
 
+    // ---------- tunables ----------
+    const CAR_SIZE     = 64;       // square (PNG is top-down)
+    const HITBOX_W     = 46;       // tighter than the sprite for fairer collisions
+    const HITBOX_H     = 46;
+    const MAX_FWD      = 11;       // top forward speed (px/frame @ 60fps)
+    const MAX_REV      = -5;
+    const ACCEL_FWD    = 0.32;
+    const ACCEL_REV    = 0.22;
+    const COAST_DRAG   = 0.04;     // when no input
+    const BRAKE_DRAG   = 0.55;     // when actively braking (opposite input)
+    const TURN_BASE    = 0.055;    // rad / frame at low speed
+    const TURN_FAST    = 0.085;    // rad / frame near max speed
+    const GRIP         = 0.18;     // 0 = pure ice, 1 = on rails (we want some slide)
+    const HANDBRAKE_GRIP = 0.04;   // when SHIFT held — proper drift
+    const EXIT_MARGIN  = 200;
+    // ------------------------------
+
     document.body.style.userSelect = 'none';
 
     const noClickStyle = document.createElement('style');
     noClickStyle.id = 'demolition-no-click';
-    noClickStyle.textContent = '* { pointer-events: none !important; cursor: default !important; } [data-demolition-ui], [data-demolition-ui] * { pointer-events: auto !important; cursor: auto !important; }';
+    noClickStyle.textContent = `
+      * { pointer-events: none !important; cursor: crosshair !important; }
+      [data-demolition-ui], [data-demolition-ui] * {
+        pointer-events: auto !important;
+        cursor: auto !important;
+      }
+      @keyframes dm-bounce-in {
+        0%   { transform: translate(-50%, -120%) scale(0.6); opacity: 0; }
+        70%  { transform: translate(-50%, 0)     scale(1.05); opacity: 1; }
+        100% { transform: translate(-50%, 0)     scale(1);     opacity: 1; }
+      }
+      @keyframes dm-shake {
+        0%, 100% { transform: translate(0,0); }
+        25%      { transform: translate(-2px, 1px); }
+        50%      { transform: translate(2px, -1px); }
+        75%      { transform: translate(-1px, 2px); }
+      }
+      @keyframes dm-explode {
+        0%   { transform: translate(-50%,-50%) scale(0.4) rotate(0deg);  opacity: 1; }
+        60%  { transform: translate(-50%,-50%) scale(1.6) rotate(15deg); opacity: 1; }
+        100% { transform: translate(-50%,-50%) scale(2.2) rotate(25deg); opacity: 0; }
+      }
+      @keyframes dm-debris {
+        0%   { transform: translate(0,0) rotate(0deg); opacity: 1; }
+        100% { transform: translate(var(--dx), var(--dy)) rotate(var(--dr)); opacity: 0; }
+      }
+    `;
     document.head.appendChild(noClickStyle);
 
-    const CAR_W = 60;
-    const CAR_H = 32;
-    const BASE_SPEED = 0;
-    const MAX_FWD = 6;
-    const MAX_REV = -3.5;
-    const ACCEL = 0.06;
-    const TURN_RATE = 0.07;
-    const GRIP = 0.45;
-    const ZOOM_SCALE = 1.10;
-    const SCROLL_EDGE = 0.28;
-    const SCROLL_MAX = 12;
-    const EXIT_MARGIN = 120;
-
-    // Spawn at the click position (center of clicked card), fallback to viewport center
-    const spawnX = (e && e.clientX != null) ? e.clientX - CAR_W / 2 : window.innerWidth / 2 - CAR_W / 2;
-    const spawnY = (e && e.clientY != null) ? e.clientY - CAR_H / 2 : window.innerHeight / 2 - CAR_H / 2;
-
-    // Page-space coordinates so the car is anchored to the document, not the viewport
-    let carX = spawnX + window.scrollX;
-    let carY = spawnY + window.scrollY;
-    let carAngle = 0;
+    // ---------- state ----------
+    let carX = (e && e.clientX != null ? e.clientX : window.innerWidth / 2)  + window.scrollX - CAR_SIZE / 2;
+    let carY = (e && e.clientY != null ? e.clientY : window.innerHeight / 2) + window.scrollY - CAR_SIZE / 2;
+    let carAngle = -Math.PI / 2;            // facing up at spawn
     let mouseX = (e && e.clientX != null) ? e.clientX : window.innerWidth / 2;
     let mouseY = (e && e.clientY != null) ? e.clientY : window.innerHeight / 2;
-    let currentSpeed = BASE_SPEED;
+    let speed = 0;
     let velX = 0, velY = 0;
-    let smokeFrame = 0;
-    let leftHeld = false;
-    let rightHeld = false;
+    let throttle = 0;       // -1 reverse · 0 coast · +1 forward
+    let handbrake = false;
     let killCount = 0;
+    let smokeFrame = 0;
+    let shakeUntil = 0;
     let animId = null;
+    // ---------------------------
 
-    const carSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 32" width="60" height="32">
-      <rect x="2" y="1" width="10" height="8" rx="3" fill="#111"/>
-      <rect x="2" y="23" width="10" height="8" rx="3" fill="#111"/>
-      <rect x="48" y="1" width="10" height="8" rx="3" fill="#111"/>
-      <rect x="48" y="23" width="10" height="8" rx="3" fill="#111"/>
-      <rect x="6" y="4" width="48" height="24" rx="5" fill="#F05F40"/>
-      <rect x="16" y="7" width="24" height="14" rx="3" fill="#c84b15"/>
-      <rect x="36" y="8" width="8" height="12" rx="2" fill="#87ceeb" opacity="0.8"/>
-      <rect x="16" y="8" width="6" height="12" rx="2" fill="#87ceeb" opacity="0.5"/>
-      <rect x="53" y="7" width="4" height="4" rx="1" fill="#ffe66d"/>
-      <rect x="53" y="21" width="4" height="4" rx="1" fill="#ffe66d"/>
-      <rect x="3" y="7" width="4" height="4" rx="1" fill="#ff4444"/>
-      <rect x="3" y="21" width="4" height="4" rx="1" fill="#ff4444"/>
-    </svg>`;
-
+    // ---------- car element (PNG sprite) ----------
     const carEl = document.createElement('div');
     carEl.id = 'demolition-car-el';
     carEl.dataset.demolitionUi = 'true';
     Object.assign(carEl.style, {
       position: 'absolute',
-      width: CAR_W + 'px',
-      height: CAR_H + 'px',
+      width: CAR_SIZE + 'px',
+      height: CAR_SIZE + 'px',
       zIndex: '99999',
       pointerEvents: 'none',
       transformOrigin: '50% 50%',
       left: carX + 'px',
       top: carY + 'px',
-      filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.6))'
+      filter: 'drop-shadow(0 6px 8px rgba(0,0,0,0.55))',
+      backgroundImage: 'url("/stuff/car.png")',
+      backgroundSize: 'contain',
+      backgroundRepeat: 'no-repeat',
+      backgroundPosition: 'center',
+      willChange: 'transform, left, top'
     });
-    carEl.innerHTML = carSvg;
 
-    const counterEl = document.createElement('div');
-    counterEl.id = 'demolition-counter';
-    counterEl.dataset.demolitionUi = 'true';
-    Object.assign(counterEl.style, {
+    // ---------- HUD ----------
+    const hud = document.createElement('div');
+    hud.id = 'demolition-counter';
+    hud.dataset.demolitionUi = 'true';
+    Object.assign(hud.style, {
       position: 'fixed',
-      top: '16px',
+      top: '18px',
       left: '50%',
-      transform: 'translateX(-50%)',
       zIndex: '99999',
-      background: 'rgba(0,0,0,0.85)',
-      color: '#F05F40',
-      padding: '8px 20px',
-      borderRadius: '20px',
+      background: 'rgba(15,15,18,0.88)',
+      color: '#fff',
+      padding: '10px 22px',
+      borderRadius: '999px',
       fontFamily: 'Comfortaa, Segoe UI, sans-serif',
       fontWeight: '700',
       fontSize: '0.95rem',
-      border: '1px solid #F05F40',
+      border: '1px solid rgba(240,95,64,0.6)',
+      boxShadow: '0 6px 30px rgba(0,0,0,0.45)',
       pointerEvents: 'none',
-      whiteSpace: 'nowrap'
+      whiteSpace: 'nowrap',
+      animation: 'dm-bounce-in 0.45s cubic-bezier(.34,1.56,.64,1) both'
     });
-    counterEl.textContent = '🚗 Move your mouse to steer · crash into anything!';
+
+    // ---------- help / controls ----------
+    const help = document.createElement('div');
+    help.dataset.demolitionUi = 'true';
+    Object.assign(help.style, {
+      position: 'fixed',
+      bottom: '20px',
+      left: '20px',
+      zIndex: '99999',
+      background: 'rgba(15,15,18,0.85)',
+      color: '#ddd',
+      padding: '10px 14px',
+      borderRadius: '12px',
+      fontFamily: 'Comfortaa, Segoe UI, sans-serif',
+      fontSize: '0.78rem',
+      lineHeight: '1.55',
+      border: '1px solid rgba(255,255,255,0.08)',
+      pointerEvents: 'none',
+      boxShadow: '0 6px 30px rgba(0,0,0,0.4)'
+    });
+    help.innerHTML = `
+      <div style="color:#F05F40;font-weight:700;margin-bottom:4px">Controls</div>
+      <div><b>Mouse</b> · steer toward cursor</div>
+      <div><b>Left&nbsp;click</b> · throttle · <b>Right click</b> · reverse</div>
+      <div><b>Shift</b> · handbrake / drift</div>
+      <div><b>Esc</b> · quit</div>
+    `;
 
     const stopBtn = document.createElement('button');
-    stopBtn.textContent = '✕ Stop (ESC)';
+    stopBtn.textContent = '✕ Stop (Esc)';
     stopBtn.dataset.demolitionUi = 'true';
     Object.assign(stopBtn.style, {
       position: 'fixed',
@@ -1202,114 +1248,136 @@
       background: '#F05F40',
       color: '#fff',
       border: 'none',
-      borderRadius: '20px',
+      borderRadius: '999px',
       padding: '10px 18px',
       fontFamily: 'Comfortaa, Segoe UI, sans-serif',
       fontWeight: '700',
       fontSize: '0.85rem',
       cursor: 'pointer',
-      boxShadow: '0 4px 15px rgba(0,0,0,0.4)',
-      transition: 'background 0.2s ease'
+      boxShadow: '0 6px 18px rgba(240,95,64,0.45)',
+      transition: 'background 0.2s ease, transform 0.15s ease'
     });
-
-    const zoomRoot = document.getElementById('portfolio-root');
-    let naturalDocLeft = 0;
-    let naturalDocTop = 0;
-    if (zoomRoot) {
-      zoomRoot.style.transform = '';
-      const nr = zoomRoot.getBoundingClientRect();
-      naturalDocLeft = nr.left + window.scrollX;
-      naturalDocTop  = nr.top  + window.scrollY;
-    }
-
-    const DESTROY_SELECTOR = [
-      'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
-      'p', 'li', 'blockquote', 'td', 'th',
-      'img', 'video',
-      '.podcast-description', '.podcast-audio',
-      'a',
-      '.card-title',
-      '.portfolio-card--easter-egg'
-    ].join(', ');
-
-    let destroyables = Array.from(document.querySelectorAll(DESTROY_SELECTOR)).filter(
-      el => !el.closest('[data-demolition-ui]')
-    );
-    const totalDestroyable = destroyables.length;
-    counterEl.textContent = '🚗 ' + totalDestroyable + ' items left to destroy!';
-
-    function stop(andReload) {
-      cancelAnimationFrame(animId);
-      document.body.style.userSelect = '';
-      var ncs = document.getElementById('demolition-no-click');
-      if (ncs) ncs.remove();
-      if (zoomRoot) {
-        zoomRoot.style.transform = '';
-        zoomRoot.style.transformOrigin = '';
-      }
-      carEl.remove();
-      counterEl.remove();
-      stopBtn.remove();
-      document.removeEventListener('mousemove', onMouseMove);
-      document.removeEventListener('mousedown', onMouseDown);
-      document.removeEventListener('mouseup', onMouseUp);
-      document.removeEventListener('contextmenu', onContextMenu);
-      document.removeEventListener('keydown', onKeydown);
-      if (andReload) location.reload();
-    }
-
-    stopBtn.addEventListener('mouseenter', () => { stopBtn.style.background = '#c84b15'; });
-    stopBtn.addEventListener('mouseleave', () => { stopBtn.style.background = '#F05F40'; });
+    stopBtn.addEventListener('mouseenter', () => { stopBtn.style.background = '#c84b15'; stopBtn.style.transform = 'translateY(-1px)'; });
+    stopBtn.addEventListener('mouseleave', () => { stopBtn.style.background = '#F05F40'; stopBtn.style.transform = 'none'; });
     stopBtn.addEventListener('click', () => stop(true));
 
-    function onMouseMove(e) {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
+    // ---------- destroyable scan ----------
+    const DESTROY_SELECTOR = [
+      'h1','h2','h3','h4','h5','h6',
+      'p','li','blockquote',
+      'img','video',
+      '.podcast-description','.podcast-audio',
+      '.card-title',
+      '.portfolio-card','.portfolio-card--easter-egg',
+      '.contact-card'
+    ].join(', ');
+
+    function isVisible(el) {
+      if (!el || !el.isConnected) return false;
+      if (el.dataset.demolished) return false;
+      if (el.closest('[data-demolition-ui]')) return false;
+      if (el.closest('[data-site-nav]')) return false;        // site-nav drawer items
+      const cs = window.getComputedStyle(el);
+      if (cs.display === 'none' || cs.visibility !== 'visible' || cs.opacity === '0') return false;
+      const r = el.getBoundingClientRect();
+      // require meaningful, on-document size
+      if (r.width < 24 || r.height < 18) return false;
+      return true;
     }
 
-    function onMouseDown(e) {
-      if (e.button === 0) leftHeld = true;
-      if (e.button === 2) rightHeld = true;
+    function scanDestroyables() {
+      const all = Array.from(document.querySelectorAll(DESTROY_SELECTOR)).filter(isVisible);
+      // de-dupe nested: drop any that have a destroyable ancestor in the same set
+      const set = new Set(all);
+      return all.filter(el => {
+        let p = el.parentElement;
+        while (p) { if (set.has(p)) return false; p = p.parentElement; }
+        return true;
+      });
     }
 
-    function onMouseUp(e) {
-      if (e.button === 0) leftHeld = false;
-      if (e.button === 2) rightHeld = false;
-    }
+    let destroyables = scanDestroyables();
+    const totalDestroyable = destroyables.length;
 
-    function onContextMenu(e) {
-      e.preventDefault();
+    function setHud(text, accent) {
+      hud.style.color = accent || '#fff';
+      hud.textContent = text;
     }
+    setHud(`🎯 ${totalDestroyable} targets · 0 destroyed`);
 
-    function onKeydown(e) {
-      if (e.key === 'Escape') stop(true);
+    // ---------- input ----------
+    function onMouseMove(ev) { mouseX = ev.clientX; mouseY = ev.clientY; }
+    function onMouseDown(ev) {
+      if (ev.button === 0) throttle = 1;
+      else if (ev.button === 2) throttle = -1;
     }
+    function onMouseUp(ev) {
+      if (ev.button === 0 && throttle === 1) throttle = 0;
+      else if (ev.button === 2 && throttle === -1) throttle = 0;
+    }
+    function onContextMenu(ev) { ev.preventDefault(); }
+    function onKeyDown(ev) {
+      if (ev.key === 'Escape') stop(true);
+      else if (ev.key === 'Shift') handbrake = true;
+    }
+    function onKeyUp(ev) {
+      if (ev.key === 'Shift') handbrake = false;
+    }
+    function onBlur() { throttle = 0; handbrake = false; }
 
+    // ---------- effects ----------
     function spawnExplosion(cx, cy, size) {
-      const el = document.createElement('div');
-      const fs = Math.max(1.2, Math.min(4, size / 30));
-      Object.assign(el.style, {
+      const burst = document.createElement('div');
+      burst.dataset.demolitionUi = 'true';
+      const fs = Math.max(1.4, Math.min(4.5, Math.sqrt(size) / 5));
+      Object.assign(burst.style, {
         position: 'fixed',
-        left: (cx - 20) + 'px',
-        top: (cy - 20) + 'px',
+        left: cx + 'px',
+        top: cy + 'px',
         fontSize: fs + 'rem',
         zIndex: '100000',
         pointerEvents: 'none',
-        transition: 'transform 0.5s ease-out, opacity 0.5s ease-out'
+        transform: 'translate(-50%,-50%)',
+        animation: 'dm-explode 0.55s ease-out forwards',
+        textShadow: '0 0 20px rgba(255,180,80,0.8)'
       });
-      el.textContent = '💥';
-      el.dataset.demolitionUi = 'true';
-      document.body.appendChild(el);
-      requestAnimationFrame(() => {
-        el.style.transform = 'scale(1.8) translateY(-20px)';
-        el.style.opacity = '0';
-      });
-      setTimeout(() => el.remove(), 500);
+      burst.textContent = '💥';
+      document.body.appendChild(burst);
+      setTimeout(() => burst.remove(), 600);
+
+      // debris
+      const colors = ['#F05F40','#ffb347','#ffe66d','#fff'];
+      const count = Math.min(10, Math.max(4, Math.floor(size / 3000)));
+      for (let i = 0; i < count; i++) {
+        const d = document.createElement('div');
+        d.dataset.demolitionUi = 'true';
+        const ang = Math.random() * Math.PI * 2;
+        const dist = 40 + Math.random() * 80;
+        const sz = 4 + Math.random() * 6;
+        Object.assign(d.style, {
+          position: 'fixed',
+          left: cx + 'px',
+          top: cy + 'px',
+          width: sz + 'px',
+          height: sz + 'px',
+          borderRadius: '2px',
+          background: colors[(Math.random() * colors.length) | 0],
+          zIndex: '100000',
+          pointerEvents: 'none',
+          animation: 'dm-debris 0.7s ease-out forwards'
+        });
+        d.style.setProperty('--dx', Math.cos(ang) * dist + 'px');
+        d.style.setProperty('--dy', Math.sin(ang) * dist + 'px');
+        d.style.setProperty('--dr', (Math.random() * 720 - 360) + 'deg');
+        document.body.appendChild(d);
+        setTimeout(() => d.remove(), 750);
+      }
     }
 
-    function spawnSmoke(px, py) {
+    function spawnSmoke(px, py, intensity) {
       const el = document.createElement('div');
-      const size = 10 + Math.random() * 10;
+      el.dataset.demolitionUi = 'true';
+      const size = 8 + Math.random() * 8 + intensity * 4;
       Object.assign(el.style, {
         position: 'absolute',
         left: (px - size / 2) + 'px',
@@ -1317,34 +1385,43 @@
         width: size + 'px',
         height: size + 'px',
         borderRadius: '50%',
-        background: 'rgba(160,160,160,0.55)',
+        background: 'rgba(180,180,180,0.55)',
         zIndex: '99997',
         pointerEvents: 'none',
-        transition: 'transform 0.7s ease-out, opacity 0.7s ease-out'
+        transition: 'transform 0.9s ease-out, opacity 0.9s ease-out',
+        filter: 'blur(1px)'
       });
-      el.dataset.demolitionUi = 'true';
       document.body.appendChild(el);
       requestAnimationFrame(() => {
-        el.style.transform = 'scale(3.5)';
+        el.style.transform = 'scale(' + (3 + intensity) + ')';
         el.style.opacity = '0';
       });
-      setTimeout(() => el.remove(), 700);
+      setTimeout(() => el.remove(), 900);
     }
 
     function demolish(el) {
+      if (el.dataset.demolished) return;
       el.dataset.demolished = 'true';
-      el.style.pointerEvents = 'none';
-      el.style.visibility = 'hidden';
       const rect = el.getBoundingClientRect();
-      const sz = Math.sqrt(rect.width * rect.height);
+      const sz = rect.width * rect.height;
+      // Visual: shrink-out instead of just hiding, so users *see* it die.
+      el.style.transition = 'transform 0.22s ease-in, opacity 0.22s ease-in';
+      el.style.transformOrigin = '50% 50%';
+      el.style.transform = 'scale(0.6) rotate(' + (Math.random() * 30 - 15) + 'deg)';
+      el.style.opacity = '0';
+      el.style.pointerEvents = 'none';
+      setTimeout(() => { el.style.visibility = 'hidden'; }, 220);
+
       spawnExplosion(rect.left + rect.width / 2, rect.top + rect.height / 2, sz);
+      shakeUntil = performance.now() + 220;
+
       killCount++;
       const remaining = totalDestroyable - killCount;
       if (remaining > 0) {
-        counterEl.textContent = '💥 ' + remaining + ' left to destroy';
+        setHud(`💥 ${killCount} destroyed · ${remaining} to go`, '#F05F40');
       } else {
-        counterEl.textContent = '🏆 All destroyed! See ya!';
-        setTimeout(() => stop(true), 1500);
+        setHud(`🏆 Total demolition! Reloading…`, '#ffe66d');
+        setTimeout(() => stop(true), 1600);
       }
     }
 
@@ -1352,109 +1429,172 @@
       return ax < b.right && ax + aw > b.left && ay < b.bottom && ay + ah > b.top;
     }
 
-    function updateScroll() {
-      // Scroll the page so the car stays centered in the viewport
-      const targetX = carX + CAR_W / 2 - window.innerWidth / 2;
-      const targetY = carY + CAR_H / 2 - window.innerHeight / 2;
-      window.scrollTo({ left: Math.max(0, targetX), top: Math.max(0, targetY), behavior: 'instant' });
+    // ---------- camera ----------
+    function followCamera() {
+      const targetX = carX + CAR_SIZE / 2 - window.innerWidth / 2;
+      const targetY = carY + CAR_SIZE / 2 - window.innerHeight / 2;
+      const docW = Math.max(document.body.scrollWidth, document.documentElement.scrollWidth);
+      const docH = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
+      const maxX = Math.max(0, docW - window.innerWidth);
+      const maxY = Math.max(0, docH - window.innerHeight);
+      window.scrollTo({
+        left: Math.min(maxX, Math.max(0, targetX)),
+        top:  Math.min(maxY, Math.max(0, targetY)),
+        behavior: 'instant'
+      });
     }
 
-    function updateZoom() {
-      if (!zoomRoot) return;
-      // carX/carY are already page coords
-      const originX = carX + CAR_W / 2 - naturalDocLeft;
-      const originY = carY + CAR_H / 2 - naturalDocTop;
-      zoomRoot.style.transformOrigin = originX + 'px ' + originY + 'px';
-      zoomRoot.style.transform = 'scale(' + ZOOM_SCALE + ')';
-    }
+    // ---------- main loop ----------
+    let lastT = performance.now();
+    function loop(now) {
+      const dt = Math.min(2, (now - lastT) / 16.667); // normalise to ~60fps
+      lastT = now;
 
-    function loop() {
-      // Speed update — left click accelerates forward, right click reverses
-      const targetSpeed = leftHeld ? MAX_FWD : (rightHeld ? MAX_REV : BASE_SPEED);
-      if (currentSpeed < targetSpeed) currentSpeed = Math.min(currentSpeed + ACCEL, targetSpeed);
-      else if (currentSpeed > targetSpeed) currentSpeed = Math.max(currentSpeed - ACCEL, targetSpeed);
-
-      // Car is in page space; convert to viewport coords for steering and collision
-      const carVX = carX - window.scrollX;
-      const carVY = carY - window.scrollY;
-      const cx = carVX + CAR_W / 2;
-      const cy = carVY + CAR_H / 2;
-
-      // Only steer and scroll when actually moving
-      if (Math.abs(currentSpeed) > 0.05) {
-        // Always steer heading toward mouse; negative speed naturally drives away from cursor
-        const rawAngle = Math.atan2(mouseY - cy, mouseX - cx);
-        let diff = rawAngle - carAngle;
-        if (diff > Math.PI) diff -= 2 * Math.PI;
-        if (diff < -Math.PI) diff += 2 * Math.PI;
-        carAngle += Math.sign(diff) * Math.min(Math.abs(diff), TURN_RATE);
-        updateScroll();
+      // --- speed update ---
+      if (throttle > 0) {
+        speed += ACCEL_FWD * dt;
+        if (speed > MAX_FWD) speed = MAX_FWD;
+      } else if (throttle < 0) {
+        speed -= ACCEL_REV * dt;
+        if (speed < MAX_REV) speed = MAX_REV;
+      } else {
+        // coast
+        speed *= Math.pow(1 - COAST_DRAG, dt);
+        if (Math.abs(speed) < 0.05) speed = 0;
+      }
+      // braking (throttle opposite to current motion) → quick stop
+      if ((throttle > 0 && speed < 0) || (throttle < 0 && speed > 0)) {
+        speed *= Math.pow(1 - BRAKE_DRAG, dt);
       }
 
-      // Drift physics — velocity lags behind heading for natural slide
-      const intendedVX = Math.cos(carAngle) * currentSpeed;
-      const intendedVY = Math.sin(carAngle) * currentSpeed;
-      velX = velX * (1 - GRIP) + intendedVX * GRIP;
-      velY = velY * (1 - GRIP) + intendedVY * GRIP;
-      carX += velX;
-      carY += velY;
+      // --- steering: heading toward mouse, turn rate scaled by speed ---
+      const carCenterVX = carX - window.scrollX + CAR_SIZE / 2;
+      const carCenterVY = carY - window.scrollY + CAR_SIZE / 2;
+      const desiredAngle = Math.atan2(mouseY - carCenterVY, mouseX - carCenterVX);
+      let diff = desiredAngle - carAngle;
+      while (diff >  Math.PI) diff -= 2 * Math.PI;
+      while (diff < -Math.PI) diff += 2 * Math.PI;
+      const speedRatio = Math.min(1, Math.abs(speed) / MAX_FWD);
+      const turnRate = TURN_BASE + (TURN_FAST - TURN_BASE) * speedRatio;
+      // when reversing, invert steering (so cursor still drags the nose)
+      const steerSign = speed < 0 ? -1 : 1;
+      // tiny dead-zone so the car doesn't jitter when mouse sits on it
+      if (Math.abs(diff) > 0.02 && Math.abs(speed) > 0.05) {
+        carAngle += steerSign * Math.sign(diff) * Math.min(Math.abs(diff), turnRate * dt);
+      }
 
-      // Smoke trail when drifting at speed
+      // --- arcade drift physics ---
+      // intended velocity along heading
+      const intX = Math.cos(carAngle) * speed;
+      const intY = Math.sin(carAngle) * speed;
+      // grip: blend lateral velocity toward forward, leave forward almost untouched.
+      // decompose current vel into forward / lateral wrt heading
+      const cosA = Math.cos(carAngle), sinA = Math.sin(carAngle);
+      const fwd = velX * cosA + velY * sinA;
+      const lat = -velX * sinA + velY * cosA;
+      const grip = handbrake ? HANDBRAKE_GRIP : GRIP;
+      const newFwd = fwd + (speed - fwd) * Math.min(1, 0.6 * dt); // strong forward tracking
+      const newLat = lat * Math.pow(1 - grip, dt);                // gradual side-grip
+      velX = cosA * newFwd - sinA * newLat;
+      velY = sinA * newFwd + cosA * newLat;
+      carX += velX * dt;
+      carY += velY * dt;
+
+      // --- smoke / drift trail ---
       smokeFrame++;
       const velMag = Math.hypot(velX, velY);
-      if (velMag > MAX_FWD * 0.25 && smokeFrame % 2 === 0) {
-        const movDir = Math.atan2(velY, velX);
-        let driftDiff = movDir - carAngle;
-        if (driftDiff > Math.PI) driftDiff -= 2 * Math.PI;
-        if (driftDiff < -Math.PI) driftDiff += 2 * Math.PI;
-        if (Math.abs(driftDiff) > 0.06) {
-          const rearX = carX - Math.cos(carAngle) * (CAR_W * 0.45);
-          const rearY = carY - Math.sin(carAngle) * (CAR_H * 0.45);
-          spawnSmoke(rearX, rearY);
-        }
+      const driftMag = Math.abs(newLat);
+      if (velMag > 1.5 && (handbrake || driftMag > 0.6) && smokeFrame % 2 === 0) {
+        const rearOff = CAR_SIZE * 0.38;
+        const wheelOff = CAR_SIZE * 0.28;
+        const rxL = carX + CAR_SIZE / 2 - cosA * rearOff - (-sinA) * wheelOff;
+        const ryL = carY + CAR_SIZE / 2 - sinA * rearOff - ( cosA) * wheelOff;
+        const rxR = carX + CAR_SIZE / 2 - cosA * rearOff + (-sinA) * wheelOff;
+        const ryR = carY + CAR_SIZE / 2 - sinA * rearOff + ( cosA) * wheelOff;
+        const intensity = Math.min(1, driftMag / 6);
+        spawnSmoke(rxL, ryL, intensity);
+        spawnSmoke(rxR, ryR, intensity);
       }
 
+      // --- render ---
+      // sprite faces UP, our angle 0 = right; rotate +90° so nose follows heading.
+      const renderDeg = (carAngle * 180 / Math.PI) + 90;
+      let shakeX = 0, shakeY = 0;
+      if (now < shakeUntil) {
+        const k = (shakeUntil - now) / 220;
+        shakeX = (Math.random() - 0.5) * 6 * k;
+        shakeY = (Math.random() - 0.5) * 6 * k;
+      }
       carEl.style.left = carX + 'px';
       carEl.style.top  = carY + 'px';
-      carEl.style.transform = 'rotate(' + (carAngle * 180 / Math.PI) + 'deg)';
+      carEl.style.transform = `translate(${shakeX}px, ${shakeY}px) rotate(${renderDeg}deg)`;
 
-      updateZoom();
+      followCamera();
 
+      // --- bounds check ---
       const docW = Math.max(document.body.scrollWidth, document.documentElement.scrollWidth);
       const docH = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
       if (
-        carX + CAR_W < -EXIT_MARGIN ||
+        carX + CAR_SIZE < -EXIT_MARGIN ||
         carX > docW + EXIT_MARGIN ||
-        carY + CAR_H < -EXIT_MARGIN ||
+        carY + CAR_SIZE < -EXIT_MARGIN ||
         carY > docH + EXIT_MARGIN
       ) {
         stop(true);
         return;
       }
 
-      destroyables = destroyables.filter(el => !el.dataset.demolished && document.body.contains(el));
-
+      // --- collisions (against viewport rects) ---
+      destroyables = destroyables.filter(el => !el.dataset.demolished && el.isConnected);
+      const hbX = (carX - window.scrollX) + (CAR_SIZE - HITBOX_W) / 2;
+      const hbY = (carY - window.scrollY) + (CAR_SIZE - HITBOX_H) / 2;
       for (let i = 0; i < destroyables.length; i++) {
         const el = destroyables[i];
         const r = el.getBoundingClientRect();
-        if (r.width < 10 || r.height < 10) continue;
-        if (rectsOverlap(carVX, carVY, CAR_W, CAR_H, r)) {
+        if (r.width < 16 || r.height < 12) continue;
+        if (rectsOverlap(hbX, hbY, HITBOX_W, HITBOX_H, r)) {
           demolish(el);
+          // small bounce — bleed some forward speed on impact
+          speed *= 0.78;
         }
       }
 
       animId = requestAnimationFrame(loop);
     }
 
+    function stop(andReload) {
+      cancelAnimationFrame(animId);
+      document.body.style.userSelect = '';
+      const ncs = document.getElementById('demolition-no-click');
+      if (ncs) ncs.remove();
+      carEl.remove();
+      hud.remove();
+      help.remove();
+      stopBtn.remove();
+      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mousedown', onMouseDown);
+      document.removeEventListener('mouseup',   onMouseUp);
+      document.removeEventListener('contextmenu', onContextMenu);
+      document.removeEventListener('keydown', onKeyDown);
+      document.removeEventListener('keyup',   onKeyUp);
+      window.removeEventListener('blur', onBlur);
+      if (andReload) location.reload();
+    }
+
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mousedown', onMouseDown);
-    document.addEventListener('mouseup', onMouseUp);
+    document.addEventListener('mouseup',   onMouseUp);
     document.addEventListener('contextmenu', onContextMenu);
-    document.addEventListener('keydown', onKeydown);
+    document.addEventListener('keydown', onKeyDown);
+    document.addEventListener('keyup',   onKeyUp);
+    window.addEventListener('blur', onBlur);
+
     document.body.appendChild(carEl);
-    document.body.appendChild(counterEl);
+    document.body.appendChild(hud);
+    document.body.appendChild(help);
     document.body.appendChild(stopBtn);
-    loop();
+
+    animId = requestAnimationFrame(loop);
   }
 
   function createCard(item) {
