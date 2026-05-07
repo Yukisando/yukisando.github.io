@@ -106,7 +106,9 @@
   <!-- Image Zoom Modal -->
   <div class="zoom-overlay" id="zoomModal" onclick="closeZoom()">
     <button class="zoom-close" onclick="closeZoom()">&times;</button>
-    <img id="zoomImage" src="" alt="Zoomed image">
+    <button class="zoom-nav-btn prev" onclick="event.stopPropagation(); prevZoom()"><i class="fa fa-chevron-left"></i></button>
+    <img id="zoomImage" src="" alt="Zoomed image" onclick="event.stopPropagation()">
+    <button class="zoom-nav-btn next" onclick="event.stopPropagation(); nextZoom()"><i class="fa fa-chevron-right"></i></button>
   </div>
 
   <!-- ColdSnap JavaScript -->

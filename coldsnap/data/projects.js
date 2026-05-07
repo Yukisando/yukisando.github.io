@@ -185,13 +185,18 @@ const COLDSNAP_PROJECTS = [
   // GAMES
   // ============================================
   {
-    id: 'grapplegrove',
+    id: 'grapple-groove',
     category: 'Games',
     type: 'PC Game',
     title: 'GrappleGroove',
     shortDescription: 'First-person grappling hook parkour game: swing, climb and launch through physics-driven levels',
     description: 'A fast-paced first-person parkour game built around dual grappling hooks and momentum physics. Players combine rope and pole grapples with wall-running, vaulting, sliding and dynamic spring platforms to blast through increasingly creative levels. Includes a built-in level editor used during development by a multi-person team.',
     icon: '🪝',
+    thumbnail: '/coldsnap/assets/projects/grapple-groove/grapple-groove-1.png',
+    media: [
+      '/coldsnap/assets/projects/grapple-groove/grapple-groove-1.png',
+      '/coldsnap/assets/projects/grapple-groove/grapple-groove-2.png'
+    ],
     tech: ['Unity 6', 'C#', 'URP', 'Spring Physics', 'Android', 'PC'],
     features: [
       'Dual grappling hooks (rope and pole types)',
@@ -432,6 +437,10 @@ const COLDSNAP_PROJECTS = [
     shortDescription: 'Minecraft plugin adding block-placing and elemental abilities to bows based on the block you stand on',
     description: 'A Java Minecraft plugin built from scratch that gives the bow and arrow context-sensitive superpowers. The effect fired depends on the block under the player\'s feet: standing on ice fires a freeze arrow, on TNT fires an explosive, on grass places blocks, and so on. A fun exploration of the Bukkit/Spigot API.',
     icon: '🏹',
+    thumbnail: '/coldsnap/assets/projects/magic-arrow/magic-arrow-1.jpg',
+    media: [
+      '/coldsnap/assets/projects/magic-arrow/magic-arrow-1.jpg',
+    ],
     tech: ['Java', 'Bukkit/Spigot API', 'Minecraft'],
     features: [
       'Context-sensitive bow abilities based on standing block',

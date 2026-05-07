@@ -8,6 +8,10 @@
 let currentSlide = 0;
 let totalSlides = 0;
 
+// Zoom state
+let zoomImages = [];
+let currentZoomIndex = 0;
+
 function stopProjectModalMedia(reset = false) {
   const modal = document.getElementById('projectModal');
   if (!modal) return;
@@ -79,11 +83,19 @@ function goToSlide(index) {
 
 // Zoom functions
 function openZoom(imageSrc) {
+  currentZoomIndex = zoomImages.indexOf(imageSrc);
+  if (currentZoomIndex === -1) currentZoomIndex = 0;
+
   const zoomModal = document.getElementById('zoomModal');
   const zoomImage = document.getElementById('zoomImage');
   zoomImage.src = imageSrc;
   zoomModal.classList.add('active');
   document.body.style.overflow = 'hidden';
+
+  const showNav = zoomImages.length > 1;
+  document.querySelectorAll('.zoom-nav-btn').forEach(btn => {
+    btn.style.display = showNav ? '' : 'none';
+  });
 }
 
 function closeZoom() {
@@ -94,6 +106,18 @@ function closeZoom() {
   if (!projectModal.classList.contains('active')) {
     document.body.style.overflow = '';
   }
+}
+
+function nextZoom() {
+  if (zoomImages.length <= 1) return;
+  currentZoomIndex = (currentZoomIndex + 1) % zoomImages.length;
+  document.getElementById('zoomImage').src = zoomImages[currentZoomIndex];
+}
+
+function prevZoom() {
+  if (zoomImages.length <= 1) return;
+  currentZoomIndex = (currentZoomIndex - 1 + zoomImages.length) % zoomImages.length;
+  document.getElementById('zoomImage').src = zoomImages[currentZoomIndex];
 }
 
 // Modal functions
@@ -112,6 +136,8 @@ function openModal(projectId) {
   if (project.media && project.media.length > 0) {
     totalSlides = project.media.length;
     
+    zoomImages = project.media.filter(m => !m.endsWith('.mp4') && !m.endsWith('.webm'));
+
     const slides = project.media.map((item, index) => {
       if (item.endsWith('.mp4') || item.endsWith('.webm')) {
         return `<div class="carousel-slide ${index === 0 ? 'active' : ''}">
@@ -223,16 +249,19 @@ function closeModal(event) {
 
 // Close modal with Escape key
 document.addEventListener('keydown', function(event) {
+  const zoomActive = document.getElementById('zoomModal').classList.contains('active');
+
   if (event.key === 'Escape') {
-    closeZoom();
-    closeModal();
+    if (zoomActive) closeZoom();
+    else closeModal();
   }
-  // Arrow keys for carousel
   if (event.key === 'ArrowRight') {
-    nextSlide();
+    if (zoomActive) nextZoom();
+    else nextSlide();
   }
   if (event.key === 'ArrowLeft') {
-    prevSlide();
+    if (zoomActive) prevZoom();
+    else prevSlide();
   }
 });
 
