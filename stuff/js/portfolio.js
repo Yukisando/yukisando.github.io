@@ -1097,8 +1097,56 @@
     return card;
   }
 
+  function isMobileDevice() {
+    if (window.matchMedia && window.matchMedia('(pointer: coarse)').matches) return true;
+    if ('ontouchstart' in window && window.innerWidth < 900) return true;
+    return /Android|iPhone|iPad|iPod|Mobile|Opera Mini/i.test(navigator.userAgent || '');
+  }
+
+  function showDesktopOnlyToast() {
+    if (document.getElementById('desktop-only-toast')) return;
+    const toast = document.createElement('div');
+    toast.id = 'desktop-only-toast';
+    toast.innerHTML = `
+      <div style="font-size:1.6rem;margin-bottom:6px">🖥️</div>
+      <div style="font-weight:700;color:#F05F40;margin-bottom:4px">Desktop-only minigame</div>
+      <div style="color:#ccc;font-size:0.85rem;line-height:1.45">
+        Demolition Mode needs a mouse and keyboard. Pop this open on a desktop browser to play!
+      </div>
+    `;
+    Object.assign(toast.style, {
+      position: 'fixed',
+      left: '50%',
+      bottom: '24px',
+      transform: 'translate(-50%, 30px)',
+      zIndex: '99999',
+      background: 'rgba(15,15,18,0.95)',
+      color: '#fff',
+      padding: '14px 20px',
+      borderRadius: '14px',
+      maxWidth: 'min(360px, calc(100vw - 32px))',
+      textAlign: 'center',
+      fontFamily: 'Comfortaa, Segoe UI, sans-serif',
+      border: '1px solid rgba(240,95,64,0.5)',
+      boxShadow: '0 12px 40px rgba(0,0,0,0.5)',
+      opacity: '0',
+      transition: 'transform 0.35s cubic-bezier(.34,1.56,.64,1), opacity 0.35s ease'
+    });
+    document.body.appendChild(toast);
+    requestAnimationFrame(() => {
+      toast.style.transform = 'translate(-50%, 0)';
+      toast.style.opacity = '1';
+    });
+    setTimeout(() => {
+      toast.style.transform = 'translate(-50%, 30px)';
+      toast.style.opacity = '0';
+      setTimeout(() => toast.remove(), 400);
+    }, 3500);
+  }
+
   function activateDemolitionCar(e) {
     if (document.getElementById('demolition-car-el')) return;
+    if (isMobileDevice()) { showDesktopOnlyToast(); return; }
 
     // ---------- tunables ----------
     const CAR_SIZE     = 64;       // square (PNG is top-down)
@@ -1111,9 +1159,13 @@
     const COAST_DRAG   = 0.04;     // when no input
     const BRAKE_DRAG   = 0.55;     // when actively braking (opposite input)
     const TURN_BASE    = 0.055;    // rad / frame at low speed
-    const TURN_FAST    = 0.085;    // rad / frame near max speed
-    const GRIP         = 0.18;     // 0 = pure ice, 1 = on rails (we want some slide)
-    const HANDBRAKE_GRIP = 0.04;   // when SHIFT held — proper drift
+    const TURN_FAST    = 0.090;    // rad / frame near max speed
+    const HANDBRAKE_TURN_BOOST = 1.9;
+    const GRIP         = 0.22;     // lateral decay per frame (0 = ice, 1 = rails)
+    const HANDBRAKE_GRIP = 0.012;  // SHIFT — keep almost all sideways momentum
+    const FWD_TRACK      = 0.55;   // how aggressively velocity aligns to heading (normal)
+    const HANDBRAKE_FWD_TRACK = 0.10; // weak forward tracking while drifting → overshoot
+    const DRIFT_RECOVER  = 0.025;  // how fast grip/tracking return after Shift release (per frame)
     const EXIT_MARGIN  = 200;
     // ------------------------------
 
@@ -1147,6 +1199,20 @@
         0%   { transform: translate(0,0) rotate(0deg); opacity: 1; }
         100% { transform: translate(var(--dx), var(--dy)) rotate(var(--dr)); opacity: 0; }
       }
+      @keyframes dm-shard {
+        0%   { transform: translate(0,0) rotate(0deg); opacity: 1; filter: brightness(1); }
+        15%  { filter: brightness(1.6); }
+        100% { transform: translate(var(--dx), var(--dy)) rotate(var(--dr)); opacity: 0; filter: brightness(0.4); }
+      }
+      @keyframes dm-flash {
+        0%   { transform: translate(-50%,-50%) scale(0.2); opacity: 0.95; }
+        40%  { transform: translate(-50%,-50%) scale(1.6); opacity: 0.6; }
+        100% { transform: translate(-50%,-50%) scale(2.4); opacity: 0; }
+      }
+      @keyframes dm-ring {
+        0%   { transform: translate(-50%,-50%) scale(0.2); opacity: 0.9; border-width: 6px; }
+        100% { transform: translate(-50%,-50%) scale(2.4); opacity: 0; border-width: 1px; }
+      }
     `;
     document.head.appendChild(noClickStyle);
 
@@ -1160,6 +1226,7 @@
     let velX = 0, velY = 0;
     let throttle = 0;       // -1 reverse · 0 coast · +1 forward
     let handbrake = false;
+    let driftBlend = 0; // 0 = full grip, 1 = full handbrake; lerps for smooth recovery
     let killCount = 0;
     let smokeFrame = 0;
     let shakeUntil = 0;
@@ -1326,34 +1393,56 @@
     function onBlur() { throttle = 0; handbrake = false; }
 
     // ---------- effects ----------
-    function spawnExplosion(cx, cy, size) {
-      const burst = document.createElement('div');
-      burst.dataset.demolitionUi = 'true';
-      const fs = Math.max(1.4, Math.min(4.5, Math.sqrt(size) / 5));
-      Object.assign(burst.style, {
+    function spawnImpact(cx, cy, size) {
+      // Bright white flash
+      const flash = document.createElement('div');
+      flash.dataset.demolitionUi = 'true';
+      const flashSize = Math.min(220, Math.max(70, Math.sqrt(size) * 1.6));
+      Object.assign(flash.style, {
         position: 'fixed',
         left: cx + 'px',
         top: cy + 'px',
-        fontSize: fs + 'rem',
+        width: flashSize + 'px',
+        height: flashSize + 'px',
+        borderRadius: '50%',
+        background: 'radial-gradient(circle, rgba(255,255,255,0.95) 0%, rgba(255,200,120,0.6) 35%, rgba(240,95,64,0) 70%)',
         zIndex: '100000',
         pointerEvents: 'none',
-        transform: 'translate(-50%,-50%)',
-        animation: 'dm-explode 0.55s ease-out forwards',
-        textShadow: '0 0 20px rgba(255,180,80,0.8)'
+        mixBlendMode: 'screen',
+        animation: 'dm-flash 0.35s ease-out forwards'
       });
-      burst.textContent = '💥';
-      document.body.appendChild(burst);
-      setTimeout(() => burst.remove(), 600);
+      document.body.appendChild(flash);
+      setTimeout(() => flash.remove(), 380);
 
-      // debris
-      const colors = ['#F05F40','#ffb347','#ffe66d','#fff'];
-      const count = Math.min(10, Math.max(4, Math.floor(size / 3000)));
-      for (let i = 0; i < count; i++) {
+      // Shockwave ring
+      const ring = document.createElement('div');
+      ring.dataset.demolitionUi = 'true';
+      const ringSize = Math.min(180, Math.max(60, Math.sqrt(size)));
+      Object.assign(ring.style, {
+        position: 'fixed',
+        left: cx + 'px',
+        top: cy + 'px',
+        width: ringSize + 'px',
+        height: ringSize + 'px',
+        borderRadius: '50%',
+        border: '6px solid rgba(255,200,120,0.8)',
+        zIndex: '100000',
+        pointerEvents: 'none',
+        boxSizing: 'border-box',
+        animation: 'dm-ring 0.5s ease-out forwards'
+      });
+      document.body.appendChild(ring);
+      setTimeout(() => ring.remove(), 520);
+
+      // Sparks
+      const colors = ['#fff', '#ffe66d', '#ffb347', '#F05F40'];
+      const sparkCount = Math.min(14, Math.max(6, Math.floor(size / 2400)));
+      for (let i = 0; i < sparkCount; i++) {
         const d = document.createElement('div');
         d.dataset.demolitionUi = 'true';
         const ang = Math.random() * Math.PI * 2;
-        const dist = 40 + Math.random() * 80;
-        const sz = 4 + Math.random() * 6;
+        const dist = 50 + Math.random() * 110;
+        const sz = 3 + Math.random() * 5;
         Object.assign(d.style, {
           position: 'fixed',
           left: cx + 'px',
@@ -1362,15 +1451,16 @@
           height: sz + 'px',
           borderRadius: '2px',
           background: colors[(Math.random() * colors.length) | 0],
+          boxShadow: '0 0 6px rgba(255,200,120,0.9)',
           zIndex: '100000',
           pointerEvents: 'none',
-          animation: 'dm-debris 0.7s ease-out forwards'
+          animation: 'dm-debris 0.8s ease-out forwards'
         });
         d.style.setProperty('--dx', Math.cos(ang) * dist + 'px');
         d.style.setProperty('--dy', Math.sin(ang) * dist + 'px');
         d.style.setProperty('--dr', (Math.random() * 720 - 360) + 'deg');
         document.body.appendChild(d);
-        setTimeout(() => d.remove(), 750);
+        setTimeout(() => d.remove(), 820);
       }
     }
 
@@ -1399,21 +1489,87 @@
       setTimeout(() => el.remove(), 900);
     }
 
+    // Shatter the actual element into clipped shards using clones positioned
+    // over its rect. Each shard is a polygon slice of the original DOM, so the
+    // user *sees* their content blow apart instead of an emoji puff.
+    function shatter(el, rect, impactX, impactY) {
+      const cols = rect.width  > 220 ? 4 : (rect.width  > 110 ? 3 : 2);
+      const rows = rect.height > 120 ? 3 : 2;
+      const cellW = rect.width  / cols;
+      const cellH = rect.height / rows;
+
+      for (let row = 0; row < rows; row++) {
+        for (let col = 0; col < cols; col++) {
+          const j = (v) => v + (Math.random() - 0.5) * 0.35;
+          // Jittered triangle pair per cell → looks like a broken pane.
+          const pts = [
+            [j(col),     j(row)],
+            [j(col + 1), j(row)],
+            [j(col + 1), j(row + 1)],
+            [j(col),     j(row + 1)],
+          ].map(([x, y]) => [
+            Math.max(0, Math.min(cols, x)) / cols * 100,
+            Math.max(0, Math.min(rows, y)) / rows * 100,
+          ]);
+
+          const shard = el.cloneNode(true);
+          shard.dataset.demolitionUi = 'true';
+          shard.removeAttribute('id');
+          // Strip nested IDs so we don't duplicate them in the DOM.
+          shard.querySelectorAll('[id]').forEach(n => n.removeAttribute('id'));
+          Object.assign(shard.style, {
+            position: 'fixed',
+            left: rect.left + 'px',
+            top:  rect.top  + 'px',
+            width:  rect.width  + 'px',
+            height: rect.height + 'px',
+            margin: '0',
+            transformOrigin: '50% 50%',
+            pointerEvents: 'none',
+            zIndex: '100000',
+            clipPath: `polygon(${pts.map(p => p[0] + '% ' + p[1] + '%').join(',')})`,
+            webkitClipPath: `polygon(${pts.map(p => p[0] + '% ' + p[1] + '%').join(',')})`,
+            visibility: 'visible',
+            opacity: '1',
+            transition: 'none',
+            animation: 'dm-shard 0.7s cubic-bezier(.2,.6,.3,1) forwards'
+          });
+
+          // Direction = away from impact point + small random jitter
+          const cellCx = rect.left + (col + 0.5) * cellW;
+          const cellCy = rect.top  + (row + 0.5) * cellH;
+          const ang = Math.atan2(cellCy - impactY, cellCx - impactX) + (Math.random() - 0.5) * 0.6;
+          const dist = 80 + Math.random() * 90;
+          shard.style.setProperty('--dx', Math.cos(ang) * dist + 'px');
+          shard.style.setProperty('--dy', Math.sin(ang) * dist + 60 + 'px'); // slight gravity
+          shard.style.setProperty('--dr', (Math.random() * 80 - 40) + 'deg');
+
+          document.body.appendChild(shard);
+          setTimeout(() => shard.remove(), 720);
+        }
+      }
+    }
+
     function demolish(el) {
       if (el.dataset.demolished) return;
       el.dataset.demolished = 'true';
       const rect = el.getBoundingClientRect();
       const sz = rect.width * rect.height;
-      // Visual: shrink-out instead of just hiding, so users *see* it die.
-      el.style.transition = 'transform 0.22s ease-in, opacity 0.22s ease-in';
-      el.style.transformOrigin = '50% 50%';
-      el.style.transform = 'scale(0.6) rotate(' + (Math.random() * 30 - 15) + 'deg)';
-      el.style.opacity = '0';
-      el.style.pointerEvents = 'none';
-      setTimeout(() => { el.style.visibility = 'hidden'; }, 220);
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top  + rect.height / 2;
 
-      spawnExplosion(rect.left + rect.width / 2, rect.top + rect.height / 2, sz);
-      shakeUntil = performance.now() + 220;
+      // Direction of impact = where the car came from
+      const carCx = carX - window.scrollX + CAR_SIZE / 2;
+      const carCy = carY - window.scrollY + CAR_SIZE / 2;
+
+      shatter(el, rect, carCx, carCy);
+      spawnImpact(cx, cy, sz);
+
+      // Hide the original immediately — shards take over visually.
+      el.style.visibility = 'hidden';
+      el.style.pointerEvents = 'none';
+
+      shakeUntil = performance.now() + 240;
 
       killCount++;
       const remaining = totalDestroyable - killCount;
@@ -1467,7 +1623,13 @@
         speed *= Math.pow(1 - BRAKE_DRAG, dt);
       }
 
-      // --- steering: heading toward mouse, turn rate scaled by speed ---
+      // --- handbrake blend: snap up when held, ease back down when released ---
+      const targetBlend = handbrake ? 1 : 0;
+      const blendRate = handbrake ? 0.35 : DRIFT_RECOVER;
+      driftBlend += (targetBlend - driftBlend) * Math.min(1, blendRate * dt);
+      if (driftBlend < 0.001) driftBlend = 0;
+
+      // --- steering: only chase the cursor when the player is actively driving ---
       const carCenterVX = carX - window.scrollX + CAR_SIZE / 2;
       const carCenterVY = carY - window.scrollY + CAR_SIZE / 2;
       const desiredAngle = Math.atan2(mouseY - carCenterVY, mouseX - carCenterVX);
@@ -1475,26 +1637,28 @@
       while (diff >  Math.PI) diff -= 2 * Math.PI;
       while (diff < -Math.PI) diff += 2 * Math.PI;
       const speedRatio = Math.min(1, Math.abs(speed) / MAX_FWD);
-      const turnRate = TURN_BASE + (TURN_FAST - TURN_BASE) * speedRatio;
+      const turnRate = (TURN_BASE + (TURN_FAST - TURN_BASE) * speedRatio)
+                       * (1 + (HANDBRAKE_TURN_BOOST - 1) * driftBlend);
       // when reversing, invert steering (so cursor still drags the nose)
       const steerSign = speed < 0 ? -1 : 1;
-      // tiny dead-zone so the car doesn't jitter when mouse sits on it
-      if (Math.abs(diff) > 0.02 && Math.abs(speed) > 0.05) {
+      // Only steer while the throttle is engaged (left or right click).
+      // Coasting keeps current heading so drifts can overshoot naturally.
+      if (throttle !== 0 && Math.abs(speed) > 0.05 && Math.abs(diff) > 0.02) {
         carAngle += steerSign * Math.sign(diff) * Math.min(Math.abs(diff), turnRate * dt);
       }
 
       // --- arcade drift physics ---
-      // intended velocity along heading
-      const intX = Math.cos(carAngle) * speed;
-      const intY = Math.sin(carAngle) * speed;
-      // grip: blend lateral velocity toward forward, leave forward almost untouched.
-      // decompose current vel into forward / lateral wrt heading
+      // Decompose velocity into forward / lateral components relative to heading.
+      // Forward component tracks target speed; lateral component decays with grip.
+      // During handbrake, both tracking and grip drop \u2192 the heading rotates faster
+      // than the velocity vector, producing a real overshoot/drift.
       const cosA = Math.cos(carAngle), sinA = Math.sin(carAngle);
-      const fwd = velX * cosA + velY * sinA;
+      const fwd =  velX * cosA + velY * sinA;
       const lat = -velX * sinA + velY * cosA;
-      const grip = handbrake ? HANDBRAKE_GRIP : GRIP;
-      const newFwd = fwd + (speed - fwd) * Math.min(1, 0.6 * dt); // strong forward tracking
-      const newLat = lat * Math.pow(1 - grip, dt);                // gradual side-grip
+      const grip     = GRIP      + (HANDBRAKE_GRIP      - GRIP)      * driftBlend;
+      const fwdTrack = FWD_TRACK + (HANDBRAKE_FWD_TRACK - FWD_TRACK) * driftBlend;
+      const newFwd = fwd + (speed - fwd) * Math.min(1, fwdTrack * dt);
+      const newLat = lat * Math.pow(1 - grip, dt);
       velX = cosA * newFwd - sinA * newLat;
       velY = sinA * newFwd + cosA * newLat;
       carX += velX * dt;
@@ -1621,8 +1785,18 @@
         }
       });
 
-      const icon = create('div', { style: { fontSize: '2.5rem', lineHeight: '1' } });
-      icon.textContent = '🚗';
+      const icon = create('img', {
+        src: '/stuff/car.png',
+        alt: 'Demolition car',
+        style: {
+          width: '64px',
+          height: '64px',
+          objectFit: 'contain',
+          filter: 'drop-shadow(0 4px 6px rgba(0,0,0,0.45))',
+          transition: 'transform 0.35s cubic-bezier(.34,1.56,.64,1)',
+          pointerEvents: 'none'
+        }
+      });
 
       const label = create('div', {
         style: {
@@ -1650,11 +1824,13 @@
         demoCard.style.transform = 'translateY(-5px)';
         demoCard.style.borderColor = '#F05F40';
         demoCard.style.boxShadow = '0 10px 30px rgba(240, 95, 64, 0.25)';
+        icon.style.transform = 'rotate(-8deg) scale(1.08)';
       });
       demoCard.addEventListener('mouseleave', () => {
         demoCard.style.transform = 'translateY(0)';
         demoCard.style.borderColor = '#333';
         demoCard.style.boxShadow = 'none';
+        icon.style.transform = 'rotate(0) scale(1)';
       });
       demoCard.addEventListener('click', (e) => activateDemolitionCar(e));
 
