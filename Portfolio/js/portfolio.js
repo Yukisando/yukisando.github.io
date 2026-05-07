@@ -1097,7 +1097,388 @@
     return card;
   }
 
+  function activateDemolitionCar(e) {
+    if (document.getElementById('demolition-car-el')) return;
+
+    document.body.style.userSelect = 'none';
+
+    const CAR_W = 60;
+    const CAR_H = 32;
+    const BASE_SPEED = 0;
+    const MAX_FWD = 4;
+    const MAX_REV = -2.5;
+    const ACCEL = 0.06;
+    const TURN_RATE = 0.07;
+    const ZOOM_SCALE = 1.10;
+    const SCROLL_EDGE = 0.28;
+    const SCROLL_MAX = 12;
+    const EXIT_MARGIN = 120;
+
+    // Spawn at the click position (center of clicked card), fallback to viewport center
+    const spawnX = (e && e.clientX != null) ? e.clientX - CAR_W / 2 : window.innerWidth / 2 - CAR_W / 2;
+    const spawnY = (e && e.clientY != null) ? e.clientY - CAR_H / 2 : window.innerHeight / 2 - CAR_H / 2;
+
+    let carX = spawnX;
+    let carY = spawnY;
+    let carAngle = 0;
+    let mouseX = (e && e.clientX != null) ? e.clientX : window.innerWidth / 2;
+    let mouseY = (e && e.clientY != null) ? e.clientY : window.innerHeight / 2;
+    let currentSpeed = BASE_SPEED;
+    let leftHeld = false;
+    let rightHeld = false;
+    let killCount = 0;
+    let animId = null;
+
+    const carSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 32" width="60" height="32">
+      <rect x="2" y="1" width="10" height="8" rx="3" fill="#111"/>
+      <rect x="2" y="23" width="10" height="8" rx="3" fill="#111"/>
+      <rect x="48" y="1" width="10" height="8" rx="3" fill="#111"/>
+      <rect x="48" y="23" width="10" height="8" rx="3" fill="#111"/>
+      <rect x="6" y="4" width="48" height="24" rx="5" fill="#F05F40"/>
+      <rect x="16" y="7" width="24" height="14" rx="3" fill="#c84b15"/>
+      <rect x="36" y="8" width="8" height="12" rx="2" fill="#87ceeb" opacity="0.8"/>
+      <rect x="16" y="8" width="6" height="12" rx="2" fill="#87ceeb" opacity="0.5"/>
+      <rect x="53" y="7" width="4" height="4" rx="1" fill="#ffe66d"/>
+      <rect x="53" y="21" width="4" height="4" rx="1" fill="#ffe66d"/>
+      <rect x="3" y="7" width="4" height="4" rx="1" fill="#ff4444"/>
+      <rect x="3" y="21" width="4" height="4" rx="1" fill="#ff4444"/>
+    </svg>`;
+
+    const carEl = document.createElement('div');
+    carEl.id = 'demolition-car-el';
+    carEl.dataset.demolitionUi = 'true';
+    Object.assign(carEl.style, {
+      position: 'fixed',
+      width: CAR_W + 'px',
+      height: CAR_H + 'px',
+      zIndex: '99999',
+      pointerEvents: 'none',
+      transformOrigin: '50% 50%',
+      left: carX + 'px',
+      top: carY + 'px',
+      filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.6))'
+    });
+    carEl.innerHTML = carSvg;
+
+    const counterEl = document.createElement('div');
+    counterEl.id = 'demolition-counter';
+    counterEl.dataset.demolitionUi = 'true';
+    Object.assign(counterEl.style, {
+      position: 'fixed',
+      top: '16px',
+      left: '50%',
+      transform: 'translateX(-50%)',
+      zIndex: '99999',
+      background: 'rgba(0,0,0,0.85)',
+      color: '#F05F40',
+      padding: '8px 20px',
+      borderRadius: '20px',
+      fontFamily: 'Comfortaa, Segoe UI, sans-serif',
+      fontWeight: '700',
+      fontSize: '0.95rem',
+      border: '1px solid #F05F40',
+      pointerEvents: 'none',
+      whiteSpace: 'nowrap'
+    });
+    counterEl.textContent = '🚗 Move your mouse to steer · crash into anything!';
+
+    const stopBtn = document.createElement('button');
+    stopBtn.textContent = '✕ Stop (ESC)';
+    stopBtn.dataset.demolitionUi = 'true';
+    Object.assign(stopBtn.style, {
+      position: 'fixed',
+      bottom: '20px',
+      right: '20px',
+      zIndex: '99999',
+      background: '#F05F40',
+      color: '#fff',
+      border: 'none',
+      borderRadius: '20px',
+      padding: '10px 18px',
+      fontFamily: 'Comfortaa, Segoe UI, sans-serif',
+      fontWeight: '700',
+      fontSize: '0.85rem',
+      cursor: 'pointer',
+      boxShadow: '0 4px 15px rgba(0,0,0,0.4)',
+      transition: 'background 0.2s ease'
+    });
+
+    const zoomRoot = document.getElementById('portfolio-root');
+    let naturalDocLeft = 0;
+    let naturalDocTop = 0;
+    if (zoomRoot) {
+      zoomRoot.style.transform = '';
+      const nr = zoomRoot.getBoundingClientRect();
+      naturalDocLeft = nr.left + window.scrollX;
+      naturalDocTop  = nr.top  + window.scrollY;
+    }
+
+    const DESTROY_SELECTOR = [
+      'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
+      'p', 'li', 'blockquote', 'td', 'th',
+      'img', 'video',
+      '.podcast-description', '.podcast-audio',
+      'a', 'nav', 'header', 'footer',
+      '.card-title'
+    ].join(', ');
+
+    let destroyables = Array.from(document.querySelectorAll(DESTROY_SELECTOR)).filter(
+      el => !el.closest('[data-demolition-ui]')
+    );
+
+    function stop(andReload) {
+      cancelAnimationFrame(animId);
+      document.body.style.userSelect = '';
+      if (zoomRoot) {
+        zoomRoot.style.transform = '';
+        zoomRoot.style.transformOrigin = '';
+      }
+      carEl.remove();
+      counterEl.remove();
+      stopBtn.remove();
+      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mousedown', onMouseDown);
+      document.removeEventListener('mouseup', onMouseUp);
+      document.removeEventListener('contextmenu', onContextMenu);
+      document.removeEventListener('keydown', onKeydown);
+      if (andReload) location.reload();
+    }
+
+    stopBtn.addEventListener('mouseenter', () => { stopBtn.style.background = '#c84b15'; });
+    stopBtn.addEventListener('mouseleave', () => { stopBtn.style.background = '#F05F40'; });
+    stopBtn.addEventListener('click', () => stop(true));
+
+    function onMouseMove(e) {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    }
+
+    function onMouseDown(e) {
+      if (e.button === 0) leftHeld = true;
+      if (e.button === 2) rightHeld = true;
+    }
+
+    function onMouseUp(e) {
+      if (e.button === 0) leftHeld = false;
+      if (e.button === 2) rightHeld = false;
+    }
+
+    function onContextMenu(e) {
+      e.preventDefault();
+    }
+
+    function onKeydown(e) {
+      if (e.key === 'Escape') stop(true);
+    }
+
+    function spawnExplosion(cx, cy, size) {
+      const el = document.createElement('div');
+      const fs = Math.max(1.2, Math.min(4, size / 30));
+      Object.assign(el.style, {
+        position: 'fixed',
+        left: (cx - 20) + 'px',
+        top: (cy - 20) + 'px',
+        fontSize: fs + 'rem',
+        zIndex: '100000',
+        pointerEvents: 'none',
+        transition: 'transform 0.5s ease-out, opacity 0.5s ease-out'
+      });
+      el.textContent = '💥';
+      el.dataset.demolitionUi = 'true';
+      document.body.appendChild(el);
+      requestAnimationFrame(() => {
+        el.style.transform = 'scale(1.8) translateY(-20px)';
+        el.style.opacity = '0';
+      });
+      setTimeout(() => el.remove(), 500);
+    }
+
+    function demolish(el) {
+      el.dataset.demolished = 'true';
+      el.style.pointerEvents = 'none';
+      const rect = el.getBoundingClientRect();
+      const sz = Math.sqrt(rect.width * rect.height);
+
+      spawnExplosion(rect.left + rect.width / 2, rect.top + rect.height / 2, sz);
+
+      el.style.transition = 'opacity 0.25s ease';
+      el.style.opacity = '0';
+      setTimeout(() => {
+        el.style.visibility = 'hidden';
+        el.style.opacity = '';
+        el.style.transition = '';
+      }, 260);
+
+      killCount++;
+      counterEl.textContent = '💥 ' + killCount + ' destroyed';
+    }
+
+    function rectsOverlap(ax, ay, aw, ah, b) {
+      return ax < b.right && ax + aw > b.left && ay < b.bottom && ay + ah > b.top;
+    }
+
+    function updateScroll() {
+      const vpW = window.innerWidth;
+      const vpH = window.innerHeight;
+      const cx = carX + CAR_W / 2;
+      const cy = carY + CAR_H / 2;
+      const edgeW = vpW * SCROLL_EDGE;
+      const edgeH = vpH * SCROLL_EDGE;
+      let sx = 0, sy = 0;
+
+      if (cx < edgeW) {
+        sx = -((edgeW - cx) / edgeW) * SCROLL_MAX;
+      } else if (cx > vpW - edgeW) {
+        sx = ((cx - (vpW - edgeW)) / edgeW) * SCROLL_MAX;
+      }
+      if (cy < edgeH) {
+        sy = -((edgeH - cy) / edgeH) * SCROLL_MAX;
+      } else if (cy > vpH - edgeH) {
+        sy = ((cy - (vpH - edgeH)) / edgeH) * SCROLL_MAX;
+      }
+      if (sx !== 0 || sy !== 0) {
+        window.scrollBy({ left: sx, top: sy, behavior: 'instant' });
+      }
+    }
+
+    function updateZoom() {
+      if (!zoomRoot) return;
+      const carDocX = carX + window.scrollX + CAR_W / 2;
+      const carDocY = carY + window.scrollY + CAR_H / 2;
+      const originX = carDocX - naturalDocLeft;
+      const originY = carDocY - naturalDocTop;
+      zoomRoot.style.transformOrigin = originX + 'px ' + originY + 'px';
+      zoomRoot.style.transform = 'scale(' + ZOOM_SCALE + ')';
+    }
+
+    function loop() {
+      // Speed update — left click accelerates forward, right click reverses
+      const targetSpeed = leftHeld ? MAX_FWD : (rightHeld ? MAX_REV : BASE_SPEED);
+      if (currentSpeed < targetSpeed) currentSpeed = Math.min(currentSpeed + ACCEL, targetSpeed);
+      else if (currentSpeed > targetSpeed) currentSpeed = Math.max(currentSpeed - ACCEL, targetSpeed);
+
+      const cx = carX + CAR_W / 2;
+      const cy = carY + CAR_H / 2;
+
+      // Only steer and scroll when actually moving
+      if (Math.abs(currentSpeed) > 0.05) {
+        const rawAngle = Math.atan2(mouseY - cy, mouseX - cx);
+        const steerAngle = currentSpeed < 0 ? rawAngle + Math.PI : rawAngle;
+        let diff = steerAngle - carAngle;
+        if (diff > Math.PI) diff -= 2 * Math.PI;
+        if (diff < -Math.PI) diff += 2 * Math.PI;
+        carAngle += Math.sign(diff) * Math.min(Math.abs(diff), TURN_RATE);
+        updateScroll();
+      }
+
+      carX += Math.cos(carAngle) * currentSpeed;
+      carY += Math.sin(carAngle) * currentSpeed;
+
+      carEl.style.left = carX + 'px';
+      carEl.style.top  = carY + 'px';
+      carEl.style.transform = 'rotate(' + (carAngle * 180 / Math.PI) + 'deg)';
+
+      updateZoom();
+
+      if (
+        carX + CAR_W < -EXIT_MARGIN ||
+        carX > window.innerWidth + EXIT_MARGIN ||
+        carY + CAR_H < -EXIT_MARGIN ||
+        carY > window.innerHeight + EXIT_MARGIN
+      ) {
+        stop(true);
+        return;
+      }
+
+      destroyables = destroyables.filter(el => !el.dataset.demolished && document.body.contains(el));
+
+      for (let i = 0; i < destroyables.length; i++) {
+        const el = destroyables[i];
+        const r = el.getBoundingClientRect();
+        if (r.width < 10 || r.height < 10) continue;
+        if (rectsOverlap(carX, carY, CAR_W, CAR_H, r)) {
+          demolish(el);
+        }
+      }
+
+      animId = requestAnimationFrame(loop);
+    }
+
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mousedown', onMouseDown);
+    document.addEventListener('mouseup', onMouseUp);
+    document.addEventListener('contextmenu', onContextMenu);
+    document.addEventListener('keydown', onKeydown);
+    document.body.appendChild(carEl);
+    document.body.appendChild(counterEl);
+    document.body.appendChild(stopBtn);
+    loop();
+  }
+
   function createCard(item) {
+    // Demolition Mode easter egg
+    if (item.id === 'demolition-car') {
+      const demoCard = create('div', {
+        className: 'portfolio-card portfolio-card--easter-egg',
+        style: {
+          background: 'linear-gradient(135deg, #1a1a1a 0%, #2a1810 100%)',
+          borderRadius: '16px',
+          overflow: 'hidden',
+          cursor: 'pointer',
+          transition: 'transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease',
+          border: '2px solid #333',
+          minHeight: '120px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          flexDirection: 'column',
+          gap: '10px',
+          padding: '24px 20px',
+          position: 'relative',
+          userSelect: 'none'
+        }
+      });
+
+      const icon = create('div', { style: { fontSize: '2.5rem', lineHeight: '1' } });
+      icon.textContent = '🚗';
+
+      const label = create('div', {
+        style: {
+          color: '#F05F40',
+          fontWeight: '700',
+          fontSize: '1.1rem',
+          textAlign: 'center',
+          letterSpacing: '0.02em'
+        }
+      }, 'Demolition Mode');
+
+      const hint = create('div', {
+        style: {
+          color: '#666',
+          fontSize: '0.8rem',
+          textAlign: 'center'
+        }
+      }, 'drive with your mouse · destroy everything');
+
+      demoCard.appendChild(icon);
+      demoCard.appendChild(label);
+      demoCard.appendChild(hint);
+
+      demoCard.addEventListener('mouseenter', () => {
+        demoCard.style.transform = 'translateY(-5px)';
+        demoCard.style.borderColor = '#F05F40';
+        demoCard.style.boxShadow = '0 10px 30px rgba(240, 95, 64, 0.25)';
+      });
+      demoCard.addEventListener('mouseleave', () => {
+        demoCard.style.transform = 'translateY(0)';
+        demoCard.style.borderColor = '#333';
+        demoCard.style.boxShadow = 'none';
+      });
+      demoCard.addEventListener('click', (e) => activateDemolitionCar(e));
+
+      return demoCard;
+    }
+
     // Use special layout for audio/podcast items
     if (item.kind === 'audio') {
       return createPodcastCard(item);

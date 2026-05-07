@@ -68,5 +68,11 @@
     "kind": "link",
     "title": "Yükisan Fan Club",
     "href": "http://yukisanfan.club/"
+  },
+  {
+    "id": "demolition-car",
+    "category": "Just for Fun",
+    "kind": "easter-egg",
+    "title": "Demolition Mode"
   }
 ]
