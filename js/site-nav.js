@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function () {
     {
       key: 'stuff',
       label: 'Stuff',
-      href: '/Portfolio/',
+      href: '/stuff/',
       secondary: true,
     },
   ];
