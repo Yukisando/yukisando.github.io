@@ -1102,13 +1102,19 @@
 
     document.body.style.userSelect = 'none';
 
+    const noClickStyle = document.createElement('style');
+    noClickStyle.id = 'demolition-no-click';
+    noClickStyle.textContent = '* { pointer-events: none !important; cursor: default !important; } [data-demolition-ui], [data-demolition-ui] * { pointer-events: auto !important; cursor: auto !important; }';
+    document.head.appendChild(noClickStyle);
+
     const CAR_W = 60;
     const CAR_H = 32;
     const BASE_SPEED = 0;
-    const MAX_FWD = 4;
-    const MAX_REV = -2.5;
+    const MAX_FWD = 6;
+    const MAX_REV = -3.5;
     const ACCEL = 0.06;
     const TURN_RATE = 0.07;
+    const GRIP = 0.45;
     const ZOOM_SCALE = 1.10;
     const SCROLL_EDGE = 0.28;
     const SCROLL_MAX = 12;
@@ -1118,12 +1124,15 @@
     const spawnX = (e && e.clientX != null) ? e.clientX - CAR_W / 2 : window.innerWidth / 2 - CAR_W / 2;
     const spawnY = (e && e.clientY != null) ? e.clientY - CAR_H / 2 : window.innerHeight / 2 - CAR_H / 2;
 
-    let carX = spawnX;
-    let carY = spawnY;
+    // Page-space coordinates so the car is anchored to the document, not the viewport
+    let carX = spawnX + window.scrollX;
+    let carY = spawnY + window.scrollY;
     let carAngle = 0;
     let mouseX = (e && e.clientX != null) ? e.clientX : window.innerWidth / 2;
     let mouseY = (e && e.clientY != null) ? e.clientY : window.innerHeight / 2;
     let currentSpeed = BASE_SPEED;
+    let velX = 0, velY = 0;
+    let smokeFrame = 0;
     let leftHeld = false;
     let rightHeld = false;
     let killCount = 0;
@@ -1148,7 +1157,7 @@
     carEl.id = 'demolition-car-el';
     carEl.dataset.demolitionUi = 'true';
     Object.assign(carEl.style, {
-      position: 'fixed',
+      position: 'absolute',
       width: CAR_W + 'px',
       height: CAR_H + 'px',
       zIndex: '99999',
@@ -1218,17 +1227,22 @@
       'p', 'li', 'blockquote', 'td', 'th',
       'img', 'video',
       '.podcast-description', '.podcast-audio',
-      'a', 'nav', 'header', 'footer',
-      '.card-title'
+      'a',
+      '.card-title',
+      '.portfolio-card--easter-egg'
     ].join(', ');
 
     let destroyables = Array.from(document.querySelectorAll(DESTROY_SELECTOR)).filter(
       el => !el.closest('[data-demolition-ui]')
     );
+    const totalDestroyable = destroyables.length;
+    counterEl.textContent = '🚗 ' + totalDestroyable + ' items left to destroy!';
 
     function stop(andReload) {
       cancelAnimationFrame(animId);
       document.body.style.userSelect = '';
+      var ncs = document.getElementById('demolition-no-click');
+      if (ncs) ncs.remove();
       if (zoomRoot) {
         zoomRoot.style.transform = '';
         zoomRoot.style.transformOrigin = '';
@@ -1293,24 +1307,45 @@
       setTimeout(() => el.remove(), 500);
     }
 
+    function spawnSmoke(px, py) {
+      const el = document.createElement('div');
+      const size = 10 + Math.random() * 10;
+      Object.assign(el.style, {
+        position: 'absolute',
+        left: (px - size / 2) + 'px',
+        top: (py - size / 2) + 'px',
+        width: size + 'px',
+        height: size + 'px',
+        borderRadius: '50%',
+        background: 'rgba(160,160,160,0.55)',
+        zIndex: '99997',
+        pointerEvents: 'none',
+        transition: 'transform 0.7s ease-out, opacity 0.7s ease-out'
+      });
+      el.dataset.demolitionUi = 'true';
+      document.body.appendChild(el);
+      requestAnimationFrame(() => {
+        el.style.transform = 'scale(3.5)';
+        el.style.opacity = '0';
+      });
+      setTimeout(() => el.remove(), 700);
+    }
+
     function demolish(el) {
       el.dataset.demolished = 'true';
       el.style.pointerEvents = 'none';
+      el.style.visibility = 'hidden';
       const rect = el.getBoundingClientRect();
       const sz = Math.sqrt(rect.width * rect.height);
-
       spawnExplosion(rect.left + rect.width / 2, rect.top + rect.height / 2, sz);
-
-      el.style.transition = 'opacity 0.25s ease';
-      el.style.opacity = '0';
-      setTimeout(() => {
-        el.style.visibility = 'hidden';
-        el.style.opacity = '';
-        el.style.transition = '';
-      }, 260);
-
       killCount++;
-      counterEl.textContent = '💥 ' + killCount + ' destroyed';
+      const remaining = totalDestroyable - killCount;
+      if (remaining > 0) {
+        counterEl.textContent = '💥 ' + remaining + ' left to destroy';
+      } else {
+        counterEl.textContent = '🏆 All destroyed! See ya!';
+        setTimeout(() => stop(true), 1500);
+      }
     }
 
     function rectsOverlap(ax, ay, aw, ah, b) {
@@ -1318,35 +1353,17 @@
     }
 
     function updateScroll() {
-      const vpW = window.innerWidth;
-      const vpH = window.innerHeight;
-      const cx = carX + CAR_W / 2;
-      const cy = carY + CAR_H / 2;
-      const edgeW = vpW * SCROLL_EDGE;
-      const edgeH = vpH * SCROLL_EDGE;
-      let sx = 0, sy = 0;
-
-      if (cx < edgeW) {
-        sx = -((edgeW - cx) / edgeW) * SCROLL_MAX;
-      } else if (cx > vpW - edgeW) {
-        sx = ((cx - (vpW - edgeW)) / edgeW) * SCROLL_MAX;
-      }
-      if (cy < edgeH) {
-        sy = -((edgeH - cy) / edgeH) * SCROLL_MAX;
-      } else if (cy > vpH - edgeH) {
-        sy = ((cy - (vpH - edgeH)) / edgeH) * SCROLL_MAX;
-      }
-      if (sx !== 0 || sy !== 0) {
-        window.scrollBy({ left: sx, top: sy, behavior: 'instant' });
-      }
+      // Scroll the page so the car stays centered in the viewport
+      const targetX = carX + CAR_W / 2 - window.innerWidth / 2;
+      const targetY = carY + CAR_H / 2 - window.innerHeight / 2;
+      window.scrollTo({ left: Math.max(0, targetX), top: Math.max(0, targetY), behavior: 'instant' });
     }
 
     function updateZoom() {
       if (!zoomRoot) return;
-      const carDocX = carX + window.scrollX + CAR_W / 2;
-      const carDocY = carY + window.scrollY + CAR_H / 2;
-      const originX = carDocX - naturalDocLeft;
-      const originY = carDocY - naturalDocTop;
+      // carX/carY are already page coords
+      const originX = carX + CAR_W / 2 - naturalDocLeft;
+      const originY = carY + CAR_H / 2 - naturalDocTop;
       zoomRoot.style.transformOrigin = originX + 'px ' + originY + 'px';
       zoomRoot.style.transform = 'scale(' + ZOOM_SCALE + ')';
     }
@@ -1357,22 +1374,45 @@
       if (currentSpeed < targetSpeed) currentSpeed = Math.min(currentSpeed + ACCEL, targetSpeed);
       else if (currentSpeed > targetSpeed) currentSpeed = Math.max(currentSpeed - ACCEL, targetSpeed);
 
-      const cx = carX + CAR_W / 2;
-      const cy = carY + CAR_H / 2;
+      // Car is in page space; convert to viewport coords for steering and collision
+      const carVX = carX - window.scrollX;
+      const carVY = carY - window.scrollY;
+      const cx = carVX + CAR_W / 2;
+      const cy = carVY + CAR_H / 2;
 
       // Only steer and scroll when actually moving
       if (Math.abs(currentSpeed) > 0.05) {
+        // Always steer heading toward mouse; negative speed naturally drives away from cursor
         const rawAngle = Math.atan2(mouseY - cy, mouseX - cx);
-        const steerAngle = currentSpeed < 0 ? rawAngle + Math.PI : rawAngle;
-        let diff = steerAngle - carAngle;
+        let diff = rawAngle - carAngle;
         if (diff > Math.PI) diff -= 2 * Math.PI;
         if (diff < -Math.PI) diff += 2 * Math.PI;
         carAngle += Math.sign(diff) * Math.min(Math.abs(diff), TURN_RATE);
         updateScroll();
       }
 
-      carX += Math.cos(carAngle) * currentSpeed;
-      carY += Math.sin(carAngle) * currentSpeed;
+      // Drift physics — velocity lags behind heading for natural slide
+      const intendedVX = Math.cos(carAngle) * currentSpeed;
+      const intendedVY = Math.sin(carAngle) * currentSpeed;
+      velX = velX * (1 - GRIP) + intendedVX * GRIP;
+      velY = velY * (1 - GRIP) + intendedVY * GRIP;
+      carX += velX;
+      carY += velY;
+
+      // Smoke trail when drifting at speed
+      smokeFrame++;
+      const velMag = Math.hypot(velX, velY);
+      if (velMag > MAX_FWD * 0.25 && smokeFrame % 2 === 0) {
+        const movDir = Math.atan2(velY, velX);
+        let driftDiff = movDir - carAngle;
+        if (driftDiff > Math.PI) driftDiff -= 2 * Math.PI;
+        if (driftDiff < -Math.PI) driftDiff += 2 * Math.PI;
+        if (Math.abs(driftDiff) > 0.06) {
+          const rearX = carX - Math.cos(carAngle) * (CAR_W * 0.45);
+          const rearY = carY - Math.sin(carAngle) * (CAR_H * 0.45);
+          spawnSmoke(rearX, rearY);
+        }
+      }
 
       carEl.style.left = carX + 'px';
       carEl.style.top  = carY + 'px';
@@ -1380,11 +1420,13 @@
 
       updateZoom();
 
+      const docW = Math.max(document.body.scrollWidth, document.documentElement.scrollWidth);
+      const docH = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
       if (
         carX + CAR_W < -EXIT_MARGIN ||
-        carX > window.innerWidth + EXIT_MARGIN ||
+        carX > docW + EXIT_MARGIN ||
         carY + CAR_H < -EXIT_MARGIN ||
-        carY > window.innerHeight + EXIT_MARGIN
+        carY > docH + EXIT_MARGIN
       ) {
         stop(true);
         return;
@@ -1396,7 +1438,7 @@
         const el = destroyables[i];
         const r = el.getBoundingClientRect();
         if (r.width < 10 || r.height < 10) continue;
-        if (rectsOverlap(carX, carY, CAR_W, CAR_H, r)) {
+        if (rectsOverlap(carVX, carVY, CAR_W, CAR_H, r)) {
           demolish(el);
         }
       }
