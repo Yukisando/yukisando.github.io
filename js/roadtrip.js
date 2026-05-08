@@ -168,45 +168,66 @@
       return ra - rb;
     });
 
+    // Remove heading sections - only keep actual content cards
+    entries = entries.filter(function (e) { return e.kind !== 'heading'; });
+
     // Always add a "Home base" pit stop at the very start of the road.
     entries.unshift({ kind: 'home' });
 
     // ---------- generate road spline (organic curves) ----------
     var roadSpline = [];
     var numCurvePoints = Math.max(8, Math.floor((entries.length + 1) * 1.2));
+    // Generate seamless looping curve
     for (var sp = 0; sp < numCurvePoints; sp++) {
-      var yPos = (sp / (numCurvePoints - 1)) * STOP_SPACING * (entries.length + 1);
-      // Gentle sinusoidal waves with varying frequency and amplitude
+      var yPos = (sp / numCurvePoints) * STOP_SPACING * (entries.length + 1);
+      // Use the same seed for the sinusoidal pattern to ensure seamless loop
       var freq1 = 0.0003, freq2 = 0.0008;
       var amp1 = 180, amp2 = 120;
       var xOffset = Math.sin(yPos * freq1) * amp1 + Math.sin(yPos * freq2) * amp2;
       roadSpline.push({ y: yPos, x: xOffset });
     }
+    // Add a duplicate of the first point at the end to ensure seamless wrapping
+    roadSpline.push({ y: WORLD_HEIGHT, x: roadSpline[0].x });
 
-    // Catmull-Rom spline interpolation helper
+    // Catmull-Rom spline interpolation helper with seamless wrapping
     function getRoadOffset(y) {
       if (roadSpline.length < 2) return 0;
+      // Wrap y position to create seamless loop
+      var wrappedY = ((y % WORLD_HEIGHT) + WORLD_HEIGHT) % WORLD_HEIGHT;
+
       // Find surrounding points
       var i = 0;
-      while (i < roadSpline.length - 1 && roadSpline[i + 1].y < y) i++;
-      if (i >= roadSpline.length - 1) return roadSpline[roadSpline.length - 1].x;
+      while (i < roadSpline.length - 1 && roadSpline[i + 1].y < wrappedY) i++;
 
-      var p0 = roadSpline[Math.max(0, i - 1)];
-      var p1 = roadSpline[i];
-      var p2 = roadSpline[i + 1];
-      var p3 = roadSpline[Math.min(roadSpline.length - 1, i + 2)];
+      // Handle wrapping for interpolation
+      var p0, p1, p2, p3;
+      if (i === 0) {
+        p0 = roadSpline[roadSpline.length - 2];
+        p1 = roadSpline[i];
+        p2 = roadSpline[i + 1];
+        p3 = roadSpline[Math.min(i + 2, roadSpline.length - 1)];
+      } else if (i >= roadSpline.length - 2) {
+        p0 = roadSpline[Math.max(0, i - 1)];
+        p1 = roadSpline[i];
+        p2 = roadSpline[0]; // Wrap to start
+        p3 = roadSpline[1];
+      } else {
+        p0 = roadSpline[i - 1];
+        p1 = roadSpline[i];
+        p2 = roadSpline[i + 1];
+        p3 = roadSpline[Math.min(i + 2, roadSpline.length - 1)];
+      }
 
-      var t = (y - p1.y) / (p2.y - p1.y);
+      var t = (wrappedY - p1.y) / ((i >= roadSpline.length - 2 ? WORLD_HEIGHT : p2.y) - p1.y);
       var t2 = t * t, t3 = t2 * t;
 
       // Catmull-Rom spline formula
-      var x = 0.5 * (
+      return 0.5 * (
         (2 * p1.x) +
         (-p0.x + p2.x) * t +
         (2 * p0.x - 5 * p1.x + 4 * p2.x - p3.x) * t2 +
         (-p0.x + 3 * p1.x - 3 * p2.x + p3.x) * t3
       );
-      return x;
     }
 
     // ---------- build stage ----------
@@ -232,13 +253,15 @@
     world.appendChild(sR);
 
     // ---------- pit stops (alternating side, like real highway petrol stations) ----------
-    var SIDE_OFFSET = (ROAD_WIDTH / 2) + 240; // distance from road center to pit center
+    var SIDE_OFFSET = (ROAD_WIDTH / 2) + 360; // Increased distance from road center to pit center
     var pitStops = entries.map(function (entry, i) {
       var y = STOP_SPACING * (i + 0.6);
-      var roadOffsetAtY = getRoadOffset(y);
       var side = (i % 2 === 0) ? -1 : 1; // -1 left, +1 right
-      var pitCenterX = (ROAD_WIDTH / 2) + roadOffsetAtY + side * SIDE_OFFSET;
-      var enterX = roadOffsetAtY + side * (ROAD_WIDTH / 2 - 70); // on-road approach point
+      // Position pits at fixed offset from road center (no road offset adjustment)
+      // This makes them follow the visual road curve as the world transforms
+      var pitCenterX = (ROAD_WIDTH / 2) + side * SIDE_OFFSET;
+      // enterX is road-relative (for collision detection with carX)
+      var enterX = side * (ROAD_WIDTH / 2 - 70);
 
       // parking pad only (no off-ramp connector)
       var pad = document.createElement('div');
@@ -597,24 +620,12 @@
       var nx = carX + velX * dt;
       var ny = carY + velY * dt;
 
-      // wall collisions (left/right): clamp + reflect (bounce off shoulders)
-      var halfRoad = ROAD_WIDTH / 2 - HITBOX_W / 2 - 8;
-      if (nx < -halfRoad) {
-        nx = -halfRoad;
-        velX = -velX * BUMP_RESTITUTION;
-        speed *= 0.55;
-        shakeUntil = now + 220;
-      } else if (nx > halfRoad) {
-        nx = halfRoad;
-        velX = -velX * BUMP_RESTITUTION;
-        speed *= 0.55;
-        shakeUntil = now + 220;
-      }
-      // vertical wrap — the road is endless: hit the end and you reappear at the start.
-      if (ny < -CAR_SIZE) {
-        ny = WORLD_HEIGHT - CAR_SIZE;
-      } else if (ny > WORLD_HEIGHT + CAR_SIZE) {
-        ny = CAR_SIZE;
+      // Wall collisions removed - free driving!
+      // vertical wrap — seamless loop with road continuing
+      if (ny < 0) {
+        ny = ny + WORLD_HEIGHT;
+      } else if (ny > WORLD_HEIGHT) {
+        ny = ny - WORLD_HEIGHT;
       }
 
       // obstacle collisions - much more impactful
