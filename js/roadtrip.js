@@ -50,18 +50,19 @@
     var CAR_SIZE              = 64;
     var HITBOX_W              = 44;
     var ROAD_WIDTH            = 720;
-    var STOP_SPACING          = 1700;
-    var MAX_FWD               = 18;
+
+    var MAX_FWD = 5;
+    var STOP_SPACING          = 5500; // Much longer distances between pit stops
     var MAX_REV               = -8;
-    // Easy to reach a brisk cruise; the last 25% of top speed is much harder.
+    // Infinite top speed with asymptotic acceleration
     var ACCEL_FWD_BASE        = 0.30;
-    var ACCEL_FWD_TOP_FALLOFF = 0.78; // exponent: higher = harder to top out
+    var ACCEL_FWD_TOP_FALLOFF = 1.15; // Higher = harder to reach top speeds (asymptotic)
     var ACCEL_REV             = 0.20;
     var COAST_DRAG            = 0.04;
-    var BRAKE_DRAG            = 0.55;
+    var BRAKE_DRAG            = 0.8;
     var TURN_BASE             = 0.055;
     var TURN_FAST             = 0.090;
-    var HANDBRAKE_TURN_BOOST  = 1.9;
+    var HANDBRAKE_TURN_BOOST  = 1.2;
     var GRIP                  = 0.22;
     var HANDBRAKE_GRIP        = 0.012;
     var FWD_TRACK             = 0.55;
@@ -70,6 +71,7 @@
     var BUMP_RESTITUTION      = 0.55;
     var INTERACT_RANGE        = 260;
     var OBSTACLE_RADIUS       = 30;
+    var IDLE_VIBRATION_AMOUNT = .4; // Subtle engine idle vibration
 
     var prevBodySelect    = document.body.style.userSelect;
     var prevHtmlOverflow  = document.documentElement.style.overflow;
@@ -114,6 +116,10 @@
       ".rt-obstacle.rt-hit { animation: rt-knock .55s ease forwards; }" +
       "#roadtrip-car { position:absolute; width:64px; height:64px; background:url('/stuff/car.png') center/contain no-repeat; filter:drop-shadow(0 6px 8px rgba(0,0,0,.55)); will-change:transform; transform-origin:50% 50%; pointer-events:none; }" +
       "#rt-hud { position:fixed; top:18px; left:50%; transform:translate(-50%,0); background:rgba(15,15,18,.88); color:#fff; padding:10px 22px; border-radius:999px; font:700 .95rem Comfortaa,sans-serif; border:1px solid rgba(240,95,64,.6); box-shadow:0 6px 30px rgba(0,0,0,.45); z-index:99999; animation:rt-bounce-in .45s cubic-bezier(.34,1.56,.64,1) both; pointer-events:none; }" +
+      "#rt-speed { position:fixed; top:18px; right:20px; background:rgba(15,15,18,.75); color:#ddd; padding:8px 16px; border-radius:12px; font:.78rem Comfortaa,sans-serif; border:1px solid rgba(255,255,255,.08); box-shadow:0 4px 20px rgba(0,0,0,.35); z-index:99999; pointer-events:none; opacity:.85; }" +
+      "#rt-speed .rt-speed-label { color:#888; font-size:.65rem; margin-bottom:2px; }" +
+      "#rt-speed .rt-speed-value { color:#F05F40; font-weight:700; font-size:.9rem; }" +
+      "#rt-speed .rt-speed-top { color:#ffe66d; font-size:.7rem; margin-top:3px; }" +
       "#rt-help { position:fixed; bottom:20px; left:20px; background:rgba(15,15,18,.85); color:#ddd; padding:10px 14px; border-radius:12px; font:.78rem/1.55 Comfortaa,sans-serif; border:1px solid rgba(255,255,255,.08); box-shadow:0 6px 30px rgba(0,0,0,.4); z-index:99999; pointer-events:none; }" +
       "#rt-help b { color:#fff; }" +
       "#rt-help .rt-help-title { color:#F05F40; font-weight:700; margin-bottom:4px; }" +
@@ -165,6 +171,44 @@
     // Always add a "Home base" pit stop at the very start of the road.
     entries.unshift({ kind: 'home' });
 
+    // ---------- generate road spline (organic curves) ----------
+    var roadSpline = [];
+    var numCurvePoints = Math.max(8, Math.floor((entries.length + 1) * 1.2));
+    for (var sp = 0; sp < numCurvePoints; sp++) {
+      var yPos = (sp / (numCurvePoints - 1)) * STOP_SPACING * (entries.length + 1);
+      // Gentle sinusoidal waves with varying frequency and amplitude
+      var freq1 = 0.0003, freq2 = 0.0008;
+      var amp1 = 180, amp2 = 120;
+      var xOffset = Math.sin(yPos * freq1) * amp1 + Math.sin(yPos * freq2) * amp2;
+      roadSpline.push({ y: yPos, x: xOffset });
+    }
+
+    // Catmull-Rom spline interpolation helper
+    function getRoadOffset(y) {
+      if (roadSpline.length < 2) return 0;
+      // Find surrounding points
+      var i = 0;
+      while (i < roadSpline.length - 1 && roadSpline[i + 1].y < y) i++;
+      if (i >= roadSpline.length - 1) return roadSpline[roadSpline.length - 1].x;
+
+      var p0 = roadSpline[Math.max(0, i - 1)];
+      var p1 = roadSpline[i];
+      var p2 = roadSpline[i + 1];
+      var p3 = roadSpline[Math.min(roadSpline.length - 1, i + 2)];
+
+      var t = (y - p1.y) / (p2.y - p1.y);
+      var t2 = t * t, t3 = t2 * t;
+
+      // Catmull-Rom spline formula
+      var x = 0.5 * (
+        (2 * p1.x) +
+        (-p0.x + p2.x) * t +
+        (2 * p0.x - 5 * p1.x + 4 * p2.x - p3.x) * t2 +
+        (-p0.x + 3 * p1.x - 3 * p2.x + p3.x) * t3
+      );
+      return x;
+    }
+
     // ---------- build stage ----------
     var stage = document.createElement('div');
     stage.id = 'roadtrip-stage';
@@ -191,9 +235,10 @@
     var SIDE_OFFSET = (ROAD_WIDTH / 2) + 240; // distance from road center to pit center
     var pitStops = entries.map(function (entry, i) {
       var y = STOP_SPACING * (i + 0.6);
+      var roadOffsetAtY = getRoadOffset(y);
       var side = (i % 2 === 0) ? -1 : 1; // -1 left, +1 right
-      var pitCenterX = (ROAD_WIDTH / 2) + side * SIDE_OFFSET;
-      var enterX = side * (ROAD_WIDTH / 2 - 70); // on-road approach point (just inside shoulder)
+      var pitCenterX = (ROAD_WIDTH / 2) + roadOffsetAtY + side * SIDE_OFFSET;
+      var enterX = roadOffsetAtY + side * (ROAD_WIDTH / 2 - 70); // on-road approach point
 
       // parking pad only (no off-ramp connector)
       var pad = document.createElement('div');
@@ -269,11 +314,12 @@
       for (var j = 0; j < n; j++) {
         var oy = segStart + ((j + Math.random()) / n) * (segEnd - segStart);
         var ox = (Math.random() - 0.5) * (ROAD_WIDTH - 110);
+        var roadOffsetAtObstacle = getRoadOffset(oy);
         var em = emojis[Math.floor(Math.random() * emojis.length)];
         var oEl = document.createElement('div');
         oEl.className = 'rt-obstacle';
         oEl.textContent = em;
-        oEl.style.left = ((ROAD_WIDTH / 2) + ox) + 'px';
+        oEl.style.left = ((ROAD_WIDTH / 2) + ox + roadOffsetAtObstacle) + 'px';
         oEl.style.top  = oy + 'px';
         world.appendChild(oEl);
         obstacles.push({ x: ox, y: oy, el: oEl, hit: false });
@@ -289,6 +335,12 @@
     // ---------- HUD / help / stop / interact / minimap ----------
     var hud = document.createElement('div'); hud.id = 'rt-hud'; hud.dataset.roadtripUi = 'true';
     hud.textContent = '🛣️ Road trip · ' + pitStops.length + ' stops';
+
+    var speedHud = document.createElement('div'); speedHud.id = 'rt-speed'; speedHud.dataset.roadtripUi = 'true';
+    speedHud.innerHTML =
+      '<div class="rt-speed-label">SPEED</div>' +
+      '<div class="rt-speed-value">0 mph</div>' +
+      '<div class="rt-speed-top">Top: 0 mph</div>';
 
     var help = document.createElement('div'); help.id = 'rt-help'; help.dataset.roadtripUi = 'true';
     help.innerHTML =
@@ -329,6 +381,7 @@
     document.body.appendChild(stage);
     stage.appendChild(world);
     document.body.appendChild(hud);
+    document.body.appendChild(speedHud);
     document.body.appendChild(help);
     document.body.appendChild(stopBtn);
     document.body.appendChild(interactHint);
@@ -340,6 +393,7 @@
     var carY = STOP_SPACING * 0.35;
     var carAngle = Math.PI / 2; // facing down the road (positive y)
     var speed = 0, velX = 0, velY = 0;
+    var topSpeed = 0; // Track highest speed reached
     var throttle = 0, handbrake = false, driftBlend = 0;
     var shakeUntil = 0;
     var animId = null;
@@ -483,11 +537,12 @@
       var dt = Math.min(2, (now - lastT) / 16.667);
       lastT = now;
 
-      // throttle / speed — non-linear accel: brisk cruise quickly, top speed teases.
+      // throttle / speed — asymptotic acceleration: no hard cap, just gets harder
       if (throttle > 0) {
-        var headroom = Math.max(0, 1 - speed / MAX_FWD);
-        speed += ACCEL_FWD_BASE * Math.pow(headroom, ACCEL_FWD_TOP_FALLOFF) * dt;
-        if (speed > MAX_FWD) speed = MAX_FWD;
+        var baseSpeed = 18; // Reference speed for acceleration curve
+        // Use abs(speed) to handle negative speeds properly when switching from reverse
+        var headroom = 1 / (1 + Math.pow(Math.abs(speed) / baseSpeed, ACCEL_FWD_TOP_FALLOFF));
+        speed += ACCEL_FWD_BASE * headroom * dt;
       }
       else if (throttle < 0) { speed -= ACCEL_REV * dt; if (speed < MAX_REV) speed = MAX_REV; }
       else {
@@ -498,15 +553,19 @@
         speed *= Math.pow(1 - BRAKE_DRAG, dt);
       }
 
+      // Track top speed
+      if (speed > topSpeed) topSpeed = speed;
+
       // drift blend
       var targetBlend = handbrake ? 1 : 0;
       var blendRate = handbrake ? 0.35 : DRIFT_RECOVER;
       driftBlend += (targetBlend - driftBlend) * Math.min(1, blendRate * dt);
       if (driftBlend < 0.001) driftBlend = 0;
 
-      // car screen position (we render world translated by camera)
+      // car screen position - include road offset for accurate cursor tracking
+      var roadOffsetAtCar = getRoadOffset(carY);
       var worldRect = world.getBoundingClientRect();
-      var carScreenX = worldRect.left + (ROAD_WIDTH / 2) + carX;
+      var carScreenX = worldRect.left + (ROAD_WIDTH / 2) + carX + roadOffsetAtCar;
       var carScreenY = worldRect.top + carY;
 
       // steering — desired heading is always toward the cursor; reverse simply
@@ -558,7 +617,7 @@
         ny = CAR_SIZE;
       }
 
-      // obstacle collisions
+      // obstacle collisions - much more impactful
       for (var i = 0; i < obstacles.length; i++) {
         var ob = obstacles[i];
         if (ob.hit) continue;
@@ -576,9 +635,10 @@
           var d = Math.sqrt(distSq) || 1;
           nx -= (ddx / d) * 4;
           ny -= (ddy / d) * 4;
-          speed *= 0.55;
-          velX *= 0.6; velY *= 0.6;
-          shakeUntil = now + 220;
+          // Much stronger impact - nearly stop the car
+          speed *= 0.15;
+          velX *= 0.2; velY *= 0.2;
+          shakeUntil = now + 350;
         }
       }
 
@@ -594,7 +654,8 @@
         if (loop._smokeFrame % 2 === 0) {
           var rearOff  = CAR_SIZE * 0.38;
           var wheelOff = CAR_SIZE * 0.28;
-          var bx = (ROAD_WIDTH / 2) + carX;
+          var smokeRoadOffset = getRoadOffset(carY);
+          var bx = (ROAD_WIDTH / 2) + carX + smokeRoadOffset;
           var by = carY;
           var rxL = bx - cosA * rearOff - (-sinA) * wheelOff;
           var ryL = by - sinA * rearOff - ( cosA) * wheelOff;
@@ -614,7 +675,7 @@
         }
       }
 
-      // render car
+      // render car with idle vibration
       var renderDeg = (carAngle * 180 / Math.PI) + 90;
       var shakeX = 0, shakeY = 0;
       if (now < shakeUntil) {
@@ -622,13 +683,29 @@
         shakeX = (Math.random() - 0.5) * 6 * s;
         shakeY = (Math.random() - 0.5) * 6 * s;
       }
-      carEl.style.left = ((ROAD_WIDTH / 2) + carX - CAR_SIZE / 2) + 'px';
+      // Add subtle idle vibration when stationary
+      if (Math.abs(speed) < 0.5 && throttle === 0) {
+        var idleFreq = now * 0.015;
+        shakeX += Math.sin(idleFreq) * IDLE_VIBRATION_AMOUNT;
+        shakeY += Math.cos(idleFreq * 1.3) * IDLE_VIBRATION_AMOUNT * 0.7;
+      }
+
+      // Apply road curve offset to car position
+      var roadOffsetAtCar = getRoadOffset(carY);
+      carEl.style.left = ((ROAD_WIDTH / 2) + carX + roadOffsetAtCar - CAR_SIZE / 2) + 'px';
       carEl.style.top  = (carY - CAR_SIZE / 2) + 'px';
       carEl.style.transform = 'translate(' + shakeX + 'px,' + shakeY + 'px) rotate(' + renderDeg + 'deg)';
 
-      // camera: keep car around vertical center
+      // Update speed display
+      var displaySpeed = Math.abs(speed);
+      var mph = Math.round(displaySpeed * 5); // Scale to mph-like values
+      speedHud.querySelector('.rt-speed-value').textContent = mph + ' mph';
+      speedHud.querySelector('.rt-speed-top').textContent = 'Top: ' + Math.round(topSpeed * 5) + ' mph';
+
+      // camera: keep car around vertical center, offset world to follow road curves
       var camY = Math.max(0, Math.min(WORLD_HEIGHT - window.innerHeight, carY - window.innerHeight * 0.5));
-      world.style.transform = 'translate(-50%, ' + (-camY) + 'px)';
+      var camX = -roadOffsetAtCar; // Shift world to keep curved road centered
+      world.style.transform = 'translate(calc(-50% + ' + camX + 'px), ' + (-camY) + 'px)';
 
       // pit-stop proximity (use each pit's on-road entry x, since pits sit off-road)
       var nearest = null, nearestDist = Infinity;
@@ -676,12 +753,13 @@
       cancelAnimationFrame(animId);
       stage.style.animation = 'rt-stage-out 0.4s ease forwards';
       hud.style.transition = 'opacity .3s ease'; hud.style.opacity = '0';
+      speedHud.style.transition = 'opacity .3s ease'; speedHud.style.opacity = '0';
       help.style.transition = 'opacity .3s ease'; help.style.opacity = '0';
       stopBtn.style.transition = 'opacity .3s ease'; stopBtn.style.opacity = '0';
       interactHint.style.transition = 'opacity .3s ease'; interactHint.style.opacity = '0';
       minimap.style.transition = 'opacity .3s ease'; minimap.style.opacity = '0';
       setTimeout(function () {
-        stage.remove(); hud.remove(); help.remove(); stopBtn.remove();
+        stage.remove(); hud.remove(); speedHud.remove(); help.remove(); stopBtn.remove();
         interactHint.remove(); minimap.remove(); styleEl.remove();
         var leftover = document.getElementById('rt-overlay');
         if (leftover) leftover.remove();
