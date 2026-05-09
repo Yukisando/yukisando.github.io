@@ -32,6 +32,11 @@
       if (el.closest('[data-site-nav]')) return;
       if (el.id === 'main-button') return;
       if (el.closest('#homepage-drive-ui')) return;
+      // Skip button-link elements (like yuki_bg button)
+      if (el.classList.contains('button-link')) return;
+      if (el.closest('.button-link')) return;
+      // Skip Hadoken button
+      if (el.href && el.href.includes('#services') && el.textContent.includes('Hadoken')) return;
       // Skip sections - they're not interactive
       if (el.tagName === 'SECTION') return;
       // Skip anchors without href
@@ -106,7 +111,7 @@
     var container = document.createElement('div');
     container.id = 'homepage-drive-ui';
     container.innerHTML =
-      '<div id="drive-interact-hint" class="hidden">⏵ Press E to interact</div>' +
+      '<div id="drive-interact-hint" class="hidden">Press E</div>' +
       '<button id="drive-exit-btn">✕ Exit (Esc)</button>';
 
     document.body.appendChild(container);
@@ -404,6 +409,12 @@
 
     // Update element proximity
     updateElementProximity(carScreenX, carScreenY);
+
+    // Position interact hint above car (always upright)
+    if (interactHint && !interactHint.classList.contains('hidden')) {
+      interactHint.style.left = carScreenX + 'px';
+      interactHint.style.top = (carScreenY - 80) + 'px';
+    }
 
     animationFrameId = requestAnimationFrame(update);
   }

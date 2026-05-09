@@ -45,40 +45,20 @@ body.drive-mode-active a[href]:not([data-site-nav] a):not(#homepage-drive-ui a) 
 /* ========== INTERACT HINT ========== */
 #drive-interact-hint {
   position: fixed;
-  left: 50%;
-  top: 18px;
   transform: translate(-50%, 0);
-  background: rgba(15, 15, 18, 0.88);
-  color: #f05f40;
-  padding: 12px 26px;
-  border-radius: 999px;
-  border: 1px solid rgba(240, 95, 64, 0.6);
+  color: #fff;
   font-weight: 700;
-  font-size: 1.1rem;
-  box-shadow: 0 6px 30px rgba(0, 0, 0, 0.45);
-  transition: opacity 0.2s ease, transform 0.2s ease;
+  font-size: 1.5rem;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8), 0 0 20px rgba(240, 95, 64, 0.6);
+  transition: opacity 0.2s ease;
   opacity: 1;
-  animation: rt-bounce-in 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) both;
-}
-
-@keyframes rt-bounce-in {
-  0% {
-    transform: translate(-50%, -120%) scale(0.6);
-    opacity: 0;
-  }
-  70% {
-    transform: translate(-50%, 0) scale(1.05);
-    opacity: 1;
-  }
-  100% {
-    transform: translate(-50%, 0) scale(1);
-    opacity: 1;
-  }
+  pointer-events: none;
+  white-space: nowrap;
+  letter-spacing: 0.05em;
 }
 
 #drive-interact-hint.hidden {
   opacity: 0;
-  transform: translate(-50%, -30px);
   pointer-events: none;
 }
 
@@ -91,8 +71,8 @@ body.drive-mode-active a[href]:not([data-site-nav] a):not(#homepage-drive-ui a) 
   color: #fff;
   border: none;
   border-radius: 999px;
-  padding: 12px 22px;
-  font: 700 1rem Comfortaa, sans-serif;
+  padding: 24px 44px;
+  font: 700 2rem Comfortaa, sans-serif;
   cursor: pointer;
   box-shadow: 0 6px 18px rgba(240, 95, 64, 0.45);
   z-index: 99999;
@@ -145,4 +125,24 @@ body.drive-mode-active a[href]:not([data-site-nav] a):not(#homepage-drive-ui a) 
 .drive-toast.show {
   opacity: 1;
   transform: translate(-50%, -50%) scale(1);
+}
+
+/* ========== FIX BUTTON-LINK OUTLINE ========== */
+.button-link {
+  outline: none !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.button-link:focus,
+.button-link:active {
+  outline: none !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.button-link img {
+  outline: none !important;
+  border: none !important;
+  display: block;
 }
