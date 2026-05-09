@@ -53,10 +53,9 @@
 
     var MAX_FWD = 5;
     var STOP_SPACING          = 5500; // Much longer distances between pit stops
-    var MAX_REV               = -8;
-    // Infinite top speed with asymptotic acceleration
+    var MAX_REV               = -8;   // Infinite top speed with asymptotic acceleration
     var ACCEL_FWD_BASE        = 0.30;
-    var ACCEL_FWD_TOP_FALLOFF = 1.15; // Higher = harder to reach top speeds (asymptotic)
+    var ACCEL_FWD_TOP_FALLOFF = 2.5; // Higher = harder to reach top speeds (asymptotic) - 300km/h is achievable but challenging
     var ACCEL_REV             = 0.20;
     var COAST_DRAG            = 0.04;
     var BRAKE_DRAG            = 0.8;

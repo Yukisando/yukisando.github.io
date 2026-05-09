@@ -43,6 +43,7 @@
 
     <!-- Your custom CSS -->
     <link rel="stylesheet" href="css/custom.css" />
+    <link rel="stylesheet" href="css/drive-mode.css" />
   </head>
     <nav class="site-nav" data-site-nav data-site-nav-page="home" data-site-nav-mode="overlay"></nav>
     <header>
@@ -68,11 +69,24 @@
             const scrollDuration =
               parseInt(button.getAttribute("data-scroll-duration"), 10) || 0;
 
-            button.addEventListener("click", function () {
-              // Defer to creative.js's page-scroll handler for the actual scroll;
-              // we only drive the text animation here and reset when scrolling ends.
-              wee();
-              setTimeout(finishWee, scrollDuration);
+            button.addEventListener("click", function (e) {
+              // Check if mobile device
+              var isMobile = window.CarPhysics && window.CarPhysics.isMobileDevice();
+
+              if (isMobile) {
+                // Mobile: Keep existing "Wee" animation + scroll behavior
+                wee();
+                setTimeout(finishWee, scrollDuration);
+              } else if (window.HomepageDrive) {
+                // Desktop: Activate drive mode (prevent default scroll)
+                e.preventDefault();
+                e.stopImmediatePropagation(); // Stop other click handlers (like page-scroll)
+                window.HomepageDrive.activate(button);
+              } else {
+                // Fallback if scripts not loaded
+                wee();
+                setTimeout(finishWee, scrollDuration);
+              }
             });
 
             let loop;
@@ -454,5 +468,8 @@
     <script src="js/site-nav.js" defer></script>
     <!-- Theme JavaScript -->
     <script src="js/creative.js" defer></script>
+    <!-- Car navigation (desktop only) -->
+    <script src="js/car-physics.js" defer></script>
+    <script src="js/homepage-drive.js" defer></script>
   </body>
 </html>
