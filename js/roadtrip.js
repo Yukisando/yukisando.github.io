@@ -51,22 +51,22 @@
     var HITBOX_W              = 44;
     var ROAD_WIDTH            = 720;
 
-    var MAX_FWD = 5;
+    var MAX_FWD = 3;
     var STOP_SPACING          = 5500; // Much longer distances between pit stops
-    var MAX_REV               = -8;   // Infinite top speed with asymptotic acceleration
-    var ACCEL_FWD_BASE        = 0.30;
+    var MAX_REV               = -5;   // Infinite top speed with asymptotic acceleration
+    var ACCEL_FWD_BASE        = 0.18;
     var ACCEL_FWD_TOP_FALLOFF = 2.5; // Higher = harder to reach top speeds (asymptotic) - 300km/h is achievable but challenging
-    var ACCEL_REV             = 0.20;
+    var ACCEL_REV             = 0.15;
     var COAST_DRAG            = 0.04;
     var BRAKE_DRAG            = 0.8;
     var TURN_BASE             = 0.055;
     var TURN_FAST             = 0.090;
-    var HANDBRAKE_TURN_BOOST  = 1.2;
+    var HANDBRAKE_TURN_BOOST  = 1.1;
     var GRIP                  = 0.22;
     var HANDBRAKE_GRIP        = 0.012;
     var FWD_TRACK             = 0.55;
     var HANDBRAKE_FWD_TRACK   = 0.10;
-    var DRIFT_RECOVER         = 0.025;
+    var DRIFT_RECOVER         = 0.075;
     var BUMP_RESTITUTION      = 0.55;
     var INTERACT_RANGE        = 260;
     var OBSTACLE_RADIUS       = 30;
@@ -412,8 +412,8 @@
 
     // ---------- state ----------
     var carX = 0;
-    var carY = STOP_SPACING * 0.35;
-    var carAngle = Math.PI / 2; // facing down the road (positive y)
+    var carY = WORLD_HEIGHT - STOP_SPACING * 0.35; // Start near bottom
+    var carAngle = -Math.PI / 2; // facing up the road (negative y)
     var speed = 0, velX = 0, velY = 0;
     var topSpeed = 0; // Track highest speed reached
     var throttle = 0, handbrake = false, driftBlend = 0;
@@ -425,6 +425,7 @@
     // Keyboard controls
     var arrowUp = false, arrowDown = false, arrowLeft = false, arrowRight = false;
     var useKeyboardSteering = false;
+    var steeringInput = 0; // Gradual steering (-1 to +1)
 
     // ---------- input ----------
     function onMouseMove(ev) {
@@ -613,6 +614,22 @@
       var dt = Math.min(2, (now - lastT) / 16.667);
       lastT = now;
 
+      // Update gradual steering input for keyboard
+      var STEERING_SPEED = 0.8; // How fast steering responds (lower = slower, more realistic)
+      var targetSteering = 0;
+      if (arrowLeft && !arrowRight) {
+        targetSteering = -1;
+      } else if (arrowRight && !arrowLeft) {
+        targetSteering = 1;
+      }
+      // Smoothly interpolate steering input
+      var steeringDelta = targetSteering - steeringInput;
+      steeringInput += steeringDelta * Math.min(1, STEERING_SPEED * dt);
+      // Snap to zero when very close
+      if (Math.abs(steeringInput) < 0.01) {
+        steeringInput = 0;
+      }
+
       // Keyboard arrow keys take precedence over mouse for throttle
       var currentThrottle = throttle;
       if (arrowUp || arrowDown) {
@@ -659,16 +676,12 @@
       // steering — keyboard or mouse
       var desiredAngle;
       if (useKeyboardSteering) {
-        // Keyboard mode: only steer when left/right pressed, otherwise maintain angle
-        if (arrowLeft && !arrowRight) {
-          var turnSpeed = 0.08; // Radians per frame at full lock
-          desiredAngle = carAngle - turnSpeed * dt;
-        } else if (arrowRight && !arrowLeft) {
-          var turnSpeed = 0.08;
-          desiredAngle = carAngle + turnSpeed * dt;
-        } else {
-          desiredAngle = carAngle; // Maintain current heading
-        }
+        // Keyboard mode: use gradual steering input with drift boost
+        var BASE_TURN_RATE = 0.035;
+        var driftBoost = 1 + (HANDBRAKE_TURN_BOOST - 1) * driftBlend;
+        var MAX_TURN_RATE = BASE_TURN_RATE * driftBoost;
+        var turnAmount = steeringInput * MAX_TURN_RATE * dt;
+        desiredAngle = carAngle + turnAmount;
       } else {
         // Mouse steering: desired heading is always toward the cursor
         var dxm = mouseX - carScreenX;
@@ -681,7 +694,11 @@
       var speedRatio = Math.min(1, Math.abs(speed) / MAX_FWD);
       var turnRate = (TURN_BASE + (TURN_FAST - TURN_BASE) * speedRatio)
                      * (1 + (HANDBRAKE_TURN_BOOST - 1) * driftBlend);
-      if (currentThrottle !== 0 && Math.abs(speed) > 0.05 && Math.abs(diff) > 0.02) {
+      // Allow steering in keyboard mode even when coasting, or in mouse mode when throttling
+      var canSteer = useKeyboardSteering || currentThrottle !== 0;
+      var diffThreshold = useKeyboardSteering ? 0.001 : 0.02; // Lower threshold for gradual keyboard input
+
+      if (canSteer && Math.abs(speed) > 0.05 && Math.abs(diff) > diffThreshold) {
         carAngle += Math.sign(diff) * Math.min(Math.abs(diff), turnRate * dt);
       }
 

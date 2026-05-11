@@ -329,24 +329,12 @@
     var dt = lastTime ? Math.min(2, (now - lastTime) / 16.667) : 1;
     lastTime = now;
 
-    // Calculate desired angle
-    var desiredAngle;
-    var carScreenX = carState.x + window.scrollX;
-    var carScreenY = carState.y - window.scrollY;
-
-    if (inputState.useKeyboardSteering) {
-      // Keyboard mode: only steer when left/right pressed, otherwise maintain angle
-      if (inputState.arrowLeft && !inputState.arrowRight) {
-        var turnSpeed = 0.08; // Radians per frame at full lock
-        desiredAngle = carState.angle - turnSpeed * dt;
-      } else if (inputState.arrowRight && !inputState.arrowLeft) {
-        var turnSpeed = 0.08;
-        desiredAngle = carState.angle + turnSpeed * dt;
-      } else {
-        desiredAngle = carState.angle; // Maintain current heading
-      }
-    } else {
+    // Calculate desired angle for mouse mode (keyboard handled in physics)
+    var desiredAngle = undefined;
+    if (!inputState.useKeyboardSteering) {
       // Mouse steering: point toward cursor
+      var carScreenX = carState.x + window.scrollX;
+      var carScreenY = carState.y - window.scrollY;
       var dx = inputState.mouseX - carScreenX;
       var dy = inputState.mouseY - carScreenY;
       desiredAngle = Math.atan2(dy, dx);

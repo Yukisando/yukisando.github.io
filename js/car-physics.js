@@ -14,13 +14,13 @@
   // These can be overridden per-instance for different "levels"
   var DEFAULT_PHYSICS = {
     // Speed limits
-    MAX_FWD: 2,
-    MAX_REV: -8,
+    MAX_FWD: 1.2,
+    MAX_REV: -5,
 
     // Acceleration
-    ACCEL_FWD_BASE: 0.15,
+    ACCEL_FWD_BASE: 0.08,
     ACCEL_FWD_TOP_FALLOFF: 2.5, // Higher = harder to reach top speeds
-    ACCEL_REV: 0.20,
+    ACCEL_REV: 0.15,
 
     // Drag
     COAST_DRAG: 0.04,
@@ -29,14 +29,14 @@
     // Steering
     TURN_BASE: 0.055,
     TURN_FAST: 0.090,
-    HANDBRAKE_TURN_BOOST: 3,
+    HANDBRAKE_TURN_BOOST: 2,
 
     // Drift physics
     GRIP: 0.22,
     HANDBRAKE_GRIP: 0.012,
     FWD_TRACK: 0.55,
     HANDBRAKE_FWD_TRACK: 0.10,
-    DRIFT_RECOVER: 0.025,
+    DRIFT_RECOVER: 0.075,
 
     // Collision
     BUMP_RESTITUTION: 0.55,
@@ -87,13 +87,31 @@
       arrowDown: false,
       arrowLeft: false,
       arrowRight: false,
-      useKeyboardSteering: false
+      useKeyboardSteering: false,
+      // Gradual steering input (-1 to +1, 0 = center)
+      steeringInput: 0
     };
   }
 
   // ========== PHYSICS UPDATE ==========
   function updatePhysics(carState, inputState, dt, desiredAngleOverride) {
     var p = carState.physics;
+
+    // Update gradual steering input for keyboard
+    var STEERING_SPEED = 0.8; // How fast steering responds (lower = slower, more realistic)
+    var targetSteering = 0;
+    if (inputState.arrowLeft && !inputState.arrowRight) {
+      targetSteering = -1;
+    } else if (inputState.arrowRight && !inputState.arrowLeft) {
+      targetSteering = 1;
+    }
+    // Smoothly interpolate steering input
+    var steeringDelta = targetSteering - inputState.steeringInput;
+    inputState.steeringInput += steeringDelta * Math.min(1, STEERING_SPEED * dt);
+    // Snap to zero when very close to prevent drift
+    if (Math.abs(inputState.steeringInput) < 0.01) {
+      inputState.steeringInput = 0;
+    }
 
     // Update controls from input
     // Keyboard arrow keys take precedence over mouse for throttle
@@ -152,11 +170,19 @@
 
     // ===== Steering =====
     var desiredAngle;
-    if (desiredAngleOverride !== undefined) {
+    if (inputState.useKeyboardSteering) {
+      // Keyboard mode: apply gradual steering with drift boost
+      var BASE_TURN_RATE = 0.035; // Base maximum turn rate
+      var driftBoost = 1 + (p.HANDBRAKE_TURN_BOOST - 1) * carState.driftBlend;
+      var MAX_TURN_RATE = BASE_TURN_RATE * driftBoost;
+      var turnAmount = inputState.steeringInput * MAX_TURN_RATE * dt;
+      desiredAngle = carState.angle + turnAmount;
+    } else if (desiredAngleOverride !== undefined) {
+      // Mouse mode: use provided angle
       desiredAngle = desiredAngleOverride;
     } else {
-      // Default: steer toward mouse cursor (needs screen position calculation externally)
-      desiredAngle = carState.angle; // No change if no override
+      // Default: no change
+      desiredAngle = carState.angle;
     }
 
     var diff = desiredAngle - carState.angle;
@@ -167,7 +193,11 @@
     var turnRate = (p.TURN_BASE + (p.TURN_FAST - p.TURN_BASE) * speedRatio) *
                    (1 + (p.HANDBRAKE_TURN_BOOST - 1) * carState.driftBlend);
 
-    if (carState.throttle !== 0 && Math.abs(carState.speed) > 0.05 && Math.abs(diff) > 0.02) {
+    // Allow steering in keyboard mode even when coasting, or in mouse mode when throttling
+    var canSteer = inputState.useKeyboardSteering || carState.throttle !== 0;
+    var diffThreshold = inputState.useKeyboardSteering ? 0.001 : 0.02; // Lower threshold for gradual keyboard input
+
+    if (canSteer && Math.abs(carState.speed) > 0.05 && Math.abs(diff) > diffThreshold) {
       carState.angle += Math.sign(diff) * Math.min(Math.abs(diff), turnRate * dt);
     }
 
