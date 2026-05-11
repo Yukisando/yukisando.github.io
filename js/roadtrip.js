@@ -413,6 +413,7 @@
     var halfScreenWidth = window.innerWidth / 2;
     var minCarX = -halfScreenWidth + CAR_SIZE;
     var maxCarX = halfScreenWidth - CAR_SIZE;
+    var BOUNDARY_VISUAL_OFFSET = 20; // Visual lines offset from actual collision boundary
 
     // Create SVG boundaries that curve with the road
     var svgNS = 'http://www.w3.org/2000/svg';
@@ -430,7 +431,7 @@
     var dLeft = 'M';
     for (var i = 0; i <= WORLD_HEIGHT; i += 40) {
       var offset = getRoadOffset(i);
-      var x = ROAD_LEFT_OFFSET + (ROAD_WIDTH / 2) + minCarX + offset;
+      var x = ROAD_LEFT_OFFSET + (ROAD_WIDTH / 2) + minCarX - BOUNDARY_VISUAL_OFFSET + offset;
       dLeft += (i === 0 ? '' : ' L') + x + ',' + i;
     }
     pathLeft.setAttribute('d', dLeft);
@@ -454,7 +455,7 @@
     var dRight = 'M';
     for (var j = 0; j <= WORLD_HEIGHT; j += 40) {
       var offsetR = getRoadOffset(j);
-      var xR = ROAD_LEFT_OFFSET + (ROAD_WIDTH / 2) + maxCarX + offsetR;
+      var xR = ROAD_LEFT_OFFSET + (ROAD_WIDTH / 2) + maxCarX + BOUNDARY_VISUAL_OFFSET + offsetR;
       dRight += (j === 0 ? '' : ' L') + xR + ',' + j;
     }
     pathRight.setAttribute('d', dRight);
