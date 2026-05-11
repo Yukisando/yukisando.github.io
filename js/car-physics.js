@@ -14,29 +14,29 @@
   // These can be overridden per-instance for different "levels"
   var DEFAULT_PHYSICS = {
     // Speed limits
-    MAX_FWD: 1.2,
-    MAX_REV: -5,
+    MAX_FWD: 1.2, // Higher = faster top speed
+    MAX_REV: -5, // Higher = faster reverse top speed
 
     // Acceleration
-    ACCEL_FWD_BASE: 0.08,
+    ACCEL_FWD_BASE: 0.1, // Base forward acceleration
     ACCEL_FWD_TOP_FALLOFF: 2.5, // Higher = harder to reach top speeds
-    ACCEL_REV: 0.15,
+    ACCEL_REV: 0.15, // Reversing is quicker to allow for easier recovery when spinning out
 
     // Drag
-    COAST_DRAG: 0.04,
-    BRAKE_DRAG: 0.8,
+    COAST_DRAG: 0.04, // Natural deceleration when not throttling (0.01 = 1% per second)
+    BRAKE_DRAG: 0.8, // Deceleration when braking (higher = more effective brakes)
 
     // Steering
     TURN_BASE: 0.055,
     TURN_FAST: 0.090,
-    HANDBRAKE_TURN_BOOST: 2,
+    HANDBRAKE_TURN_BOOST: 1.3, // Higher = more turn boost while handbraking
 
     // Drift physics
-    GRIP: 0.22,
-    HANDBRAKE_GRIP: 0.012,
-    FWD_TRACK: 0.55,
-    HANDBRAKE_FWD_TRACK: 0.10,
-    DRIFT_RECOVER: 0.075,
+    GRIP: 0.3, // Higher = less drift (0.1 = very slippery, 0.3 = mild drift, 0.5+ = almost no drift)
+    HANDBRAKE_GRIP: 0.015, // Lower = more slide while drifting
+    FWD_TRACK: 0.75, // Higher = more responsive acceleration changes while driving straight
+    HANDBRAKE_FWD_TRACK: 0.10, // Higher = more responsive acceleration changes while drifting
+    DRIFT_RECOVER: 0.008, // How quickly the drift blend recovers when not handbraking
 
     // Collision
     BUMP_RESTITUTION: 0.55,
@@ -134,8 +134,8 @@
       var baseSpeed = 18;
       var headroom = 1 / (1 + Math.pow(Math.abs(carState.speed) / baseSpeed, p.ACCEL_FWD_TOP_FALLOFF));
 
-      // Drift penalty: reduce acceleration when drifting
-      var driftPenalty = 1 - (carState.driftBlend * 0.3); // 30% reduction at full drift
+      // Drift penalty: reduce acceleration ONLY while handbrake is active
+      var driftPenalty = carState.handbrake ? (1 - 0.3) : 1; // 30% reduction only while handbrake held
 
       carState.speed += p.ACCEL_FWD_BASE * headroom * driftPenalty * dt;
     } else if (carState.throttle < 0) {
@@ -207,7 +207,15 @@
     var fwd = carState.velX * cosA + carState.velY * sinA;
     var lat = -carState.velX * sinA + carState.velY * cosA;
 
-    var grip = p.GRIP + (p.HANDBRAKE_GRIP - p.GRIP) * carState.driftBlend;
+    // Make drifting harder at low speeds by increasing grip when speed is low
+    var baseGrip = p.GRIP + (p.HANDBRAKE_GRIP - p.GRIP) * carState.driftBlend;
+    var minDriftSpeed = 0.7; // Below this speed, drifting is much harder
+    var lowSpeedGripBoost = 0;
+    if (carState.driftBlend > 0.2 && Math.abs(carState.speed) < minDriftSpeed) {
+      // Linearly increase grip as speed approaches zero
+      lowSpeedGripBoost = (1 - Math.abs(carState.speed) / minDriftSpeed) * 0.5; // 0.5 = strong boost
+    }
+    var grip = baseGrip + lowSpeedGripBoost;
     var fwdTrack = p.FWD_TRACK + (p.HANDBRAKE_FWD_TRACK - p.FWD_TRACK) * carState.driftBlend;
 
     var newFwd = fwd + (carState.speed - fwd) * Math.min(1, fwdTrack * dt);
