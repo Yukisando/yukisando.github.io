@@ -237,30 +237,39 @@
     var world = document.createElement('div');
     world.id = 'roadtrip-world';
     world.dataset.roadtripUi = 'true';
-    world.style.width = ROAD_WIDTH + 'px';
+
+    // Widen world to accommodate pit stops on both sides with margins
+    var PIT_PAD_EXTENT = 120; // Half width of pit pad (240px / 2)
+    var WORLD_WIDTH = ROAD_WIDTH + ((ROAD_WIDTH / 2) + 240 + PIT_PAD_EXTENT + 100) * 2; // Accommodate SIDE_OFFSET + pad + margin on both sides
+    var ROAD_LEFT_OFFSET = (WORLD_WIDTH - ROAD_WIDTH) / 2; // Center road in wider world
+
+    world.style.width = WORLD_WIDTH + 'px';
     var WORLD_HEIGHT = STOP_SPACING * (entries.length + 1);
     world.style.height = WORLD_HEIGHT + 'px';
 
     var road = document.createElement('div'); road.className = 'rt-road';
+    road.style.left = ROAD_LEFT_OFFSET + 'px';
+    road.style.width = ROAD_WIDTH + 'px';
     var stripes = document.createElement('div'); stripes.className = 'rt-stripes';
+    stripes.style.left = (ROAD_LEFT_OFFSET + ROAD_WIDTH / 2) + 'px';
     stripes.style.height = WORLD_HEIGHT + 'px';
-    var sL = document.createElement('div'); sL.className = 'rt-shoulder rt-l'; sL.style.height = WORLD_HEIGHT + 'px';
-    var sR = document.createElement('div'); sR.className = 'rt-shoulder rt-r'; sR.style.height = WORLD_HEIGHT + 'px';
+    var sL = document.createElement('div'); sL.className = 'rt-shoulder rt-l'; sL.style.left = (ROAD_LEFT_OFFSET + 18) + 'px'; sL.style.height = WORLD_HEIGHT + 'px';
+    var sR = document.createElement('div'); sR.className = 'rt-shoulder rt-r'; sR.style.left = (ROAD_LEFT_OFFSET + ROAD_WIDTH - 18) + 'px'; sR.style.height = WORLD_HEIGHT + 'px';
     world.appendChild(road);
     world.appendChild(stripes);
     world.appendChild(sL);
     world.appendChild(sR);
 
     // ---------- pit stops (alternating side, like real highway petrol stations) ----------
-    var SIDE_OFFSET = (ROAD_WIDTH / 2) + 360; // Increased distance from road center to pit center
+    var SIDE_OFFSET = (ROAD_WIDTH / 2) + 240; // Distance from road center to pit center - keeps pits visible on narrow screens
     var pitStops = entries.map(function (entry, i) {
       var y = STOP_SPACING * (i + 0.6);
       var side = (i % 2 === 0) ? -1 : 1; // -1 left, +1 right
       // Position pits at fixed offset from road center (no road offset adjustment)
       // This makes them follow the visual road curve as the world transforms
-      var pitCenterX = (ROAD_WIDTH / 2) + side * SIDE_OFFSET;
-      // enterX is road-relative (for collision detection with carX)
-      var enterX = side * (ROAD_WIDTH / 2 - 70);
+      var pitCenterX = ROAD_LEFT_OFFSET + (ROAD_WIDTH / 2) + side * SIDE_OFFSET;
+      // enterX is road-relative (for collision detection with carX) - positioned near the pit stop
+      var enterX = side * (SIDE_OFFSET - 80); // Interaction zone near the pit stop
 
       // parking pad only (no off-ramp connector)
       var pad = document.createElement('div');
@@ -341,7 +350,7 @@
         var oEl = document.createElement('div');
         oEl.className = 'rt-obstacle';
         oEl.textContent = em;
-        oEl.style.left = ((ROAD_WIDTH / 2) + ox + roadOffsetAtObstacle) + 'px';
+        oEl.style.left = (ROAD_LEFT_OFFSET + (ROAD_WIDTH / 2) + ox + roadOffsetAtObstacle) + 'px';
         oEl.style.top  = oy + 'px';
         world.appendChild(oEl);
         obstacles.push({ x: ox, y: oy, el: oEl, hit: false });
@@ -399,6 +408,62 @@
         d.style.top = ((pitStops[idx].y / WORLD_HEIGHT) * usable) + 'px';
       });
     }
+
+    // Create drivable area boundaries that follow the road curve
+    var halfScreenWidth = window.innerWidth / 2;
+    var minCarX = -halfScreenWidth + CAR_SIZE;
+    var maxCarX = halfScreenWidth - CAR_SIZE;
+
+    // Create SVG boundaries that curve with the road
+    var svgNS = 'http://www.w3.org/2000/svg';
+
+    // Left boundary
+    var svgLeft = document.createElementNS(svgNS, 'svg');
+    svgLeft.style.position = 'absolute';
+    svgLeft.style.left = '0';
+    svgLeft.style.top = '0';
+    svgLeft.style.width = WORLD_WIDTH + 'px';
+    svgLeft.style.height = WORLD_HEIGHT + 'px';
+    svgLeft.style.pointerEvents = 'none';
+    svgLeft.style.zIndex = '1';
+    var pathLeft = document.createElementNS(svgNS, 'path');
+    var dLeft = 'M';
+    for (var i = 0; i <= WORLD_HEIGHT; i += 40) {
+      var offset = getRoadOffset(i);
+      var x = ROAD_LEFT_OFFSET + (ROAD_WIDTH / 2) + minCarX + offset;
+      dLeft += (i === 0 ? '' : ' L') + x + ',' + i;
+    }
+    pathLeft.setAttribute('d', dLeft);
+    pathLeft.setAttribute('stroke', 'rgba(240,95,64,0.5)');
+    pathLeft.setAttribute('stroke-width', '4');
+    pathLeft.setAttribute('fill', 'none');
+    pathLeft.setAttribute('filter', 'drop-shadow(0 0 20px rgba(240,95,64,0.4))');
+    svgLeft.appendChild(pathLeft);
+    world.appendChild(svgLeft);
+
+    // Right boundary
+    var svgRight = document.createElementNS(svgNS, 'svg');
+    svgRight.style.position = 'absolute';
+    svgRight.style.left = '0';
+    svgRight.style.top = '0';
+    svgRight.style.width = WORLD_WIDTH + 'px';
+    svgRight.style.height = WORLD_HEIGHT + 'px';
+    svgRight.style.pointerEvents = 'none';
+    svgRight.style.zIndex = '1';
+    var pathRight = document.createElementNS(svgNS, 'path');
+    var dRight = 'M';
+    for (var j = 0; j <= WORLD_HEIGHT; j += 40) {
+      var offsetR = getRoadOffset(j);
+      var xR = ROAD_LEFT_OFFSET + (ROAD_WIDTH / 2) + maxCarX + offsetR;
+      dRight += (j === 0 ? '' : ' L') + xR + ',' + j;
+    }
+    pathRight.setAttribute('d', dRight);
+    pathRight.setAttribute('stroke', 'rgba(240,95,64,0.5)');
+    pathRight.setAttribute('stroke-width', '4');
+    pathRight.setAttribute('fill', 'none');
+    pathRight.setAttribute('filter', 'drop-shadow(0 0 20px rgba(240,95,64,0.4))');
+    svgRight.appendChild(pathRight);
+    world.appendChild(svgRight);
 
     document.body.appendChild(stage);
     stage.appendChild(world);
@@ -670,7 +735,7 @@
       // car screen position - include road offset for accurate cursor tracking
       var roadOffsetAtCar = getRoadOffset(carY);
       var worldRect = world.getBoundingClientRect();
-      var carScreenX = worldRect.left + (ROAD_WIDTH / 2) + carX + roadOffsetAtCar;
+      var carScreenX = worldRect.left + ROAD_LEFT_OFFSET + (ROAD_WIDTH / 2) + carX + roadOffsetAtCar;
       var carScreenY = worldRect.top + carY;
 
       // steering — keyboard or mouse
@@ -716,7 +781,18 @@
       var nx = carX + velX * dt;
       var ny = carY + velY * dt;
 
-      // Wall collisions removed - free driving!
+      // Screen-edge horizontal boundaries - can drive as far as viewport allows
+      var halfScreenWidth = window.innerWidth / 2;
+      var minCarX = -halfScreenWidth + CAR_SIZE;
+      var maxCarX = halfScreenWidth - CAR_SIZE;
+      if (nx < minCarX) {
+        nx = minCarX;
+        velX *= -BUMP_RESTITUTION;
+      } else if (nx > maxCarX) {
+        nx = maxCarX;
+        velX *= -BUMP_RESTITUTION;
+      }
+
       // vertical wrap — seamless loop with road continuing
       if (ny < 0) {
         ny = ny + WORLD_HEIGHT;
@@ -762,7 +838,7 @@
           var rearOff  = CAR_SIZE * 0.38;
           var wheelOff = CAR_SIZE * 0.28;
           var smokeRoadOffset = getRoadOffset(carY);
-          var bx = (ROAD_WIDTH / 2) + carX + smokeRoadOffset;
+          var bx = ROAD_LEFT_OFFSET + (ROAD_WIDTH / 2) + carX + smokeRoadOffset;
           var by = carY;
           var rxL = bx - cosA * rearOff - (-sinA) * wheelOff;
           var ryL = by - sinA * rearOff - ( cosA) * wheelOff;
@@ -799,7 +875,7 @@
 
       // Apply road curve offset to car position
       var roadOffsetAtCar = getRoadOffset(carY);
-      carEl.style.left = ((ROAD_WIDTH / 2) + carX + roadOffsetAtCar - CAR_SIZE / 2) + 'px';
+      carEl.style.left = (ROAD_LEFT_OFFSET + (ROAD_WIDTH / 2) + carX + roadOffsetAtCar - CAR_SIZE / 2) + 'px';
       carEl.style.top  = (carY - CAR_SIZE / 2) + 'px';
       carEl.style.transform = 'translate(' + shakeX + 'px,' + shakeY + 'px) rotate(' + renderDeg + 'deg)';
 
@@ -809,9 +885,10 @@
       speedHud.querySelector('.rt-speed-value').textContent = mph + ' mph';
       speedHud.querySelector('.rt-speed-top').textContent = 'Top: ' + Math.round(topSpeed * 5) + ' mph';
 
-      // camera: keep car around vertical center, offset world to follow road curves
+      // camera: keep car centered on screen, following both vertical and horizontal movement
       var camY = Math.max(0, Math.min(WORLD_HEIGHT - window.innerHeight, carY - window.innerHeight * 0.5));
-      var camX = -roadOffsetAtCar; // Shift world to keep curved road centered
+      // Pan camera to keep car centered horizontally, accounting for road curves
+      var camX = -carX - roadOffsetAtCar;
       world.style.transform = 'translate(calc(-50% + ' + camX + 'px), ' + (-camY) + 'px)';
 
       // pit-stop proximity (use each pit's on-road entry x, since pits sit off-road)
