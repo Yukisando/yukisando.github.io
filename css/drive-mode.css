@@ -11,6 +11,11 @@ body.drive-mode-active {
   overflow: hidden !important;
 }
 
+/* Hide cursor in keyboard driving mode */
+body.drive-mode-active.keyboard-mode {
+  cursor: none !important;
+}
+
 /* Prevent clicking interactive elements during drive mode */
 body.drive-mode-active a[href]:not([data-site-nav] a):not(#homepage-drive-ui a) {
   pointer-events: none !important;

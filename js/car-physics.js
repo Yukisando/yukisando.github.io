@@ -81,7 +81,13 @@
       mouseX: window.innerWidth / 2,
       mouseY: window.innerHeight / 2,
       throttle: 0,
-      handbrake: false
+      handbrake: false,
+      // Keyboard arrow keys
+      arrowUp: false,
+      arrowDown: false,
+      arrowLeft: false,
+      arrowRight: false,
+      useKeyboardSteering: false
     };
   }
 
@@ -90,7 +96,18 @@
     var p = carState.physics;
 
     // Update controls from input
-    carState.throttle = inputState.throttle;
+    // Keyboard arrow keys take precedence over mouse for throttle
+    if (inputState.arrowUp || inputState.arrowDown) {
+      if (inputState.arrowUp && !inputState.arrowDown) {
+        carState.throttle = 1;
+      } else if (inputState.arrowDown && !inputState.arrowUp) {
+        carState.throttle = -1;
+      } else {
+        carState.throttle = 0; // Both pressed = cancel out
+      }
+    } else {
+      carState.throttle = inputState.throttle;
+    }
     carState.handbrake = inputState.handbrake;
 
     // ===== Speed / Throttle =====
@@ -181,10 +198,21 @@
       onMouseMove: function (ev) {
         inputState.mouseX = ev.clientX;
         inputState.mouseY = ev.clientY;
+        // Show cursor on mouse movement (remove keyboard mode class)
+        if (inputState.useKeyboardSteering) {
+          document.body.classList.remove('keyboard-mode');
+        }
       },
       onMouseDown: function (ev) {
-        if (ev.button === 0) inputState.throttle = 1;
-        else if (ev.button === 2) inputState.throttle = -1;
+        if (ev.button === 0) {
+          inputState.throttle = 1;
+          inputState.useKeyboardSteering = false; // Switch to mouse mode
+          document.body.classList.remove('keyboard-mode'); // Show cursor
+        } else if (ev.button === 2) {
+          inputState.throttle = -1;
+          inputState.useKeyboardSteering = false; // Switch to mouse mode
+          document.body.classList.remove('keyboard-mode'); // Show cursor
+        }
       },
       onMouseUp: function (ev) {
         if (ev.button === 0 && inputState.throttle === 1) inputState.throttle = 0;
@@ -207,16 +235,62 @@
           if (callbacks && callbacks.onInteract) callbacks.onInteract();
           ev.preventDefault();
         }
+        // Arrow key controls
+        if (ev.key === 'ArrowUp') {
+          inputState.arrowUp = true;
+          inputState.useKeyboardSteering = true;
+          document.body.classList.add('keyboard-mode'); // Hide cursor
+          ev.preventDefault();
+        }
+        if (ev.key === 'ArrowDown') {
+          inputState.arrowDown = true;
+          inputState.useKeyboardSteering = true;
+          document.body.classList.add('keyboard-mode'); // Hide cursor
+          ev.preventDefault();
+        }
+        if (ev.key === 'ArrowLeft') {
+          inputState.arrowLeft = true;
+          inputState.useKeyboardSteering = true;
+          document.body.classList.add('keyboard-mode'); // Hide cursor
+          ev.preventDefault();
+        }
+        if (ev.key === 'ArrowRight') {
+          inputState.arrowRight = true;
+          inputState.useKeyboardSteering = true;
+          document.body.classList.add('keyboard-mode'); // Hide cursor
+          ev.preventDefault();
+        }
       },
       onKeyUp: function (ev) {
         if (ev.code === 'Space' || ev.key === ' ') {
           inputState.handbrake = false;
           ev.preventDefault();
         }
+        // Arrow key controls
+        if (ev.key === 'ArrowUp') {
+          inputState.arrowUp = false;
+          ev.preventDefault();
+        }
+        if (ev.key === 'ArrowDown') {
+          inputState.arrowDown = false;
+          ev.preventDefault();
+        }
+        if (ev.key === 'ArrowLeft') {
+          inputState.arrowLeft = false;
+          ev.preventDefault();
+        }
+        if (ev.key === 'ArrowRight') {
+          inputState.arrowRight = false;
+          ev.preventDefault();
+        }
       },
       onBlur: function () {
         inputState.throttle = 0;
         inputState.handbrake = false;
+        inputState.arrowUp = false;
+        inputState.arrowDown = false;
+        inputState.arrowLeft = false;
+        inputState.arrowRight = false;
       }
     };
 

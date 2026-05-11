@@ -422,12 +422,29 @@
     var nearStop = null;
     var mouseX = window.innerWidth / 2;
     var mouseY = window.innerHeight / 2;
+    // Keyboard controls
+    var arrowUp = false, arrowDown = false, arrowLeft = false, arrowRight = false;
+    var useKeyboardSteering = false;
 
     // ---------- input ----------
-    function onMouseMove(ev) { mouseX = ev.clientX; mouseY = ev.clientY; }
+    function onMouseMove(ev) {
+      mouseX = ev.clientX;
+      mouseY = ev.clientY;
+      // Show cursor on mouse movement
+      if (useKeyboardSteering) {
+        stage.style.cursor = 'crosshair';
+      }
+    }
     function onMouseDown(ev) {
-      if (ev.button === 0) throttle = 1;
-      else if (ev.button === 2) throttle = -1;
+      if (ev.button === 0) {
+        throttle = 1;
+        useKeyboardSteering = false; // Switch to mouse mode
+        stage.style.cursor = 'crosshair'; // Restore cursor
+      } else if (ev.button === 2) {
+        throttle = -1;
+        useKeyboardSteering = false; // Switch to mouse mode
+        stage.style.cursor = 'crosshair'; // Restore cursor
+      }
     }
     function onMouseUp(ev) {
       if (ev.button === 0 && throttle === 1) throttle = 0;
@@ -438,11 +455,48 @@
       if (ev.key === 'Escape') { stop(); return; }
       if (ev.code === 'Space' || ev.key === ' ') { handbrake = true; ev.preventDefault(); return; }
       if ((ev.key === 'e' || ev.key === 'E') && nearStop) { interact(nearStop); ev.preventDefault(); }
+      // Arrow key controls
+      if (ev.key === 'ArrowUp') {
+        arrowUp = true;
+        useKeyboardSteering = true;
+        stage.style.cursor = 'none'; // Hide cursor in keyboard mode
+        ev.preventDefault();
+      }
+      if (ev.key === 'ArrowDown') {
+        arrowDown = true;
+        useKeyboardSteering = true;
+        stage.style.cursor = 'none'; // Hide cursor in keyboard mode
+        ev.preventDefault();
+      }
+      if (ev.key === 'ArrowLeft') {
+        arrowLeft = true;
+        useKeyboardSteering = true;
+        stage.style.cursor = 'none'; // Hide cursor in keyboard mode
+        ev.preventDefault();
+      }
+      if (ev.key === 'ArrowRight') {
+        arrowRight = true;
+        useKeyboardSteering = true;
+        stage.style.cursor = 'none'; // Hide cursor in keyboard mode
+        ev.preventDefault();
+      }
     }
     function onKeyUp(ev) {
       if (ev.code === 'Space' || ev.key === ' ') { handbrake = false; ev.preventDefault(); }
+      // Arrow key controls
+      if (ev.key === 'ArrowUp') { arrowUp = false; ev.preventDefault(); }
+      if (ev.key === 'ArrowDown') { arrowDown = false; ev.preventDefault(); }
+      if (ev.key === 'ArrowLeft') { arrowLeft = false; ev.preventDefault(); }
+      if (ev.key === 'ArrowRight') { arrowRight = false; ev.preventDefault(); }
     }
-    function onBlur() { throttle = 0; handbrake = false; }
+    function onBlur() {
+      throttle = 0;
+      handbrake = false;
+      arrowUp = false;
+      arrowDown = false;
+      arrowLeft = false;
+      arrowRight = false;
+    }
     function onResize() { layoutMinimap(); }
 
     document.addEventListener('mousemove', onMouseMove);
@@ -559,19 +613,31 @@
       var dt = Math.min(2, (now - lastT) / 16.667);
       lastT = now;
 
+      // Keyboard arrow keys take precedence over mouse for throttle
+      var currentThrottle = throttle;
+      if (arrowUp || arrowDown) {
+        if (arrowUp && !arrowDown) {
+          currentThrottle = 1;
+        } else if (arrowDown && !arrowUp) {
+          currentThrottle = -1;
+        } else {
+          currentThrottle = 0; // Both pressed = cancel out
+        }
+      }
+
       // throttle / speed — asymptotic acceleration: no hard cap, just gets harder
-      if (throttle > 0) {
+      if (currentThrottle > 0) {
         var baseSpeed = 18; // Reference speed for acceleration curve
         // Use abs(speed) to handle negative speeds properly when switching from reverse
         var headroom = 1 / (1 + Math.pow(Math.abs(speed) / baseSpeed, ACCEL_FWD_TOP_FALLOFF));
         speed += ACCEL_FWD_BASE * headroom * dt;
       }
-      else if (throttle < 0) { speed -= ACCEL_REV * dt; if (speed < MAX_REV) speed = MAX_REV; }
+      else if (currentThrottle < 0) { speed -= ACCEL_REV * dt; if (speed < MAX_REV) speed = MAX_REV; }
       else {
         speed *= Math.pow(1 - COAST_DRAG, dt);
         if (Math.abs(speed) < 0.05) speed = 0;
       }
-      if ((throttle > 0 && speed < 0) || (throttle < 0 && speed > 0)) {
+      if ((currentThrottle > 0 && speed < 0) || (currentThrottle < 0 && speed > 0)) {
         speed *= Math.pow(1 - BRAKE_DRAG, dt);
       }
 
@@ -590,18 +656,32 @@
       var carScreenX = worldRect.left + (ROAD_WIDTH / 2) + carX + roadOffsetAtCar;
       var carScreenY = worldRect.top + carY;
 
-      // steering — desired heading is always toward the cursor; reverse simply
-      // moves the car backwards along that heading, so it mirrors forward driving.
-      var dxm = mouseX - carScreenX;
-      var dym = mouseY - carScreenY;
-      var desiredAngle = Math.atan2(dym, dxm);
+      // steering — keyboard or mouse
+      var desiredAngle;
+      if (useKeyboardSteering) {
+        // Keyboard mode: only steer when left/right pressed, otherwise maintain angle
+        if (arrowLeft && !arrowRight) {
+          var turnSpeed = 0.08; // Radians per frame at full lock
+          desiredAngle = carAngle - turnSpeed * dt;
+        } else if (arrowRight && !arrowLeft) {
+          var turnSpeed = 0.08;
+          desiredAngle = carAngle + turnSpeed * dt;
+        } else {
+          desiredAngle = carAngle; // Maintain current heading
+        }
+      } else {
+        // Mouse steering: desired heading is always toward the cursor
+        var dxm = mouseX - carScreenX;
+        var dym = mouseY - carScreenY;
+        desiredAngle = Math.atan2(dym, dxm);
+      }
       var diff = desiredAngle - carAngle;
       while (diff >  Math.PI) diff -= 2 * Math.PI;
       while (diff < -Math.PI) diff += 2 * Math.PI;
       var speedRatio = Math.min(1, Math.abs(speed) / MAX_FWD);
       var turnRate = (TURN_BASE + (TURN_FAST - TURN_BASE) * speedRatio)
                      * (1 + (HANDBRAKE_TURN_BOOST - 1) * driftBlend);
-      if (throttle !== 0 && Math.abs(speed) > 0.05 && Math.abs(diff) > 0.02) {
+      if (currentThrottle !== 0 && Math.abs(speed) > 0.05 && Math.abs(diff) > 0.02) {
         carAngle += Math.sign(diff) * Math.min(Math.abs(diff), turnRate * dt);
       }
 
@@ -694,7 +774,7 @@
         shakeY = (Math.random() - 0.5) * 6 * s;
       }
       // Add subtle idle vibration when stationary
-      if (Math.abs(speed) < 0.5 && throttle === 0) {
+      if (Math.abs(speed) < 0.5 && currentThrottle === 0) {
         var idleFreq = now * 0.015;
         shakeX += Math.sin(idleFreq) * IDLE_VIBRATION_AMOUNT;
         shakeY += Math.cos(idleFreq * 1.3) * IDLE_VIBRATION_AMOUNT * 0.7;
