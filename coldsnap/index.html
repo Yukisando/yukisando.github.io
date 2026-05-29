@@ -43,27 +43,33 @@
   <nav class="site-nav" data-site-nav data-site-nav-page="coldsnap" data-site-nav-mode="overlay"></nav>
 
   <!-- Hero Section -->
-  <header class="hero">
-    <div class="hero-content">
+  <header class="hero" id="hero">
+    <!-- Brand mark — top-left on desktop, hidden on mobile -->
+    <div class="hero-brand">
+      <img src="/coldsnap/assets/coldnsap_logo.png" alt="ColdSnap Logo" class="hero-brand-logo">
+      <div class="hero-brand-text">
+        <span class="hero-brand-name">ColdSnap</span>
+        <span class="hero-brand-sub">Gamification Studio · Nathan de Castro</span>
+      </div>
+    </div>
+
+    <!-- Desktop: physics card table (populated by JS) -->
+    <div id="card-table" class="card-table" aria-hidden="true"></div>
+
+    <!-- Mobile: simplified fallback -->
+    <div class="hero-mobile-content">
       <img src="/coldsnap/assets/coldnsap_logo.png" alt="ColdSnap Logo" class="hero-logo">
       <div class="hero-badge">Gamification Studio</div>
-      <h1>
-        <span class="gradient-text">ColdSnap</span>
-      </h1>
+      <h1><span class="gradient-text">ColdSnap</span></h1>
       <p class="hero-subtitle">Creating impactful educational games and cross-platform applications</p>
       <div class="hero-tags">
-        <span class="tag"><i class="fa fa-desktop"></i> Interactive Installations</span>
+        <span class="tag"><i class="fa fa-desktop"></i> Installations</span>
         <span class="tag"><i class="fa fa-gamepad"></i> Games</span>
         <span class="tag"><i class="fa fa-mobile"></i> Flutter Apps</span>
-        <span class="tag"><i class="fa fa-globe"></i> Web Platforms</span>
       </div>
       <a href="#projects-container" class="cta-button">View Projects</a>
     </div>
-    <div class="hero-visual">
-      <div class="floating-card card-1">🎮</div>
-      <div class="floating-card card-2">📱</div>
-      <div class="floating-card card-3">🎯</div>
-    </div>
+
     <a href="#projects-container" class="scroll-hint">
       <span class="scroll-hint__label">Scroll to see my work</span>
       <span class="scroll-hint__arrow" aria-hidden="true">v</span>
@@ -119,6 +125,7 @@
     // Initialize the page
     document.addEventListener('DOMContentLoaded', () => {
       renderProjects();
+      initHeroCards();
     });
   </script>
 </body>
