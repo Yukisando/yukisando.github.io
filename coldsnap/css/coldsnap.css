@@ -209,6 +209,14 @@ body {
   display: flex;
   align-items: center;
   gap: 16px;
+  max-width: min(520px, calc(100vw - 48px));
+  padding: 14px 18px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 18px;
+  background: rgba(17, 19, 26, 0.58);
+  box-shadow: 0 18px 56px rgba(0, 0, 0, 0.34);
+  backdrop-filter: blur(18px) saturate(135%);
+  -webkit-backdrop-filter: blur(18px) saturate(135%);
   pointer-events: none;
 }
 
@@ -255,18 +263,72 @@ body {
   position: absolute;
   width: 148px;
   height: 212px;
-  background: var(--bg-card);
   border-radius: 14px;
-  border: 1px solid var(--border-color);
   box-shadow:
     0 8px 28px rgba(0, 0, 0, 0.55),
     0 2px 6px rgba(0, 0, 0, 0.3);
   cursor: grab;
   user-select: none;
   touch-action: none;
-  overflow: hidden;
+  perspective: 700px;
   will-change: transform;
+  transform-origin: 50% 50%;
   transition: box-shadow 0.18s ease;
+}
+
+.physics-card-inner {
+  position: absolute;
+  inset: 0;
+  border-radius: 14px;
+  transform-style: preserve-3d;
+  transition: transform 0.42s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.physics-card.is-revealed .physics-card-inner {
+  transform: rotateY(180deg);
+}
+
+.physics-card-face {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+  border-radius: 14px;
+  background: var(--bg-card);
+  backface-visibility: hidden;
+}
+
+.physics-card-front {
+  transform: rotateY(180deg);
+}
+
+.physics-card-back {
+  display: grid;
+  place-items: center;
+  background:
+    linear-gradient(145deg, rgba(245, 132, 26, 0.18), transparent 48%),
+    radial-gradient(circle at 72% 24%, rgba(107, 191, 208, 0.16), transparent 34%),
+    var(--bg-card);
+}
+
+.physics-card-back::before {
+  content: '';
+  position: absolute;
+  inset: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+}
+
+.physics-card-back-mark {
+  width: 66px;
+  height: 66px;
+  opacity: 0.94;
+  filter:
+    grayscale(1)
+    saturate(0.18)
+    contrast(0.96)
+    brightness(1.06)
+    drop-shadow(0 10px 24px rgba(0, 0, 0, 0.45));
 }
 
 .physics-card.is-dragging {
