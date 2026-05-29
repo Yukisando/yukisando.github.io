@@ -353,6 +353,10 @@ function initHeroCards() {
   const COLLISION_MIN_SPEED = 0.75;
   const COLLISION_REST_SPEED = 1.35;
   const STACK_SETTLE_SPEED = 0.9;
+  const DRAG_SPRING = 0.16;
+  const DRAG_DAMPING = 0.24;
+  const DRAG_TORQUE = 0.0032;
+  const heldCardCollides = false;
 
   let W = table.clientWidth;
   let H = table.clientHeight;
@@ -411,6 +415,7 @@ function initHeroCards() {
       dragOffX: 0, dragOffY: 0,
       grabX: CARD_W / 2, grabY: CARD_H / 2,
       originX: CARD_W / 2, originY: CARD_H / 2,
+      pointerX: startX + CARD_W / 2, pointerY: startY + CARD_H / 2,
       prevDragVx: 0, prevDragVy: 0,
       revealed: false,
       delayMs: i * 55,
@@ -435,26 +440,21 @@ function initHeroCards() {
       dragStartY = e.clientY;
 
       const tr = table.getBoundingClientRect();
-      const localGrab = pointerToCardLocal(card, e.clientX - tr.left, e.clientY - tr.top);
-      const oldTopLeft = localOffset(card, 0, 0);
+      card.pointerX = e.clientX - tr.left;
+      card.pointerY = e.clientY - tr.top;
+      resetCardOriginToCenter(card);
+      const localGrab = pointerToCardLocal(card, card.pointerX, card.pointerY);
       card.grabX = localGrab.x;
       card.grabY = localGrab.y;
-      card.originX = localGrab.x;
-      card.originY = localGrab.y;
-      const newTopLeft = localOffset(card, 0, 0);
       card.dragOffX = localGrab.x;
       card.dragOffY = localGrab.y;
-      card.x += oldTopLeft.x - newTopLeft.x;
-      card.y += oldTopLeft.y - newTopLeft.y;
-      card.targetX = card.x;
-      card.targetY = card.y;
+      updateDragTarget(card);
       card.vx = 0;
       card.vy = 0;
       card.angularVel = 0;
       card.prevDragVx = 0;
       card.prevDragVy = 0;
       card.targetScale = 1.15;
-      el.style.transformOrigin = `${card.originX}px ${card.originY}px`;
 
       const maxZ = Math.max(...cards.map(c => c.zIndex));
       card.zIndex = maxZ + 1;
@@ -468,8 +468,9 @@ function initHeroCards() {
         hasMoved = true;
       }
       const tr = table.getBoundingClientRect();
-      card.targetX = e.clientX - tr.left - card.dragOffX;
-      card.targetY = e.clientY - tr.top - card.dragOffY;
+      card.pointerX = e.clientX - tr.left;
+      card.pointerY = e.clientY - tr.top;
+      updateDragTarget(card);
     });
 
     const onRelease = () => {
@@ -563,6 +564,12 @@ function initHeroCards() {
     card.el.style.transformOrigin = '50% 50%';
   }
 
+  function updateDragTarget(card) {
+    const grabOffset = localOffset(card, card.grabX, card.grabY);
+    card.targetX = card.pointerX - grabOffset.x;
+    card.targetY = card.pointerY - grabOffset.y;
+  }
+
   function renderCard(card) {
     card.el.style.left = card.x + 'px';
     card.el.style.top = card.y + 'px';
@@ -622,6 +629,7 @@ function initHeroCards() {
       for (let j = i + 1; j < cards.length; j++) {
         const b = cards[j];
         if (!b.active) continue;
+        if (!heldCardCollides && (a.isDragging || b.isDragging)) continue;
 
         const aSpeed = cardSpeed(a);
         const bSpeed = cardSpeed(b);
@@ -712,19 +720,33 @@ function initHeroCards() {
       if (card.isDragging) {
         const prevX = card.x;
         const prevY = card.y;
-        const k = Math.min(0.38 * dt, 1);
-        card.x += (card.targetX - card.x) * k;
-        card.y += (card.targetY - card.y) * k;
+        updateDragTarget(card);
+
+        const grabOffset = localOffset(card, card.grabX, card.grabY);
+        const grabWorldX = card.x + grabOffset.x;
+        const grabWorldY = card.y + grabOffset.y;
+        const errorX = card.pointerX - grabWorldX;
+        const errorY = card.pointerY - grabWorldY;
+        const forceX = errorX * DRAG_SPRING - card.vx * DRAG_DAMPING;
+        const forceY = errorY * DRAG_SPRING - card.vy * DRAG_DAMPING;
+        const lever = rotatePoint(
+          card.grabX - CARD_W / 2,
+          card.grabY - CARD_H / 2,
+          card.angle,
+          card.scale
+        );
+
+        card.vx += forceX * dt;
+        card.vy += forceY * dt;
+        card.x += card.vx * dt;
+        card.y += card.vy * dt;
         card.vx = (card.x - prevX) / dt;
         card.vy = (card.y - prevY) / dt;
 
-        const accelX = card.vx - card.prevDragVx;
-        const accelY = card.vy - card.prevDragVy;
-        const lever = rotatePoint(CARD_W / 2 - card.grabX, CARD_H / 2 - card.grabY, card.angle, 1);
-        const torque = lever.x * accelY - lever.y * accelX;
-        card.angularVel += torque * 0.018;
-        card.angularVel *= Math.pow(0.82, dt);
-        card.angularVel = clamp(card.angularVel, -16, 16);
+        const torque = lever.x * forceY - lever.y * forceX;
+        card.angularVel += torque * DRAG_TORQUE * dt;
+        card.angularVel *= Math.pow(0.84, dt);
+        card.angularVel = clamp(card.angularVel, -14, 14);
         card.angle += card.angularVel * dt;
         card.prevDragVx = card.vx;
         card.prevDragVy = card.vy;
