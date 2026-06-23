@@ -207,7 +207,9 @@ const COLDSNAP_PROJECTS = [
       'In-engine level editor',
       'Multi-designer level set'
     ],
-    links: []
+    links: [
+      { label: 'Play', href: '/playground/gg/', icon: 'fa-play' }
+    ]
   },
   {
     id: 'pygmak',
