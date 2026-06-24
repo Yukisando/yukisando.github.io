@@ -1,111 +1,118 @@
 <!DOCTYPE html>
 <html lang="en-us">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Unity Web Player | GrappleGroove</title>
-    <link rel="shortcut icon" href="TemplateData/favicon.ico">
-    <link rel="stylesheet" href="TemplateData/style.css">
-    <link rel="manifest" href="manifest.webmanifest">
-  </head>
-  <body>
-    <div id="unity-container">
-      <canvas id="unity-canvas" width=1920 height=1080 tabindex="-1"></canvas>
-      <div id="unity-loading-bar">
-        <div id="unity-logo"></div>
-        <div id="unity-progress-bar-empty">
-          <div id="unity-progress-bar-full"></div>
-        </div>
-      </div>
-      <div id="unity-warning"> </div>
-    </div>
-    <script>
-      window.addEventListener("load", function () {
-        if ("serviceWorker" in navigator) {
-          navigator.serviceWorker.register("ServiceWorker.js");
-        }
-      });
 
-      var container = document.querySelector("#unity-container");
-      var canvas = document.querySelector("#unity-canvas");
-      var loadingBar = document.querySelector("#unity-loading-bar");
-      var progressBarFull = document.querySelector("#unity-progress-bar-full");
-      var warningBanner = document.querySelector("#unity-warning");
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>GrappleGroove</title>
+		<style>
+		html,
+		body {
+			background: FFFFFF;
+			width: 100%;
+			height: 100%;
+			overflow: hidden;
+			padding: 0;
+			margin: 0;
+		}
 
-      // Shows a temporary message banner/ribbon for a few seconds, or
-      // a permanent error message on top of the canvas if type=='error'.
-      // If type=='warning', a yellow highlight color is used.
-      // Modify or remove this function to customize the visually presented
-      // way that non-critical warnings and error messages are presented to the
-      // user.
-      function unityShowBanner(msg, type) {
-        function updateBannerVisibility() {
-          warningBanner.style.display = warningBanner.children.length ? 'block' : 'none';
-        }
-        var div = document.createElement('div');
-        div.innerHTML = msg;
-        warningBanner.appendChild(div);
-        if (type == 'error') div.style = 'background: red; padding: 10px;';
-        else {
-          if (type == 'warning') div.style = 'background: yellow; padding: 10px;';
-          setTimeout(function() {
-            warningBanner.removeChild(div);
-            updateBannerVisibility();
-          }, 5000);
-        }
-        updateBannerVisibility();
-      }
+		div#gameContainer {
+			background: transparent !important;
+			position: absolute;
+		}
 
-      var buildUrl = "Build";
-      var loaderUrl = buildUrl + "/GrappleGroove.loader.js";
-      var config = {
-        arguments: [],
-        dataUrl: buildUrl + "/GrappleGroove.data",
-        frameworkUrl: buildUrl + "/GrappleGroove.framework.js",
-        codeUrl: buildUrl + "/GrappleGroove.wasm",
-        streamingAssetsUrl: "StreamingAssets",
-        companyName: "ColdSnap",
-        productName: "GrappleGroove",
-        productVersion: "0.1.0",
-        showBanner: unityShowBanner,
-        // errorHandler: function(err, url, line) {
-        //    alert("error " + err + " occurred at line " + line);
-        //    // Return 'true' if you handled this error and don't want Unity
-        //    // to process it further, 'false' otherwise.
-        //    return true;
-        // },
-      };
+		div#gameContainer canvas {
+			position: absolute;
+		}
 
-      // By default Unity keeps WebGL canvas render target size matched with
-      // the DOM size of the canvas element (scaled by window.devicePixelRatio)
-      // Set this to false if you want to decouple this synchronization from
-      // happening inside the engine, and you would instead like to size up
-      // the canvas DOM size and WebGL render target sizes yourself.
-      // config.matchWebGLToCanvasSize = false;
+		div#gameContainer canvas[data-pixel-art="true"] {
+			position: absolute;
+			image-rendering: optimizeSpeed;
+			image-rendering: -webkit-crisp-edges;
+			image-rendering: -moz-crisp-edges;
+			image-rendering: -o-crisp-edges;
+			image-rendering: crisp-edges;
+			image-rendering: -webkit-optimize-contrast;
+			image-rendering: optimize-contrast;
+			image-rendering: pixelated;
+			-ms-interpolation-mode: nearest-neighbor;
+		}
+	</style>
+	</head>
 
-      if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
-        // Mobile device style: fill the whole browser client area with the game canvas:
-        var meta = document.createElement('meta');
-        meta.name = 'viewport';
-        meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
-        document.getElementsByTagName('head')[0].appendChild(meta);
-      }
+	<body>
+		<div id="gameContainer">
+			<canvas id="unity-canvas"
+				data-pixel-art=""></canvas>
+			<script src="Build/GrappleGroove.loader.js"></script>
+			<script>
+			var canvas = document.querySelector("#unity-canvas");
+			var config = {
+				dataUrl: "Build/GrappleGroove.data",
+				frameworkUrl: "Build/GrappleGroove.framework.js",
+				codeUrl: "Build/GrappleGroove.wasm",
+				streamingAssetsUrl: "StreamingAssets",
+				companyName: "ColdSnap",
+				productName: "GrappleGroove",
+				productVersion: "0.9",
+				// We own the canvas drawing-buffer size. With this false, Unity will NOT
+				// resize the backing buffer to (cssSize * devicePixelRatio) every frame,
+				// so the render resolution stays exactly RENDER_WIDTH x RENDER_HEIGHT and
+				// does not get multiplied up on HiDPI / scaled displays.
+				matchWebGLToCanvasSize: false,
+				devicePixelRatio: 1,
+			};
 
+			// Fixed internal render resolution. Driven by the WebGL Player Settings
+			// resolution (Project Settings > Player > Resolution and Presentation).
+			// Keep this low for performance — the CSS below scales it to the window.
+			var RENDER_WIDTH = 1920;
+			var RENDER_HEIGHT = 1080;
 
-      loadingBar.style.display = "block";
+			function progressHandler(progress) {
+				var percent = progress * 100 + '%';
+				canvas.style.background = 'linear-gradient(to right, white, white ' + percent + ', transparent ' + percent + ', transparent) no-repeat center';
+				canvas.style.backgroundSize = '100% 1rem';
+			}
+			function onResize() {
+				var container = canvas.parentElement;
 
-      var script = document.createElement("script");
-      script.src = loaderUrl;
-      script.onload = () => {
-        createUnityInstance(canvas, config, (progress) => {
-          progressBarFull.style.width = 100 * progress + "%";
-        }).then((unityInstance) => {
-          loadingBar.style.display = "none";
-        }).catch((message) => {
-          alert(message);
-        });
-      };
-      document.body.appendChild(script);
-    </script>
-  </body>
+				// 1. Lock the WebGL backing buffer to the low render resolution.
+				canvas.width = RENDER_WIDTH;
+				canvas.height = RENDER_HEIGHT;
+
+				// 2. Scale the canvas (display only, via CSS) to fill the browser
+				//    window while preserving the render aspect ratio.
+				var aspect = RENDER_WIDTH / RENDER_HEIGHT;
+				var w = window.innerWidth;
+				var h = window.innerHeight;
+				if (w / h > aspect) {
+					w = Math.ceil(h * aspect);
+				} else {
+					h = Math.ceil(w / aspect);
+				}
+
+				container.style.width = canvas.style.width = w + "px";
+				container.style.height = canvas.style.height = h + "px";
+				container.style.top = Math.floor((window.innerHeight - h) / 2) + "px";
+				container.style.left = Math.floor((window.innerWidth - w) / 2) + "px";
+			}
+			createUnityInstance(canvas, config, progressHandler).then(function (instance) {
+				canvas = instance.Module.canvas;
+				onResize();
+			});
+			window.addEventListener('resize', onResize);
+			onResize();
+
+			if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+				// Mobile device style: fill the whole browser client area with the game canvas:
+				const meta = document.createElement('meta');
+				meta.name = 'viewport';
+				meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
+				document.getElementsByTagName('head')[0].appendChild(meta);
+			}
+		</script>
+		</div>
+	</body>
+
 </html>
