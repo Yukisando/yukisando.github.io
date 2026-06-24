@@ -19,10 +19,137 @@
 		div#gameContainer {
 			background: transparent !important;
 			position: absolute;
+			border-radius: 10px;
+			overflow: hidden;
+			box-shadow: 0 10px 40px rgba(0, 0, 0, 0.45);
 		}
 
 		div#gameContainer canvas {
 			position: absolute;
+			border-radius: 10px;
+		}
+
+		/* Loading overlay */
+		#loadingOverlay {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			gap: 0.9rem;
+			background: rgba(0, 0, 0, 0.55);
+			border-radius: 10px;
+			z-index: 2;
+			transition: opacity 0.4s ease;
+			font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+			color: #f2f2f2;
+		}
+
+		#loadingOverlay.hidden {
+			opacity: 0;
+			pointer-events: none;
+		}
+
+		#loadingLabel {
+			font-size: 0.95rem;
+			letter-spacing: 0.08em;
+			text-transform: uppercase;
+			opacity: 0.85;
+		}
+
+		#loadingTrack {
+			width: 60%;
+			max-width: 360px;
+			height: 12px;
+			background: rgba(255, 255, 255, 0.15);
+			border-radius: 999px;
+			overflow: hidden;
+			box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.4);
+		}
+
+		#loadingFill {
+			width: 0%;
+			height: 100%;
+			border-radius: 999px;
+			background: linear-gradient(90deg, #5aa4ff, #d80e00);
+			box-shadow: 0 0 12px rgba(0, 224, 164, 0.6);
+			transition: width 0.25s ease;
+		}
+
+		#loadingPercent {
+			font-size: 0.85rem;
+			opacity: 0.7;
+			font-variant-numeric: tabular-nums;
+		}
+
+		/* Floating volume control */
+		#volumeControl {
+			position: fixed;
+			bottom: 18px;
+			right: 18px;
+			z-index: 10;
+			display: flex;
+			align-items: center;
+			gap: 10px;
+			padding: 8px 14px 8px 10px;
+			background: rgba(20, 20, 24, 0.7);
+			border: 1px solid rgba(255, 255, 255, 0.12);
+			border-radius: 999px;
+			box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+			backdrop-filter: blur(8px);
+			-webkit-backdrop-filter: blur(8px);
+			font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+			user-select: none;
+		}
+
+		#volumeIcon {
+			cursor: pointer;
+			width: 22px;
+			height: 22px;
+			fill: #f2f2f2;
+			flex: none;
+			opacity: 0.9;
+			transition: opacity 0.15s ease;
+		}
+
+		#volumeIcon:hover {
+			opacity: 1;
+		}
+
+		#volumeSlider {
+			-webkit-appearance: none;
+			appearance: none;
+			width: 110px;
+			height: 6px;
+			border-radius: 999px;
+			background: rgba(255, 255, 255, 0.2);
+			outline: none;
+			cursor: pointer;
+		}
+
+		#volumeSlider::-webkit-slider-thumb {
+			-webkit-appearance: none;
+			appearance: none;
+			width: 16px;
+			height: 16px;
+			border-radius: 50%;
+			background: #4f9dff;
+			box-shadow: 0 0 8px rgba(79, 157, 255, 0.7);
+			cursor: pointer;
+		}
+
+		#volumeSlider::-moz-range-thumb {
+			width: 16px;
+			height: 16px;
+			border: none;
+			border-radius: 50%;
+			background: #4f9dff;
+			box-shadow: 0 0 8px rgba(79, 157, 255, 0.7);
+			cursor: pointer;
 		}
 
 		div#gameContainer canvas[data-pixel-art="true"] {
@@ -38,12 +165,126 @@
 			-ms-interpolation-mode: nearest-neighbor;
 		}
 	</style>
+		<script>
+		// Install a master gain node so we can control the whole page's audio
+		// volume. This must run BEFORE Unity creates its AudioContext, so it lives
+		// here in <head>. We wrap the AudioContext constructor to insert a gain
+		// node, and redirect any connection to ctx.destination through it.
+		(function () {
+			var OrigAC = window.AudioContext || window.webkitAudioContext;
+			if (!OrigAC) return;
+
+			window.__masterVolume = 0.5; // default: half volume
+
+			var origConnect = AudioNode.prototype.connect;
+			AudioNode.prototype.connect = function (dest) {
+				if (dest && dest.context && dest === dest.context.destination && dest.context.__masterGain) {
+					arguments[0] = dest.context.__masterGain;
+				}
+				return origConnect.apply(this, arguments);
+			};
+
+			function PatchedAC() {
+				var ctx = new OrigAC();
+				var gain = ctx.createGain();
+				gain.gain.value = window.__masterVolume;
+				origConnect.call(gain, ctx.destination);
+				ctx.__masterGain = gain;
+				window.__masterGain = gain;
+				return ctx;
+			}
+			PatchedAC.prototype = OrigAC.prototype;
+			window.AudioContext = PatchedAC;
+			window.webkitAudioContext = PatchedAC;
+		})();
+
+		// Public setter the volume slider calls.
+		function setMasterVolume(v) {
+			window.__masterVolume = v;
+			if (window.__masterGain) {
+				window.__masterGain.gain.value = v;
+			}
+		}
+
+		// Stop the browser from acting on shortcuts the game uses (e.g. Ctrl+D
+		// bookmarking, Ctrl+S saving the page). We only swallow combos in this
+		// allow-list so genuine browser features (zoom, devtools refresh, etc.)
+		// keep working. Note: some combos CANNOT be intercepted by a web page —
+		// Ctrl+W (close tab), Ctrl+T (new tab), Ctrl+N (new window) and
+		// Ctrl+Tab are reserved by the browser and will always pass through.
+		(function () {
+			// Single letters that, combined with Ctrl/Cmd, we want to keep for the game.
+			var BLOCKED_CTRL_KEYS = {
+				d: true, // duplicate (browser: bookmark)
+				s: true, // save (browser: save page)
+				p: true, // (browser: print)
+				f: true, // (browser: find)
+				g: true, // (browser: find next)
+				e: true, // (browser: address/search bar in some setups)
+				h: true, // (browser: history)
+				j: true, // (browser: downloads)
+				o: true, // (browser: open file)
+				u: true  // (browser: view source)
+			};
+
+			window.addEventListener("keydown", function (e) {
+				var ctrl = e.ctrlKey || e.metaKey;
+				if (!ctrl) return;
+				if (e.altKey) return; // leave Ctrl+Alt combos alone
+
+				var key = (e.key || "").toLowerCase();
+				if (BLOCKED_CTRL_KEYS[key]) {
+					e.preventDefault();
+					// Don't stopPropagation — Unity still needs to see the event.
+				}
+			}, false);
+		})();
+
+		// Fix "Escape has to be pressed twice to open the menu".
+		// When the game captures the mouse (Pointer Lock), the browser reserves
+		// the FIRST Escape press to release the lock and does NOT deliver that
+		// keystroke to the page — so Unity only sees Escape on the second press.
+		// We bridge the gap: when pointer lock is released, forward a synthetic
+		// Escape to the canvas so the menu opens on the first press.
+		(function () {
+			function forwardEscape() {
+				var target = document.querySelector("#unity-canvas") || document;
+				["keydown", "keyup"].forEach(function (type) {
+					var ev = new KeyboardEvent(type, {
+						key: "Escape",
+						code: "Escape",
+						bubbles: true,
+						cancelable: true
+					});
+					// keyCode/which are read-only on synthetic events but Unity's
+					// input reads them, so force them in.
+					Object.defineProperty(ev, "keyCode", { get: function () { return 27; } });
+					Object.defineProperty(ev, "which", { get: function () { return 27; } });
+					target.dispatchEvent(ev);
+				});
+			}
+
+			document.addEventListener("pointerlockchange", function () {
+				// Lock just released (most commonly the user pressing Escape).
+				if (!document.pointerLockElement) {
+					forwardEscape();
+				}
+			}, false);
+		})();
+		</script>
 	</head>
 
 	<body>
 		<div id="gameContainer">
 			<canvas id="unity-canvas"
 				data-pixel-art=""></canvas>
+			<div id="loadingOverlay">
+				<div id="loadingLabel">Loading</div>
+				<div id="loadingTrack">
+					<div id="loadingFill"></div>
+				</div>
+				<div id="loadingPercent">0%</div>
+			</div>
 			<script src="Build/GrappleGroove.loader.js"></script>
 			<script>
 			var canvas = document.querySelector("#unity-canvas");
@@ -69,11 +310,21 @@
 			var RENDER_WIDTH = 1920;
 			var RENDER_HEIGHT = 1080;
 
+			var loadingOverlay = document.querySelector("#loadingOverlay");
+			var loadingFill = document.querySelector("#loadingFill");
+			var loadingPercent = document.querySelector("#loadingPercent");
+
 			function progressHandler(progress) {
-				var percent = progress * 100 + '%';
-				canvas.style.background = 'linear-gradient(to right, white, white ' + percent + ', transparent ' + percent + ', transparent) no-repeat center';
-				canvas.style.backgroundSize = '100% 1rem';
+				var percent = Math.round(progress * 100);
+				loadingFill.style.width = percent + '%';
+				loadingPercent.textContent = percent + '%';
+				if (progress >= 1) {
+					loadingOverlay.classList.add('hidden');
+				}
 			}
+			// Breathing room between the game box and the window edges.
+			var PADDING = 24;
+
 			function onResize() {
 				var container = canvas.parentElement;
 
@@ -82,14 +333,16 @@
 				canvas.height = RENDER_HEIGHT;
 
 				// 2. Scale the canvas (display only, via CSS) to fill the browser
-				//    window while preserving the render aspect ratio.
+				//    window (minus padding) while preserving the render aspect ratio.
 				var aspect = RENDER_WIDTH / RENDER_HEIGHT;
-				var w = window.innerWidth;
-				var h = window.innerHeight;
-				if (w / h > aspect) {
-					w = Math.ceil(h * aspect);
+				var availW = Math.max(1, window.innerWidth - PADDING * 2);
+				var availH = Math.max(1, window.innerHeight - PADDING * 2);
+				var w = availW;
+				var h = availH;
+				if (availW / availH > aspect) {
+					w = Math.ceil(availH * aspect);
 				} else {
-					h = Math.ceil(w / aspect);
+					h = Math.ceil(availW / aspect);
 				}
 
 				container.style.width = canvas.style.width = w + "px";
@@ -113,6 +366,54 @@
 			}
 		</script>
 		</div>
+
+		<!-- Floating volume rocker -->
+		<div id="volumeControl" title="Volume">
+			<svg id="volumeIcon" viewBox="0 0 24 24" aria-label="Toggle mute" role="button">
+				<path id="volumeIconPath" d="M3 10v4h4l5 5V5L7 10H3zm13.5 2A4.5 4.5 0 0 0 14 7.97v8.05A4.5 4.5 0 0 0 16.5 12zM14 3.23v2.06a7 7 0 0 1 0 13.42v2.06a9 9 0 0 0 0-17.54z"/>
+			</svg>
+			<input id="volumeSlider" type="range" min="0" max="1" step="0.01" value="0.5" aria-label="Volume">
+		</div>
+
+		<script>
+		(function () {
+			var slider = document.querySelector("#volumeSlider");
+			var icon = document.querySelector("#volumeIcon");
+			var iconPath = document.querySelector("#volumeIconPath");
+
+			// SVG paths for the different volume states.
+			var SPEAKER = "M3 10v4h4l5 5V5L7 10H3zm13.5 2A4.5 4.5 0 0 0 14 7.97v8.05A4.5 4.5 0 0 0 16.5 12zM14 3.23v2.06a7 7 0 0 1 0 13.42v2.06a9 9 0 0 0 0-17.54z";
+			var MUTED = "M3 10v4h4l5 5V5L7 10H3zm13.59 2 2.7-2.71-1.41-1.41L15.17 10.6 12.46 7.9 11.05 9.3l2.71 2.7-2.71 2.71 1.41 1.41 2.71-2.7 2.7 2.7 1.42-1.41z";
+
+			var lastVolume = 0.5; // remembers level for unmute
+
+			function applyVolume(v) {
+				setMasterVolume(v);
+				iconPath.setAttribute("d", v <= 0 ? MUTED : SPEAKER);
+			}
+
+			slider.addEventListener("input", function () {
+				var v = parseFloat(slider.value);
+				if (v > 0) lastVolume = v;
+				applyVolume(v);
+			});
+
+			icon.addEventListener("click", function () {
+				var current = parseFloat(slider.value);
+				if (current > 0) {
+					lastVolume = current;
+					slider.value = 0;
+					applyVolume(0);
+				} else {
+					slider.value = lastVolume;
+					applyVolume(lastVolume);
+				}
+			});
+
+			// Apply the default (half volume) on load.
+			applyVolume(0.5);
+		})();
+		</script>
 	</body>
 
 </html>
