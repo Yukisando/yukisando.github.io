@@ -164,6 +164,22 @@
 			image-rendering: pixelated;
 			-ms-interpolation-mode: nearest-neighbor;
 		}
+
+		/* Fullscreen mode: remove rounded edges and padding */
+		div#gameContainer:fullscreen,
+		div#gameContainer:-webkit-full-screen {
+			border-radius: 0 !important;
+		}
+
+		div#gameContainer:fullscreen canvas,
+		div#gameContainer:-webkit-full-screen canvas {
+			border-radius: 0 !important;
+		}
+
+		div#gameContainer:fullscreen #loadingOverlay,
+		div#gameContainer:-webkit-full-screen #loadingOverlay {
+			border-radius: 0 !important;
+		}
 	</style>
 		<script>
 		// Install a master gain node so we can control the whole page's audio
@@ -335,8 +351,10 @@
 				// 2. Scale the canvas (display only, via CSS) to fill the browser
 				//    window (minus padding) while preserving the render aspect ratio.
 				var aspect = RENDER_WIDTH / RENDER_HEIGHT;
-				var availW = Math.max(1, window.innerWidth - PADDING * 2);
-				var availH = Math.max(1, window.innerHeight - PADDING * 2);
+				// Check if in fullscreen mode; if so, use no padding
+				var padding = (document.fullscreenElement || document.webkitFullscreenElement) ? 0 : PADDING;
+				var availW = Math.max(1, window.innerWidth - padding * 2);
+				var availH = Math.max(1, window.innerHeight - padding * 2);
 				var w = availW;
 				var h = availH;
 				if (availW / availH > aspect) {
