@@ -1,437 +1,418 @@
 <!DOCTYPE html>
 <html lang="en-us">
 
-	<head>
-		<meta charset="utf-8">
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		<title>GrappleGroove</title>
-		<style>
-		html,
-		body {
-			background: FFFFFF;
-			width: 100%;
-			height: 100%;
-			overflow: hidden;
-			padding: 0;
-			margin: 0;
-		}
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>GrappleGroove</title>
+        <style>
+        html,
+        body {
+            /* Bright, clean fallback background */
+            background: FFFFFF; 
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            padding: 0;
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
 
-		div#gameContainer {
-			background: transparent !important;
-			position: absolute;
-			border-radius: 10px;
-			overflow: hidden;
-			box-shadow: 0 10px 40px rgba(0, 0, 0, 0.45);
-		}
+        div#gameContainer {
+            background: transparent !important;
+            position: absolute;
+            border-radius: 16px;
+            overflow: hidden;
+            /* Softer, wider shadow for a modern feel */
+            box-shadow: 0 16px 50px rgba(0, 0, 0, 0.12);
+            transition: border-radius 0.3s ease;
+        }
 
-		div#gameContainer canvas {
-			position: absolute;
-			border-radius: 10px;
-		}
+        div#gameContainer canvas {
+            position: absolute;
+            border-radius: 16px;
+            transition: border-radius 0.3s ease;
+        }
 
-		/* Loading overlay */
-		#loadingOverlay {
-			position: absolute;
-			top: 0;
-			left: 0;
-			width: 100%;
-			height: 100%;
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-			justify-content: center;
-			gap: 0.9rem;
-			background: rgba(0, 0, 0, 0.55);
-			border-radius: 10px;
-			z-index: 2;
-			transition: opacity 0.4s ease;
-			font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-			color: #f2f2f2;
-		}
+        /* Fullscreen Class dynamically added via JS for F11 support */
+        div#gameContainer.fullscreen-mode,
+        div#gameContainer.fullscreen-mode canvas,
+        div#gameContainer.fullscreen-mode #loadingOverlay {
+            border-radius: 0 !important;
+            box-shadow: none;
+        }
 
-		#loadingOverlay.hidden {
-			opacity: 0;
-			pointer-events: none;
-		}
+        /* Loading overlay - Bright frosted glass effect */
+        #loadingOverlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1.2rem;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 16px;
+            z-index: 2;
+            transition: opacity 0.5s ease, border-radius 0.3s ease;
+            color: #1e293b;
+        }
 
-		#loadingLabel {
-			font-size: 0.95rem;
-			letter-spacing: 0.08em;
-			text-transform: uppercase;
-			opacity: 0.85;
-		}
+        #loadingOverlay.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
 
-		#loadingTrack {
-			width: 60%;
-			max-width: 360px;
-			height: 12px;
-			background: rgba(255, 255, 255, 0.15);
-			border-radius: 999px;
-			overflow: hidden;
-			box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.4);
-		}
+        #loadingLabel {
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            opacity: 0.8;
+        }
 
-		#loadingFill {
-			width: 0%;
-			height: 100%;
-			border-radius: 999px;
-			background: linear-gradient(90deg, #5aa4ff, #d80e00);
-			box-shadow: 0 0 12px rgba(0, 224, 164, 0.6);
-			transition: width 0.25s ease;
-		}
+        /* Sleeker loading track */
+        #loadingTrack {
+            width: 50%;
+            max-width: 300px;
+            height: 6px;
+            background: rgba(99, 164, 255, 0.15); /* Subtle baby blue tint */
+            border-radius: 999px;
+            overflow: hidden;
+        }
 
-		#loadingPercent {
-			font-size: 0.85rem;
-			opacity: 0.7;
-			font-variant-numeric: tabular-nums;
-		}
+        #loadingFill {
+            width: 0%;
+            height: 100%;
+            border-radius: 999px;
+            /* Subtle baby blue to bright red gradient */
+            background: linear-gradient(90deg, #63a4ff, #ff4757);
+            box-shadow: 0 0 14px rgba(255, 71, 87, 0.4);
+            transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
 
-		/* Floating volume control */
-		#volumeControl {
-			position: fixed;
-			bottom: 18px;
-			right: 18px;
-			z-index: 10;
-			display: flex;
-			align-items: center;
-			gap: 10px;
-			padding: 8px 14px 8px 10px;
-			background: rgba(20, 20, 24, 0.7);
-			border: 1px solid rgba(255, 255, 255, 0.12);
-			border-radius: 999px;
-			box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
-			backdrop-filter: blur(8px);
-			-webkit-backdrop-filter: blur(8px);
-			font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-			user-select: none;
-		}
+        #loadingPercent {
+            font-size: 0.85rem;
+            font-weight: 500;
+            opacity: 0.6;
+            font-variant-numeric: tabular-nums;
+        }
 
-		#volumeIcon {
-			cursor: pointer;
-			width: 22px;
-			height: 22px;
-			fill: #f2f2f2;
-			flex: none;
-			opacity: 0.9;
-			transition: opacity 0.15s ease;
-		}
+        /* Floating volume control - Minimalist light theme */
+        #volumeControl {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 16px 10px 12px;
+            background: rgba(255, 255, 255, 0.85);
+            border: 1px solid rgba(99, 164, 255, 0.25); /* Baby blue subtle border */
+            border-radius: 999px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            user-select: none;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
 
-		#volumeIcon:hover {
-			opacity: 1;
-		}
+        #volumeControl:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+        }
 
-		#volumeSlider {
-			-webkit-appearance: none;
-			appearance: none;
-			width: 80px;
-			height: 6px;
-			border-radius: 999px;
-			background: rgba(255, 255, 255, 0.2);
-			outline: none;
-			cursor: pointer;
-		}
+        #volumeIcon {
+            cursor: pointer;
+            width: 20px;
+            height: 20px;
+            fill: #475569;
+            flex: none;
+            transition: fill 0.2s ease, transform 0.2s ease;
+        }
 
-		#volumeSlider::-webkit-slider-thumb {
-			-webkit-appearance: none;
-			appearance: none;
-			width: 16px;
-			height: 16px;
-			border-radius: 50%;
-			background: #4f9dff;
-			box-shadow: 0 0 8px rgba(79, 157, 255, 0.7);
-			cursor: pointer;
-		}
+        #volumeIcon:hover {
+            fill: #ff4757; /* Bright red hover state */
+            transform: scale(1.1);
+        }
 
-		#volumeSlider::-moz-range-thumb {
-			width: 16px;
-			height: 16px;
-			border: none;
-			border-radius: 50%;
-			background: #4f9dff;
-			box-shadow: 0 0 8px rgba(79, 157, 255, 0.7);
-			cursor: pointer;
-		}
+        #volumeSlider {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 80px;
+            height: 4px;
+            border-radius: 999px;
+            background: rgba(0, 0, 0, 0.08);
+            outline: none;
+            cursor: pointer;
+        }
 
-		div#gameContainer canvas[data-pixel-art="true"] {
-			position: absolute;
-			image-rendering: optimizeSpeed;
-			image-rendering: -webkit-crisp-edges;
-			image-rendering: -moz-crisp-edges;
-			image-rendering: -o-crisp-edges;
-			image-rendering: crisp-edges;
-			image-rendering: -webkit-optimize-contrast;
-			image-rendering: optimize-contrast;
-			image-rendering: pixelated;
-			-ms-interpolation-mode: nearest-neighbor;
-		}
+        #volumeSlider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: #63a4ff; /* Baby blue thumb */
+            box-shadow: 0 0 8px rgba(99, 164, 255, 0.6);
+            cursor: pointer;
+            transition: transform 0.1s ease;
+        }
 
-		/* Fullscreen mode: remove rounded edges and padding */
-		div#gameContainer:fullscreen,
-		div#gameContainer:-webkit-full-screen {
-			border-radius: 0 !important;
-		}
+        #volumeSlider::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+        }
 
-		div#gameContainer:fullscreen canvas,
-		div#gameContainer:-webkit-full-screen canvas {
-			border-radius: 0 !important;
-		}
+        #volumeSlider::-moz-range-thumb {
+            width: 14px;
+            height: 14px;
+            border: none;
+            border-radius: 50%;
+            background: #63a4ff;
+            box-shadow: 0 0 8px rgba(99, 164, 255, 0.6);
+            cursor: pointer;
+            transition: transform 0.1s ease;
+        }
 
-		div#gameContainer:fullscreen #loadingOverlay,
-		div#gameContainer:-webkit-full-screen #loadingOverlay {
-			border-radius: 0 !important;
-		}
-	</style>
-		<script>
-		// Install a master gain node so we can control the whole page's audio
-		// volume. This must run BEFORE Unity creates its AudioContext, so it lives
-		// here in <head>. We wrap the AudioContext constructor to insert a gain
-		// node, and redirect any connection to ctx.destination through it.
-		(function () {
-			var OrigAC = window.AudioContext || window.webkitAudioContext;
-			if (!OrigAC) return;
+        #volumeSlider::-moz-range-thumb:hover {
+            transform: scale(1.2);
+        }
 
-			window.__masterVolume = 0.5; // default: half volume
+        div#gameContainer canvas[data-pixel-art="true"] {
+            position: absolute;
+            image-rendering: optimizeSpeed;
+            image-rendering: -webkit-crisp-edges;
+            image-rendering: -moz-crisp-edges;
+            image-rendering: -o-crisp-edges;
+            image-rendering: crisp-edges;
+            image-rendering: -webkit-optimize-contrast;
+            image-rendering: optimize-contrast;
+            image-rendering: pixelated;
+            -ms-interpolation-mode: nearest-neighbor;
+        }
+    </style>
+        <script>
+        // Install a master gain node so we can control the whole page's audio
+        (function () {
+            var OrigAC = window.AudioContext || window.webkitAudioContext;
+            if (!OrigAC) return;
 
-			var origConnect = AudioNode.prototype.connect;
-			AudioNode.prototype.connect = function (dest) {
-				if (dest && dest.context && dest === dest.context.destination && dest.context.__masterGain) {
-					arguments[0] = dest.context.__masterGain;
-				}
-				return origConnect.apply(this, arguments);
-			};
+            window.__masterVolume = 0.5;
 
-			function PatchedAC() {
-				var ctx = new OrigAC();
-				var gain = ctx.createGain();
-				gain.gain.value = window.__masterVolume;
-				origConnect.call(gain, ctx.destination);
-				ctx.__masterGain = gain;
-				window.__masterGain = gain;
-				return ctx;
-			}
-			PatchedAC.prototype = OrigAC.prototype;
-			window.AudioContext = PatchedAC;
-			window.webkitAudioContext = PatchedAC;
-		})();
+            var origConnect = AudioNode.prototype.connect;
+            AudioNode.prototype.connect = function (dest) {
+                if (dest && dest.context && dest === dest.context.destination && dest.context.__masterGain) {
+                    arguments = dest.context.__masterGain;
+                }
+                return origConnect.apply(this, arguments);
+            };
 
-		// Public setter the volume slider calls.
-		function setMasterVolume(v) {
-			window.__masterVolume = v;
-			if (window.__masterGain) {
-				window.__masterGain.gain.value = v;
-			}
-		}
+            function PatchedAC() {
+                var ctx = new OrigAC();
+                var gain = ctx.createGain();
+                gain.gain.value = window.__masterVolume;
+                origConnect.call(gain, ctx.destination);
+                ctx.__masterGain = gain;
+                window.__masterGain = gain;
+                return ctx;
+            }
+            PatchedAC.prototype = OrigAC.prototype;
+            window.AudioContext = PatchedAC;
+            window.webkitAudioContext = PatchedAC;
+        })();
 
-		// Stop the browser from acting on shortcuts the game uses (e.g. Ctrl+D
-		// bookmarking, Ctrl+S saving the page). We only swallow combos in this
-		// allow-list so genuine browser features (zoom, devtools refresh, etc.)
-		// keep working. Note: some combos CANNOT be intercepted by a web page —
-		// Ctrl+W (close tab), Ctrl+T (new tab), Ctrl+N (new window) and
-		// Ctrl+Tab are reserved by the browser and will always pass through.
-		(function () {
-			// Single letters that, combined with Ctrl/Cmd, we want to keep for the game.
-			var BLOCKED_CTRL_KEYS = {
-				d: true, // duplicate (browser: bookmark)
-				s: true, // save (browser: save page)
-				p: true, // (browser: print)
-				f: true, // (browser: find)
-				g: true, // (browser: find next)
-				e: true, // (browser: address/search bar in some setups)
-				h: true, // (browser: history)
-				j: true, // (browser: downloads)
-				o: true, // (browser: open file)
-				u: true  // (browser: view source)
-			};
+        function setMasterVolume(v) {
+            window.__masterVolume = v;
+            if (window.__masterGain) {
+                window.__masterGain.gain.value = v;
+            }
+        }
 
-			window.addEventListener("keydown", function (e) {
-				var ctrl = e.ctrlKey || e.metaKey;
-				if (!ctrl) return;
-				if (e.altKey) return; // leave Ctrl+Alt combos alone
+        (function () {
+            var BLOCKED_CTRL_KEYS = {
+                d: true, s: true, p: true, f: true, g: true, e: true, h: true, j: true, o: true, u: true
+            };
 
-				var key = (e.key || "").toLowerCase();
-				if (BLOCKED_CTRL_KEYS[key]) {
-					e.preventDefault();
-					// Don't stopPropagation — Unity still needs to see the event.
-				}
-			}, false);
-		})();
+            window.addEventListener("keydown", function (e) {
+                var ctrl = e.ctrlKey || e.metaKey;
+                if (!ctrl) return;
+                if (e.altKey) return; 
 
-		// Fix "Escape has to be pressed twice to open the menu".
-		// When the game captures the mouse (Pointer Lock), the browser reserves
-		// the FIRST Escape press to release the lock and does NOT deliver that
-		// keystroke to the page — so Unity only sees Escape on the second press.
-		// We bridge the gap: when pointer lock is released, forward a synthetic
-		// Escape to the canvas so the menu opens on the first press.
-		(function () {
-			function forwardEscape() {
-				var target = document.querySelector("#unity-canvas") || document;
-				["keydown", "keyup"].forEach(function (type) {
-					var ev = new KeyboardEvent(type, {
-						key: "Escape",
-						code: "Escape",
-						bubbles: true,
-						cancelable: true
-					});
-					// keyCode/which are read-only on synthetic events but Unity's
-					// input reads them, so force them in.
-					Object.defineProperty(ev, "keyCode", { get: function () { return 27; } });
-					Object.defineProperty(ev, "which", { get: function () { return 27; } });
-					target.dispatchEvent(ev);
-				});
-			}
+                var key = (e.key || "").toLowerCase();
+                if (BLOCKED_CTRL_KEYS[key]) {
+                    e.preventDefault();
+                }
+            }, false);
+        })();
 
-			document.addEventListener("pointerlockchange", function () {
-				// Lock just released (most commonly the user pressing Escape).
-				if (!document.pointerLockElement) {
-					forwardEscape();
-				}
-			}, false);
-		})();
-		</script>
-	</head>
+        (function () {
+            function forwardEscape() {
+                var target = document.querySelector("#unity-canvas") || document;
+                ["keydown", "keyup"].forEach(function (type) {
+                    var ev = new KeyboardEvent(type, {
+                        key: "Escape", code: "Escape", bubbles: true, cancelable: true
+                    });
+                    Object.defineProperty(ev, "keyCode", { get: function () { return 27; } });
+                    Object.defineProperty(ev, "which", { get: function () { return 27; } });
+                    target.dispatchEvent(ev);
+                });
+            }
 
-	<body>
-		<div id="gameContainer">
-			<canvas id="unity-canvas"
-				data-pixel-art=""></canvas>
-			<div id="loadingOverlay">
-				<div id="loadingLabel">Loading</div>
-				<div id="loadingTrack">
-					<div id="loadingFill"></div>
-				</div>
-				<div id="loadingPercent">0%</div>
-			</div>
-			<script src="Build/GrappleGroove.loader.js"></script>
-			<script>
-			var canvas = document.querySelector("#unity-canvas");
-			var config = {
-				dataUrl: "Build/GrappleGroove.data.unityweb",
-				frameworkUrl: "Build/GrappleGroove.framework.js.unityweb",
-				codeUrl: "Build/GrappleGroove.wasm.unityweb",
-				streamingAssetsUrl: "StreamingAssets",
-				companyName: "ColdSnap",
-				productName: "GrappleGroove",
-				productVersion: "0.9",
-				// We own the canvas drawing-buffer size. With this false, Unity will NOT
-				// resize the backing buffer to (cssSize * devicePixelRatio) every frame,
-				// so the render resolution stays exactly RENDER_WIDTH x RENDER_HEIGHT and
-				// does not get multiplied up on HiDPI / scaled displays.
-				matchWebGLToCanvasSize: false,
-				devicePixelRatio: 1,
-			};
+            document.addEventListener("pointerlockchange", function () {
+                if (!document.pointerLockElement) {
+                    forwardEscape();
+                }
+            }, false);
+        })();
+        </script>
+    </head>
 
-			// Fixed internal render resolution. Driven by the WebGL Player Settings
-			// resolution (Project Settings > Player > Resolution and Presentation).
-			// Keep this low for performance — the CSS below scales it to the window.
-			var RENDER_WIDTH = 1920;
-			var RENDER_HEIGHT = 1080;
+    <body>
+        <div id="gameContainer">
+            <canvas id="unity-canvas" data-pixel-art=""></canvas>
+            <div id="loadingOverlay">
+                <div id="loadingLabel">Loading</div>
+                <div id="loadingTrack">
+                    <div id="loadingFill"></div>
+                </div>
+                <div id="loadingPercent">0%</div>
+            </div>
+            <script src="Build/GrappleGroove.loader.js"></script>
+            <script>
+            var canvas = document.querySelector("#unity-canvas");
+            var config = {
+                dataUrl: "Build/GrappleGroove.data.unityweb",
+                frameworkUrl: "Build/GrappleGroove.framework.js.unityweb",
+                codeUrl: "Build/GrappleGroove.wasm.unityweb",
+                streamingAssetsUrl: "StreamingAssets",
+                companyName: "ColdSnap",
+                productName: "GrappleGroove",
+                productVersion: "0.9",
+                matchWebGLToCanvasSize: false,
+                devicePixelRatio: 1,
+            };
 
-			var loadingOverlay = document.querySelector("#loadingOverlay");
-			var loadingFill = document.querySelector("#loadingFill");
-			var loadingPercent = document.querySelector("#loadingPercent");
+            var RENDER_WIDTH = 1920;
+            var RENDER_HEIGHT = 1080;
 
-			function progressHandler(progress) {
-				var percent = Math.round(progress * 100);
-				loadingFill.style.width = percent + '%';
-				loadingPercent.textContent = percent + '%';
-				if (progress >= 1) {
-					loadingOverlay.classList.add('hidden');
-				}
-			}
-			// Breathing room between the game box and the window edges.
-			var PADDING = 24;
+            var loadingOverlay = document.querySelector("#loadingOverlay");
+            var loadingFill = document.querySelector("#loadingFill");
+            var loadingPercent = document.querySelector("#loadingPercent");
 
-			function onResize() {
-				var container = canvas.parentElement;
+            function progressHandler(progress) {
+                var percent = Math.round(progress * 100);
+                loadingFill.style.width = percent + '%';
+                loadingPercent.textContent = percent + '%';
+                if (progress >= 1) {
+                    loadingOverlay.classList.add('hidden');
+                }
+            }
 
-				// 1. Lock the WebGL backing buffer to the low render resolution.
-				canvas.width = RENDER_WIDTH;
-				canvas.height = RENDER_HEIGHT;
+            var PADDING = 24;
 
-				// 2. Scale the canvas (display only, via CSS) to fill the browser
-				//    window (minus padding) while preserving the render aspect ratio.
-				var aspect = RENDER_WIDTH / RENDER_HEIGHT;
-				// Check if in fullscreen mode; if so, use no padding
-				var padding = (document.fullscreenElement || document.webkitFullscreenElement) ? 0 : PADDING;
-				var availW = Math.max(1, window.innerWidth - padding * 2);
-				var availH = Math.max(1, window.innerHeight - padding * 2);
-				var w = availW;
-				var h = availH;
-				if (availW / availH > aspect) {
-					w = Math.ceil(availH * aspect);
-				} else {
-					h = Math.ceil(availW / aspect);
-				}
+            function onResize() {
+                var container = canvas.parentElement;
 
-				container.style.width = canvas.style.width = w + "px";
-				container.style.height = canvas.style.height = h + "px";
-				container.style.top = Math.floor((window.innerHeight - h) / 2) + "px";
-				container.style.left = Math.floor((window.innerWidth - w) / 2) + "px";
-			}
-			createUnityInstance(canvas, config, progressHandler).then(function (instance) {
-				canvas = instance.Module.canvas;
-				onResize();
-			});
-			window.addEventListener('resize', onResize);
-			onResize();
+                canvas.width = RENDER_WIDTH;
+                canvas.height = RENDER_HEIGHT;
 
-			if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
-				// Mobile device style: fill the whole browser client area with the game canvas:
-				const meta = document.createElement('meta');
-				meta.name = 'viewport';
-				meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
-				document.getElementsByTagName('head')[0].appendChild(meta);
-			}
-		</script>
-		</div>
+                var aspect = RENDER_WIDTH / RENDER_HEIGHT;
+                
+                // Detects HTML5 Fullscreen OR F11 Browser Fullscreen
+                var isFullscreen = !!(document.fullscreenElement || document.webkitFullscreenElement || 
+                                     (window.innerWidth === screen.width && window.innerHeight === screen.height));
+                
+                var padding = isFullscreen ? 0 : PADDING;
+                
+                // Toggle a class to let CSS strip borders easily
+                if (isFullscreen) {
+                    container.classList.add('fullscreen-mode');
+                } else {
+                    container.classList.remove('fullscreen-mode');
+                }
 
-		<!-- Floating volume rocker -->
-		<div id="volumeControl" title="Volume">
-			<svg id="volumeIcon" viewBox="0 0 24 24" aria-label="Toggle mute" role="button">
-				<path id="volumeIconPath" d="M3 10v4h4l5 5V5L7 10H3zm13.5 2A4.5 4.5 0 0 0 14 7.97v8.05A4.5 4.5 0 0 0 16.5 12zM14 3.23v2.06a7 7 0 0 1 0 13.42v2.06a9 9 0 0 0 0-17.54z"/>
-			</svg>
-			<input id="volumeSlider" type="range" min="0" max="1" step="0.01" value="0.5" aria-label="Volume">
-		</div>
+                var availW = Math.max(1, window.innerWidth - padding * 2);
+                var availH = Math.max(1, window.innerHeight - padding * 2);
+                var w = availW;
+                var h = availH;
+                if (availW / availH > aspect) {
+                    w = Math.ceil(availH * aspect);
+                } else {
+                    h = Math.ceil(availW / aspect);
+                }
 
-		<script>
-		(function () {
-			var slider = document.querySelector("#volumeSlider");
-			var icon = document.querySelector("#volumeIcon");
-			var iconPath = document.querySelector("#volumeIconPath");
+                container.style.width = canvas.style.width = w + "px";
+                container.style.height = canvas.style.height = h + "px";
+                container.style.top = Math.floor((window.innerHeight - h) / 2) + "px";
+                container.style.left = Math.floor((window.innerWidth - w) / 2) + "px";
+            }
 
-			// SVG paths for the different volume states.
-			var SPEAKER = "M3 10v4h4l5 5V5L7 10H3zm13.5 2A4.5 4.5 0 0 0 14 7.97v8.05A4.5 4.5 0 0 0 16.5 12zM14 3.23v2.06a7 7 0 0 1 0 13.42v2.06a9 9 0 0 0 0-17.54z";
-			var MUTED = "M3 10v4h4l5 5V5L7 10H3zm13.59 2 2.7-2.71-1.41-1.41L15.17 10.6 12.46 7.9 11.05 9.3l2.71 2.7-2.71 2.71 1.41 1.41 2.71-2.7 2.7 2.7 1.42-1.41z";
+            createUnityInstance(canvas, config, progressHandler).then(function (instance) {
+                canvas = instance.Module.canvas;
+                onResize();
+            });
+            window.addEventListener('resize', onResize);
+            onResize();
 
-			var lastVolume = 0.5; // remembers level for unmute
+            if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+                const meta = document.createElement('meta');
+                meta.name = 'viewport';
+                meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
+                document.getElementsByTagName('head').appendChild(meta);
+            }
+        </script>
+        </div>
 
-			function applyVolume(v) {
-				setMasterVolume(v);
-				iconPath.setAttribute("d", v <= 0 ? MUTED : SPEAKER);
-			}
+        <div id="volumeControl" title="Volume">
+            <svg id="volumeIcon" viewBox="0 0 24 24" aria-label="Toggle mute" role="button">
+                <path id="volumeIconPath" d="M3 10v4h4l5 5V5L7 10H3zm13.5 2A4.5 4.5 0 0 0 14 7.97v8.05A4.5 4.5 0 0 0 16.5 12zM14 3.23v2.06a7 7 0 0 1 0 13.42v2.06a9 9 0 0 0 0-17.54z"/>
+            </svg>
+            <input id="volumeSlider" type="range" min="0" max="1" step="0.01" value="0.5" aria-label="Volume">
+        </div>
 
-			slider.addEventListener("input", function () {
-				var v = parseFloat(slider.value);
-				if (v > 0) lastVolume = v;
-				applyVolume(v);
-			});
+        <script>
+        (function () {
+            var slider = document.querySelector("#volumeSlider");
+            var icon = document.querySelector("#volumeIcon");
+            var iconPath = document.querySelector("#volumeIconPath");
 
-			icon.addEventListener("click", function () {
-				var current = parseFloat(slider.value);
-				if (current > 0) {
-					lastVolume = current;
-					slider.value = 0;
-					applyVolume(0);
-				} else {
-					slider.value = lastVolume;
-					applyVolume(lastVolume);
-				}
-			});
+            var SPEAKER = "M3 10v4h4l5 5V5L7 10H3zm13.5 2A4.5 4.5 0 0 0 14 7.97v8.05A4.5 4.5 0 0 0 16.5 12zM14 3.23v2.06a7 7 0 0 1 0 13.42v2.06a9 9 0 0 0 0-17.54z";
+            var MUTED = "M3 10v4h4l5 5V5L7 10H3zm13.59 2 2.7-2.71-1.41-1.41L15.17 10.6 12.46 7.9 11.05 9.3l2.71 2.7-2.71 2.71 1.41 1.41 2.71-2.7 2.7 2.7 1.42-1.41z";
 
-			// Apply the default (half volume) on load.
-			applyVolume(0.5);
-		})();
-		</script>
-	</body>
+            var lastVolume = 0.5;
+
+            function applyVolume(v) {
+                setMasterVolume(v);
+                iconPath.setAttribute("d", v <= 0 ? MUTED : SPEAKER);
+            }
+
+            slider.addEventListener("input", function () {
+                var v = parseFloat(slider.value);
+                if (v > 0) lastVolume = v;
+                applyVolume(v);
+            });
+
+            icon.addEventListener("click", function () {
+                var current = parseFloat(slider.value);
+                if (current > 0) {
+                    lastVolume = current;
+                    slider.value = 0;
+                    applyVolume(0);
+                } else {
+                    slider.value = lastVolume;
+                    applyVolume(lastVolume);
+                }
+            });
+
+            applyVolume(0.5);
+        })();
+        </script>
+    </body>
 
 </html>
