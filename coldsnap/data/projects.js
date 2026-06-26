@@ -208,7 +208,7 @@ const COLDSNAP_PROJECTS = [
       'Multi-designer level set'
     ],
     links: [
-      { label: 'Play', href: '/playground/gg/', icon: 'fa-play' }
+      { label: 'Play', href: 'https://grapplegroove.web.app', icon: 'fa-play' }
     ]
   },
   {
