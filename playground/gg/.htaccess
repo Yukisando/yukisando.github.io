@@ -1,0 +1,15 @@
+# Unity WebGL - Brotli compressed build headers
+<IfModule mod_headers.c>
+    <FilesMatch "\.framework\.js\.unityweb$">
+        Header set Content-Encoding "br"
+        Header set Content-Type "application/javascript"
+    </FilesMatch>
+    <FilesMatch "\.wasm\.unityweb$">
+        Header set Content-Encoding "br"
+        Header set Content-Type "application/wasm"
+    </FilesMatch>
+    <FilesMatch "\.data\.unityweb$">
+        Header set Content-Encoding "br"
+        Header set Content-Type "application/octet-stream"
+    </FilesMatch>
+</IfModule>
