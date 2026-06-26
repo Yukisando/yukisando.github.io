@@ -1,15 +1,5 @@
-# Unity WebGL - Brotli compressed build headers
-<IfModule mod_headers.c>
-    <FilesMatch "\.framework\.js\.unityweb$">
-        Header set Content-Encoding "br"
-        Header set Content-Type "application/javascript"
-    </FilesMatch>
-    <FilesMatch "\.wasm\.unityweb$">
-        Header set Content-Encoding "br"
-        Header set Content-Type "application/wasm"
-    </FilesMatch>
-    <FilesMatch "\.data\.unityweb$">
-        Header set Content-Encoding "br"
-        Header set Content-Type "application/octet-stream"
-    </FilesMatch>
+# Unity WebGL - Gzip compressed build
+# Requires: Unity Player Settings > WebGL > Publishing Settings > Compression Format = Gzip
+<IfModule mod_mime.c>
+    AddEncoding gzip .unityweb
 </IfModule>
