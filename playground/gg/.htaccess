@@ -1,9 +1,0 @@
-# Unity WebGL - Gzip compressed build
-# Requires: Unity Player Settings > WebGL > Publishing Settings > Compression Format = Gzip
-<IfModule mod_mime.c>
-    AddEncoding gzip .unityweb
-    AddType application/octet-stream .unityweb
-</IfModule>
-<IfModule mod_deflate.c>
-    SetEnvIfNoCase Request_URI \.unityweb$ no-gzip dont-vary
-</IfModule>
