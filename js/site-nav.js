@@ -30,6 +30,13 @@ document.addEventListener('DOMContentLoaded', function () {
       href: '/stuff/',
       secondary: true,
     },
+    {
+      key: 'cv',
+      label: 'CV',
+      href: '/doc/cv_en.pdf',
+      cta: true,
+      isCvLink: true,
+    },
   ];
 
   function clamp(value, min, max) {
@@ -201,6 +208,9 @@ document.addEventListener('DOMContentLoaded', function () {
     if (item.secondary) {
       classes.push('site-nav__link--secondary');
     }
+    if (item.cta) {
+      classes.push('site-nav__link--cta');
+    }
     if (currentPage === item.key) {
       classes.push('is-active');
     }
@@ -210,8 +220,20 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const href = isHomePage && item.homeHref ? item.homeHref : item.href;
     const keyAttribute = ' data-nav-key="' + item.key + '"';
+    const cvAttribute = item.isCvLink ? ' data-cv-link' : '';
+    const externalAttributes = item.isCvLink ? ' target="_blank" rel="noopener"' : '';
 
-    return `<a href="${href}" class="${classes.join(' ')}"${keyAttribute}>${item.label}</a>`;
+    return `<a href="${href}" class="${classes.join(' ')}"${keyAttribute}${cvAttribute}${externalAttributes}>${item.label}</a>`;
+  }
+
+  function localizeCvLinks(nav) {
+    const userLanguage = navigator.language || navigator.userLanguage || '';
+    const isFrench = userLanguage.toLowerCase().startsWith('fr');
+    const cvHref = isFrench ? '/doc/cv_fr.pdf' : '/doc/cv_en.pdf';
+
+    nav.querySelectorAll('[data-cv-link]').forEach(function (link) {
+      link.setAttribute('href', cvHref);
+    });
   }
 
   function findNavItemByHomeHash(hash) {
@@ -463,6 +485,7 @@ document.addEventListener('DOMContentLoaded', function () {
   navs.forEach(function (nav, index) {
     renderNav(nav, index);
     applyNavPalette(nav);
+    localizeCvLinks(nav);
     syncRequestedKeyFromHash(nav);
     updateNavActiveState(nav);
 
