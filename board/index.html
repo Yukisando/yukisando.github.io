@@ -54,6 +54,11 @@
     @keyframes pulse{50%{opacity:.25}}
     .icon{width:34px;height:34px;display:grid;place-items:center;border-radius:9px;color:var(--fg-dim);transition:.15s}
     .icon:hover{background:var(--panel-2);color:var(--fg)}
+    .signin{
+      padding:8px 15px;border-radius:9px;background:var(--accent);color:#fff;
+      font-size:13.5px;font-weight:600;transition:background .15s
+    }
+    .signin:hover{background:var(--accent-dark)}
     .icon svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 
     .banner{
@@ -172,9 +177,13 @@
     .btn.pri{background:var(--accent);color:#fff;font-weight:600}
     .btn.pri:hover{background:var(--accent-dark)}
     .btn.right{margin-left:auto}
+    dialog details{margin-top:20px;border-top:1px solid var(--line);padding-top:14px}
+    dialog details summary{cursor:pointer;font-size:12.5px;color:var(--fg-dim);list-style-position:outside}
+    dialog details summary:hover{color:var(--fg)}
+    dialog details p{font-size:12.5px;margin-bottom:0}
     .note-sm{font-size:12px;color:var(--fg-faint);margin-top:14px;line-height:1.6}
-    #cfgMsg{font-size:12.5px;margin-top:12px;min-height:17px}
-    #cfgMsg.ok{color:var(--ok)} #cfgMsg.err{color:var(--err)}
+    #cfgMsg,#pinMsg{font-size:12.5px;margin-top:12px;min-height:17px}
+    #cfgMsg.ok,#pinMsg.ok{color:var(--ok)} #cfgMsg.err,#pinMsg.err{color:var(--err)}
   </style>
 
   <script>
@@ -196,7 +205,8 @@
       <div class="sub"><b id="greet"></b> &middot; <span id="today"></span></div>
     </div>
     <div class="hdr-actions">
-      <span class="dot" id="dot" data-s="off" title="Sync not configured"></span>
+      <button class="signin" id="btnAuth" hidden>Sign in</button>
+      <span class="dot" id="dot" data-s="off" title="Not signed in"></span>
       <button class="icon" id="btnCfg" aria-label="Settings" title="Settings">
         <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
       </button>
@@ -238,24 +248,16 @@
 
   <dialog id="cfg">
     <h3>Board settings</h3>
-    <p>
-      Sync keeps a copy of this board in a <b>secret GitHub Gist</b>. Create a
-      <a href="https://github.com/settings/tokens/new?scopes=gist&description=board" target="_blank" rel="noopener">classic token with only the <b>gist</b> scope</a>
-      and set expiration to <b>No expiration</b>, then paste it below. Leave the Gist ID blank
-      and one will be created on the first sync.
-    </p>
+    <p id="acctLine">Enter your PIN to sync this board across devices.</p>
 
-    <label for="tok">Token (<code>gist</code> scope)</label>
-    <input class="in" id="tok" type="password" placeholder="ghp_&hellip;" autocomplete="off" spellcheck="false">
-
-    <label for="gid">Gist ID <span style="opacity:.6">— optional</span></label>
-    <input class="in" id="gid" placeholder="created automatically" autocomplete="off" spellcheck="false">
+    <div class="btns" style="margin-top:0">
+      <button class="btn pri" id="btnSignIn">Enter PIN</button>
+      <button class="btn" id="btnForget" hidden>Forget this device</button>
+    </div>
 
     <div id="cfgMsg"></div>
 
     <div class="btns">
-      <button class="btn pri" id="cfgSave">Save &amp; sync</button>
-      <button class="btn" id="cfgPull">Pull from Gist</button>
       <button class="btn" id="cfgExport">Export JSON</button>
       <button class="btn" id="cfgImport">Import JSON</button>
       <button class="btn right" id="cfgClose">Close</button>
@@ -264,17 +266,56 @@
     <div class="note-sm">
       <div id="snapWrap" hidden>Local backups: <select id="snapSel" class="in" style="margin:6px 0;padding:6px 9px;font-size:12px"></select> <button class="btn" id="snapRestore" style="padding:5px 11px;font-size:12px">Restore</button></div>
       <div id="lastSync"></div>
-      <div style="margin-top:8px">The token is stored only in this browser. Revoke it any time from GitHub token settings &mdash; and note every gist revision is kept forever, so an overwrite is always recoverable from the gist's revision history.</div>
+      <div style="margin-top:8px">On a computer that isn't yours, hit <b>Forget this device</b> before you leave &mdash; it signs out and wipes the local copy of the board.</div>
     </div>
     <input type="file" id="fileIn" accept="application/json,.json" hidden>
+  </dialog>
+
+  <dialog id="pin">
+    <h3>Enter your PIN</h3>
+    <p>
+      Same PIN on every device you want in sync. Entered once per device, then remembered.
+      It never leaves this browser &mdash; it derives both where your board is stored and the
+      key it's encrypted with.
+    </p>
+    <input class="in" id="pinIn2" type="password" inputmode="numeric" autocomplete="off"
+           spellcheck="false" placeholder="6-digit PIN" maxlength="32">
+
+    <div id="pinNewWrap" hidden>
+      <label for="pinIn3">Confirm the new PIN</label>
+      <input class="in" id="pinIn3" type="password" inputmode="numeric" autocomplete="off"
+             spellcheck="false" placeholder="Repeat it" maxlength="32">
+    </div>
+
+    <div id="pinMsg"></div>
+    <div class="btns">
+      <button class="btn pri" id="pinGo">Unlock</button>
+      <button class="btn pri" id="pinCreate" hidden>Create a new board</button>
+      <button class="btn right" id="pinCancel">Cancel</button>
+    </div>
+    <div class="note-sm">
+      There is no reset: the PIN <i>is</i> the key, so nothing can recover your synced copy
+      without it. Your local copy and Export JSON are unaffected either way.
+    </div>
   </dialog>
 
   <script>
   (function () {
     'use strict';
 
+    /* ============================================================
+       DATABASE URL — fill this in once, then commit. See SETUP.md.
+
+       Firebase Realtime Database URL, e.g.
+         https://board-1234-default-rtdb.europe-west1.firebasedatabase.app
+
+       Not a secret, and nothing here identifies you: it's just an address. What keeps
+       the board private is your PIN, which never leaves the browser — it derives both
+       the unguessable path the data sits at and the key it's encrypted with.
+       ============================================================ */
+    var RTDB_URL = 'https://nathandecastro-web-default-rtdb.firebaseio.com';
+
     var K_STATE = 'board:state', K_CFG = 'board:cfg', K_SNAP = 'board:snapshots', K_CONF = 'board:conflict-backup';
-    var API = 'https://api.github.com';
     var $ = function (id) { return document.getElementById(id); };
 
     /* ---------------- helpers ---------------- */
@@ -295,7 +336,7 @@
     /* ---------------- state ---------------- */
     var BLANK = { v: 1, todos: [], note: '', habits: [], pins: [], updatedAt: 0 };
     var S = normalize(window.__S);
-    var cfg = readJSON(K_CFG) || { token: '', gistId: '', etag: '', lastSync: 0 };
+    var cfg = readJSON(K_CFG) || { path: '', keyB64: '', lastSync: 0 };
 
     function readJSON(k) { try { return JSON.parse(localStorage.getItem(k) || 'null'); } catch (e) { return null; } }
     function normalize(o) {
@@ -570,51 +611,191 @@
       if (document.activeElement !== noteEl) noteEl.value = S.note;
     }
 
-    /* ---------------- gist sync ---------------- */
-    var DOT_TITLE = { ok: 'Synced', sync: 'Syncing…', err: 'Sync failed', off: 'Sync not configured' };
-    function setDot(s, msg) {
+    /* ---------------- sync: PIN + Realtime Database ----------------
+       No auth SDK, no sign-in flow, no third-party script: just fetch().
+
+       Your PIN is stretched with PBKDF2 into two independent values — a secret path in
+       the database, and an AES key. The board is encrypted in the browser before it
+       leaves, so what's stored is ciphertext under a path nobody can guess or list.
+       The PIN itself is never transmitted anywhere.
+
+       PBKDF2 runs once, on unlock; the derived values are cached locally afterwards, so
+       every later load skips the key stretching entirely. */
+    var DOT_TITLE = { ok: 'Synced', sync: 'Syncing…', err: 'Sync failed', off: 'Locked' };
+    function setDot(s, m) {
       var d = $('dot');
       d.dataset.s = s;
-      d.title = msg || DOT_TITLE[s] || '';
-    }
-    function gh(path, opts) {
-      opts = opts || {};
-      opts.headers = Object.assign({
-        Authorization: 'Bearer ' + cfg.token,
-        Accept: 'application/vnd.github+json',
-        'X-GitHub-Api-Version': '2022-11-28'
-      }, opts.headers || {});
-      return fetch(API + path, opts);
+      d.title = m || DOT_TITLE[s] || '';
     }
 
+    /* PBKDF2 rounds. Measured at ~55 ms per derivation on a laptop, paid once per device
+       at unlock and never again, so this is set well above the usual recommendation.
+       Note the real protection for a 6-digit PIN is that guessing it requires a network
+       round trip per attempt: the ciphertext can't be fetched without already knowing the
+       path, and the path comes from the PIN. There is no offline attack to grind. */
+    var ITER = 600000;
+    var PIN_RE = /^\d{6,}$/;
+    var KEY = null, PATH = '';            // live crypto key + database path
     var pushT, pushing = false, dirty = false, pushAgain = false;
+
+    function rtdbConfigured() { return !!RTDB_URL; }
+    function unlocked() { return !!(KEY && PATH); }
+
+    /* ---- crypto helpers ---- */
+    function b64(buf) {
+      var a = new Uint8Array(buf), s = '';
+      for (var i = 0; i < a.length; i++) s += String.fromCharCode(a[i]);
+      return btoa(s);
+    }
+    function unb64(s) {
+      var bin = atob(s), a = new Uint8Array(bin.length);
+      for (var i = 0; i < bin.length; i++) a[i] = bin.charCodeAt(i);
+      return a;
+    }
+    function hex(buf) {
+      var a = new Uint8Array(buf), s = '';
+      for (var i = 0; i < a.length; i++) s += (a[i] < 16 ? '0' : '') + a[i].toString(16);
+      return s;
+    }
+
+    /* Turns a PIN into {path, key}. Slow on purpose — this is the only thing standing
+       between a guessed PIN and your board, so each guess must cost real time. */
+    function derive(pin) {
+      var enc = new TextEncoder();
+      return crypto.subtle.importKey('raw', enc.encode(pin), 'PBKDF2', false, ['deriveBits', 'deriveKey'])
+        .then(function (base) {
+          return Promise.all([
+            crypto.subtle.deriveBits(
+              { name: 'PBKDF2', salt: enc.encode('board.v1.path'), iterations: ITER, hash: 'SHA-256' }, base, 256),
+            crypto.subtle.deriveKey(
+              { name: 'PBKDF2', salt: enc.encode('board.v1.data'), iterations: ITER, hash: 'SHA-256' },
+              base, { name: 'AES-GCM', length: 256}, true, ['encrypt', 'decrypt'])
+          ]);
+        }).then(function (r) {
+          return crypto.subtle.exportKey('raw', r[1]).then(function (raw) {
+            return { path: hex(r[0]).slice(0, 32), keyB64: b64(raw) };
+          });
+        });
+    }
+    function importKey(keyB64) {
+      return crypto.subtle.importKey('raw', unb64(keyB64), 'AES-GCM', false, ['encrypt', 'decrypt']);
+    }
+    function encryptJSON(obj) {
+      var iv = crypto.getRandomValues(new Uint8Array(12));
+      return crypto.subtle.encrypt({ name: 'AES-GCM', iv: iv }, KEY, new TextEncoder().encode(JSON.stringify(obj)))
+        .then(function (ct) { return { iv: b64(iv), ct: b64(ct), updatedAt: obj.updatedAt }; });
+    }
+    function decryptJSON(rec) {
+      return crypto.subtle.decrypt({ name: 'AES-GCM', iv: unb64(rec.iv) }, KEY, unb64(rec.ct))
+        .then(function (pt) { return JSON.parse(new TextDecoder().decode(pt)); });
+    }
+
+    /* ---- unlock ----
+       A PIN is accepted only if a board actually exists at the path it derives. A wrong
+       PIN derives a different path, finds nothing, and is refused — it can never quietly
+       start a second board, which also means a typo can never end up overwriting the
+       real one. Creating the very first board is therefore a separate, deliberate step. */
+    function probe(path) {
+      return fetch(RTDB_URL.replace(/\/$/, '') + '/boards/' + path + '.json', { cache: 'no-store' })
+        .then(function (r) {
+          if (!r.ok) throw new Error('HTTP ' + r.status);
+          return r.json();
+        });
+    }
+
+    function activate(d, rec) {
+      PATH = d.path;
+      return importKey(d.keyB64).then(function (k) {
+        KEY = k;
+        cfg.path = d.path;
+        cfg.keyB64 = d.keyB64;
+        saveCfg();
+        updateAuthUI();
+        if (!rec) {                       // brand-new board: seed it from what's here
+          dirty = true;
+          return push(false);
+        }
+        return decryptJSON(rec).then(function (remote) {
+          /* Whatever was on this device is replaced, so stash it first. */
+          try { localStorage.setItem(K_CONF, JSON.stringify({ t: Date.now(), s: S })); } catch (e) { }
+          S = normalize(remote);
+          localStorage.setItem(K_STATE, JSON.stringify(S));
+          renderAll();
+          dirty = false;
+          cfg.lastSync = Date.now();
+          saveCfg();
+          setDot('ok', 'Board loaded');
+          checkStale();
+          return true;
+        });
+      });
+    }
+
+    /* create=false -> rejects an unrecognised PIN. create=true -> starts a new board. */
+    function unlockWithPin(pin, create) {
+      return derive(pin).then(function (d) {
+        return probe(d.path).then(function (rec) {
+          var exists = !!(rec && rec.ct);
+          if (!exists && !create) {
+            var e = new Error('no board for that PIN');
+            e.noBoard = true;
+            throw e;
+          }
+          if (exists && create) {
+            var e2 = new Error('a board already exists for that PIN');
+            e2.exists = true;
+            throw e2;
+          }
+          return activate(d, exists ? rec : null);
+        });
+      });
+    }
+
+    /* Restores the cached key on every later load — no PBKDF2, no prompt, no delay. */
+    function resumeUnlock() {
+      if (!cfg.path || !cfg.keyB64) { setDot('off', 'Enter your PIN to sync'); return Promise.resolve(false); }
+      PATH = cfg.path;
+      return importKey(cfg.keyB64).then(function (k) {
+        KEY = k;
+        updateAuthUI();
+        return pull(false);
+      }).catch(function () { setDot('err', 'Stored key unreadable — re-enter your PIN'); return false; });
+    }
+    function lockDevice(wipeBoard) {
+      KEY = null; PATH = '';
+      delete cfg.path; delete cfg.keyB64;
+      saveCfg();
+      if (wipeBoard) [K_STATE, K_CFG, K_SNAP, K_CONF].forEach(function (k) { localStorage.removeItem(k); });
+      updateAuthUI();
+    }
+
+    /* ---- database ---- */
+    function url() { return RTDB_URL.replace(/\/$/, '') + '/boards/' + PATH + '.json'; }
+
     function queuePush() {
       dirty = true;
-      if (!cfg.token) return;
+      if (!unlocked()) return;
       clearTimeout(pushT);
       pushT = setTimeout(function () { push(false); }, 2500);
     }
 
     /* Resolves true on success, false on failure — callers report accurate status. */
     function push(keepalive) {
-      if (!cfg.token) return Promise.resolve(false);
+      if (!unlocked()) return Promise.resolve(false);
       /* An edit landing mid-flight must not be dropped: remember to run again after. */
       if (pushing) { pushAgain = true; return Promise.resolve(false); }
       pushing = true;
       if (!keepalive) setDot('sync');
-      var body = JSON.stringify({
-        description: 'board',
-        files: { 'board.json': { content: JSON.stringify(S, null, 2) } }
-      });
-      var req = cfg.gistId
-        ? gh('/gists/' + cfg.gistId, { method: 'PATCH', body: body, keepalive: !!keepalive })
-        : gh('/gists', { method: 'POST', body: JSON.stringify({ description: 'board', public: false, files: { 'board.json': { content: JSON.stringify(S, null, 2) } } }), keepalive: !!keepalive });
-      return req.then(function (r) {
+
+      return encryptJSON(S).then(function (rec) {
+        return fetch(url() + '?print=silent', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(rec),
+          keepalive: !!keepalive
+        });
+      }).then(function (r) {
         if (!r.ok) throw new Error('HTTP ' + r.status);
-        return r.json();
-      }).then(function (g) {
-        if (g && g.id) { cfg.gistId = g.id; $('gid').value = g.id; }
-        cfg.etag = '';
         cfg.lastSync = Date.now();
         saveCfg();
         dirty = false;
@@ -622,7 +803,8 @@
         checkStale();
         return true;
       }).catch(function (err) {
-        setDot(navigator.onLine ? 'err' : 'off', navigator.onLine ? 'Sync failed: ' + err.message : 'Offline — changes saved locally');
+        setDot(navigator.onLine ? 'err' : 'off',
+               navigator.onLine ? 'Sync failed: ' + err.message : 'Offline — changes saved locally');
         checkStale();
         return false;
       }).then(function (ok) {
@@ -634,108 +816,170 @@
 
     /* Resolves true on success, false on failure. */
     function pull(force) {
-      if (!cfg.token || !cfg.gistId) return Promise.resolve(false);
+      if (!unlocked()) return Promise.resolve(false);
       setDot('sync');
-      var h = {};
-      if (cfg.etag && !force) h['If-None-Match'] = cfg.etag;
-      return gh('/gists/' + cfg.gistId, { headers: h, cache: 'no-store' }).then(function (r) {
-        if (r.status === 304) { cfg.lastSync = Date.now(); saveCfg(); setDot('ok'); return null; }
+      return fetch(url(), { cache: 'no-store' }).then(function (r) {
         if (!r.ok) throw new Error('HTTP ' + r.status);
-        cfg.etag = r.headers.get('ETag') || '';
         return r.json();
-      }).then(function (g) {
-        if (!g) return;
-        var f = g.files && g.files['board.json'];
-        if (!f) return;
-        if (f.truncated && f.raw_url) return fetch(f.raw_url).then(function (r) { return r.text(); });
-        return f.content;
-      }).then(function (txt) {
+      }).then(function (rec) {
         cfg.lastSync = Date.now();
         saveCfg();
         checkStale();
-        if (!txt) { setDot('ok'); return true; }
-        var remote = normalize(JSON.parse(txt));
-        if (remote.updatedAt > S.updatedAt) {
+        if (!rec || !rec.ct) {                 // record vanished; re-seed it from here
+          setDot('ok');
+          push(false);
+          return true;
+        }
+        /* updatedAt rides outside the ciphertext so ordering costs no decrypt. */
+        if ((rec.updatedAt || 0) <= S.updatedAt) {
+          if (S.updatedAt > (rec.updatedAt || 0)) { setDot('ok'); push(false); }
+          else { dirty = false; setDot('ok'); }
+          return true;
+        }
+        return decryptJSON(rec).then(function (remote) {
+          remote = normalize(remote);
           /* Remote wins, but never silently: stash the local copy first. */
           try { localStorage.setItem(K_CONF, JSON.stringify({ t: Date.now(), s: S })); } catch (e) { }
           S = remote;
           localStorage.setItem(K_STATE, JSON.stringify(S));
           renderAll();
-          setDot('ok', 'Pulled newer version from Gist');
-        } else if (S.updatedAt > remote.updatedAt) {
-          setDot('ok');
-          push(false);
-        } else {
           dirty = false;
-          setDot('ok');
-        }
-        return true;
+          setDot('ok', 'Pulled newer version');
+          return true;
+        });
       }).catch(function (err) {
-        setDot(navigator.onLine ? 'err' : 'off', navigator.onLine ? 'Sync failed: ' + err.message : 'Offline');
+        var wrong = /operation-specific reason|OperationError/i.test(err.message || '');
+        setDot(navigator.onLine ? 'err' : 'off',
+               !navigator.onLine ? 'Offline — changes saved locally'
+                 : wrong ? 'Wrong PIN for this data' : 'Sync failed: ' + err.message);
         checkStale();
         return false;
       });
     }
 
-    /* A quietly dead token that stops backing you up for months is the real failure
-       mode here, so it escalates to a banner rather than staying a subtle dot. */
+    /* Sync that quietly stops working for months is the real failure mode here, so it
+       escalates to a banner rather than staying a subtle dot. */
     function checkStale() {
       var el = $('stale');
-      if (!cfg.token) { el.hidden = true; return; }
+      if (!unlocked()) { el.hidden = true; return; }
       var age = Date.now() - (cfg.lastSync || 0);
       if (age > 864e5) {
         $('staleTxt').textContent = cfg.lastSync
-          ? 'Not synced to GitHub in ' + Math.floor(age / 864e5) + ' days — your token may have been revoked.'
-          : 'Never synced to GitHub yet.';
+          ? 'Not synced in ' + Math.floor(age / 864e5) + ' days — changes are only on this device.'
+          : 'Unlocked, but nothing has synced yet.';
         el.hidden = false;
       } else el.hidden = true;
     }
 
-    window.addEventListener('pagehide', function () { if (dirty && cfg.token) push(true); });
+    function updateAuthUI() {
+      $('btnAuth').hidden = unlocked() || !rtdbConfigured();
+      if ($('cfg').open) refreshCfg();
+    }
+
+    window.addEventListener('pagehide', function () { if (dirty && unlocked()) push(true); });
     window.addEventListener('online', function () { if (dirty) push(false); });
     window.addEventListener('offline', function () { setDot('off', 'Offline — changes saved locally'); });
     document.addEventListener('visibilitychange', function () {
-      if (document.visibilityState === 'visible' && cfg.token) { if (dirty) push(false); else pull(false); }
+      if (document.visibilityState === 'visible' && unlocked()) { if (dirty) push(false); else pull(false); }
     });
+
+    /* ---- PIN dialog ---- */
+    var pinDlg = $('pin');
+    function pinMsg(t, cls) { var m = $('pinMsg'); m.textContent = t; m.className = cls || ''; }
+    function showCreate(on) {
+      $('pinNewWrap').hidden = !on;
+      $('pinCreate').hidden = !on;
+      $('pinGo').hidden = on;
+    }
+    function askPin() {
+      $('pinIn2').value = '';
+      $('pinIn3').value = '';
+      pinMsg('');
+      showCreate(false);
+      pinDlg.showModal();
+      $('pinIn2').focus();
+    }
+    function valid(v) {
+      if (!PIN_RE.test(v)) { pinMsg('Your PIN must be at least 6 digits.', 'err'); return false; }
+      return true;
+    }
+    function submitPin() {
+      var v = $('pinIn2').value.trim();
+      if (!valid(v)) return;
+      pinMsg('Checking…');
+      setDot('sync', 'Unlocking…');
+      $('pinGo').disabled = true;
+      unlockWithPin(v, false).then(function () {
+        pinDlg.close();
+      }).catch(function (e) {
+        if (e.noBoard) {
+          pinMsg('That PIN doesn’t match a board.', 'err');
+          setDot('off', 'Locked');
+          /* Offer to start one only after a miss, so this can't be hit by reflex. */
+          showCreate(true);
+          $('pinIn3').focus();
+        } else {
+          pinMsg('Could not check: ' + (e.message || e), 'err');
+          setDot('err', 'Sync unavailable');
+        }
+      }).then(function () { $('pinGo').disabled = false; });
+    }
+    function createBoard() {
+      var v = $('pinIn2').value.trim(), c = $('pinIn3').value.trim();
+      if (!valid(v)) return;
+      if (v !== c) { pinMsg('The two PINs don’t match.', 'err'); return; }
+      pinMsg('Creating…');
+      setDot('sync', 'Creating…');
+      $('pinCreate').disabled = true;
+      unlockWithPin(v, true).then(function () {
+        pinDlg.close();
+      }).catch(function (e) {
+        pinMsg(e.exists ? 'A board already exists for that PIN — unlock it instead.'
+                        : 'Could not create: ' + (e.message || e), 'err');
+        if (e.exists) showCreate(false);
+      }).then(function () { $('pinCreate').disabled = false; });
+    }
+    $('btnAuth').addEventListener('click', askPin);
+    $('pinGo').addEventListener('click', submitPin);
+    $('pinCreate').addEventListener('click', createBoard);
+    $('pinIn2').addEventListener('keydown', function (e) { if (e.key === 'Enter') ($('pinCreate').hidden ? submitPin : createBoard)(); });
+    $('pinIn3').addEventListener('keydown', function (e) { if (e.key === 'Enter') createBoard(); });
+    $('pinCancel').addEventListener('click', function () { pinDlg.close(); });
+
 
     /* ---------------- settings ---------------- */
     var dlg = $('cfg');
     function msg(t, cls) { var m = $('cfgMsg'); m.textContent = t; m.className = cls || ''; }
-    function openCfg() {
-      $('tok').value = cfg.token;
-      $('gid').value = cfg.gistId;
-      msg('');
+    function refreshCfg() {
+      var on = unlocked();
+      $('btnSignIn').hidden = on;
+      $('btnForget').hidden = !on;
+      $('acctLine').innerHTML = !rtdbConfigured()
+        ? 'Sync is not configured in this page yet &mdash; the database URL at the top of the page source is still empty.'
+        : on
+          ? 'Unlocked. This board syncs automatically, encrypted with your PIN.'
+          : 'Enter your PIN to sync this board across devices.';
       $('lastSync').textContent = cfg.lastSync ? 'Last sync: ' + new Date(cfg.lastSync).toLocaleString() : 'Never synced.';
       var snaps = readJSON(K_SNAP) || [];
       $('snapWrap').hidden = !snaps.length;
       $('snapSel').innerHTML = snaps.map(function (s, i) {
         return '<option value="' + i + '">' + new Date(s.t).toLocaleString() + '</option>';
       }).join('');
+    }
+    function openCfg() {
+      msg('');
+      refreshCfg();
       dlg.showModal();
     }
     $('btnCfg').addEventListener('click', openCfg);
     $('staleFix').addEventListener('click', openCfg);
     $('cfgClose').addEventListener('click', function () { dlg.close(); });
-    $('cfgSave').addEventListener('click', function () {
-      cfg.token = $('tok').value.trim();
-      cfg.gistId = $('gid').value.trim();
-      cfg.etag = '';
-      saveCfg();
-      if (!cfg.token) { setDot('off'); msg('Token cleared — sync disabled.', ''); checkStale(); return; }
-      msg('Syncing…', '');
-      var hadGist = !!cfg.gistId;
-      (hadGist ? pull(true) : push(false)).then(function (ok) {
-        msg(ok ? (hadGist ? 'Synced.' : 'Synced — new secret Gist created and its ID saved.')
-               : 'Sync failed — check the token has the gist scope and the Gist ID is right.',
-            ok ? 'ok' : 'err');
-        $('gid').value = cfg.gistId;
-        $('lastSync').textContent = cfg.lastSync ? 'Last sync: ' + new Date(cfg.lastSync).toLocaleString() : 'Never synced.';
-      });
-    });
-    $('cfgPull').addEventListener('click', function () {
-      if (!cfg.token || !cfg.gistId) { msg('Set a token and Gist ID first.', 'err'); return; }
-      msg('Pulling…', '');
-      pull(true).then(function (ok) { msg(ok ? 'Pulled.' : 'Pull failed.', ok ? 'ok' : 'err'); });
+
+    $('btnSignIn').addEventListener('click', function () { dlg.close(); askPin(); });
+    $('btnForget').addEventListener('click', function () {
+      if (!confirm('Erase this board and your PIN from this device? Your synced copy is untouched — the same PIN gets it back.')) return;
+      lockDevice(true);
+      location.reload();
     });
     $('cfgExport').addEventListener('click', function () {
       var a = document.createElement('a');
@@ -772,14 +1016,15 @@
     setInterval(tick, 15000);
     $('todoIn').focus();
 
-    if (cfg.token) { setDot('ok', cfg.lastSync ? 'Last sync ' + new Date(cfg.lastSync).toLocaleString() : 'Not synced yet'); checkStale(); }
-    if (!navigator.onLine) setDot('off');
+    setDot('off', rtdbConfigured() ? 'Enter your PIN to sync' : 'Sync not configured in this page');
+    updateAuthUI();
+    if (!navigator.onLine) setDot('off', 'Offline — changes saved locally');
 
-    /* Everything below is deferred until after the first paint. */
+    /* Everything below is deferred until after the first paint, so the board is on
+       screen and usable before any network or crypto work begins. */
     var idle = window.requestIdleCallback || function (f) { return setTimeout(f, 200); };
     idle(function () {
-      if (cfg.token && cfg.gistId) pull(false);
-      else if (cfg.token) push(false);
+      if (rtdbConfigured()) resumeUnlock();
       if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(function () { });
     });
   })();
