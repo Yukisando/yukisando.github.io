@@ -1014,7 +1014,8 @@
     tick();
     renderAll();
     setInterval(tick, 15000);
-    $('todoIn').focus();
+    /* No autofocus on boot: this page is used as a new-tab page, and focusing an input
+       here would pull the caret out of the address bar. Click a field to type in it. */
 
     setDot('off', rtdbConfigured() ? 'Enter your PIN to sync' : 'Sync not configured in this page');
     updateAuthUI();
