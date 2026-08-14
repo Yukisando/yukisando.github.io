@@ -1,0 +1,10 @@
+{
+  "manifest_version": 3,
+  "name": "Board New Tab",
+  "version": "1.0.0",
+  "description": "Opens the board on new tabs while leaving keyboard focus in the address bar.",
+  "permissions": ["tabs"],
+  "background": {
+    "service_worker": "background.js"
+  }
+}
