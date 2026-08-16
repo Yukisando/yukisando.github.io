@@ -79,8 +79,11 @@ Two rules worth knowing:
   break only paints on the first fragment, which left page 2's sidebar half-filled.
 - Both columns use `box-decoration-break: clone` so their top padding repeats on page 2
   and the two columns start at the same height.
-- Sidebar sections use `break-inside: avoid` so a block never splits across pages —
-  except Technical Skills, which flows, otherwise it strands a large gap at the foot of
-  page 1.
+- Sidebar sections use `break-inside: avoid` so a block never splits across pages.
+- **Technical Skills always opens page 2** (`break-before: page`). It is too long to fit
+  whole under Education on page 1, and splitting it mid-section read as an accident. The
+  forced break applies to the sidebar column only; the main column keeps flowing across
+  the page boundary untouched. So page 1's sidebar is Contact / Languages / Education,
+  and page 2's is Technical Skills / Certificates.
 - Comfortaa ships no italic. Accents use colour and weight instead of a synthesised
   oblique, which looks broken on a rounded face.

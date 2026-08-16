@@ -358,11 +358,15 @@ html, body {
 h1.name { font-size: ${pt(17)}; font-weight: 700; color: var(--ink); margin: 0 0 1mm; letter-spacing: -0.2px; }
 .title   { font-size: ${pt(9.6)}; color: var(--brandText); font-weight: 600; margin: 0 0 7mm; }
 
-/* Keep a sidebar block whole rather than splitting it across the page break.
-   Skills is the exception: it is long, and forcing it whole would strand a large
-   blank gap at the foot of page 1, so it flows and only its groups stay intact. */
+/* Keep a sidebar block whole rather than splitting it across the page break. */
 .sb-section { margin-bottom: 6.5mm; break-inside: avoid; }
+/* Skills always opens page 2: it is too long to sit whole under Education on
+   page 1, and splitting it mid-section read as an accident. The forced break
+   applies to the sidebar column only — the main column keeps flowing. It stays
+   break-inside: auto as a safety valve, so growth spills to a third page (which
+   the page-count guard then catches) rather than overflowing the sheet. */
 .sb-section--flow { break-inside: auto; }
+.sb-section--skills { break-before: page; }
 .edu-item, .cert-item, .skill-group { break-inside: avoid; }
 .sb-h { break-after: avoid; }
 .sb-h {
@@ -461,7 +465,7 @@ function render(doc, lang, cfg) {
         )
         .join('')}
     </div>
-    <div class="sb-section sb-section--flow">
+    <div class="sb-section sb-section--flow sb-section--skills">
       <div class="sb-h">${t(sectionTitle(doc, 'skills', cfg))}</div>
       ${doc.skills
         .map(
