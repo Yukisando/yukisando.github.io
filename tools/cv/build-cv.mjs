@@ -31,9 +31,14 @@ const BUILD = join(HERE, '.build')
 // Per-language wording so the parser can tell which "##" section is which,
 // plus a type scale. French runs ~15% longer than English, so it gets a
 // slightly tighter scale to hold the same two pages.
+//
+// `layout` picks the sheet design:
+//   'single'  — full-bleed masthead, then one full-width column
+//   'sidebar' — 62mm tinted rail running down every page
 const LANGS = {
   en: {
     scale: 1.0,
+    layout: 'single',
     headings: {
       profile: 'profile',
       skills: 'technical skills',
@@ -46,6 +51,7 @@ const LANGS = {
   },
   fr: {
     scale: 0.95,
+    layout: 'sidebar',
     headings: {
       profile: 'profil',
       skills: 'compétences techniques',
@@ -204,13 +210,17 @@ function parseCv(md, cfg) {
     .filter((l) => l && l !== '---')
     .join(' ')
 
-  /* skills: "**Label:** a, b, c" -> chips */
+  /* skills: "**Label:** a, b, c" -> chips.
+     `items` keeps the markdown verbatim for the full-width layout, `chips`
+     is the shortened form the narrow sidebar needs. */
   for (const raw of get('skills')) {
     const m = raw.trim().match(/^\*\*(.+?)\s*:?\s*\*\*\s*:?\s*(.+)$/)
     if (!m) continue
+    const items = splitTopLevel(m[2])
     doc.skills.push({
       label: m[1].replace(/\s*:$/, '').trim(),
-      chips: splitTopLevel(m[2]).map(chipLabel),
+      items,
+      chips: items.map(chipLabel),
     })
   }
 
@@ -316,23 +326,20 @@ function fontFace() {
     .join('')
 }
 
-function css(scale) {
+function css(scale, layout) {
   // Every type size flows from `scale`, so tuning the whole sheet is one number.
   const pt = (n) => `${(n * scale).toFixed(2)}pt`
+  return baseCss(pt) + (layout === 'single' ? singleCss(pt) : sidebarCss(pt))
+}
+
+/** Type, colour and the main-column blocks both layouts share. */
+function baseCss(pt) {
   return `
 ${fontFace()}
 @page { size: A4; margin: 0; }
 *, *::before, *::after { box-sizing: border-box; }
 
-/* The sidebar band is painted at the canvas level so it repeats on EVERY page,
-   full bleed. Backgrounds on a fragmented element are unreliable when printing. */
-html {
-  background-color: #fff;
-  background-image: linear-gradient(to right,
-    #f4f6f7 0mm, #f4f6f7 62mm,
-    #e2e6e9 62mm, #e2e6e9 62.3mm,
-    #fff 62.3mm, #fff 100%);
-}
+html { background: #fff; }
 html, body {
   margin: 0; padding: 0;
   font-family: 'Comfortaa', 'Segoe UI', Arial, sans-serif;
@@ -350,52 +357,11 @@ html, body {
   --rule: #dce1e5;
 }
 
-.page { width: 210mm; min-height: 297mm; display: grid; grid-template-columns: 62mm 1fr; }
-/* clone repeats the padding on page 2 so both columns start at the same offset */
-.sidebar { padding: 12mm 7mm 10mm 10mm; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
-.main    { padding: 12mm 11mm 10mm 9mm;  box-decoration-break: clone; -webkit-box-decoration-break: clone; }
-
-h1.name { font-size: ${pt(17)}; font-weight: 700; color: var(--ink); margin: 0 0 1mm; letter-spacing: -0.2px; }
-.title   { font-size: ${pt(9.6)}; color: var(--brandText); font-weight: 600; margin: 0 0 7mm; }
-
-/* Keep a sidebar block whole rather than splitting it across the page break. */
-.sb-section { margin-bottom: 6.5mm; break-inside: avoid; }
-/* Skills always opens page 2: it is too long to sit whole under Education on
-   page 1, and splitting it mid-section read as an accident. The forced break
-   applies to the sidebar column only — the main column keeps flowing. It stays
-   break-inside: auto as a safety valve, so growth spills to a third page (which
-   the page-count guard then catches) rather than overflowing the sheet. */
-.sb-section--flow { break-inside: auto; }
-.sb-section--skills { break-before: page; }
-.edu-item, .cert-item, .skill-group { break-inside: avoid; }
-.sb-h { break-after: avoid; }
-.sb-h {
-  font-size: ${pt(7.6)}; font-weight: 700; text-transform: uppercase;
-  letter-spacing: 0.6px; color: var(--brandText);
-  margin: 0 0 2.2mm; padding-bottom: 1mm; border-bottom: 1px solid var(--rule);
-}
-
-.contact-list { list-style: none; margin: 0; padding: 0; }
-.contact-list li { font-size: ${pt(7.8)}; color: var(--sub); margin-bottom: 1.5mm; word-break: break-word; }
-
-.lang-row { display: flex; justify-content: space-between; gap: 2mm; font-size: ${pt(7.8)}; color: var(--sub); margin-bottom: 1mm; }
-.lang-row b { color: var(--ink); font-weight: 600; }
-
-.skill-group { margin-bottom: 2.8mm; }
-.skill-group .lbl { font-size: ${pt(7.6)}; font-weight: 700; color: var(--ink); margin-bottom: 1mm; }
 .chips { display: flex; flex-wrap: wrap; gap: 1.1mm; }
 .chip {
   background: #fff; border: 1px solid var(--rule); color: var(--sub);
   border-radius: 3px; padding: 0.5mm 1.5mm; font-size: ${pt(6.9)}; line-height: 1.5;
 }
-
-.edu-item, .cert-item { margin-bottom: 2.8mm; }
-.edu-item:last-child, .cert-item:last-child { margin-bottom: 0; }
-.edu-degree { font-size: ${pt(7.9)}; font-weight: 700; color: var(--ink); }
-.edu-school { font-size: ${pt(7.6)}; color: var(--sub); }
-.edu-note   { font-size: ${pt(7.2)}; color: var(--sub); margin-top: 0.4mm; }
-.cert-item  { font-size: ${pt(7.8)}; color: var(--sub); }
-.cert-item b { color: var(--ink); }
 
 .m-section { margin-bottom: 4.8mm; }
 .m-h {
@@ -433,10 +399,182 @@ em { font-style: normal; color: var(--sub); }
 `
 }
 
+/** Layout A — 62mm tinted rail down the left of every page. Used by fr. */
+function sidebarCss(pt) {
+  return `
+/* The sidebar band is painted at the canvas level so it repeats on EVERY page,
+   full bleed. Backgrounds on a fragmented element are unreliable when printing. */
+html {
+  background-color: #fff;
+  background-image: linear-gradient(to right,
+    #f4f6f7 0mm, #f4f6f7 62mm,
+    #e2e6e9 62mm, #e2e6e9 62.3mm,
+    #fff 62.3mm, #fff 100%);
+}
+
+.page { width: 210mm; min-height: 297mm; display: grid; grid-template-columns: 62mm 1fr; }
+/* clone repeats the padding on page 2 so both columns start at the same offset */
+.sidebar { padding: 12mm 7mm 10mm 10mm; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+.main    { padding: 12mm 11mm 10mm 9mm;  box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+
+h1.name { font-size: ${pt(17)}; font-weight: 700; color: var(--ink); margin: 0 0 1mm; letter-spacing: -0.2px; }
+.title   { font-size: ${pt(9.6)}; color: var(--brandText); font-weight: 600; margin: 0 0 7mm; }
+
+/* Keep a sidebar block whole rather than splitting it across the page break. */
+.sb-section { margin-bottom: 6.5mm; break-inside: avoid; }
+/* Skills always opens page 2: it is too long to sit whole under Education on
+   page 1, and splitting it mid-section read as an accident. The forced break
+   applies to the sidebar column only — the main column keeps flowing. It stays
+   break-inside: auto as a safety valve, so growth spills to a third page (which
+   the page-count guard then catches) rather than overflowing the sheet. */
+.sb-section--flow { break-inside: auto; }
+.sb-section--skills { break-before: page; }
+.edu-item, .cert-item, .skill-group { break-inside: avoid; }
+.sb-h { break-after: avoid; }
+.sb-h {
+  font-size: ${pt(7.6)}; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.6px; color: var(--brandText);
+  margin: 0 0 2.2mm; padding-bottom: 1mm; border-bottom: 1px solid var(--rule);
+}
+
+.contact-list { list-style: none; margin: 0; padding: 0; }
+.contact-list li { font-size: ${pt(7.8)}; color: var(--sub); margin-bottom: 1.5mm; word-break: break-word; }
+
+.lang-row { display: flex; justify-content: space-between; gap: 2mm; font-size: ${pt(7.8)}; color: var(--sub); margin-bottom: 1mm; }
+.lang-row b { color: var(--ink); font-weight: 600; }
+
+.skill-group { margin-bottom: 2.8mm; }
+.skill-group .lbl { font-size: ${pt(7.6)}; font-weight: 700; color: var(--ink); margin-bottom: 1mm; }
+
+.edu-item, .cert-item { margin-bottom: 2.8mm; }
+.edu-item:last-child, .cert-item:last-child { margin-bottom: 0; }
+.edu-degree { font-size: ${pt(7.9)}; font-weight: 700; color: var(--ink); }
+.edu-school { font-size: ${pt(7.6)}; color: var(--sub); }
+.edu-note   { font-size: ${pt(7.2)}; color: var(--sub); margin-top: 0.4mm; }
+.cert-item  { font-size: ${pt(7.8)}; color: var(--sub); }
+.cert-item b { color: var(--ink); }
+`
+}
+
+/**
+ * Layout B — full-bleed masthead, then a single full-width column. Used by en.
+ * No rail, so body copy gets the whole 210mm minus margins; skills become a
+ * label/value grid and education runs two-up at the foot of the document.
+ */
+function singleCss(pt) {
+  return `
+/* clone repeats the page padding on page 2, so the sheet keeps its margins
+   after the break instead of running text into the top edge. */
+.sheet {
+  width: 210mm; min-height: 297mm; padding: 14mm 15mm 12mm;
+  box-decoration-break: clone; -webkit-box-decoration-break: clone;
+}
+
+/* Negative margins pull the band out to the paper edge, through the padding. */
+.masthead {
+  margin: -14mm -15mm 6mm; padding: 13mm 15mm 6mm;
+  background: #f4f6f7; border-bottom: 1.6px solid var(--brand);
+  display: flex; justify-content: space-between; align-items: flex-end; gap: 8mm;
+}
+h1.name { font-size: ${pt(20)}; font-weight: 700; color: var(--ink); margin: 0 0 1.2mm; letter-spacing: -0.3px; }
+.title  { font-size: ${pt(10.4)}; color: var(--brandText); font-weight: 600; margin: 0; }
+.mh-langs { font-size: ${pt(7.6)}; color: var(--sub); margin-top: 2.2mm; }
+.mh-langs b { color: var(--ink); font-weight: 600; }
+.contact-list { list-style: none; margin: 0; padding: 0; text-align: right; }
+.contact-list li { font-size: ${pt(7.8)}; color: var(--sub); margin-bottom: 1.1mm; white-space: nowrap; }
+.contact-list li:last-child { margin-bottom: 0; }
+
+/* Section rules here are a short brand tick rather than a full underline, so a
+   full-width column does not read as a stack of horizontal bars. */
+.m-h {
+  font-size: ${pt(9.4)}; text-transform: uppercase; letter-spacing: 1.1px;
+  border-bottom: none; padding: 0 0 1.4mm; margin: 0 0 2.6mm;
+  border-left: 2.2mm solid var(--brand); padding-left: 2.4mm;
+  break-after: avoid;
+}
+.m-section { margin-bottom: 5.4mm; }
+.m-section:last-child { margin-bottom: 0; }
+
+/* skills: label column + flowing values, full markdown text (the rail's
+   abbreviations are not needed at this width) */
+.skills-grid { display: grid; grid-template-columns: 30mm 1fr; gap: 1.8mm 3mm; }
+.skill-group { display: contents; }
+.skill-group .lbl {
+  font-size: ${pt(7.8)}; font-weight: 700; color: var(--ink);
+  padding-top: 0.5mm; break-inside: avoid;
+}
+
+/* education runs two-up; certificates are a single inline row under it */
+.edu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3.2mm 8mm; }
+.edu-item { break-inside: avoid; }
+.edu-degree { font-size: ${pt(8.2)}; font-weight: 700; color: var(--ink); }
+.edu-school { font-size: ${pt(7.8)}; color: var(--sub); }
+.edu-note   { font-size: ${pt(7.4)}; color: var(--sub); margin-top: 0.4mm; }
+.cert-row { display: flex; flex-wrap: wrap; gap: 1.4mm 5mm; font-size: ${pt(7.8)}; color: var(--sub); }
+.cert-row b { color: var(--ink); font-weight: 600; }
+`
+}
+
 function render(doc, lang, cfg) {
   const t = (s) => (lang === 'fr' ? frenchSpacing(escapeHtml(s)) : escapeHtml(s))
   const md = (s) => inline(s, lang)
+  const body =
+    cfg.layout === 'single'
+      ? singleBody(doc, cfg, t, md)
+      : sidebarBody(doc, cfg, t, md)
 
+  return `<!doctype html>
+<html lang="${lang}">
+<head><meta charset="utf-8"><title>${t(doc.name)} — CV</title><style>${css(
+    cfg.scale,
+    cfg.layout
+  )}</style></head>
+<body>
+${body}
+</body>
+</html>`
+}
+
+/* ---------------------------------------------------- blocks shared by both */
+
+const renderJobs = (doc, t, md) =>
+  doc.jobs
+    .map(
+      (j) => `<div class="job">
+      <div class="job-head">
+        <span class="job-role">${t(j.role)}${
+        j.company ? ` <span class="job-co">— ${t(j.company)}</span>` : ''
+      }${j.companyNote ? ` <span class="job-note">(${t(j.companyNote)})</span>` : ''}</span>
+        ${j.meta ? `<span class="job-meta">${t(j.meta)}</span>` : ''}
+      </div>
+      ${j.intro.map((p) => `<p class="job-intro">${md(p)}</p>`).join('')}
+      ${
+        j.bullets.length
+          ? `<ul class="bullets">${j.bullets.map((b) => `<li>${md(b)}</li>`).join('')}</ul>`
+          : ''
+      }
+    </div>`
+    )
+    .join('')
+
+const renderProjects = (doc, t, md) =>
+  doc.projectGroups
+    .map(
+      (g) => `<div class="proj-group-lbl">${t(g.label)}</div>
+      <ul class="bullets">${g.items.map((i) => `<li>${md(i)}</li>`).join('')}</ul>`
+    )
+    .join('') + (doc.projectNote ? `<div class="os-note">${md(doc.projectNote)}</div>` : '')
+
+const renderEduItem = (e, md) => `<div class="edu-item">
+        <div class="edu-degree">${md(e.degree)}</div>
+        <div class="edu-school">${md(e.school)}</div>
+        ${e.honours ? `<div class="edu-note">${md(e.honours)}</div>` : ''}
+        ${e.detail ? `<div class="edu-note">${md(e.detail)}</div>` : ''}
+      </div>`
+
+/* --------------------------------------------------- layout A: left sidebar */
+
+function sidebarBody(doc, cfg, t, md) {
   const sidebar = `
     <div class="sb-section">
       <div class="sb-h">${t(cfg.sidebar.contact)}</div>
@@ -454,16 +592,7 @@ function render(doc, lang, cfg) {
     }
     <div class="sb-section">
       <div class="sb-h">${t(sectionTitle(doc, 'education', cfg))}</div>
-      ${doc.education
-        .map(
-          (e) => `<div class="edu-item">
-        <div class="edu-degree">${md(e.degree)}</div>
-        <div class="edu-school">${md(e.school)}</div>
-        ${e.honours ? `<div class="edu-note">${md(e.honours)}</div>` : ''}
-        ${e.detail ? `<div class="edu-note">${md(e.detail)}</div>` : ''}
-      </div>`
-        )
-        .join('')}
+      ${doc.education.map((e) => renderEduItem(e, md)).join('')}
     </div>
     <div class="sb-section sb-section--flow sb-section--skills">
       <div class="sb-h">${t(sectionTitle(doc, 'skills', cfg))}</div>
@@ -490,37 +619,7 @@ function render(doc, lang, cfg) {
         : ''
     }`
 
-  const jobs = doc.jobs
-    .map(
-      (j) => `<div class="job">
-      <div class="job-head">
-        <span class="job-role">${t(j.role)}${
-        j.company ? ` <span class="job-co">— ${t(j.company)}</span>` : ''
-      }${j.companyNote ? ` <span class="job-note">(${t(j.companyNote)})</span>` : ''}</span>
-        ${j.meta ? `<span class="job-meta">${t(j.meta)}</span>` : ''}
-      </div>
-      ${j.intro.map((p) => `<p class="job-intro">${md(p)}</p>`).join('')}
-      ${
-        j.bullets.length
-          ? `<ul class="bullets">${j.bullets.map((b) => `<li>${md(b)}</li>`).join('')}</ul>`
-          : ''
-      }
-    </div>`
-    )
-    .join('')
-
-  const projects = doc.projectGroups
-    .map(
-      (g) => `<div class="proj-group-lbl">${t(g.label)}</div>
-      <ul class="bullets">${g.items.map((i) => `<li>${md(i)}</li>`).join('')}</ul>`
-    )
-    .join('')
-
-  return `<!doctype html>
-<html lang="${lang}">
-<head><meta charset="utf-8"><title>${t(doc.name)} — CV</title><style>${css(cfg.scale)}</style></head>
-<body>
-<div class="page">
+  return `<div class="page">
   <div class="sidebar">${sidebar}</div>
   <div class="main">
     <h1 class="name">${t(doc.name)}</h1>
@@ -533,18 +632,81 @@ function render(doc, lang, cfg) {
 
     <div class="m-section">
       <div class="m-h">${t(sectionTitle(doc, 'experience', cfg))}</div>
-      ${jobs}
+      ${renderJobs(doc, t, md)}
     </div>
 
     <div class="m-section">
       <div class="m-h">${t(sectionTitle(doc, 'projects', cfg))}</div>
-      ${projects}
-      ${doc.projectNote ? `<div class="os-note">${md(doc.projectNote)}</div>` : ''}
+      ${renderProjects(doc, t, md)}
     </div>
   </div>
-</div>
-</body>
-</html>`
+</div>`
+}
+
+/* ------------------------------------------- layout B: masthead + one column */
+
+function singleBody(doc, cfg, t, md) {
+  const langs = doc.languages
+    .map((l) => `${t(l.name)} <b>(${t(l.level)})</b>`)
+    .join(' · ')
+
+  return `<div class="sheet">
+  <header class="masthead">
+    <div>
+      <h1 class="name">${t(doc.name)}</h1>
+      <div class="title">${t(doc.title)}</div>
+      ${langs ? `<div class="mh-langs">${t(cfg.sidebar.languages)} — ${langs}</div>` : ''}
+    </div>
+    <ul class="contact-list">${doc.contact.map((c) => `<li>${t(c)}</li>`).join('')}</ul>
+  </header>
+
+  <div class="m-section">
+    <div class="m-h">${t(sectionTitle(doc, 'profile', cfg))}</div>
+    <p class="profile-text">${md(doc.profile)}</p>
+  </div>
+
+  <div class="m-section">
+    <div class="m-h">${t(sectionTitle(doc, 'skills', cfg))}</div>
+    <div class="skills-grid">
+      ${doc.skills
+        .map(
+          (s) => `<div class="skill-group">
+        <div class="lbl">${t(s.label)}</div>
+        <div class="chips">${s.items.map((i) => `<span class="chip">${t(i)}</span>`).join('')}</div>
+      </div>`
+        )
+        .join('')}
+    </div>
+  </div>
+
+  <div class="m-section">
+    <div class="m-h">${t(sectionTitle(doc, 'experience', cfg))}</div>
+    ${renderJobs(doc, t, md)}
+  </div>
+
+  <div class="m-section">
+    <div class="m-h">${t(sectionTitle(doc, 'projects', cfg))}</div>
+    ${renderProjects(doc, t, md)}
+  </div>
+
+  <div class="m-section">
+    <div class="m-h">${t(sectionTitle(doc, 'education', cfg))}</div>
+    <div class="edu-grid">${doc.education.map((e) => renderEduItem(e, md)).join('')}</div>
+  </div>
+
+  ${
+    doc.certificates.length
+      ? `<div class="m-section">
+    <div class="m-h">${t(sectionTitle(doc, 'certificates', cfg))}</div>
+    <div class="cert-row">${doc.certificates
+      .map(
+        (c) => `<span><b>${t(c.name)}</b>${c.issuer ? ` — ${t(c.issuer)}` : ''}</span>`
+      )
+      .join('')}</div>
+  </div>`
+      : ''
+  }
+</div>`
 }
 
 // Section headings are shown exactly as written in the markdown.

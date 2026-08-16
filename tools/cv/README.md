@@ -52,10 +52,10 @@ Keep the existing shape; the parser is deliberately small.
 | --- | --- |
 | `# Name` | header name |
 | `**Title**` (own line) | role under the name |
-| `A · B · C` (own line) | sidebar contact list |
-| `French/English (native)` inside that line | sidebar **Languages** block |
+| `A · B · C` (own line) | contact list |
+| `French/English (native)` inside that line | the **Languages** block |
 | `## <heading>` | a section — the heading text must match `LANGS.<lang>.headings` |
-| `**Label:** a, b, c` under skills | a sidebar chip group |
+| `**Label:** a, b, c` under skills | a labelled chip group |
 | `### Role, Company` | job header; a trailing `(note)` on the company renders muted |
 | `*Location · Dates*` under it | right-aligned job meta |
 | plain line before the bullets | un-bulleted role summary |
@@ -65,14 +65,38 @@ Keep the existing shape; the parser is deliberately small.
 
 Two rules worth knowing:
 
-- **Chips drop parenthetical detail**, since the sidebar column is narrow.
-  `Firebase (Authentication, Firestore, …)` renders as `Firebase`. A short all-caps
-  parenthetical wins instead: `retrieval-augmented generation (RAG)` renders as `RAG`.
-  The full text stays in the markdown, which is what an ATS reads.
+- **Chips drop parenthetical detail in the sidebar layout only**, since that column is
+  narrow: `Firebase (Authentication, Firestore, …)` renders as `Firebase`, and a short
+  all-caps parenthetical wins instead — `retrieval-augmented generation (RAG)` renders
+  as `RAG`. The full-width layout prints the markdown verbatim, and either way the full
+  text stays in the markdown, which is what an ATS reads.
 - **French spacing is automatic.** Write `Winston : conception` normally; the build
   converts the space before `: ; ! ?` and inside `50 000` to a no-break space.
 
-## Design notes
+## The two layouts
+
+`LANGS.<lang>.layout` picks the sheet design, so a language can be restyled without
+touching the other. Both read the same markdown — nothing in `doc/*.md` is layout-aware.
+
+| `layout` | Used by | Shape |
+| --- | --- | --- |
+| `single` | `en` | full-bleed masthead, then one full-width column |
+| `sidebar` | `fr` | 62mm tinted rail down every page, main column beside it |
+
+### `single` — masthead + one column
+
+- The masthead is a tinted band across the top of page 1 only: name, role and languages
+  on the left, contact right-aligned. It bleeds to the paper edge via negative margins
+  that cancel the sheet's own padding.
+- Section order is Profile → Technical Skills → Work Experience → Projects → Education →
+  Certificates, all in one flow. Skills sit near the top as a label/value grid, and
+  Education runs two-up at the foot with Certificates as a single inline row.
+- Section headings carry a short brand tick on the left rather than a full underline; at
+  this width a stack of rules across the page reads as noise.
+- The sheet uses `box-decoration-break: clone` so its padding repeats on page 2 instead
+  of running text into the top edge.
+
+### `sidebar` — left rail
 
 - Sidebar fill and divider are painted as a **canvas-level gradient on `html`**, not as
   a background on the sidebar element. A background on an element that spans a page
@@ -85,5 +109,8 @@ Two rules worth knowing:
   forced break applies to the sidebar column only; the main column keeps flowing across
   the page boundary untouched. So page 1's sidebar is Contact / Languages / Education,
   and page 2's is Technical Skills / Certificates.
+
+## Design notes
+
 - Comfortaa ships no italic. Accents use colour and weight instead of a synthesised
   oblique, which looks broken on a rounded face.
