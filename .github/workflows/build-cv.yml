@@ -1,8 +1,8 @@
 name: Build CV PDFs
 
 # doc/cv_en.md and doc/cv_fr.md are the source of truth for the CV.
-# When either changes, rebuild the PDFs that index.html links to and commit
-# them back, so editing the markdown on GitHub is enough to update the site.
+# When either changes, rebuild the PDFs that index.html links to, commit them
+# back, and publish — so editing the markdown on github.com is all it takes.
 on:
   push:
     branches: [master]
@@ -15,7 +15,8 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: write # commit the rebuilt PDFs
+  pages: write # request the Pages rebuild that publishes them
 
 concurrency:
   group: build-cv
@@ -43,6 +44,7 @@ jobs:
         run: node tools/cv/build-cv.mjs
 
       - name: Commit rebuilt PDFs
+        id: commit
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -53,3 +55,14 @@ jobs:
           git add doc/cv_en.pdf doc/cv_fr.pdf
           git commit -m "chore(cv): rebuild PDFs from markdown"
           git push
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+
+      # This site is served by the legacy branch-based Pages builder, which
+      # normally rebuilds on every push to master. It does NOT react to a push
+      # made with GITHUB_TOKEN, so the commit above would land without going
+      # live. Requesting the build explicitly closes that gap.
+      - name: Publish to GitHub Pages
+        if: steps.commit.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh api -X POST "repos/${{ github.repository }}/pages/builds"
