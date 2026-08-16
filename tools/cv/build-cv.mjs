@@ -402,7 +402,7 @@ h1.name { font-size: ${pt(17)}; font-weight: 700; color: var(--ink); margin: 0 0
   font-size: ${pt(9.8)}; font-weight: 700; color: var(--ink);
   margin: 0 0 2.4mm; padding-bottom: 1mm; border-bottom: 1.4px solid var(--brand);
 }
-.profile-text { color: #3a4148; font-size: ${pt(8.5)}; text-align: justify; }
+.profile-text { color: #3a4148; font-size: ${pt(8.5)}; }
 
 .job { margin-bottom: 4.4mm; break-inside: avoid-page; }
 .job:last-child { margin-bottom: 0; }
