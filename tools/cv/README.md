@@ -68,8 +68,8 @@ Two rules worth knowing:
 - **Chips drop parenthetical detail in the sidebar layout only**, since that column is
   narrow: `Firebase (Authentication, Firestore, …)` renders as `Firebase`, and a short
   all-caps parenthetical wins instead — `retrieval-augmented generation (RAG)` renders
-  as `RAG`. The full-width layout prints the markdown verbatim, and either way the full
-  text stays in the markdown, which is what an ATS reads.
+  as `RAG`. The full-width layout has no chips at all and prints the markdown verbatim.
+  Either way the full text stays in the markdown, which is what an ATS reads.
 - **French spacing is automatic.** Write `Winston : conception` normally; the build
   converts the space before `: ; ! ?` and inside `50 000` to a no-break space.
 
@@ -88,9 +88,13 @@ touching the other. Both read the same markdown — nothing in `doc/*.md` is lay
 - The masthead is a tinted band across the top of page 1 only: name, role and languages
   on the left, contact right-aligned. It bleeds to the paper edge via negative margins
   that cancel the sheet's own padding.
-- Section order is Profile → Technical Skills → Work Experience → Projects → Education →
-  Certificates, all in one flow. Skills sit near the top as a label/value grid, and
-  Education runs two-up at the foot with Certificates as a single inline row.
+- Section order is Profile → Work Experience → Projects → Education → Technical Skills →
+  Certificates, all in one flow. Education runs two-up, and Certificates is a single
+  inline row.
+- **Skills carry no chips here**, unlike the rail: they are a compact label/value block,
+  the values as running text. Pills earned their keep in a 45mm column; at full width
+  they only added height, and the section sits low on page 2 where that height costs the
+  most.
 - Section headings carry a short brand tick on the left rather than a full underline; at
   this width a stack of rules across the page reads as noise.
 - The sheet uses `box-decoration-break: clone` so its padding repeats on page 2 instead

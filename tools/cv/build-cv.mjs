@@ -37,7 +37,7 @@ const BUILD = join(HERE, '.build')
 //   'sidebar' — 62mm tinted rail running down every page
 const LANGS = {
   en: {
-    scale: 1.0,
+    scale: 1.02,
     layout: 'single',
     headings: {
       profile: 'profile',
@@ -495,14 +495,13 @@ h1.name { font-size: ${pt(20)}; font-weight: 700; color: var(--ink); margin: 0 0
 .m-section { margin-bottom: 5.4mm; }
 .m-section:last-child { margin-bottom: 0; }
 
-/* skills: label column + flowing values, full markdown text (the rail's
-   abbreviations are not needed at this width) */
-.skills-grid { display: grid; grid-template-columns: 30mm 1fr; gap: 1.8mm 3mm; }
+/* skills: a compact label/value block, no chips — at this width the values
+   read fine as running text, and pills only added height. Full markdown text
+   too; the rail's abbreviations are not needed here. */
+.skills-grid { display: grid; grid-template-columns: 32mm 1fr; gap: 1.1mm 3mm; }
 .skill-group { display: contents; }
-.skill-group .lbl {
-  font-size: ${pt(7.8)}; font-weight: 700; color: var(--ink);
-  padding-top: 0.5mm; break-inside: avoid;
-}
+.skill-group .lbl { font-size: ${pt(7.9)}; font-weight: 700; color: var(--ink); }
+.skill-group .vals { font-size: ${pt(7.9)}; color: #3a4148; }
 
 /* education runs two-up; certificates are a single inline row under it */
 .edu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3.2mm 8mm; }
@@ -666,20 +665,6 @@ function singleBody(doc, cfg, t, md) {
   </div>
 
   <div class="m-section">
-    <div class="m-h">${t(sectionTitle(doc, 'skills', cfg))}</div>
-    <div class="skills-grid">
-      ${doc.skills
-        .map(
-          (s) => `<div class="skill-group">
-        <div class="lbl">${t(s.label)}</div>
-        <div class="chips">${s.items.map((i) => `<span class="chip">${t(i)}</span>`).join('')}</div>
-      </div>`
-        )
-        .join('')}
-    </div>
-  </div>
-
-  <div class="m-section">
     <div class="m-h">${t(sectionTitle(doc, 'experience', cfg))}</div>
     ${renderJobs(doc, t, md)}
   </div>
@@ -692,6 +677,20 @@ function singleBody(doc, cfg, t, md) {
   <div class="m-section">
     <div class="m-h">${t(sectionTitle(doc, 'education', cfg))}</div>
     <div class="edu-grid">${doc.education.map((e) => renderEduItem(e, md)).join('')}</div>
+  </div>
+
+  <div class="m-section">
+    <div class="m-h">${t(sectionTitle(doc, 'skills', cfg))}</div>
+    <div class="skills-grid">
+      ${doc.skills
+        .map(
+          (s) => `<div class="skill-group">
+        <div class="lbl">${t(s.label)}</div>
+        <div class="vals">${s.items.map((i) => t(i)).join(', ')}</div>
+      </div>`
+        )
+        .join('')}
+    </div>
   </div>
 
   ${
