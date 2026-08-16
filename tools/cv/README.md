@@ -25,6 +25,14 @@ No `npm install`. The script drives an installed Chrome or Edge in headless mode
 (`CHROME_PATH=/path/to/chrome` to override detection) and embeds Comfortaa from the
 repo's own `fonts/`, so local and CI output match.
 
+**The PDFs are CI-owned.** A local build is for previewing; the bytes differ slightly
+between browsers and platforms, so committing a locally-built PDF just makes CI rebuild
+and commit its own. After previewing, throw the artifacts away:
+
+```bash
+git checkout -- doc/cv_en.pdf doc/cv_fr.pdf
+```
+
 ## The 2-page guard
 
 The build **fails** if a CV is not exactly 2 pages, so an edit that overflows is caught
