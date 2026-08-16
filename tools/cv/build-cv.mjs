@@ -32,7 +32,9 @@ const BUILD = join(HERE, '.build')
 // plus a type scale. French runs ~15% longer than English, so it gets a
 // slightly tighter scale to hold the same two pages.
 //
-// `layout` picks the sheet design:
+// `layout` picks the sheet design. Both languages ship 'single'; 'sidebar' is
+// kept as a working alternative, so a language can be switched back with one
+// line rather than a rewrite.
 //   'single'  — full-bleed masthead, then one full-width column
 //   'sidebar' — 62mm tinted rail running down every page
 const LANGS = {
@@ -50,8 +52,8 @@ const LANGS = {
     sidebar: { contact: 'Contact', languages: 'Languages' },
   },
   fr: {
-    scale: 0.95,
-    layout: 'sidebar',
+    scale: 0.98,
+    layout: 'single',
     headings: {
       profile: 'profil',
       skills: 'compétences techniques',
@@ -645,9 +647,12 @@ function sidebarBody(doc, cfg, t, md) {
 /* ------------------------------------------- layout B: masthead + one column */
 
 function singleBody(doc, cfg, t, md) {
-  const langs = doc.languages
-    .map((l) => `${t(l.name)} <b>(${t(l.level)})</b>`)
-    .join(' · ')
+  // One shared level reads better stated once: "French · English (Native)".
+  const oneLevel =
+    doc.languages.length > 1 && doc.languages.every((l) => l.level === doc.languages[0].level)
+  const langs = oneLevel
+    ? `${doc.languages.map((l) => t(l.name)).join(' · ')} <b>(${t(doc.languages[0].level)})</b>`
+    : doc.languages.map((l) => `${t(l.name)} <b>(${t(l.level)})</b>`).join(' · ')
 
   return `<div class="sheet">
   <header class="masthead">

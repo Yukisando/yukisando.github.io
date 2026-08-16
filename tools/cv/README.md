@@ -78,10 +78,13 @@ Two rules worth knowing:
 `LANGS.<lang>.layout` picks the sheet design, so a language can be restyled without
 touching the other. Both read the same markdown — nothing in `doc/*.md` is layout-aware.
 
-| `layout` | Used by | Shape |
-| --- | --- | --- |
-| `single` | `en` | full-bleed masthead, then one full-width column |
-| `sidebar` | `fr` | 62mm tinted rail down every page, main column beside it |
+| `layout` | Shape |
+| --- | --- |
+| `single` | full-bleed masthead, then one full-width column |
+| `sidebar` | 62mm tinted rail down every page, main column beside it |
+
+Both languages currently ship `single`. `sidebar` stays in the file as a working
+alternative — switching a language back is a one-line change, not a rewrite.
 
 ### `single` — masthead + one column
 
@@ -100,7 +103,7 @@ touching the other. Both read the same markdown — nothing in `doc/*.md` is lay
 - The sheet uses `box-decoration-break: clone` so its padding repeats on page 2 instead
   of running text into the top edge.
 
-### `sidebar` — left rail
+### `sidebar` — left rail (not currently in use)
 
 - Sidebar fill and divider are painted as a **canvas-level gradient on `html`**, not as
   a background on the sidebar element. A background on an element that spans a page
