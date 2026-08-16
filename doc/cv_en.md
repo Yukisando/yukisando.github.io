@@ -75,7 +75,7 @@ Principal developer across the company's entire product portfolio: Flutter mobil
 - **Badger** (Flutter): virtual business card app built for conventions and networking events.
 - **ColisMarket** (Flutter): fully functioning prototype built for the Tunisian parcel-delivery market, handling parcel delivery path tracking with automated OCR parcel-ticket reading and filing, ready but awaiting market launch.
 
-*A number of other open-source packages, tools and plugins are also available on github.com/Yukisando.*
+*A number of other open-source packages, tools and plugins are also available over on my GitHub*
 
 ---
 
