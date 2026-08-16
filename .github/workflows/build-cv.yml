@@ -1,0 +1,55 @@
+name: Build CV PDFs
+
+# doc/cv_en.md and doc/cv_fr.md are the source of truth for the CV.
+# When either changes, rebuild the PDFs that index.html links to and commit
+# them back, so editing the markdown on GitHub is enough to update the site.
+on:
+  push:
+    branches: [master]
+    paths:
+      - 'doc/cv_en.md'
+      - 'doc/cv_fr.md'
+      - 'tools/cv/build-cv.mjs'
+      - 'fonts/Comfortaa-VariableFont_wght.ttf'
+      - '.github/workflows/build-cv.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-cv
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # The runner image ships Google Chrome, so the build needs no npm install.
+      - name: Show browser version
+        run: google-chrome --version
+
+      # Fails the job if a CV no longer fits 2 pages, rather than publishing a
+      # silently-overflowing PDF. See tools/cv/README.md.
+      - name: Build PDFs
+        run: node tools/cv/build-cv.mjs
+
+      - name: Commit rebuilt PDFs
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if git diff --quiet -- doc/cv_en.pdf doc/cv_fr.pdf; then
+            echo "PDFs unchanged, nothing to commit."
+            exit 0
+          fi
+          git add doc/cv_en.pdf doc/cv_fr.pdf
+          git commit -m "chore(cv): rebuild PDFs from markdown"
+          git push
