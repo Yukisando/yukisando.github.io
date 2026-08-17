@@ -12,30 +12,16 @@ Développeur full-stack et architecte de solutions, **8 ans d'expérience** à l
 
 ---
 
-## Compétences Techniques
-
-**Langages :** C#, .NET, Dart, JavaScript, TypeScript, Python, Lua, SQL, HTML, CSS
-
-**Frontend & Mobile :** Flutter, Android, iOS, WebGL, Unity, UI responsive, interfaces kiosque et tactiles
-
-**Backend & Cloud :** Firebase (Authentication, Firestore, Cloud Functions, Storage), AWS, API REST, Stripe, in-app purchases, WebRTC, Photon, synchronisation temps réel
-
-**Plateformes & Ops :** Windows, Linux, gestion de parc Android, Git, CI/CD, Docker, release management sur les stores, déploiement et monitoring à distance, Agile, Scrum, Kanban
-
-**IA :** intégration d'API LLM, RAG (Retrieval-Augmented Generation), workflows agentiques, prompt engineering, Claude Code, GitHub Copilot, MCP
-
----
-
 ## Expérience Professionnelle
 
 ### Co-fondateur & Lead Engineer, Valbilon Studios
 *Sion, Suisse · 2022 – Aujourd'hui*
 
 Développeur principal sur l'ensemble du portefeuille produit de l'entreprise : apps mobiles Flutter, plateformes web, installations Unity et logiciels kiosque Windows/Linux, avec la responsabilité de l'architecture, du développement, du déploiement et du support.
-- **Suite digitale CPPS** : conception et développement de toute la stack technique d'un centre public de formation aux séismes et musée : plateforme web de réservation et de paiement pour des clients institutionnels, privés et scolaires, avec génération automatisée des factures, pièces comptables et rapports. Utilisée par de nombreuses écoles et institutions partout en Suisse, et **50 000 utilisateurs/an** entre réservations et collecte d'informations. *(API REST, Stripe, Firebase)*
-- **Exposition et bornes CPPS** : développement du framework d'exposition intégré du centre, qui abrite le **plus grand simulateur de séisme d'Europe**, réparti sur 3 espaces et 27 stations interactives, conçu en étroite collaboration avec des experts en sismologie et des professeurs d'université sur les contenus et les scénarios. **Plus de 30 mini-jeux tactiles grand format** et un parc géré de **30 tablettes murales**, chacune en mode kiosque avec sa propre webapp dédiée et son APK sur mesure, reliées par un réseau local sécurisé sous Docker, avec configuration centralisée et mises à jour de contenu à distance sur tout le site. **30 000 visiteurs/an**. *(Android, Docker, interfaces kiosque et tactiles)*
-- **Winston** : conception et développement de la plateforme finance et comptabilité de l'entreprise. Ingestion, catégorisation et rapprochement de documents pilotés par LLM sur un cœur comptable classique (grand livre), avec facturation / TVA / paie / notes de frais / cold calling automatisé par IA. Remplace **plus de 4 abonnements SaaS**, et continue de s'étendre. *(intégration d'API LLM, workflows agentiques, .NET)*
+- **Suite digitale CPPS** : conception et développement de toute la stack technique d'un centre public de formation aux séismes et musée, une plateforme de réservation et de paiement pour clients institutionnels, privés et scolaires, avec facturation, comptabilité et rapports automatisés. **50 000 utilisateurs/an**. *(API REST, Stripe, Firebase)*
+- **Exposition et bornes CPPS** : développement du framework d'exposition intégré du centre, qui abrite le **plus grand simulateur de séisme d'Europe** sur 3 espaces et 27 stations interactives, conçu avec des experts en sismologie et des professeurs d'université. **Plus de 30 mini-jeux tactiles** et un parc de **30 tablettes murales**, chacune en mode kiosque avec sa propre webapp/APK, reliées par un réseau local sécurisé sous Docker, configuration centralisée et mises à jour à distance. **30 000 visiteurs/an**. *(Android, Docker, interfaces kiosque et tactiles)*
 - **Escape With Wallis** : escape game Android d'une heure qui guide les visiteurs à travers l'exposition, avec synchronisation de progression tolérante au hors-ligne et événements scriptés déclenchés par triggers. **Plus de 3000 sessions terminées**. *(Android, Firebase)*
+- **Winston** : conception et développement de la plateforme finance et comptabilité de l'entreprise. Ingestion, catégorisation et rapprochement de documents pilotés par LLM sur un cœur comptable classique (grand livre), avec facturation / TVA / paie / notes de frais / cold calling automatisé par IA. Remplace **plus de 4 abonnements SaaS**, et continue de s'étendre. *(intégration d'API LLM, workflows agentiques, .NET)*
 - **Exploreum** : plateforme multi-tenant reliant les musées, avec suivi de progression inter-institutions et système de récompenses ; déploiement en cours. *(Firebase, API REST)*
 
 - Conception et mise en place de workflows d'IA agentique sur plusieurs pipelines de développement (spécification, scaffolding, code review, tests et documentation) *(Claude Code, MCP)*
@@ -53,13 +39,8 @@ Développeur principal sur l'ensemble du portefeuille produit de l'entreprise : 
 
 - **Eventrum** : plateforme de conférence virtuelle dans le navigateur basée sur WebRTC, livrée en partenariat avec **TU Delft et Accenture**, avec audio/vidéo temps réel, signalisation des salles et présence pour jusqu'à **1000 participants simultanés**. *(WebRTC, Unity, JavaScript)*
 - **TeamUp** : jeu multijoueur en réseau de team building livré sur WebGL et Windows, avec état de session faisant autorité géré par Photon. *(WebGL, Photon, Unity)*
-- **Simulateur industriel BMO** : simulateur de formation modulaire pour du matériel d'automatisation, piloté par configuration pour ajouter de nouvelles variantes de machines sans toucher au code. *(C#, Unity)*
+- **Simulateur industriel BMO** : simulateur de formation virtuel pour la machine de tri industrielle du client, avec un outil de création de scénarios utilisé par les formateurs pour construire des exercices de montage, maintenance et exploitation, réduisant le coût et le temps liés à la venue d'un formateur senior pour **2 semaines** d'intégration. Déployé sur WebGL et Windows sur le site du client. *(C#, Unity)*
 - Rôle moteur au sein d'une équipe Agile/Scrum : sprint planning, daily stand-ups et code reviews, suivis sur ClickUp.
-
-### Consultant & Développeur VR, Virtual Reality Experiences
-*Londres, R.-U. · 2017 – 2019*
-
-- Développement d'applications VR sur mesure, conception de solutions et déploiement sur site pour des installations en entreprise.
 
 ---
 
@@ -90,9 +71,20 @@ Machine learning, intelligence artificielle, rendu graphique avancé, traitement
 
 **Baccalauréat Scientifique** (Physique & Mathématiques), Lycée Français Vincent Van Gogh, 2013
 
----
-
-## Certifications
-
+**Certifications**
 - C++ Programming, EPFL
 - C# Masterclass, Udemy
+
+---
+
+## Compétences Techniques
+
+**Langages :** C#, .NET, Dart, JavaScript, TypeScript, Python, Lua, SQL, HTML, CSS
+
+**Frontend & Mobile :** Flutter, Android, iOS, WebGL, Unity, UI responsive, interfaces kiosque et tactiles
+
+**Backend & Cloud :** Firebase (Authentication, Firestore, Cloud Functions, Storage), AWS, API REST, Stripe, in-app purchases, WebRTC, Photon, synchronisation temps réel
+
+**Plateformes & Ops :** Windows, Linux, gestion de parc Android, Git, CI/CD, Docker, release management sur les stores, déploiement et monitoring à distance, Agile, Scrum, Kanban
+
+**IA :** intégration d'API LLM, RAG (Retrieval-Augmented Generation), workflows agentiques, prompt engineering, Claude Code, GitHub Copilot, MCP

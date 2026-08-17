@@ -182,6 +182,7 @@ function parseCv(md, cfg) {
     projectNote: '',
     education: [],
     certificates: [],
+    certLabel: '',
   }
 
   /* header: name, title, contact line */
@@ -276,9 +277,26 @@ function parseCv(md, cfg) {
   }
   if (group) doc.projectGroups.push(group)
 
-  /* education */
+  /* education. Certificates live inside this section rather than under their
+     own heading: a block whose sole line is "**Certificates**" (or whatever
+     cfg.headings.certificates says) is a list of "- Name, Issuer" lines, kept
+     in their own array so the renderer can still style them differently. */
   for (const b of blocksOf(get('education'))) {
     const first = b[0]
+    const soloBold = first.match(/^\*\*(.+?)\*\*$/)
+    if (soloBold && soloBold[1].trim().toLowerCase() === cfg.headings.certificates) {
+      doc.certLabel = soloBold[1].trim()
+      for (const line of b.slice(1)) {
+        if (!line.startsWith('- ')) continue
+        const v = line.slice(2).trim()
+        const i = v.lastIndexOf(', ')
+        doc.certificates.push({
+          name: i > 0 ? v.slice(0, i) : v,
+          issuer: i > 0 ? v.slice(i + 2) : '',
+        })
+      }
+      continue
+    }
     const bolds = [...first.matchAll(/\*\*(.+?)\*\*/g)].map((m) => m[1])
     const school = first
       .replace(/\*\*(.+?)\*\*/g, '')
@@ -289,18 +307,6 @@ function parseCv(md, cfg) {
       school,
       honours: bolds[1] ?? '',
       detail: b.slice(1).join(' '),
-    })
-  }
-
-  /* certificates: "- C++ Programming, EPFL" */
-  for (const raw of get('certificates')) {
-    const t = raw.trim()
-    if (!t.startsWith('- ')) continue
-    const v = t.slice(2).trim()
-    const i = v.lastIndexOf(', ')
-    doc.certificates.push({
-      name: i > 0 ? v.slice(0, i) : v,
-      issuer: i > 0 ? v.slice(i + 2) : '',
     })
   }
 
@@ -372,10 +378,10 @@ html, body {
 }
 .profile-text { color: #3a4148; font-size: ${pt(8.5)}; }
 
-.job { margin-bottom: 4.4mm; break-inside: avoid-page; }
+.job { margin-bottom: 5.2mm; break-inside: avoid-page; }
 .job:last-child { margin-bottom: 0; }
-.job-head { display: flex; justify-content: space-between; align-items: baseline; gap: 3mm; margin-bottom: 0.6mm; }
-.job-role { font-size: ${pt(9.0)}; font-weight: 700; color: var(--ink); }
+.job-head { display: flex; justify-content: space-between; align-items: baseline; gap: 3mm; margin-bottom: 0.8mm; }
+.job-role { font-size: ${pt(10.2)}; font-weight: 700; color: var(--ink); }
 .job-co   { font-weight: 600; color: var(--brandText); }
 .job-note { font-weight: 400; color: var(--sub); font-size: ${pt(7.4)}; }
 .job-meta { font-size: ${pt(7.6)}; color: var(--sub); white-space: nowrap; }
@@ -383,8 +389,11 @@ html, body {
 /* role summary: sits outside the bullet list, as a subtitle to the whole job */
 .job-intro { color: #3a4148; margin: 1.2mm 0 0; }
 
-ul.bullets { margin: 1.2mm 0 0; padding-left: 3.6mm; }
-ul.bullets li { margin-bottom: 1.5mm; color: #3a4148; }
+/* Project labels (bullet lead-ins, e.g. "CPPS digital suite") stay at body
+   size — only .job-role is bumped up, so the company/role line reads as the
+   clearly higher tier instead of the two looking like the same weight class. */
+ul.bullets { margin: 1.4mm 0 0; padding-left: 3.6mm; }
+ul.bullets li { margin-bottom: 1.9mm; color: #3a4148; }
 ul.bullets li:last-child { margin-bottom: 0; }
 ul.bullets li b { color: var(--ink); font-weight: 700; }
 
@@ -487,14 +496,20 @@ h1.name { font-size: ${pt(20)}; font-weight: 700; color: var(--ink); margin: 0 0
 .contact-list li:last-child { margin-bottom: 0; }
 
 /* Section rules here are a short brand tick rather than a full underline, so a
-   full-width column does not read as a stack of horizontal bars. */
+   full-width column does not read as a stack of horizontal bars. The tick is a
+   pseudo-element sized in em, not a border on the block, so its height tracks
+   the text's own font-size instead of the taller line box around it. */
 .m-h {
   font-size: ${pt(9.4)}; text-transform: uppercase; letter-spacing: 1.1px;
-  border-bottom: none; padding: 0 0 1.4mm; margin: 0 0 2.6mm;
-  border-left: 2.2mm solid var(--brand); padding-left: 2.4mm;
+  margin: 0 0 2.6mm; padding: 0;
+  display: flex; align-items: center; gap: 2.4mm;
   break-after: avoid;
 }
-.m-section { margin-bottom: 5.4mm; }
+.m-h::before {
+  content: ''; display: block; flex-shrink: 0;
+  width: 2.2mm; height: 1em; background: var(--brand);
+}
+.m-section { margin-bottom: 5.8mm; }
 .m-section:last-child { margin-bottom: 0; }
 
 /* skills: a compact label/value block, no chips — at this width the values
@@ -511,6 +526,12 @@ h1.name { font-size: ${pt(20)}; font-weight: 700; color: var(--ink); margin: 0 0
 .edu-degree { font-size: ${pt(8.2)}; font-weight: 700; color: var(--ink); }
 .edu-school { font-size: ${pt(7.8)}; color: var(--sub); }
 .edu-note   { font-size: ${pt(7.4)}; color: var(--sub); margin-top: 0.4mm; }
+/* small tag rather than a full m-h: keeps certificates visually inside
+   Education instead of reading as their own section. */
+.cert-label {
+  font-size: ${pt(7.3)}; font-weight: 700; color: var(--sub);
+  text-transform: uppercase; letter-spacing: 0.4px; margin: 3.2mm 0 1.2mm;
+}
 .cert-row { display: flex; flex-wrap: wrap; gap: 1.4mm 5mm; font-size: ${pt(7.8)}; color: var(--sub); }
 .cert-row b { color: var(--ink); font-weight: 600; }
 `
@@ -682,6 +703,16 @@ function singleBody(doc, cfg, t, md) {
   <div class="m-section">
     <div class="m-h">${t(sectionTitle(doc, 'education', cfg))}</div>
     <div class="edu-grid">${doc.education.map((e) => renderEduItem(e, md)).join('')}</div>
+    ${
+      doc.certificates.length
+        ? `<div class="cert-label">${t(doc.certLabel)}</div>
+    <div class="cert-row">${doc.certificates
+            .map(
+              (c) => `<span><b>${t(c.name)}</b>${c.issuer ? ` — ${t(c.issuer)}` : ''}</span>`
+            )
+            .join('')}</div>`
+        : ''
+    }
   </div>
 
   <div class="m-section">
@@ -697,19 +728,6 @@ function singleBody(doc, cfg, t, md) {
         .join('')}
     </div>
   </div>
-
-  ${
-    doc.certificates.length
-      ? `<div class="m-section">
-    <div class="m-h">${t(sectionTitle(doc, 'certificates', cfg))}</div>
-    <div class="cert-row">${doc.certificates
-      .map(
-        (c) => `<span><b>${t(c.name)}</b>${c.issuer ? ` — ${t(c.issuer)}` : ''}</span>`
-      )
-      .join('')}</div>
-  </div>`
-      : ''
-  }
 </div>`
 }
 

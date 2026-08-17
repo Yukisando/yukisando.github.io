@@ -12,32 +12,16 @@ Full-stack developer and solution architect with **8 years of experience** shipp
 
 ---
 
-## Technical Skills
-
-**Languages:** C#, .NET, Dart, JavaScript, TypeScript, Python, Lua, SQL, HTML, CSS
-
-**Frontend & Mobile:** Flutter, Android, iOS, WebGL, Unity, responsive UI, kiosk and touchscreen interfaces
-
-**Backend & Cloud:** Firebase (Authentication, Firestore, Cloud Functions, Storage), AWS, REST APIs, Stripe, in-app purchases, WebRTC, Photon, real-time synchronisation
-
-**Platforms & Ops:** Windows, Linux, Android device fleet management, Git, CI/CD, Docker, app store release management, remote deployment and monitoring, Agile, Scrum, Kanban
-
-**AI:** LLM API integration, retrieval-augmented generation (RAG), agentic workflows, prompt engineering, Claude Code, GitHub Copilot, MCP
-
-
-
----
-
 ## Work Experience
 
 ### Co-Founder & Lead Engineer, Valbilon Studios
 *Sion, Switzerland · 2022 – Present*
 
 Principal developer across the company's entire product portfolio: Flutter mobile apps, web platforms, Unity installations and Windows/Linux kiosk software, owning architecture, implementation, deployment and support.
-- **CPPS digital suite**: designed and built the full technology stack for a public earthquake training centre and museum: reservation and payment web platform for state, private and educational clients, with automated invoice, accounting-document and report generation. Serves many schools and institutions across Switzerland, and **50,000 users/year** through reservations and information gathering. *(REST APIs, Stripe, Firebase)*
-- **CPPS exhibit and kiosks**: built the integrated exhibit framework for the centre, home to **Europe's largest earthquake simulator** across 3 exhibition spaces and 27 interactive stations, developed in close collaboration with seismology experts and university professors on content and scenario design. **30+ large-format touchscreen mini-games** and a managed fleet of **30 wall-mounted tablets**, each kiosked with its own dedicated webapp and custom APK, linked together over a secure local network with Docker, with centralised configuration and remote content updates across the venue. Serves **30,000 visitors/year**. *(Android, Docker, kiosk and touchscreen interfaces)*
-- **Winston**: architected and built the company's finance and accounting platform. LLM-driven document ingestion, categorisation and reconciliation on a conventional ledger core, with invoicing / VAT / payroll / Business expenses / AI automated cold calling. Replaced **4+ separate SaaS subscriptions** and still expanding. *(LLM API integration, agentic workflows, .NET)*
+- **CPPS digital suite**: designed and built the full technology stack for a public earthquake training centre and museum, a reservation and payment platform for state, private and educational clients, with automated invoicing, accounting and reporting. **50,000 users/year**. *(REST APIs, Stripe, Firebase)*
+- **CPPS exhibit and kiosks**: built the centre's integrated exhibit framework, home to **Europe's largest earthquake simulator** across 3 spaces and 27 interactive stations, designed with seismology experts and university professors. **30+ touchscreen mini-games** and a fleet of **30 wall-mounted tablets**, each running its own kiosked webapp/APK over a secured local network with Docker, centrally configured and remotely updated. **30,000 visitors/year**. *(Android, Docker, kiosk and touchscreen interfaces)*
 - **Escape With Wallis**: hour-long Android escape game guiding visitors through the exhibit, with offline-tolerant progress sync and trigger-driven scripted events. **3000+ sessions completed**. *(Android, Firebase)*
+- **Winston**: architected and built the company's finance and accounting platform. LLM-driven document ingestion, categorisation and reconciliation on a conventional ledger core, with invoicing / VAT / payroll / Business expenses / AI automated cold calling. Replaced **4+ separate SaaS subscriptions** and still expanding. *(LLM API integration, agentic workflows, .NET)*
 - **Exploreum**: multi-tenant platform connecting museums with cross-institution progress tracking and rewards; currently in rollout. *(Firebase, REST APIs)*
 
 - Designed and rolled out agentic AI workflows across multiple delivery pipelines (specification, scaffolding, code review, testing and documentation) *(Claude Code, MCP)*
@@ -54,13 +38,8 @@ Principal developer across the company's entire product portfolio: Flutter mobil
 
 - **Eventrum**: built a browser-based virtual conference platform on WebRTC, delivered in partnership with **TU Delft and Accenture**, with real-time audio/video, room signalling and presence for up to **1k concurrent participants**. *(WebRTC, Unity, JavaScript)*
 - **TeamUp**: networked multiplayer team-building game delivered to WebGL and Windows, with authoritative session state over Photon. *(WebGL, Photon, Unity)*
-- **BMO industrial simulator**: modular training simulator for automation hardware, built configuration-driven so new machine variants could be added without code changes. *(C#, Unity)*
+- **BMO industrial simulator**: built a virtual training simulator for the client's industrial sorting machine, with a scenario-authoring tool trainers used to create build, maintenance and operations exercises, cutting the cost and time of flying in a senior trainer for **2-week onboarding trips**. Deployed on WebGL and Windows at the client's facility. *(C#, Unity)*
 - Led within an Agile/Scrum team: sprint planning, daily stand-ups and code reviews, tracked via ClickUp.
-
-### VR Consultant & Developer, Virtual Reality Experiences
-*London, UK · 2017 – 2019*
-
-- Client-specific VR application development, solution design and on-site deployment for corporate installations.
 
 ---
 
@@ -91,9 +70,20 @@ Machine learning, artificial intelligence, advanced graphics, audio-visual proce
 
 **Baccalauréat Scientifique** (Physics & Mathematics), Lycée Français Vincent Van Gogh, 2013
 
----
-
-## Certificates
-
+**Certificates**
 - C++ Programming, EPFL
 - C# Masterclass, Udemy
+
+---
+
+## Technical Skills
+
+**Languages:** C#, .NET, Dart, JavaScript, TypeScript, Python, Lua, SQL, HTML, CSS
+
+**Frontend & Mobile:** Flutter, Android, iOS, WebGL, Unity, responsive UI, kiosk and touchscreen interfaces
+
+**Backend & Cloud:** Firebase (Authentication, Firestore, Cloud Functions, Storage), AWS, REST APIs, Stripe, in-app purchases, WebRTC, Photon, real-time synchronisation
+
+**Platforms & Ops:** Windows, Linux, Android device fleet management, Git, CI/CD, Docker, app store release management, remote deployment and monitoring, Agile, Scrum, Kanban
+
+**AI:** LLM API integration, retrieval-augmented generation (RAG), agentic workflows, prompt engineering, Claude Code, GitHub Copilot, MCP
