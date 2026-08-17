@@ -55,7 +55,7 @@ Développeur principal sur l'ensemble du portefeuille produit de l'entreprise : 
 - **Badger** (Flutter) : application de carte de visite virtuelle pensée pour les salons et les événements de networking.
 - **ColisMarket** (Flutter) : prototype entièrement fonctionnel pour le marché tunisien de la livraison de colis, avec suivi du parcours des colis et lecture OCR automatisée des bons, prêt mais en attente de lancement commercial.
 
-*D'autres packages, outils et plugins open source sont également disponibles sur github.com/Yukisando.*
+*D'autres packages, outils et plugins open source sont également disponibles sur mon GitHub*
 
 ---
 
