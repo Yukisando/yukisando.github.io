@@ -8,7 +8,7 @@ France / Suisse · Français/Anglais (langue maternelle) · +33 6 27 64 80 28 ·
 
 ## Profil
 
-Développeur full-stack et architecte de solutions, **8 ans d'expérience** à livrer des logiciels en production de bout en bout : plateformes web, applications mobiles, backends temps réel et installations interactives sous Android, iOS, Windows et Linux. Je prends les projets en main du premier atelier de cadrage avec les experts métier jusqu'au produit déployé et maintenu : architecture, développement, infrastructure, choix du matériel, déploiement et support. Utilisateur et intégrateur quotidien des LLM et de l'IA agentique sur tout le cycle de développement. Aussi à l'aise dans la discussion technique que face au client.
+Développeur full-stack et architecte de solutions, **8 ans d'expérience**. Je conçois et livre des logiciels qui tournent en production : plateformes web, applications mobiles, backends temps réel et installations interactives sous Android, iOS, Windows et Linux. Je prends les projets de A à Z — des premiers échanges avec les équipes métier jusqu'au produit déployé et maintenu : architecture, développement, infrastructure, choix du matériel, déploiement et support. Utilisateur et intégrateur quotidien des LLM et de l'IA agentique sur tout le cycle de développement. Aussi à l'aise dans la discussion technique que face au client.
 
 ---
 
