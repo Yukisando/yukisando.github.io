@@ -71,7 +71,13 @@
     /* ---------- layout ---------- */
     main{display:grid;gap:18px;grid-template-columns:1.25fr 1fr .85fr;align-items:start}
     .col{display:grid;gap:18px}
-    @media(max-width:1080px){main{grid-template-columns:1fr 1fr}.col{grid-column:1/-1;grid-template-columns:1fr 1fr}}
+    /* The middle column stacks Notes over Journal and stays a single column beside Todo
+       at every width, so the page never grows a second row where one would fit. */
+    @media(max-width:1080px){
+      main{grid-template-columns:1fr 1fr}
+      .col{grid-column:1/-1;grid-template-columns:1fr 1fr}
+      .col-mid{grid-column:auto;grid-template-columns:1fr}
+    }
     @media(max-width:720px){main,.col{grid-template-columns:1fr}}
 
     .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:18px}
@@ -120,8 +126,10 @@
     @media(hover:none){.mv{display:flex}.grip{display:none}.del,.todo:hover .del{opacity:1}}
 
     /* ---------- notes ---------- */
+    /* Sized off the viewport rather than a fixed min-height: Notes and Journal share a
+       column, and between them they must still fit one screen without scrolling. */
     #note{
-      width:100%;min-height:340px;resize:vertical;background:var(--panel-2);border:1px solid transparent;
+      width:100%;height:clamp(140px,30vh,300px);resize:none;background:var(--panel-2);border:1px solid transparent;
       border-radius:10px;padding:13px;line-height:1.65;font-size:14px;
       font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace
     }
@@ -131,7 +139,23 @@
     .habit{padding:11px 0;border-top:1px solid var(--line)}
     .habit:first-child{border-top:0;padding-top:2px}
     .habit-top{display:flex;align-items:center;gap:10px;margin-bottom:9px}
-    .habit-name{flex:1;min-width:0;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    /* Not flex:1 — the pencil has to sit against the end of the text, not the end of the
+       row, so the name shrinks to its content and a spacer takes up the slack. */
+    .habit-name{
+      min-width:0;max-width:100%;font-size:14px;overflow:hidden;text-overflow:ellipsis;
+      white-space:nowrap;border-radius:5px
+    }
+    /* While editing, let a long name wrap rather than clip — otherwise the caret walks
+       off the end of the row and out of sight. */
+    .habit-name[contenteditable]{
+      flex:1;overflow:visible;text-overflow:clip;white-space:pre-wrap;overflow-wrap:anywhere
+    }
+    .habit-name:focus{outline:none;box-shadow:0 0 0 2px var(--accent)}
+    .habit-gap{flex:1;min-width:8px}
+    .pencil{opacity:0;color:var(--fg-faint);flex:none;display:grid;place-items:center;padding:2px;transition:.12s}
+    .habit:hover .pencil{opacity:1}
+    .pencil:hover{color:var(--accent)}
+    .pencil svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
     .streak{font-size:12px;color:var(--fg-faint);font-variant-numeric:tabular-nums;flex:none}
     .streak.hot{color:var(--accent)}
     .tick{
@@ -148,6 +172,7 @@
     .strip i.today{box-shadow:0 0 0 1.5px var(--fg-faint)}
     .strip i.on.today{box-shadow:0 0 0 1.5px var(--fg-dim)}
     .habit:hover .del{opacity:1}
+    @media(hover:none){.pencil{opacity:1}}
 
     /* ---------- countdowns ---------- */
     .pin{display:flex;align-items:baseline;gap:10px;padding:8px 0;border-top:1px solid var(--line)}
@@ -171,30 +196,24 @@
       letter-spacing:.03em;user-select:none
     }
     #gratWrap summary:hover{color:var(--fg-dim)}
-    #gratList{list-style:none;margin:10px 0 0;padding:0;display:flex;flex-direction:column;gap:1px}
-    .grat{display:flex;align-items:flex-start;gap:9px;padding:6px 4px;border-radius:8px;transition:background .12s}
+    /* Capped so opening the log can never push the page past one screen. */
+    #gratList{list-style:none;margin:10px 0 0;padding:0;max-height:34vh;overflow-y:auto}
+    .grat{display:flex;align-items:baseline;gap:11px;padding:8px 8px 8px 6px;border-radius:9px;transition:background .12s}
     .grat:hover{background:var(--panel-2)}
-    .grat-d{
-      flex:none;font-size:11px;color:var(--fg-faint);font-variant-numeric:tabular-nums;
-      padding-top:3px;width:44px
-    }
+    .grat-d{flex:none;font-size:11px;color:var(--fg-faint);font-variant-numeric:tabular-nums;width:42px}
     .grat-t{flex:1;min-width:0;font-size:13.5px;line-height:1.5;overflow-wrap:anywhere}
     .grat:hover .del{opacity:1}
-    .grat .del{padding-top:0}
 
     /* ---------- journal ---------- */
-    /* Sits below the board and stays a slim locked bar until the PIN is entered, so a
-       glance at the page never shows what's in it. Session-only: any reload re-locks. */
-    .jrnl{margin-top:18px}
+    /* Sits under the scratch pad and stays a slim locked bar until the PIN is entered, so
+       a glance at the page never shows what's in it. Session-only: any reload re-locks. */
     .jrnl h2{margin-bottom:0}
     .jrnl h2.open{margin-bottom:14px}
-    .jrnl-gate{display:flex;gap:8px;align-items:center;margin-top:14px}
-    .jrnl-gate .in{flex:none;width:150px}
-    .jrnl-gate .btn{flex:none}
+    #jrnlPin{width:130px;margin-top:14px;letter-spacing:.3em;text-align:center}
     #jrnlMsg{margin-top:8px;min-height:17px}
     #jrnlMsg.err{color:var(--err)}
     #jrnl{
-      width:100%;min-height:300px;resize:vertical;background:var(--panel-2);border:1px solid transparent;
+      width:100%;height:clamp(120px,24vh,240px);resize:none;background:var(--panel-2);border:1px solid transparent;
       border-radius:10px;padding:13px;line-height:1.65;font-size:14px;
       font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace
     }
@@ -260,10 +279,22 @@
       <div class="empty" id="todoEmpty">Nothing queued up.</div>
     </section>
 
-    <section class="card">
-      <h2>Notes</h2>
-      <textarea id="note" placeholder="Scratch space&hellip;" spellcheck="false"></textarea>
-    </section>
+    <div class="col col-mid">
+      <section class="card">
+        <h2>Notes</h2>
+        <textarea id="note" placeholder="Scratch space&hellip;" spellcheck="false"></textarea>
+      </section>
+
+      <section class="card jrnl">
+        <h2 id="jrnlHead">Journal <button id="jrnlLock" hidden>lock</button></h2>
+        <div id="jrnlGate">
+          <input class="in" id="jrnlPin" type="password" inputmode="numeric" autocomplete="off"
+                 spellcheck="false" placeholder="PIN" maxlength="32">
+          <div id="jrnlMsg" class="note-sm"></div>
+        </div>
+        <textarea id="jrnl" placeholder="Nobody else is reading this&hellip;" spellcheck="false" hidden></textarea>
+      </section>
+    </div>
 
     <div class="col">
       <section class="card">
@@ -294,19 +325,6 @@
       </section>
     </div>
   </main>
-
-  <section class="card jrnl">
-    <h2 id="jrnlHead">Journal <button id="jrnlLock" hidden>lock</button></h2>
-    <div id="jrnlGate">
-      <div class="jrnl-gate">
-        <input class="in" id="jrnlPin" type="password" inputmode="numeric" autocomplete="off"
-               spellcheck="false" placeholder="PIN" maxlength="32">
-        <button class="btn pri" id="jrnlGo">Unlock</button>
-      </div>
-      <div id="jrnlMsg" class="note-sm"></div>
-    </div>
-    <textarea id="jrnl" placeholder="Nobody else is reading this&hellip;" spellcheck="false" hidden></textarea>
-  </section>
 
   <dialog id="cfg">
     <h3>Board settings</h3>
@@ -459,6 +477,7 @@
 
     /* ---------------- todos ---------------- */
     var CHECK = '<svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>';
+    var PENCIL = '<svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>';
     var GRIP = '<svg viewBox="0 0 12 14"><circle cx="3" cy="3" r="1.4"/><circle cx="9" cy="3" r="1.4"/><circle cx="3" cy="7" r="1.4"/><circle cx="9" cy="7" r="1.4"/><circle cx="3" cy="11" r="1.4"/><circle cx="9" cy="11" r="1.4"/></svg>';
 
     function renderTodos() {
@@ -601,12 +620,52 @@
         return '<div class="habit" data-id="' + h.id + '">' +
           '<div class="habit-top">' +
           '<button class="tick" data-a="tick" aria-pressed="' + !!set[today] + '" aria-label="Mark done today">' + CHECK + '</button>' +
-          '<span class="habit-name">' + esc(h.name) + '</span>' +
-          '<span class="streak' + (n > 2 ? ' hot' : '') + '">' + (n ? n + 'd' : '&mdash;') + '</span>' +
+          '<span class="habit-name" role="textbox">' + esc(h.name) + '</span>' +
+          '<button class="pencil" data-a="rename" aria-label="Rename habit">' + PENCIL + '</button>' +
+          '<span class="habit-gap"></span>' +
+          /* No placeholder for a zero streak — an empty row reads cleaner than a dash. */
+          (n ? '<span class="streak' + (n > 2 ? ' hot' : '') + '">' + n + 'd</span>' : '') +
           '<button class="del" data-a="del" aria-label="Delete">&times;</button>' +
           '</div><div class="strip">' + cells + '</div></div>';
       }).join('');
     }
+    function findHabit(id) { return S.habits.findIndex(function (h) { return h.id === id; }); }
+
+    /* Rename in place: the pencil turns the name itself into the input, so there's no
+       dialog and no second field to look at. Same keys as a todo — Enter, Escape, blur. */
+    function startRename(row) {
+      var el = row.querySelector('.habit-name');
+      if (!el) return;
+      el.setAttribute('contenteditable', 'plaintext-only');
+      el.focus();
+      var r = document.createRange();
+      r.selectNodeContents(el);
+      var sel = getSelection();
+      sel.removeAllRanges();
+      sel.addRange(r);
+    }
+    $('habitList').addEventListener('keydown', function (e) {
+      var el = e.target;
+      if (!el.classList || !el.classList.contains('habit-name')) return;
+      if (e.key === 'Enter') { e.preventDefault(); el.blur(); }
+      else if (e.key === 'Escape') {
+        var i = findHabit(el.closest('.habit').dataset.id);
+        if (i >= 0) el.textContent = S.habits[i].name;
+        el.blur();
+      }
+    });
+    $('habitList').addEventListener('focusout', function (e) {
+      var el = e.target;
+      if (!el.classList || !el.classList.contains('habit-name')) return;
+      el.removeAttribute('contenteditable');
+      var i = findHabit(el.closest('.habit').dataset.id);
+      if (i < 0) return;
+      var v = el.textContent.trim();
+      /* An emptied name is a slip, not a delete — that's what the × is for. */
+      if (!v || v === S.habits[i].name) { el.textContent = S.habits[i].name; return; }
+      S.habits[i].name = v;
+      commit(null);
+    });
     $('habitIn').addEventListener('keydown', function (e) {
       if (e.key !== 'Enter') return;
       var v = this.value.trim();
@@ -618,15 +677,17 @@
     $('habitList').addEventListener('click', function (e) {
       var btn = e.target.closest('[data-a]'), row = e.target.closest('.habit');
       if (!btn || !row) return;
-      var i = S.habits.findIndex(function (h) { return h.id === row.dataset.id; });
+      var i = findHabit(row.dataset.id);
       if (i < 0) return;
-      if (btn.dataset.a === 'del') {
+      var a = btn.dataset.a;
+      if (a === 'rename') { startRename(row); return; }
+      if (a === 'del') {
         if (!confirm('Delete habit "' + S.habits[i].name + '" and its history?')) return;
         S.habits.splice(i, 1);
-      } else {
+      } else if (a === 'tick') {
         var t = iso(new Date()), days = S.habits[i].days, at = days.indexOf(t);
         if (at >= 0) days.splice(at, 1); else { days.push(t); days.sort(); }
-      }
+      } else return;
       commit(renderHabits);
     });
 
@@ -731,24 +792,36 @@
       /* Locking must actually remove the text from the page, not just hide it. */
       jrnlEl.value = on ? S.journal : '';
     }
+    /* No button and no Enter: the PIN is checked as soon as enough digits are there, so
+       the last keystroke opens it. Each derivation costs real time, so a value that has
+       already been rejected is never re-checked — that also keeps a longer PIN from
+       burning a derivation on every digit past the sixth. */
+    var jrnlBusy = false, jrnlTried = {}, jrnlPinT;
     function tryJournalPin() {
       var v = $('jrnlPin').value.trim();
-      if (!v) return;
+      if (jrnlBusy || !PIN_RE.test(v) || jrnlTried[v]) return;
       if (!cfg.path) {
         jrnlMsg('Enter your PIN in settings first — the journal uses the same one.', 'err');
         return;
       }
-      $('jrnlGo').disabled = true;
+      jrnlBusy = true;
       jrnlMsg('Checking…');
       derive(v).then(function (d) {
         if (d.path === cfg.path) { showJournal(true); jrnlEl.focus(); }
-        else { $('jrnlPin').value = ''; jrnlMsg('Wrong PIN.', 'err'); }
+        else {
+          jrnlTried[v] = 1;
+          jrnlMsg('Wrong PIN.', 'err');
+          $('jrnlPin').select();          // next keystroke replaces it, nothing to clear
+        }
       }).catch(function (e) {
         jrnlMsg('Could not check: ' + (e.message || e), 'err');
-      }).then(function () { $('jrnlGo').disabled = false; });
+      }).then(function () { jrnlBusy = false; });
     }
-    $('jrnlGo').addEventListener('click', tryJournalPin);
-    $('jrnlPin').addEventListener('keydown', function (e) { if (e.key === 'Enter') tryJournalPin(); });
+    $('jrnlPin').addEventListener('input', function () {
+      clearTimeout(jrnlPinT);
+      if (!jrnlBusy) jrnlMsg('');
+      jrnlPinT = setTimeout(tryJournalPin, 120);
+    });
     $('jrnlLock').addEventListener('click', function () {
       clearTimeout(jrnlT);
       S.journal = jrnlEl.value;                       // don't lose an unsaved keystroke
