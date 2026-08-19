@@ -147,6 +147,7 @@
     .strip i.on{background:var(--accent)}
     .strip i.today{box-shadow:0 0 0 1.5px var(--fg-faint)}
     .strip i.on.today{box-shadow:0 0 0 1.5px var(--fg-dim)}
+    .habit:hover .del{opacity:1}
 
     /* ---------- countdowns ---------- */
     .pin{display:flex;align-items:baseline;gap:10px;padding:8px 0;border-top:1px solid var(--line)}
@@ -160,6 +161,44 @@
     .row{display:flex;gap:8px;margin-top:12px}
     .row .in{flex:1;min-width:0}
     .row input[type=date]{flex:none;width:140px;color-scheme:dark}
+
+    /* ---------- gratitude ---------- */
+    /* The log is a <details> that starts shut on every load: the point of the section is
+       writing today's line, not re-reading the pile. */
+    #gratWrap{margin-top:12px;border-top:1px solid var(--line);padding-top:10px}
+    #gratWrap summary{
+      cursor:pointer;font-size:12px;color:var(--fg-faint);list-style-position:outside;
+      letter-spacing:.03em;user-select:none
+    }
+    #gratWrap summary:hover{color:var(--fg-dim)}
+    #gratList{list-style:none;margin:10px 0 0;padding:0;display:flex;flex-direction:column;gap:1px}
+    .grat{display:flex;align-items:flex-start;gap:9px;padding:6px 4px;border-radius:8px;transition:background .12s}
+    .grat:hover{background:var(--panel-2)}
+    .grat-d{
+      flex:none;font-size:11px;color:var(--fg-faint);font-variant-numeric:tabular-nums;
+      padding-top:3px;width:44px
+    }
+    .grat-t{flex:1;min-width:0;font-size:13.5px;line-height:1.5;overflow-wrap:anywhere}
+    .grat:hover .del{opacity:1}
+    .grat .del{padding-top:0}
+
+    /* ---------- journal ---------- */
+    /* Sits below the board and stays a slim locked bar until the PIN is entered, so a
+       glance at the page never shows what's in it. Session-only: any reload re-locks. */
+    .jrnl{margin-top:18px}
+    .jrnl h2{margin-bottom:0}
+    .jrnl h2.open{margin-bottom:14px}
+    .jrnl-gate{display:flex;gap:8px;align-items:center;margin-top:14px}
+    .jrnl-gate .in{flex:none;width:150px}
+    .jrnl-gate .btn{flex:none}
+    #jrnlMsg{margin-top:8px;min-height:17px}
+    #jrnlMsg.err{color:var(--err)}
+    #jrnl{
+      width:100%;min-height:300px;resize:vertical;background:var(--panel-2);border:1px solid transparent;
+      border-radius:10px;padding:13px;line-height:1.65;font-size:14px;
+      font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace
+    }
+    #jrnl:focus{outline:none;border-color:var(--accent)}
 
     /* ---------- settings dialog ---------- */
     dialog{
@@ -243,8 +282,31 @@
           <input class="in" id="pinDate" type="date">
         </div>
       </section>
+
+      <section class="card">
+        <h2>I&rsquo;m grateful for&hellip; <span class="n" id="gratCount"></span></h2>
+        <input class="in" id="gratIn" placeholder="One small thing" autocomplete="off">
+        <div class="empty" id="gratEmpty">Nothing noted yet.</div>
+        <details id="gratWrap" hidden>
+          <summary id="gratSum"></summary>
+          <ul id="gratList"></ul>
+        </details>
+      </section>
     </div>
   </main>
+
+  <section class="card jrnl">
+    <h2 id="jrnlHead">Journal <button id="jrnlLock" hidden>lock</button></h2>
+    <div id="jrnlGate">
+      <div class="jrnl-gate">
+        <input class="in" id="jrnlPin" type="password" inputmode="numeric" autocomplete="off"
+               spellcheck="false" placeholder="PIN" maxlength="32">
+        <button class="btn pri" id="jrnlGo">Unlock</button>
+      </div>
+      <div id="jrnlMsg" class="note-sm"></div>
+    </div>
+    <textarea id="jrnl" placeholder="Nobody else is reading this&hellip;" spellcheck="false" hidden></textarea>
+  </section>
 
   <dialog id="cfg">
     <h3>Board settings</h3>
@@ -334,7 +396,7 @@
     function daysAgo(n) { var d = new Date(); d.setHours(12, 0, 0, 0); d.setDate(d.getDate() - n); return d; }
 
     /* ---------------- state ---------------- */
-    var BLANK = { v: 1, todos: [], note: '', habits: [], pins: [], updatedAt: 0 };
+    var BLANK = { v: 1, todos: [], note: '', habits: [], pins: [], gratitude: [], journal: '', updatedAt: 0 };
     var S = normalize(window.__S);
     var cfg = readJSON(K_CFG) || { path: '', keyB64: '', lastSync: 0 };
 
@@ -347,6 +409,8 @@
         note: typeof o.note === 'string' ? o.note : '',
         habits: Array.isArray(o.habits) ? o.habits : [],
         pins: Array.isArray(o.pins) ? o.pins : [],
+        gratitude: Array.isArray(o.gratitude) ? o.gratitude : [],
+        journal: typeof o.journal === 'string' ? o.journal : '',
         updatedAt: o.updatedAt || 0
       };
     }
@@ -605,10 +669,102 @@
       commit(renderPins);
     });
 
+    /* ---------------- gratitude ----------------
+       One line a day, newest first. The log lives in a <details> that is shut on load and
+       stays shut unless it's opened by hand — the daily act is writing, not scrolling. */
+    var gratOpen = false;
+    function shortDate(s) {
+      var p = String(s).split('-');
+      if (p.length !== 3) return '';
+      return (+p[2]) + ' ' + MONTHS[+p[1] - 1].slice(0, 3);
+    }
+    function renderGrat() {
+      var n = S.gratitude.length;
+      $('gratEmpty').hidden = n > 0;
+      $('gratWrap').hidden = n === 0;
+      $('gratCount').textContent = n ? n : '';
+      $('gratSum').textContent = n === 1 ? '1 entry' : n + ' entries';
+      $('gratWrap').open = gratOpen;
+      $('gratList').innerHTML = S.gratitude.map(function (g) {
+        return '<li class="grat" data-id="' + g.id + '">' +
+          '<span class="grat-d">' + shortDate(g.date) + '</span>' +
+          '<span class="grat-t">' + esc(g.text) + '</span>' +
+          '<button class="del" data-a="del" aria-label="Delete">&times;</button></li>';
+      }).join('');
+    }
+    $('gratIn').addEventListener('keydown', function (e) {
+      if (e.key !== 'Enter') return;
+      var v = this.value.trim();
+      if (!v) return;
+      S.gratitude.unshift({ id: uid(), text: v, date: iso(new Date()), createdAt: Date.now() });
+      this.value = '';
+      commit(renderGrat);
+    });
+    $('gratWrap').addEventListener('toggle', function () { gratOpen = this.open; });
+    $('gratList').addEventListener('click', function (e) {
+      var row = e.target.closest('.grat');
+      if (!row || !e.target.closest('[data-a=del]')) return;
+      S.gratitude = S.gratitude.filter(function (g) { return g.id !== row.dataset.id; });
+      commit(renderGrat);
+    });
+
+    /* ---------------- journal ----------------
+       Gated behind the same PIN that unlocks sync. There is no stored copy of the PIN to
+       compare against, so the check is the same one unlock uses: derive the path from
+       what was typed and see whether it matches the path this device is already using.
+       A wrong PIN derives a different path and simply doesn't match.
+
+       This is a screen-level lock, not a second layer of encryption: the text sits in the
+       same state object as everything else, so it's in localStorage in the clear and is
+       covered by the board's own encryption on the way to the database. Unlocking is
+       session-only — any reload, and it's shut again. */
+    var jrnlEl = $('jrnl'), jrnlT, jrnlUnlocked = false;
+    function jrnlMsg(t, cls) { var m = $('jrnlMsg'); m.textContent = t || ''; m.className = 'note-sm ' + (cls || ''); }
+    function showJournal(on) {
+      jrnlUnlocked = on;
+      $('jrnlGate').hidden = on;
+      $('jrnlLock').hidden = !on;
+      jrnlEl.hidden = !on;
+      $('jrnlHead').classList.toggle('open', on);
+      $('jrnlPin').value = '';
+      jrnlMsg('');
+      /* Locking must actually remove the text from the page, not just hide it. */
+      jrnlEl.value = on ? S.journal : '';
+    }
+    function tryJournalPin() {
+      var v = $('jrnlPin').value.trim();
+      if (!v) return;
+      if (!cfg.path) {
+        jrnlMsg('Enter your PIN in settings first — the journal uses the same one.', 'err');
+        return;
+      }
+      $('jrnlGo').disabled = true;
+      jrnlMsg('Checking…');
+      derive(v).then(function (d) {
+        if (d.path === cfg.path) { showJournal(true); jrnlEl.focus(); }
+        else { $('jrnlPin').value = ''; jrnlMsg('Wrong PIN.', 'err'); }
+      }).catch(function (e) {
+        jrnlMsg('Could not check: ' + (e.message || e), 'err');
+      }).then(function () { $('jrnlGo').disabled = false; });
+    }
+    $('jrnlGo').addEventListener('click', tryJournalPin);
+    $('jrnlPin').addEventListener('keydown', function (e) { if (e.key === 'Enter') tryJournalPin(); });
+    $('jrnlLock').addEventListener('click', function () {
+      clearTimeout(jrnlT);
+      S.journal = jrnlEl.value;                       // don't lose an unsaved keystroke
+      commit(null);
+      showJournal(false);
+    });
+    jrnlEl.addEventListener('input', function () {
+      clearTimeout(jrnlT);
+      jrnlT = setTimeout(function () { S.journal = jrnlEl.value; commit(null); }, 350);
+    });
+
     /* ---------------- render all ---------------- */
     function renderAll() {
-      renderTodos(); renderHabits(); renderPins();
+      renderTodos(); renderHabits(); renderPins(); renderGrat();
       if (document.activeElement !== noteEl) noteEl.value = S.note;
+      if (jrnlUnlocked && document.activeElement !== jrnlEl) jrnlEl.value = S.journal;
     }
 
     /* ---------------- sync: PIN + Realtime Database ----------------
