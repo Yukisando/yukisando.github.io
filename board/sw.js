@@ -2,7 +2,7 @@
    Makes repeat loads entirely network-free (the page is one self-contained file,
    font included) and keeps the board usable offline. */
 
-var CACHE = 'board-v4';
+var CACHE = 'board-v5';
 
 self.addEventListener('install', function (e) {
   e.waitUntil(

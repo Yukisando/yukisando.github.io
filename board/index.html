@@ -30,12 +30,17 @@
       --r:14px;
     }
     *,*::before,*::after{box-sizing:border-box}
-    html,body{height:100%}
+    html{height:100%}
     body{
       margin:0; background:var(--bg); color:var(--fg);
       font:400 15px/1.5 Comfortaa,ui-rounded,"Segoe UI",system-ui,sans-serif;
       -webkit-font-smoothing:antialiased;
-      padding:26px clamp(16px,4vw,44px) 40px;
+      /* min-height, not height: at 100% the body box stops at the viewport edge and the
+         bottom padding paints there instead of under the overflowing content, so the last
+         card sits flush against the bottom of the scroll area once the columns stack. */
+      min-height:100%;
+      padding:26px clamp(16px,4vw,44px);
+      padding-bottom:calc(40px + env(safe-area-inset-bottom));
     }
     button,input,textarea{font:inherit;color:inherit}
     button{background:none;border:0;cursor:pointer;padding:0}
@@ -78,7 +83,11 @@
       .col{grid-column:1/-1;grid-template-columns:1fr 1fr}
       .col-mid{grid-column:auto;grid-template-columns:1fr}
     }
-    @media(max-width:720px){main,.col{grid-template-columns:1fr}}
+    @media(max-width:720px){
+      main,.col{grid-template-columns:1fr}
+      /* Extra room so the last card clears a mobile browser's collapsing bottom bar. */
+      body{padding-bottom:calc(72px + env(safe-area-inset-bottom))}
+    }
 
     .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:18px}
     .card h2{
