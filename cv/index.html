@@ -229,7 +229,7 @@
         <div class="cv-viewer__frame-wrap">
           <iframe
             id="cv-frame"
-            src="/doc/cv_en.pdf"
+            src="/doc/cv_en.pdf#view=Fit"
             title="Nathan de Castro — CV"
           ></iframe>
         </div>
@@ -281,7 +281,7 @@
         function setLang(lang) {
           var href = files[lang] || files.en;
 
-          frame.src = href;
+          frame.src = href + "#view=Fit";
           downloadBtn.href = href;
           downloadBtn.setAttribute(
             "download",
