@@ -33,9 +33,8 @@ document.addEventListener('DOMContentLoaded', function () {
     {
       key: 'cv',
       label: 'CV',
-      href: '/doc/cv_en.pdf',
+      href: '/cv/',
       cta: true,
-      isCvLink: true,
     },
   ];
 
@@ -220,20 +219,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const href = isHomePage && item.homeHref ? item.homeHref : item.href;
     const keyAttribute = ' data-nav-key="' + item.key + '"';
-    const cvAttribute = item.isCvLink ? ' data-cv-link' : '';
-    const externalAttributes = item.isCvLink ? ' target="_blank" rel="noopener"' : '';
 
-    return `<a href="${href}" class="${classes.join(' ')}"${keyAttribute}${cvAttribute}${externalAttributes}>${item.label}</a>`;
-  }
-
-  function localizeCvLinks(nav) {
-    const userLanguage = navigator.language || navigator.userLanguage || '';
-    const isFrench = userLanguage.toLowerCase().startsWith('fr');
-    const cvHref = isFrench ? '/doc/cv_fr.pdf' : '/doc/cv_en.pdf';
-
-    nav.querySelectorAll('[data-cv-link]').forEach(function (link) {
-      link.setAttribute('href', cvHref);
-    });
+    return `<a href="${href}" class="${classes.join(' ')}"${keyAttribute}>${item.label}</a>`;
   }
 
   function findNavItemByHomeHash(hash) {
@@ -485,7 +472,6 @@ document.addEventListener('DOMContentLoaded', function () {
   navs.forEach(function (nav, index) {
     renderNav(nav, index);
     applyNavPalette(nav);
-    localizeCvLinks(nav);
     syncRequestedKeyFromHash(nav);
     updateNavActiveState(nav);
 

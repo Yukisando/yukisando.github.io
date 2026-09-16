@@ -108,24 +108,6 @@
               if (loop) clearInterval(loop);
               button.textContent = "Scrolling is overrated";
             }
-
-            // Language detection for CV links
-            function setupCVLanguage() {
-              const userLanguage = navigator.language || navigator.userLanguage;
-              const isFrench = userLanguage.toLowerCase().startsWith("fr");
-
-              const cvDownloadLink =
-                document.getElementById("cv-download-link");
-
-              if (isFrench) {
-                if (cvDownloadLink) cvDownloadLink.href = "/doc/cv_fr.pdf";
-              } else {
-                if (cvDownloadLink) cvDownloadLink.href = "/doc/cv_en.pdf";
-              }
-            }
-
-            // Run the language setup when the page loads
-            document.addEventListener("DOMContentLoaded", setupCVLanguage);
           </script>
         </div>
       </div>
@@ -363,9 +345,8 @@
           <p class="cv-panel__eyebrow">Quick links</p>
           <h2>Curriculum Vitae</h2>
           <a
-            href="/doc/cv_en.pdf"
+            href="/cv/"
             class="btn btn-default btn-xl sr-button cv-panel__button cv-panel__button--primary site-button site-button--primary"
-            id="cv-download-link"
             >View / Download</a
           >
           <div class="cv-panel__button-row">
