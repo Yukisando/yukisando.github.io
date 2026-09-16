@@ -1,9 +1,12 @@
 #!/usr/bin/env node
 /**
- * Builds doc/cv_<lang>.pdf from doc/cv_<lang>.md
+ * Builds doc/cv_<lang>.html and doc/cv_<lang>.pdf from doc/cv_<lang>.md
  *
- * The markdown files are the single source of truth. Edit those; the PDFs are
- * generated artifacts and should never be hand-edited.
+ * The markdown files are the single source of truth. Edit those; the HTML and
+ * PDFs are generated artifacts and should never be hand-edited.
+ *
+ * The HTML is what gets printed to PDF, and it is also what /cv/ embeds — so
+ * the on-screen CV and the downloadable one are the same render, not two.
  *
  * Zero npm dependencies on purpose: this drives a locally installed Chrome or
  * Edge in headless mode. The GitHub Actions runner already ships Chrome, so CI
@@ -320,7 +323,16 @@ function parseCv(md, cfg) {
  * works, but Chrome cannot subset a variable face, so it embeds the whole thing
  * and the PDF balloons to ~530KB; static faces subset down to well under 100KB.
  */
-function fontFace() {
+/**
+ * `fonts` picks how Comfortaa gets in:
+ *   'embed' — base64 in the CSS. Required for the PDF pass, which renders from
+ *             file://, where a request for a sibling font file is blocked.
+ *   'link'  — plain URL, relative to doc/. Used for the published HTML, which
+ *             is served over https next to fonts/: keeps the page ~20KB instead
+ *             of ~460KB and lets the browser cache the fonts across both
+ *             languages.
+ */
+function fontFace(fonts) {
   const weights = [
     [400, 'Comfortaa-Regular.ttf'],
     [600, 'Comfortaa-SemiBold.ttf'],
@@ -328,22 +340,27 @@ function fontFace() {
   ]
   return weights
     .map(([weight, file]) => {
-      const b64 = readFileSync(join(REPO, 'fonts', file)).toString('base64')
-      return `@font-face{font-family:'Comfortaa';src:url(data:font/ttf;base64,${b64}) format('truetype');font-weight:${weight};font-style:normal;font-display:block}`
+      const src =
+        fonts === 'embed'
+          ? `url(data:font/ttf;base64,${readFileSync(
+              join(REPO, 'fonts', file)
+            ).toString('base64')})`
+          : `url(../fonts/${file})`
+      return `@font-face{font-family:'Comfortaa';src:${src} format('truetype');font-weight:${weight};font-style:normal;font-display:block}`
     })
     .join('')
 }
 
-function css(scale, layout) {
+function css(scale, layout, fonts) {
   // Every type size flows from `scale`, so tuning the whole sheet is one number.
   const pt = (n) => `${(n * scale).toFixed(2)}pt`
-  return baseCss(pt) + (layout === 'single' ? singleCss(pt) : sidebarCss(pt))
+  return baseCss(pt, fonts) + (layout === 'single' ? singleCss(pt) : sidebarCss(pt))
 }
 
 /** Type, colour and the main-column blocks both layouts share. */
-function baseCss(pt) {
+function baseCss(pt, fonts) {
   return `
-${fontFace()}
+${fontFace(fonts)}
 @page { size: A4; margin: 0; }
 *, *::before, *::after { box-sizing: border-box; }
 
@@ -537,7 +554,7 @@ h1.name { font-size: ${pt(20)}; font-weight: 700; color: var(--ink); margin: 0 0
 `
 }
 
-function render(doc, lang, cfg) {
+function render(doc, lang, cfg, fonts) {
   const t = (s) => (lang === 'fr' ? frenchSpacing(escapeHtml(s)) : escapeHtml(s))
   const md = (s) => inline(s, lang)
   const body =
@@ -549,7 +566,8 @@ function render(doc, lang, cfg) {
 <html lang="${lang}">
 <head><meta charset="utf-8"><title>${t(doc.name)} — CV</title><style>${css(
     cfg.scale,
-    cfg.layout
+    cfg.layout,
+    fonts
   )}</style></head>
 <body>
 ${body}
@@ -826,10 +844,12 @@ for (const lang of targets) {
     if (m) doc.sectionTitles[key] = m[1].trim()
   }
 
-  const htmlPath = join(BUILD, `cv_${lang}.html`)
   const pdfPath = join(DOC, `cv_${lang}.pdf`)
-  writeFileSync(htmlPath, render(doc, lang, cfg), 'utf8')
-  printPdf(browser, htmlPath, pdfPath)
+  writeFileSync(join(DOC, `cv_${lang}.html`), render(doc, lang, cfg, 'link'), 'utf8')
+
+  const printHtmlPath = join(BUILD, `cv_${lang}.html`)
+  writeFileSync(printHtmlPath, render(doc, lang, cfg, 'embed'), 'utf8')
+  printPdf(browser, printHtmlPath, pdfPath)
 
   const pages = pageCount(pdfPath)
   const ok = EXPECT === 0 || pages === EXPECT

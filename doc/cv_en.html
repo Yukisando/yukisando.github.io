@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Nathan de Castro — CV</title><style>
+@font-face{font-family:'Comfortaa';src:url(../fonts/Comfortaa-Regular.ttf) format('truetype');font-weight:400;font-style:normal;font-display:block}@font-face{font-family:'Comfortaa';src:url(../fonts/Comfortaa-SemiBold.ttf) format('truetype');font-weight:600;font-style:normal;font-display:block}@font-face{font-family:'Comfortaa';src:url(../fonts/Comfortaa-Bold.ttf) format('truetype');font-weight:700;font-style:normal;font-display:block}
+@page { size: A4; margin: 0; }
+*, *::before, *::after { box-sizing: border-box; }
+
+html { background: #fff; }
+html, body {
+  margin: 0; padding: 0;
+  font-family: 'Comfortaa', 'Segoe UI', Arial, sans-serif;
+  color: #24272b;
+  font-size: 8.67pt;
+  line-height: 1.44;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+:root {
+  --ink: #1f2226;
+  --sub: #58626d;
+  --brand: #F05F40;
+  --brandText: #C4451F;
+  --rule: #dce1e5;
+}
+
+.chips { display: flex; flex-wrap: wrap; gap: 1.1mm; }
+.chip {
+  background: #fff; border: 1px solid var(--rule); color: var(--sub);
+  border-radius: 3px; padding: 0.5mm 1.5mm; font-size: 7.04pt; line-height: 1.5;
+}
+
+.m-section { margin-bottom: 4.8mm; }
+.m-h {
+  font-size: 10.00pt; font-weight: 700; color: var(--ink);
+  margin: 0 0 2.4mm; padding-bottom: 1mm; border-bottom: 1.4px solid var(--brand);
+}
+.profile-text { color: #3a4148; font-size: 8.67pt; }
+
+.job { margin-bottom: 5.2mm; break-inside: avoid-page; }
+.job:last-child { margin-bottom: 0; }
+.job-head { display: flex; justify-content: space-between; align-items: baseline; gap: 3mm; margin-bottom: 0.8mm; }
+.job-role { font-size: 10.40pt; font-weight: 700; color: var(--ink); }
+.job-co   { font-weight: 600; color: var(--brandText); }
+.job-note { font-weight: 400; color: var(--sub); font-size: 7.55pt; }
+.job-meta { font-size: 7.75pt; color: var(--sub); white-space: nowrap; }
+
+/* role summary: sits outside the bullet list, as a subtitle to the whole job */
+.job-intro { color: #3a4148; margin: 1.2mm 0 0; }
+
+/* Project labels (bullet lead-ins, e.g. "CPPS digital suite") stay at body
+   size — only .job-role is bumped up, so the company/role line reads as the
+   clearly higher tier instead of the two looking like the same weight class. */
+ul.bullets { margin: 1.4mm 0 0; padding-left: 3.6mm; }
+ul.bullets li { margin-bottom: 1.9mm; color: #3a4148; }
+ul.bullets li:last-child { margin-bottom: 0; }
+ul.bullets li b { color: var(--ink); font-weight: 700; }
+
+/* Comfortaa ships no italic, so accents use colour and weight instead of a
+   synthesised oblique, which looks broken on a rounded face. */
+.tech { color: var(--brandText); font-size: 7.75pt; }
+em { font-style: normal; color: var(--sub); }
+
+.proj-group-lbl {
+  font-size: 7.85pt; font-weight: 700; color: var(--sub);
+  text-transform: uppercase; letter-spacing: 0.4px; margin: 2.4mm 0 1.2mm;
+}
+.os-note { font-size: 7.96pt; color: var(--sub); margin-top: 2.4mm; }
+
+/* clone repeats the page padding on page 2, so the sheet keeps its margins
+   after the break instead of running text into the top edge. */
+.sheet {
+  width: 210mm; min-height: 297mm; padding: 14mm 15mm 12mm;
+  box-decoration-break: clone; -webkit-box-decoration-break: clone;
+}
+
+/* Negative margins pull the band out to the paper edge, through the padding. */
+.masthead {
+  margin: -14mm -15mm 6mm; padding: 13mm 15mm 6mm;
+  background: #f4f6f7; border-bottom: 1.6px solid var(--brand);
+  display: flex; justify-content: space-between; align-items: flex-end; gap: 8mm;
+}
+h1.name { font-size: 20.40pt; font-weight: 700; color: var(--ink); margin: 0 0 1.2mm; letter-spacing: -0.3px; }
+.title  { font-size: 10.61pt; color: var(--brandText); font-weight: 600; margin: 0; }
+.mh-langs { font-size: 7.75pt; color: var(--sub); margin-top: 2.2mm; }
+.mh-langs b { color: var(--ink); font-weight: 600; }
+.contact-list { list-style: none; margin: 0; padding: 0; text-align: right; }
+.contact-list li { font-size: 7.96pt; color: var(--sub); margin-bottom: 1.1mm; white-space: nowrap; }
+.contact-list li:last-child { margin-bottom: 0; }
+
+/* Section rules here are a short brand tick rather than a full underline, so a
+   full-width column does not read as a stack of horizontal bars. The tick is a
+   pseudo-element sized in em, not a border on the block, so its height tracks
+   the text's own font-size instead of the taller line box around it. */
+.m-h {
+  font-size: 9.59pt; text-transform: uppercase; letter-spacing: 1.1px;
+  margin: 0 0 2.6mm; padding: 0;
+  display: flex; align-items: center; gap: 2.4mm;
+  break-after: avoid;
+}
+.m-h::before {
+  content: ''; display: block; flex-shrink: 0;
+  width: 2.2mm; height: 1em; background: var(--brand);
+}
+.m-section { margin-bottom: 5.8mm; }
+.m-section:last-child { margin-bottom: 0; }
+
+/* skills: a compact label/value block, no chips — at this width the values
+   read fine as running text, and pills only added height. Full markdown text
+   too; the rail's abbreviations are not needed here. */
+.skills-grid { display: grid; grid-template-columns: 32mm 1fr; gap: 1.1mm 3mm; }
+.skill-group { display: contents; }
+.skill-group .lbl { font-size: 8.06pt; font-weight: 700; color: var(--ink); }
+.skill-group .vals { font-size: 8.06pt; color: #3a4148; }
+
+/* education runs two-up; certificates are a single inline row under it */
+.edu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3.2mm 8mm; }
+.edu-item { break-inside: avoid; }
+.edu-degree { font-size: 8.36pt; font-weight: 700; color: var(--ink); }
+.edu-school { font-size: 7.96pt; color: var(--sub); }
+.edu-note   { font-size: 7.55pt; color: var(--sub); margin-top: 0.4mm; }
+/* small tag rather than a full m-h: keeps certificates visually inside
+   Education instead of reading as their own section. */
+.cert-label {
+  font-size: 7.45pt; font-weight: 700; color: var(--sub);
+  text-transform: uppercase; letter-spacing: 0.4px; margin: 3.2mm 0 1.2mm;
+}
+.cert-row { display: flex; flex-wrap: wrap; gap: 1.4mm 5mm; font-size: 7.96pt; color: var(--sub); }
+.cert-row b { color: var(--ink); font-weight: 600; }
+</style></head>
+<body>
+<div class="sheet">
+  <header class="masthead">
+    <div>
+      <h1 class="name">Nathan de Castro</h1>
+      <div class="title">Full-Stack Developer &amp; Solution Architect</div>
+      <div class="mh-langs">Languages — French · English <b>(Native)</b></div>
+    </div>
+    <ul class="contact-list"><li>France / Switzerland</li><li>+33 6 27 64 80 28</li><li>decastronathan@gmail.com</li><li>nathandecastro.com</li><li>github.com/Yukisando</li></ul>
+  </header>
+
+  <div class="m-section">
+    <div class="m-h">Profile</div>
+    <p class="profile-text">Full-stack developer and solution architect with <b>8 years of experience</b> shipping production software end to end: web platforms, mobile apps, real-time backends and interactive installations running on Android, iOS, Windows and Linux. Owned systems from the first workshop with domain experts through to the deployed, maintained product: architecture, implementation, infrastructure, hardware selection, deployment and support. Heavy daily user and integrator of LLM and agentic AI tooling across the development lifecycle. Comfortable running the technical conversation and the client conversation in the same room.</p>
+  </div>
+
+  <div class="m-section">
+    <div class="m-h">Work Experience</div>
+    <div class="job">
+      <div class="job-head">
+        <span class="job-role">Co-Founder &amp; Lead Engineer <span class="job-co">— Valbilon Studios</span></span>
+        <span class="job-meta">Sion, Switzerland · 2022 – Present</span>
+      </div>
+      <p class="job-intro">Principal developer across the company's entire product portfolio: Flutter mobile apps, web platforms, Unity installations and Windows/Linux kiosk software, owning architecture, implementation, deployment and support.</p>
+      <ul class="bullets"><li><b>CPPS digital suite</b>: designed and built the full technology stack for a public earthquake training centre and museum, a reservation and payment platform for state, private and educational clients, with automated invoicing, accounting and reporting. <b>50,000 users/year</b>. <span class="tech">(REST APIs, Stripe, Firebase)</span></li><li><b>CPPS exhibit and kiosks</b>: built the centre's integrated exhibit framework, home to <b>Europe's largest earthquake simulator</b> across 3 spaces and 27 interactive stations, designed with seismology experts and university professors. <b>30+ touchscreen mini-games</b> and a fleet of <b>30 wall-mounted tablets</b>, each running its own kiosked webapp/APK over a secured local network with Docker, centrally configured and remotely updated. <b>30,000 visitors/year</b>. <span class="tech">(Android, Docker, kiosk and touchscreen interfaces)</span></li><li><b>Escape With Wallis</b>: hour-long Android escape game guiding visitors through the exhibit, with offline-tolerant progress sync and trigger-driven scripted events. <b>3000+ sessions completed</b>. <span class="tech">(Android, Firebase)</span></li><li><b>Winston</b>: architected and built the company's finance and accounting platform. LLM-driven document ingestion, categorisation and reconciliation on a conventional ledger core, with invoicing / VAT / payroll / Business expenses / AI automated cold calling. Replaced <b>4+ separate SaaS subscriptions</b> and still expanding. <span class="tech">(LLM API integration, agentic workflows, .NET)</span></li><li><b>Exploreum</b>: multi-tenant platform connecting museums with cross-institution progress tracking and rewards; currently in rollout. <span class="tech">(Firebase, REST APIs)</span></li><li>Designed and rolled out agentic AI workflows across multiple delivery pipelines (specification, scaffolding, code review, testing and documentation) <span class="tech">(Claude Code, MCP)</span></li></ul>
+    </div><div class="job">
+      <div class="job-head">
+        <span class="job-role">Technical Lead <span class="job-co">— Surgical VR</span> <span class="job-note">(formerly MedicalVR)</span></span>
+        <span class="job-meta">Amsterdam, Netherlands · 2022</span>
+      </div>
+      
+      <ul class="bullets"><li><b>PulmoVR</b>: developed and maintained a VR clinical application to visualise complex anatomical structures and accelerate lung segmentectomy planning through machine-learning segmentation. Clinically validated results: <b>-30 min</b> average operating time for 3D VATS vs. 2D VATS, <b>&gt;97%</b> anatomically accurate 3D models, and a <b>52%</b> surgical plan change rate after 3D model review. <span class="tech">(C#, Unity)</span></li><li>Led delivery for the development team within an Agile/Scrum framework: sprint planning, daily stand-ups, task breakdown, delegation, code reviews and change documentation, tracked via GitHub Projects.</li><li>Drove <b>CE marking</b> and <b>ISO 27001</b> readiness: information-security risk assessment and mitigation, controlled change management, and the technical documentation required for a regulated medical product.</li><li>Ran requirements gathering and validation directly with surgeons and clinical staff, then fed their feedback back into the implementation.</li></ul>
+    </div><div class="job">
+      <div class="job-head">
+        <span class="job-role">Senior Software Engineer <span class="job-co">— The Barn</span></span>
+        <span class="job-meta">Delft, Netherlands · 2019 – 2021</span>
+      </div>
+      
+      <ul class="bullets"><li><b>Eventrum</b>: built a browser-based virtual conference platform on WebRTC, delivered in partnership with <b>TU Delft and Accenture</b>, with real-time audio/video, room signalling and presence for up to <b>1k concurrent participants</b>. <span class="tech">(WebRTC, Unity, JavaScript)</span></li><li><b>TeamUp</b>: networked multiplayer team-building game delivered to WebGL and Windows, with authoritative session state over Photon. <span class="tech">(WebGL, Photon, Unity)</span></li><li><b>BMO industrial simulator</b>: built a virtual training simulator for the client's industrial sorting machine, with a scenario-authoring tool trainers used to create build, maintenance and operations exercises, cutting the cost and time of flying in a senior trainer for <b>2-week onboarding trips</b>. Deployed on WebGL and Windows at the client's facility. <span class="tech">(C#, Unity)</span></li><li>Led within an Agile/Scrum team: sprint planning, daily stand-ups and code reviews, tracked via ClickUp.</li></ul>
+    </div>
+  </div>
+
+  <div class="m-section">
+    <div class="m-h">Selected Freelance Work &amp; Open Source</div>
+    <div class="proj-group-lbl">Shipped apps</div>
+      <ul class="bullets"><li><b>Spinlab</b> <span class="tech">(Flutter, Firebase, Stripe)</span>: mobile app for iOS &amp; Android connecting tennis coaches and students, with location-based booking and in-app payments handled end-to-end.</li><li><b>Sandlog</b> <span class="tech">(Flutter)</span>: dream logging and tracking app.</li><li><b>Pygmak</b> <span class="tech">(Unity)</span>: mobile game with micro-transactions.</li></ul><div class="proj-group-lbl">Proprietary / client work</div>
+      <ul class="bullets"><li><b>Badger</b> <span class="tech">(Flutter)</span>: virtual business card app built for conventions and networking events.</li><li><b>ColisMarket</b> <span class="tech">(Flutter)</span>: fully functioning prototype built for the Tunisian parcel-delivery market, handling parcel delivery path tracking with automated OCR parcel-ticket reading and filing, ready but awaiting market launch.</li></ul><div class="os-note">A number of other open-source packages, tools and plugins are also available over on my GitHub</div>
+  </div>
+
+  <div class="m-section">
+    <div class="m-h">Education</div>
+    <div class="edu-grid"><div class="edu-item">
+        <div class="edu-degree">Research in Game Development</div>
+        <div class="edu-school">University of Technology Sydney, 2018 accelerated program</div>
+        <div class="edu-note">First Class Honours</div>
+        <div class="edu-note">Computer graphics implementation, VR applications for the handicapped, and teaching first-year students in game development</div>
+      </div><div class="edu-item">
+        <div class="edu-degree">BSc Computer Science</div>
+        <div class="edu-school">Goldsmiths, University of London, 2017</div>
+        <div class="edu-note">First Class Honours</div>
+        <div class="edu-note">Machine learning, artificial intelligence, advanced graphics, audio-visual processing</div>
+      </div><div class="edu-item">
+        <div class="edu-degree">BA Media, Music &amp; Sound</div>
+        <div class="edu-school">Edge Hill University, 2014</div>
+        <div class="edu-note">First Class Honours</div>
+        
+      </div><div class="edu-item">
+        <div class="edu-degree">Baccalauréat Scientifique</div>
+        <div class="edu-school">(Physics &amp; Mathematics), Lycée Français Vincent Van Gogh, 2013</div>
+        
+        
+      </div></div>
+    <div class="cert-label">Certificates</div>
+    <div class="cert-row"><span><b>C++ Programming</b> — EPFL</span><span><b>C# Masterclass</b> — Udemy</span></div>
+  </div>
+
+  <div class="m-section">
+    <div class="m-h">Technical Skills</div>
+    <div class="skills-grid">
+      <div class="skill-group">
+        <div class="lbl">Languages</div>
+        <div class="vals">C#, .NET, Dart, JavaScript, TypeScript, Python, Lua, SQL, HTML, CSS</div>
+      </div><div class="skill-group">
+        <div class="lbl">Frontend &amp; Mobile</div>
+        <div class="vals">Flutter, Android, iOS, WebGL, Unity, responsive UI, kiosk and touchscreen interfaces</div>
+      </div><div class="skill-group">
+        <div class="lbl">Backend &amp; Cloud</div>
+        <div class="vals">Firebase (Authentication, Firestore, Cloud Functions, Storage), AWS, REST APIs, Stripe, in-app purchases, WebRTC, Photon, real-time synchronisation</div>
+      </div><div class="skill-group">
+        <div class="lbl">Platforms &amp; Ops</div>
+        <div class="vals">Windows, Linux, Android device fleet management, Git, CI/CD, Docker, app store release management, remote deployment and monitoring, Agile, Scrum, Kanban</div>
+      </div><div class="skill-group">
+        <div class="lbl">AI</div>
+        <div class="vals">LLM API integration, retrieval-augmented generation (RAG), agentic workflows, prompt engineering, Claude Code, GitHub Copilot, MCP</div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

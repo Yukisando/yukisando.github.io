@@ -1,11 +1,24 @@
 # CV build
 
-`doc/cv_en.md` and `doc/cv_fr.md` are the **source of truth** for the CV.
-`doc/cv_en.pdf` and `doc/cv_fr.pdf` are generated from them — never hand-edit the PDFs,
-they get overwritten.
+`doc/cv_en.md` and `doc/cv_fr.md` are the **source of truth** for the CV. Each one builds
+two generated artifacts — never hand-edit either, they get overwritten:
 
-`index.html` picks the language at runtime from `navigator.language`, so both PDFs must
-keep their current filenames.
+| Artifact             | Used by                                                  |
+| -------------------- | -------------------------------------------------------- |
+| `doc/cv_<lang>.html` | embedded by `/cv/`, and printed to produce the PDF        |
+| `doc/cv_<lang>.pdf`  | the Download button on `/cv/`                             |
+
+The HTML *is* what gets printed to PDF, so the CV on screen and the CV in the download are
+the same render rather than two that can drift apart.
+
+`/cv/` picks the language from `navigator.language` on a first visit and remembers the
+toggle after that, so all four files must keep their current filenames.
+
+Both copies of the HTML are identical except for how Comfortaa gets in: the published one
+links `../fonts/*.ttf` (small, and the browser caches it), while the one the PDF is printed
+from embeds the fonts as base64, because that pass renders from `file://` where a request
+for a sibling font file is blocked. That print copy lands in the gitignored
+`tools/cv/.build/`.
 
 ## Updating the CV
 
@@ -27,11 +40,14 @@ repo's own `fonts/`, so local and CI output match.
 
 **The PDFs are CI-owned.** A local build is for previewing; the bytes differ slightly
 between browsers and platforms, so committing a locally-built PDF just makes CI rebuild
-and commit its own. After previewing, throw the artifacts away:
+and commit its own. After previewing, throw them away:
 
 ```bash
-git checkout -- doc/cv_en.pdf doc/cv_fr.pdf
+git restore doc/cv_en.pdf doc/cv_fr.pdf
 ```
+
+The HTML is not browser-dependent — the script writes it directly — so a locally-built
+`doc/cv_<lang>.html` is byte-identical to CI's and is fine to commit.
 
 ## The 2-page guard
 
