@@ -7,6 +7,7 @@
     { href: "/apps/generic/charter/", en: "Confidentiality Charter", fr: "Charte de confidentialité" },
     { href: "/apps/generic/privacy/", en: "Privacy Policy", fr: "Politique de confidentialité" },
     { href: "/apps/generic/tos/", en: "Terms of Service", fr: "Conditions d'utilisation" },
+    { href: "/apps/generic/delete-account/", en: "Delete Account", fr: "Supprimer le compte" },
   ];
   var pdfLabel = { en: "Download PDF", fr: "Télécharger en PDF" };
 
