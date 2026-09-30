@@ -461,7 +461,8 @@ body {
   text-transform: uppercase;
 }
 
-.hero h1 {
+.hero h1,
+.hero .hero-title {
   font-size: 3.5rem;
   font-weight: 800;
   margin-bottom: 18px;
