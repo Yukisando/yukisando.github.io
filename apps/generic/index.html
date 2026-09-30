@@ -1,84 +1,112 @@
 <!DOCTYPE html>
-<html lang="en">
+<html
+  lang="en"
+  data-title-en="Legal Documents — Nathan de Castro"
+  data-title-fr="Documents juridiques — Nathan de Castro"
+>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Generic App Policies</title>
+    <title>Legal Documents — Nathan de Castro</title>
     <meta
       name="description"
-      content="Privacy Policy and Terms of Service for apps and games."
+      content="Client contract, confidentiality charter, privacy policy and terms of service for apps and games by Nathan de Castro. Available in English and French."
     />
-    <link
-      rel="canonical"
-      href="https://nathandecastro.com/apps/generic/"
-    />
+    <link rel="canonical" href="https://nathandecastro.com/apps/generic/" />
     <link rel="stylesheet" href="/css/site-nav.css" />
-    <style>
-      body {
-        font-family: "Comfortaa", "Segoe UI", Arial, sans-serif;
-        margin: 0;
-        color: #111;
-        background: #faf7f4;
-      }
-      main {
-        max-width: 700px;
-        margin: 0 auto;
-        padding: 120px 28px 40px;
-        line-height: 1.6;
-      }
-      h1 {
-        margin-bottom: 8px;
-        color: #f05f40;
-      }
-      ul {
-        margin-top: 24px;
-        padding-left: 20px;
-      }
-      li {
-        margin-bottom: 12px;
-      }
-      a {
-        color: #c14a33;
-        font-size: 1.1em;
-      }
-      footer {
-        margin-top: 32px;
-        padding-top: 16px;
-        border-top: 1px solid #ddd;
-      }
-    </style>
+    <link rel="stylesheet" href="/apps/generic/legal.css" />
   </head>
   <body>
     <nav class="site-nav" data-site-nav data-site-nav-mode="solid"></nav>
 
     <main>
-      <div class="site-context-bar">
-        <a href="/apps/generic/" class="site-context-link is-active">Overview</a>
-        <a href="/apps/generic/privacy/" class="site-context-link">Privacy Policy</a>
-        <a href="/apps/generic/tos/" class="site-context-link">Terms of Service</a>
-      </div>
+      <div data-legal-toolbar></div>
 
-      <h1>App Policies</h1>
-      <p>
-        Legal documents for apps and games developed by Nathan De Castro.
-      </p>
+      <article class="sheet" lang="en">
+        <h1>Legal Documents</h1>
+        <p class="doc-meta">
+          Documents for apps and games developed by Nathan de Castro.
+        </p>
 
-      <ul>
-        <li><a href="privacy/">Privacy Policy</a></li>
-        <li><a href="tos/">Terms of Service</a></li>
-      </ul>
+        <h2>For clients</h2>
+        <ul class="doc-list">
+          <li>
+            <a href="contract/">App Development &amp; Maintenance Agreement</a>
+            <span>
+              Fixed-price development, licence, optional monthly maintenance.
+              Fill in, download as PDF, sign.
+            </span>
+          </li>
+          <li>
+            <a href="charter/">Confidentiality &amp; Data Protection Charter</a>
+            <span>
+              Mutual confidentiality and handling of personal data. Signed
+              together with the agreement.
+            </span>
+          </li>
+        </ul>
+
+        <h2>For app users</h2>
+        <ul class="doc-list">
+          <li>
+            <a href="privacy/">Privacy Policy</a>
+            <span>How the apps handle your data.</span>
+          </li>
+          <li>
+            <a href="tos/">Terms of Service</a>
+            <span>Rules for using the apps.</span>
+          </li>
+        </ul>
+      </article>
+
+      <article class="sheet" lang="fr">
+        <h1>Documents juridiques</h1>
+        <p class="doc-meta">
+          Documents relatifs aux applications et jeux développés par Nathan de
+          Castro.
+        </p>
+
+        <h2>Pour les clients</h2>
+        <ul class="doc-list">
+          <li>
+            <a href="contract/"
+              >Contrat de développement et de maintenance d'application</a
+            >
+            <span>
+              Développement au forfait, licence, maintenance mensuelle
+              optionnelle. À compléter, télécharger en PDF et signer.
+            </span>
+          </li>
+          <li>
+            <a href="charter/"
+              >Charte de confidentialité et de protection des données</a
+            >
+            <span>
+              Confidentialité réciproque et traitement des données
+              personnelles. Signée avec le contrat.
+            </span>
+          </li>
+        </ul>
+
+        <h2>Pour les utilisateurs des applications</h2>
+        <ul class="doc-list">
+          <li>
+            <a href="privacy/">Politique de confidentialité</a>
+            <span>Comment les applications traitent vos données.</span>
+          </li>
+          <li>
+            <a href="tos/">Conditions d'utilisation</a>
+            <span>Règles d'utilisation des applications.</span>
+          </li>
+        </ul>
+      </article>
 
       <footer>
-        <p>
-          <a href="/apps/generic/privacy/">Privacy Policy</a> ·
-          <a href="/apps/generic/tos/">Terms of Service</a>
-        </p>
-        <p>
-          <strong>Contact:</strong>
-          <a href="mailto:decastronathan@gmail.com">decastronathan@gmail.com</a>
-        </p>
+        <strong>Contact:</strong>
+        <a href="mailto:decastronathan@gmail.com">decastronathan@gmail.com</a>
       </footer>
     </main>
     <script src="/js/site-nav.js" defer></script>
+    <script src="/apps/generic/legal.js" defer></script>
   </body>
 </html>
