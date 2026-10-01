@@ -31,6 +31,12 @@ document.addEventListener('DOMContentLoaded', function () {
       secondary: true,
     },
     {
+      key: 'legal',
+      label: 'Legal',
+      href: '/apps/generic/',
+      secondary: true,
+    },
+    {
       key: 'cv',
       label: 'CV',
       href: '/cv/',

@@ -5,100 +5,242 @@ html[lang="fr"] [lang="en"] {
   display: none !important;
 }
 
+:root {
+  --legal-accent: #f05f40;
+  --legal-accent-dark: #c14a33;
+  --legal-ink: #1f1d1b;
+  --legal-ink-soft: #5f5852;
+  --legal-line: #ece2db;
+  --legal-tint: #fdf6f2;
+  --legal-paper: #ffffff;
+  --legal-bg: #f6f2ee;
+  --legal-text-font: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif;
+  --legal-title-font: "Comfortaa", "Segoe UI", Arial, sans-serif;
+}
+
+html {
+  scroll-padding-top: 76px;
+}
+
 body {
-  font-family: "Comfortaa", "Segoe UI", Arial, sans-serif;
   margin: 0;
-  color: #1c1b1a;
-  background: #faf7f4;
+  font-family: var(--legal-text-font);
+  color: var(--legal-ink);
+  background: var(--legal-bg);
 }
 
 main {
-  max-width: 820px;
+  max-width: 860px;
   margin: 0 auto;
-  padding: 120px 20px 48px;
-  line-height: 1.65;
+  padding: 92px 20px 56px;
 }
+
+/* ---------- Toolbar ---------- */
 
 .legal-toolbar {
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
+  flex-direction: column;
+  align-items: flex-start;
   gap: 12px;
-  margin-bottom: 24px;
+  margin-bottom: 22px;
 }
 
-.legal-toolbar .site-context-bar {
-  margin: 0;
+.legal-docs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 4px;
+  border: 1px solid var(--legal-line);
+  border-radius: 12px;
+  background: var(--legal-paper);
+}
+
+.legal-docs__link {
+  padding: 6px 11px;
+  border-radius: 8px;
+  color: var(--legal-ink-soft);
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.legal-docs__link:hover,
+.legal-docs__link:focus-visible {
+  background: var(--legal-tint);
+  color: var(--legal-accent-dark);
+}
+
+.legal-docs__link.is-active {
+  background: var(--legal-ink);
+  color: #fff;
 }
 
 .legal-actions {
   display: flex;
-  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 14px;
 }
 
-.legal-btn {
-  font: inherit;
-  font-size: 0.85rem;
-  font-weight: 600;
-  padding: 8px 14px;
+.legal-lang {
+  display: inline-flex;
+  padding: 3px;
+  border: 1px solid var(--legal-line);
   border-radius: 999px;
-  border: 1px solid rgba(240, 95, 64, 0.35);
-  background: #fff;
-  color: #b64932;
+  background: var(--legal-paper);
+}
+
+.legal-lang__btn {
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 5px 11px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--legal-ink-soft);
   cursor: pointer;
 }
 
-.legal-btn:hover,
-.legal-btn:focus,
-.legal-btn.is-active {
-  background: #f05f40;
-  border-color: #f05f40;
-  color: #fff;
+.legal-lang__btn.is-active {
+  background: var(--legal-tint);
+  color: var(--legal-accent-dark);
 }
 
+.legal-pdf {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 700;
+  padding: 9px 16px 9px 14px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--legal-accent);
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(240, 95, 64, 0.28);
+}
+
+.legal-pdf::before {
+  content: "";
+  width: 16px;
+  height: 16px;
+  background: currentColor;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 3v12M7 10l5 5 5-5M5 21h14'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 3v12M7 10l5 5 5-5M5 21h14'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+.legal-pdf:hover,
+.legal-pdf:focus-visible {
+  background: var(--legal-accent-dark);
+}
+
+.legal-hint {
+  max-width: 420px;
+  margin: 0;
+  color: var(--legal-ink-soft);
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+
+/* ---------- Document sheet ---------- */
+
 .sheet {
-  background: #fff;
-  border: 1px solid #eee3dc;
-  border-radius: 14px;
-  box-shadow: 0 10px 30px rgba(60, 30, 20, 0.06);
-  padding: 48px 56px;
+  background: var(--legal-paper);
+  border: 1px solid var(--legal-line);
+  border-radius: 6px;
+  box-shadow: 0 1px 2px rgba(60, 30, 20, 0.04), 0 16px 40px rgba(60, 30, 20, 0.07);
+  padding: 44px 64px 56px;
+  line-height: 1.7;
+}
+
+.letterhead {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 16px;
+  margin: 0 0 36px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid var(--legal-accent);
+  font-size: 0.8rem;
+  line-height: 1.45;
+}
+
+.letterhead__brand strong {
+  display: block;
+  font-family: var(--legal-title-font);
+  font-size: 1.05rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--legal-accent);
+}
+
+.letterhead__brand span,
+.letterhead__contact {
+  color: var(--legal-ink-soft);
+}
+
+.letterhead__contact {
+  text-align: right;
 }
 
 .sheet h1 {
-  margin: 0 0 4px;
-  font-size: 1.9rem;
+  margin: 0 0 6px;
+  font-family: var(--legal-title-font);
+  font-size: 2rem;
   line-height: 1.25;
-  color: #f05f40;
+  color: var(--legal-ink);
 }
 
 .sheet .doc-meta {
   margin: 0 0 28px;
-  color: #6b635d;
-  font-size: 0.9rem;
+  color: var(--legal-ink-soft);
+  font-size: 0.88rem;
 }
 
 .sheet h2 {
-  margin: 34px 0 8px;
-  padding-top: 18px;
-  border-top: 1px solid #f0e6e0;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin: 40px 0 10px;
+  font-family: var(--legal-title-font);
   font-size: 1.15rem;
-  color: #2a2725;
+  line-height: 1.35;
+  color: var(--legal-ink);
+}
+
+.sheet h2 .h-num {
+  flex: none;
+  min-width: 1.9em;
+  padding: 2px 0;
+  border-radius: 6px;
+  background: var(--legal-tint);
+  color: var(--legal-accent-dark);
+  font-size: 0.85rem;
+  text-align: center;
 }
 
 .sheet h3 {
-  margin: 18px 0 4px;
+  margin: 20px 0 4px;
   font-size: 1rem;
-  color: #2a2725;
 }
 
 .sheet p,
 .sheet li {
-  font-size: 0.95rem;
+  font-size: 0.97rem;
+}
+
+.sheet p {
+  margin: 0 0 12px;
 }
 
 .sheet ul,
 .sheet ol {
+  margin: 0 0 14px;
   padding-left: 22px;
 }
 
@@ -106,37 +248,77 @@ main {
   margin-bottom: 6px;
 }
 
+.sheet li::marker {
+  color: var(--legal-accent);
+}
+
 .sheet a {
-  color: #c14a33;
+  color: var(--legal-accent-dark);
+  text-underline-offset: 2px;
 }
 
-.doc-list {
-  list-style: none;
+/* ---------- Table of contents ---------- */
+
+.doc-toc {
+  margin: 28px 0 12px;
+  padding: 18px 22px;
+  border: 1px solid var(--legal-line);
+  border-radius: 10px;
+  background: #fcfaf8;
+}
+
+.doc-toc__title {
+  margin: 0 0 8px !important;
+  font-size: 0.75rem !important;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--legal-ink-soft);
+}
+
+.doc-toc ol {
+  columns: 2;
+  column-gap: 28px;
+  margin: 0;
   padding: 0;
+  list-style: none;
 }
 
-.doc-list li {
-  margin-bottom: 14px;
+.doc-toc li {
+  margin: 0;
+  break-inside: avoid;
+  font-size: 0.86rem;
+  line-height: 1.5;
 }
 
-.doc-list a {
-  font-size: 1.05rem;
+.doc-toc a {
+  display: flex;
+  gap: 8px;
+  padding: 3px 0;
+  color: var(--legal-ink);
+  text-decoration: none;
+}
+
+.doc-toc a span {
+  flex: none;
+  min-width: 1.6em;
+  color: var(--legal-accent-dark);
   font-weight: 700;
 }
 
-.doc-list span {
-  display: block;
-  color: #6b635d;
-  font-size: 0.9rem;
+.doc-toc a:hover {
+  color: var(--legal-accent-dark);
 }
 
+/* ---------- Blocks ---------- */
+
 .callout {
-  margin: 20px 0;
+  margin: 18px 0;
   padding: 14px 18px;
-  border-left: 4px solid #f05f40;
+  border-left: 4px solid var(--legal-accent);
   border-radius: 0 8px 8px 0;
-  background: #fff7f5;
-  font-size: 0.92rem;
+  background: var(--legal-tint);
+  font-size: 0.95rem;
 }
 
 /* Fill-in fields: type in the browser, or leave blank and complete by hand. */
@@ -145,40 +327,48 @@ main {
   min-width: 150px;
   min-height: 1.4em;
   padding: 0 4px;
-  border-bottom: 1px solid #8a817b;
+  border-bottom: 1px dashed #a39890;
+  background: #fffaf0;
   vertical-align: bottom;
   outline: none;
 }
 
 .fill:focus {
-  background: #fff7f5;
-  border-bottom-color: #f05f40;
+  background: var(--legal-tint);
+  border-bottom: 1px solid var(--legal-accent);
+}
+
+.fill:not(:empty) {
+  background: transparent;
+  border-bottom-style: solid;
 }
 
 .fill:empty::before {
   content: attr(data-ph);
   color: #b3a9a2;
+  font-style: italic;
 }
 
 .terms {
   width: 100%;
-  margin: 12px 0 8px;
+  margin: 12px 0 16px;
   border-collapse: collapse;
   font-size: 0.93rem;
+  line-height: 1.55;
 }
 
 .terms th,
 .terms td {
-  padding: 9px 12px;
-  border: 1px solid #eadfd8;
+  padding: 10px 14px;
+  border: 1px solid var(--legal-line);
   text-align: left;
   vertical-align: top;
 }
 
 .terms th {
-  width: 38%;
-  background: #fbf5f1;
-  font-weight: 700;
+  width: 34%;
+  background: #fbf6f2;
+  font-weight: 600;
 }
 
 .terms td > .fill:only-child {
@@ -191,19 +381,19 @@ main {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 28px;
-  margin-top: 28px;
+  margin-top: 24px;
   break-inside: avoid;
 }
 
 .signature {
   padding: 16px 18px;
-  border: 1px solid #eadfd8;
-  border-radius: 10px;
+  border: 1px solid var(--legal-line);
+  border-radius: 8px;
   font-size: 0.92rem;
 }
 
 .signature p {
-  margin: 0 0 10px;
+  margin: 0 0 8px;
 }
 
 .signature .sign-space {
@@ -212,19 +402,156 @@ main {
   border-bottom: 1px solid #8a817b;
 }
 
+/* ---------- Overview page ---------- */
+
+.doc-section {
+  margin: 34px 0 14px;
+  font-size: 0.78rem !important;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--legal-ink-soft) !important;
+}
+
+.doc-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 14px;
+}
+
+.doc-card {
+  display: flex;
+  flex-direction: column;
+  padding: 18px 20px;
+  border: 1px solid var(--legal-line);
+  border-radius: 10px;
+  background: var(--legal-paper);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.doc-card:hover {
+  border-color: rgba(240, 95, 64, 0.45);
+  box-shadow: 0 8px 22px rgba(60, 30, 20, 0.07);
+}
+
+.doc-card h3 {
+  margin: 0 0 6px;
+  font-family: var(--legal-title-font);
+  font-size: 1.02rem;
+  line-height: 1.35;
+}
+
+.doc-card h3 a {
+  color: var(--legal-ink);
+  text-decoration: none;
+}
+
+.doc-card p {
+  flex: 1;
+  margin: 0 0 12px;
+  color: var(--legal-ink-soft);
+  font-size: 0.88rem;
+  line-height: 1.55;
+}
+
+.doc-card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+
+.doc-card__tags span {
+  padding: 2px 9px;
+  border-radius: 999px;
+  background: #f3eeea;
+  color: var(--legal-ink-soft);
+  font-size: 0.72rem;
+  font-weight: 600;
+}
+
+.doc-card__actions {
+  display: flex;
+  gap: 8px;
+}
+
+.doc-card__actions a {
+  padding: 6px 13px;
+  border: 1px solid var(--legal-line);
+  border-radius: 999px;
+  color: var(--legal-ink);
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.doc-card__actions a:first-child {
+  border-color: var(--legal-ink);
+  background: var(--legal-ink);
+  color: #fff;
+}
+
+.doc-card__actions a:hover {
+  border-color: var(--legal-accent);
+  background: var(--legal-accent);
+  color: #fff;
+}
+
 footer {
-  margin-top: 28px;
-  color: #6b635d;
-  font-size: 0.9rem;
+  margin-top: 24px;
+  color: var(--legal-ink-soft);
+  font-size: 0.88rem;
+  text-align: center;
 }
 
 footer a {
-  color: #c14a33;
+  color: var(--legal-accent-dark);
 }
 
-@media (max-width: 640px) {
+@media (max-width: 720px) {
+  main {
+    padding: 76px 12px 40px;
+  }
+
+  .legal-toolbar {
+    align-items: stretch;
+  }
+
+  .legal-docs {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
   .sheet {
-    padding: 28px 22px;
+    padding: 26px 20px 32px;
+  }
+
+  .letterhead {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .letterhead__contact {
+    text-align: left;
+  }
+
+  .sheet h1 {
+    font-size: 1.6rem;
+  }
+
+  .doc-toc ol {
+    columns: 1;
+  }
+
+  .terms th,
+  .terms td {
+    display: block;
+    width: auto;
+  }
+
+  .terms th {
+    border-bottom: 0;
   }
 
   .signatures {
@@ -232,27 +559,49 @@ footer a {
   }
 }
 
+/* ---------- PDF / print ---------- */
+
 @page {
   size: A4;
-  margin: 18mm 17mm;
+  margin: 16mm 17mm 18mm;
+
+  @bottom-left {
+    content: "Nathan de Castro · nathandecastro.com";
+    font-family: "Segoe UI", Arial, sans-serif;
+    font-size: 7.5pt;
+    color: #8a817b;
+  }
+
+  @bottom-right {
+    content: counter(page) " / " counter(pages);
+    font-family: "Segoe UI", Arial, sans-serif;
+    font-size: 7.5pt;
+    color: #8a817b;
+  }
 }
 
 @media print {
   .site-nav,
   .legal-toolbar,
+  .legal-hint,
+  .doc-toc,
   footer {
     display: none !important;
+  }
+
+  html {
+    scroll-padding-top: 0;
   }
 
   body {
     background: #fff;
     color: #000;
+    animation: none !important;
   }
 
   main {
     max-width: none;
     padding: 0;
-    line-height: 1.5;
   }
 
   .sheet {
@@ -260,17 +609,36 @@ footer a {
     border: none;
     border-radius: 0;
     box-shadow: none;
+    line-height: 1.5;
+  }
+
+  .letterhead {
+    margin-bottom: 18pt;
+    padding-bottom: 8pt;
+    font-size: 8pt;
+  }
+
+  .letterhead__brand strong {
+    font-size: 11pt;
   }
 
   .sheet h1 {
-    font-size: 18pt;
+    font-size: 19pt;
+  }
+
+  .sheet .doc-meta {
+    margin-bottom: 14pt;
+    font-size: 9pt;
   }
 
   .sheet h2 {
+    margin: 15pt 0 5pt;
     font-size: 11.5pt;
-    margin-top: 16pt;
-    padding-top: 8pt;
     break-after: avoid;
+  }
+
+  .sheet h2 .h-num {
+    font-size: 9.5pt;
   }
 
   .sheet h3 {
@@ -280,8 +648,15 @@ footer a {
   .sheet p,
   .sheet li,
   .terms,
+  .callout,
   .signature {
     font-size: 9.5pt;
+  }
+
+  .sheet p {
+    margin-bottom: 6pt;
+    orphans: 3;
+    widows: 3;
   }
 
   .sheet a {
@@ -294,13 +669,21 @@ footer a {
     break-inside: avoid;
   }
 
+  .fill,
+  .fill:not(:empty) {
+    background: transparent;
+    border-bottom: 1px solid #8a817b;
+  }
+
   .fill:empty::before {
     content: "";
   }
 
   .callout,
   .terms th,
-  .sheet h1 {
+  .letterhead,
+  .letterhead__brand strong,
+  .sheet h2 .h-num {
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
   }
