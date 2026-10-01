@@ -3,7 +3,7 @@
 (function () {
   var pages = [
     { href: "/apps/generic/", en: "Overview", fr: "Aperçu" },
-    { href: "/apps/generic/contract/", en: "Contract", fr: "Contrat" },
+    { href: "/apps/generic/cgv/", en: "Terms of Sale", fr: "CGV" },
     { href: "/apps/generic/charter/", en: "Confidentiality Charter", fr: "Charte de confidentialité" },
     { href: "/apps/generic/privacy/", en: "Privacy Policy", fr: "Politique de confidentialité" },
     { href: "/apps/generic/tos/", en: "Terms of Service", fr: "Conditions d'utilisation" },
