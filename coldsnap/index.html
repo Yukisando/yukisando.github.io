@@ -5,30 +5,37 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+    // ColdSnap lives at coldsnap.fr (proxied from here by tools/coldsnap-worker).
+    // Old nathandecastro.com/coldsnap/ links forward there.
+    if (/(^|\.)nathandecastro\.com$/.test(location.hostname)) {
+      location.replace('https://coldsnap.fr/' + location.search + location.hash);
+    }
+  </script>
   <meta name="description" content="ColdSnap is a gamification studio by Nathan de Castro. Unity educational games, interactive museum installations and cross-platform Flutter apps. Browse the ColdSnap portfolio.">
   <meta name="robots" content="index, follow, max-image-preview:large">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="ColdSnap">
   <meta property="og:title" content="ColdSnap — Gamification Studio | Educational Games & Apps">
   <meta property="og:description" content="ColdSnap: Unity educational games, interactive installations and Flutter apps by Nathan de Castro.">
-  <meta property="og:url" content="https://nathandecastro.com/coldsnap/">
-  <meta property="og:image" content="https://nathandecastro.com/coldsnap/assets/coldnsap_logo.png">
+  <meta property="og:url" content="https://coldsnap.fr/">
+  <meta property="og:image" content="https://coldsnap.fr/assets/coldnsap_logo.png">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="ColdSnap — Gamification Studio">
   <meta name="twitter:description" content="Unity educational games, interactive installations and Flutter apps by Nathan de Castro.">
-  <meta name="twitter:image" content="https://nathandecastro.com/coldsnap/assets/coldnsap_logo.png">
+  <meta name="twitter:image" content="https://coldsnap.fr/assets/coldnsap_logo.png">
   <meta name="author" content="Nathan de Castro">
   <meta name="theme-color" content="#F5841A">
   <title>ColdSnap — Gamification Studio | Educational Games & Apps</title>
-  <link rel="canonical" href="https://nathandecastro.com/coldsnap/" />
-  <link rel="shortcut icon" type="image/png" href="/img/spock.png" />
+  <link rel="canonical" href="https://coldsnap.fr/" />
+  <link rel="shortcut icon" type="image/png" href="https://nathandecastro.com/img/spock.png" />
   
   <!-- Font Awesome -->
-  <link href="/vendor/font-awesome/css/font-awesome.css" rel="stylesheet" type="text/css">
+  <link href="https://nathandecastro.com/vendor/font-awesome/css/font-awesome.css" rel="stylesheet" type="text/css">
   
   <!-- ColdSnap CSS -->
-  <link href="/coldsnap/css/coldsnap.css" rel="stylesheet">
-  <link href="/css/site-nav.css" rel="stylesheet">
+  <link href="css/coldsnap.css" rel="stylesheet">
+  <link href="https://nathandecastro.com/css/site-nav.css" rel="stylesheet">
 
   <!-- Structured Data -->
   <script type="application/ld+json">
@@ -37,8 +44,9 @@
     "@type": "Organization",
     "name": "ColdSnap",
     "alternateName": ["Cold Snap", "ColdSnap Studio"],
-    "url": "https://nathandecastro.com/coldsnap/",
-    "logo": "https://nathandecastro.com/coldsnap/assets/coldnsap_logo.png",
+    "url": "https://coldsnap.fr/",
+    "logo": "https://coldsnap.fr/assets/coldnsap_logo.png",
+    "email": "contact@coldsnap.fr",
     "description": "Gamification studio creating Unity educational games and cross-platform Flutter apps",
     "founder": {
       "@type": "Person",
@@ -55,7 +63,7 @@
     "@type": "WebSite",
     "name": "ColdSnap",
     "alternateName": "ColdSnap Studio",
-    "url": "https://nathandecastro.com/coldsnap/"
+    "url": "https://coldsnap.fr/"
   }
   </script>
   <style>.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}</style>
@@ -63,13 +71,13 @@
 
 <body>
   <!-- Navigation -->
-  <nav class="site-nav" data-site-nav data-site-nav-page="coldsnap" data-site-nav-mode="overlay"></nav>
+  <nav class="site-nav" data-site-nav data-site-nav-origin="https://nathandecastro.com" data-site-nav-page="coldsnap" data-site-nav-mode="overlay"></nav>
 
   <!-- Hero Section -->
   <header class="hero" id="hero">
     <!-- Brand mark — top-left on desktop, hidden on mobile -->
     <div class="hero-brand">
-      <img src="/coldsnap/assets/coldnsap_logo.png" alt="ColdSnap Logo" class="hero-brand-logo">
+      <img src="assets/coldnsap_logo.png" alt="ColdSnap Logo" class="hero-brand-logo">
       <div class="hero-brand-text">
         <span class="hero-brand-name">ColdSnap</span>
         <span class="hero-brand-sub">Gamification Studio · Nathan de Castro</span>
@@ -81,7 +89,7 @@
 
     <!-- Mobile: simplified fallback -->
     <div class="hero-mobile-content">
-      <img src="/coldsnap/assets/coldnsap_logo.png" alt="ColdSnap Logo" class="hero-logo">
+      <img src="assets/coldnsap_logo.png" alt="ColdSnap Logo" class="hero-logo">
       <div class="hero-badge">Gamification Studio</div>
       <p class="hero-title"><span class="gradient-text">ColdSnap</span></p>
       <p class="hero-subtitle">Creating impactful educational games and cross-platform applications</p>
@@ -122,15 +130,15 @@
   <footer class="coldsnap-footer">
     <div class="footer-content">
       <div class="footer-brand">
-        <img src="/coldsnap/assets/coldnsap_logo.png" alt="ColdSnap" class="footer-logo">
+        <img src="assets/coldnsap_logo.png" alt="ColdSnap" class="footer-logo">
         <span>ColdSnap</span>
       </div>
       <p>Making learning fun through gamification</p>
       <div class="footer-links">
-        <a href="/stuff/">Stuff</a>
-        <a href="mailto:decastronathan@gmail.com">Contact</a>
+        <a href="https://nathandecastro.com/stuff/">Stuff</a>
+        <a href="mailto:contact@coldsnap.fr">Contact</a>
         <a href="https://www.linkedin.com/in/nathan-de-castro-750439117/">LinkedIn</a>
-        <a href="/apps/generic/privacy/">Privacy Policy</a>
+        <a href="https://nathandecastro.com/apps/generic/privacy/">Privacy Policy</a>
       </div>
       <p class="copyright">© 2026 ColdSnap. All rights reserved.</p>
     </div>
@@ -156,9 +164,9 @@
   </div>
 
   <!-- ColdSnap JavaScript -->
-  <script src="/js/site-nav.js" defer></script>
-  <script src="/coldsnap/js/coldsnap.js" defer></script>
-  <script src="/coldsnap/data/projects.js" defer></script>
+  <script src="https://nathandecastro.com/js/site-nav.js" defer></script>
+  <script src="js/coldsnap.js" defer></script>
+  <script src="data/projects.js" defer></script>
   <script>
     // Initialize the page
     document.addEventListener('DOMContentLoaded', () => {

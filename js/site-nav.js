@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', function () {
     {
       key: 'coldsnap',
       label: 'ColdSnap',
-      href: '/coldsnap/',
+      href: 'https://coldsnap.fr/',
     },
     {
       key: 'stuff',
@@ -208,7 +208,7 @@ document.addEventListener('DOMContentLoaded', function () {
     nav.dataset.siteNavTheme = isDarkSurface ? 'dark' : 'light';
   }
 
-  function getLinkMarkup(item, currentPage, isHomePage) {
+  function getLinkMarkup(item, currentPage, isHomePage, siteOrigin) {
     const classes = ['site-nav__link'];
     if (item.secondary) {
       classes.push('site-nav__link--secondary');
@@ -223,7 +223,8 @@ document.addEventListener('DOMContentLoaded', function () {
       classes.push('page-scroll');
     }
 
-    const href = isHomePage && item.homeHref ? item.homeHref : item.href;
+    const path = item.href.startsWith('/') ? siteOrigin + item.href : item.href;
+    const href = isHomePage && item.homeHref ? item.homeHref : path;
     const keyAttribute = ' data-nav-key="' + item.key + '"';
 
     return `<a href="${href}" class="${classes.join(' ')}"${keyAttribute}>${item.label}</a>`;
@@ -259,8 +260,11 @@ document.addEventListener('DOMContentLoaded', function () {
     const currentPage = nav.dataset.siteNavPage || '';
     const mode = nav.dataset.siteNavMode || 'solid';
     const isHomePage = currentPage === 'home';
+    // Pages served from another domain (coldsnap.fr) set data-site-nav-origin so
+    // root-relative links still point back to this site.
+    const siteOrigin = nav.dataset.siteNavOrigin || '';
     const mobileMenuId = `site-nav-mobile-${index + 1}`;
-    const brandHref = isHomePage ? '#page-top' : '/';
+    const brandHref = isHomePage ? '#page-top' : siteOrigin + '/';
     const brandClasses = ['site-nav__brand'];
 
     if (isHomePage) {
@@ -272,11 +276,11 @@ document.addEventListener('DOMContentLoaded', function () {
     nav.dataset.siteNavMode = mode;
 
     const desktopLinks = navItems
-      .map((item) => getLinkMarkup(item, currentPage, isHomePage))
+      .map((item) => getLinkMarkup(item, currentPage, isHomePage, siteOrigin))
       .join('');
 
     const mobileLinks = navItems
-      .map((item) => getLinkMarkup(item, currentPage, isHomePage))
+      .map((item) => getLinkMarkup(item, currentPage, isHomePage, siteOrigin))
       .join('');
 
     nav.innerHTML = `

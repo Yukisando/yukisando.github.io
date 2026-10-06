@@ -289,6 +289,12 @@
           letter-spacing: 0.02em;
       }
 
+      .contact-card__company-domain {
+          margin-top: 2px;
+          font-size: 12px;
+          color: rgba(255, 255, 255, 0.6);
+      }
+
       .contact-card__company-name .fa {
           font-size: 12px;
           margin-left: 5px;

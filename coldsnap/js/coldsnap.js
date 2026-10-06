@@ -379,7 +379,7 @@ function initHeroCards() {
     el.innerHTML = `
       <div class="physics-card-inner">
         <div class="physics-card-face physics-card-back">
-          <img src="/coldsnap/assets/coldnsap_logo.png" alt="" class="physics-card-back-mark" draggable="false">
+          <img src="assets/coldnsap_logo.png" alt="" class="physics-card-back-mark" draggable="false">
         </div>
         <div class="physics-card-face physics-card-front">
           <div class="physics-card-thumb">${thumb}</div>

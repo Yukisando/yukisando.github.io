@@ -103,7 +103,7 @@
     letterhead.className = "letterhead";
     letterhead.innerHTML =
       '<div class="letterhead__brand"><strong>Nathan de Castro</strong><span></span></div>' +
-      '<div class="letterhead__contact">nathandecastro.com<br />decastronathan@gmail.com</div>';
+      '<div class="letterhead__contact">coldsnap.fr<br />contact@coldsnap.fr</div>';
     letterhead.querySelector(".letterhead__brand span").textContent = t.tagline;
     sheet.insertBefore(letterhead, sheet.firstChild);
 
