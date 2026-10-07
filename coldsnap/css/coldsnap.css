@@ -181,7 +181,8 @@ body {
 /* ── Base container ────────────────────────────────────── */
 .hero {
   position: relative;
-  min-height: 100vh;
+  /* Half the screen, so the projects below peek into view */
+  min-height: max(50vh, 440px);
   overflow: hidden;
   background: var(--bg-darker);
 }
@@ -273,7 +274,13 @@ body {
   perspective: 700px;
   will-change: transform;
   transform-origin: 50% 50%;
-  transition: box-shadow 0.18s ease;
+  transition: box-shadow 0.18s ease, opacity 0.2s ease;
+}
+
+/* Not yet tossed onto the table */
+.physics-card.is-airborne {
+  opacity: 0;
+  pointer-events: none;
 }
 
 .physics-card-inner {
@@ -407,6 +414,38 @@ body {
     transparent 55%
   );
   pointer-events: none;
+}
+
+/* ── Card ⇄ popup animation (stand-in card above the popup) ── */
+.card-flight {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 148px;
+  height: 212px;
+  z-index: 2001;
+  perspective: 900px;
+  transform-origin: 50% 50%;
+  pointer-events: none;
+}
+
+.card-flight-cover {
+  position: absolute;
+  inset: 0;
+  transform-origin: 0 50%;
+  transform-style: preserve-3d;
+}
+
+.card-flight .physics-card-face {
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.6);
+}
+
+.card-flight .physics-card-front {
+  transform: none;
+}
+
+.card-flight .physics-card-back {
+  transform: rotateY(180deg);
 }
 
 /* ── Drag hint ──────────────────────────────────────────── */
@@ -575,6 +614,7 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    min-height: 100vh;
     padding: 100px 30px 80px;
   }
 

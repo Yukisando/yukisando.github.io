@@ -120,8 +120,165 @@ function prevZoom() {
   document.getElementById('zoomImage').src = zoomImages[currentZoomIndex];
 }
 
+// Card ⇄ popup animation
+// A hero card flies up to the viewer and its cover swings open like a book to
+// reveal the popup; closing plays it backwards and the card lands on its spot.
+let modalCard = null;       // hero physics card the popup was opened from
+let modalClosing = false;
+let cardAnimations = [];
+
+function prefersReducedMotion() {
+  return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+}
+
+function stopCardAnimations() {
+  cardAnimations.forEach(animation => animation.cancel());
+  cardAnimations = [];
+  document.querySelectorAll('.card-flight').forEach(el => el.remove());
+}
+
+// Stand-in for the card that flies above the popup: its cover shows the
+// project face, and the card back as the inside of the cover.
+function buildCardFlight(cardEl) {
+  const flight = document.createElement('div');
+  flight.className = 'card-flight';
+  flight.innerHTML = `
+    <div class="card-flight-cover">
+      <div class="physics-card-face physics-card-front">${cardEl.querySelector('.physics-card-front').innerHTML}</div>
+      <div class="physics-card-face physics-card-back">${cardEl.querySelector('.physics-card-back').innerHTML}</div>
+    </div>
+  `;
+  document.body.appendChild(flight);
+  return flight;
+}
+
+// Transform that lays the stand-in exactly over the card on the table.
+function cardTableTransform(card) {
+  const rect = card.el.getBoundingClientRect();
+  const x = rect.left + rect.width / 2 - card.el.offsetWidth / 2;
+  const y = rect.top + rect.height / 2 - card.el.offsetHeight / 2;
+  const angle = ((card.angle % 360) + 540) % 360 - 180;
+  return `translate(${x}px, ${y}px) rotate(${angle}deg) scale(${card.scale})`;
+}
+
+// Where the card is held up in front of the viewer: centred and upright.
+function cardStage(card) {
+  const w = card.el.offsetWidth;
+  const h = card.el.offsetHeight;
+  const scale = Math.min(1.8, innerHeight * 0.5 / h, innerWidth * 0.5 / w);
+  return {
+    scale,
+    transform: `translate(${innerWidth / 2 - w / 2}px, ${innerHeight / 2 - h / 2}px) rotate(0deg) scale(${scale})`,
+  };
+}
+
+// Clips the popup down to the held-up card, so it reads as the card's inside.
+function cardClipPath(panel, card, stage) {
+  const rect = panel.getBoundingClientRect();
+  const w = card.el.offsetWidth * stage.scale;
+  const h = card.el.offsetHeight * stage.scale;
+  const left = Math.max(0, innerWidth / 2 - w / 2 - rect.left);
+  const top = Math.max(0, innerHeight / 2 - h / 2 - rect.top);
+  const right = Math.max(0, rect.width - left - w);
+  const bottom = Math.max(0, rect.height - top - h);
+  return `inset(${top}px ${right}px ${bottom}px ${left}px round ${14 * stage.scale}px)`;
+}
+
+function playCardOpen(card) {
+  stopCardAnimations();
+  const modal = document.getElementById('projectModal');
+  const panel = modal.querySelector('.modal-content');
+  const flight = buildCardFlight(card.el);
+  const cover = flight.querySelector('.card-flight-cover');
+  const stage = cardStage(card);
+  const cardClip = cardClipPath(panel, card, stage);
+  const fly = 420;
+  const swing = 560;
+  const total = fly + swing;
+  card.el.style.visibility = 'hidden';
+
+  const animations = [
+    modal.animate([{ opacity: 0 }, { opacity: 1 }], { duration: fly, easing: 'ease-out' }),
+    flight.animate([
+      { transform: cardTableTransform(card) },
+      { transform: stage.transform },
+    ], { duration: fly, easing: 'cubic-bezier(0.2, 0.8, 0.2, 1)', fill: 'forwards' }),
+    // Fades go on the flight, not the cover: opacity on the cover would flatten
+    // its 3D and show the front face mirrored instead of the card back.
+    cover.animate([
+      { transform: 'rotateY(0deg)' },
+      { transform: 'rotateY(-180deg)', offset: 0.65 },
+      { transform: 'rotateY(-180deg)' },
+    ], { delay: fly, duration: swing, easing: 'cubic-bezier(0.45, 0, 0.2, 1)', fill: 'backwards' }),
+    flight.animate([
+      { opacity: 1 },
+      { opacity: 1, offset: 0.65 },
+      { opacity: 0 },
+    ], { delay: fly, duration: swing, easing: 'cubic-bezier(0.45, 0, 0.2, 1)', fill: 'forwards' }),
+    panel.animate([
+      { opacity: 0, clipPath: cardClip },
+      { opacity: 0, clipPath: cardClip, offset: fly / total },
+      { opacity: 1, clipPath: cardClip, offset: fly / total },
+      { opacity: 1, clipPath: cardClip, offset: (fly + swing * 0.3) / total, easing: 'cubic-bezier(0.2, 0.8, 0.2, 1)' },
+      { opacity: 1, clipPath: 'inset(0px 0px 0px 0px round 20px)' },
+    ], { duration: total }),
+  ];
+  cardAnimations = animations;
+
+  Promise.all(animations.map(animation => animation.finished)).then(() => {
+    if (cardAnimations === animations) stopCardAnimations();
+  }).catch(() => {});
+}
+
+function playCardClose(card) {
+  stopCardAnimations();
+  const modal = document.getElementById('projectModal');
+  const panel = modal.querySelector('.modal-content');
+  const flight = buildCardFlight(card.el);
+  const cover = flight.querySelector('.card-flight-cover');
+  const stage = cardStage(card);
+  const cardClip = cardClipPath(panel, card, stage);
+  const shrink = 260;
+  const swing = 300;
+  const fly = 380;
+  const total = shrink + swing + fly;
+  const shrunk = shrink / total;
+  const closed = (shrink + swing) / total;
+  const options = { duration: total, fill: 'both' };
+
+  cardAnimations = [
+    modal.animate([
+      { opacity: 1 },
+      { opacity: 1, offset: closed, easing: 'ease-in' },
+      { opacity: 0 },
+    ], options),
+    panel.animate([
+      { opacity: 1, clipPath: 'inset(0px 0px 0px 0px round 20px)', easing: 'cubic-bezier(0.4, 0, 0.2, 1)' },
+      { opacity: 1, clipPath: cardClip, offset: shrunk },
+      { opacity: 1, clipPath: cardClip, offset: closed },
+      { opacity: 0, clipPath: cardClip, offset: closed },
+      { opacity: 0, clipPath: cardClip },
+    ], options),
+    cover.animate([
+      { transform: 'rotateY(-180deg)' },
+      { transform: 'rotateY(-180deg)', offset: shrunk, easing: 'cubic-bezier(0.5, 0, 0.3, 1)' },
+      { transform: 'rotateY(0deg)', offset: closed },
+      { transform: 'rotateY(0deg)' },
+    ], options),
+    flight.animate([
+      { transform: stage.transform, opacity: 0 },
+      { transform: stage.transform, opacity: 0, offset: shrunk * 0.4 },
+      { transform: stage.transform, opacity: 1, offset: shrunk },
+      { transform: stage.transform, opacity: 1, offset: closed, easing: 'cubic-bezier(0.3, 0, 0.2, 1)' },
+      { transform: cardTableTransform(card), opacity: 1 },
+    ], options),
+  ];
+
+  return Promise.all(cardAnimations.map(animation => animation.finished));
+}
+
 // Modal functions
-function openModal(projectId) {
+function openModal(projectId, fromCard) {
   const project = COLDSNAP_PROJECTS.find(p => p.id === projectId);
   if (!project) return;
   
@@ -220,18 +377,44 @@ function openModal(projectId) {
   
   modal.classList.add('active');
   document.body.style.overflow = 'hidden';
-  
+
   // Initialize carousel
   if (project.media && project.media.length > 0) {
     initCarousel();
   }
+
+  modalCard = fromCard || null;
+  if (modalCard && !prefersReducedMotion()) playCardOpen(modalCard);
 }
 
 function closeModal(event) {
   if (event && event.target !== event.currentTarget) return;
-  
+  if (modalClosing) return;
+
   const modal = document.getElementById('projectModal');
+  if (!modal.classList.contains('active')) return;
   stopProjectModalMedia(true);
+
+  const card = modalCard;
+  modalCard = null;
+  if (card && !prefersReducedMotion()) {
+    modalClosing = true;
+    playCardClose(card).then(() => {
+      resetModal();
+      stopCardAnimations();
+    }, () => {}).finally(() => {
+      modalClosing = false;
+      card.el.style.visibility = '';
+    });
+    return;
+  }
+  if (card) card.el.style.visibility = '';
+  stopCardAnimations();
+  resetModal();
+}
+
+function resetModal() {
+  const modal = document.getElementById('projectModal');
   modal.classList.remove('active');
   const modalBody = document.getElementById('modalBody');
   const modalFooter = document.getElementById('modalFooter');
@@ -368,7 +551,7 @@ function initHeroCards() {
   // ── Build cards ──────────────────────────────────────────
   COLDSNAP_PROJECTS.forEach((project, i) => {
     const el = document.createElement('div');
-    el.className = 'physics-card is-face-down';
+    el.className = 'physics-card is-face-down is-airborne';
     el.dataset.projectId = project.id;
     el.title = `${project.title} — click to reveal`;
 
@@ -394,21 +577,24 @@ function initHeroCards() {
 
     table.appendChild(el);
 
-    const spreadAngle = Math.random() * Math.PI * 2;
-    const speed = 9 + Math.random() * 7;
-    const startX = W / 2 - CARD_W / 2 + (Math.random() - 0.5) * 40;
-    const startY = H / 2 - CARD_H / 2 + (Math.random() - 0.5) * 40;
-    const startAngle = (Math.random() - 0.5) * 50;
+    // Toss each card onto a random spot, lifted (scaled up) so it drops as it
+    // flies off in a random direction. Paths cross, so the cards knock into
+    // each other on the way.
+    const startX = Math.random() * Math.max(0, W - CARD_W);
+    const startY = Math.random() * Math.max(0, H - CARD_H);
+    const tossAngle = Math.random() * Math.PI * 2;
+    const speed = 12 + Math.random() * 10;
+    const startAngle = (Math.random() - 0.5) * 70;
 
     const card = {
       el, project,
       x: startX,
       y: startY,
-      vx: Math.cos(spreadAngle) * speed,
-      vy: Math.sin(spreadAngle) * speed,
+      vx: Math.cos(tossAngle) * speed,
+      vy: Math.sin(tossAngle) * speed,
       angle: startAngle,
-      angularVel: (Math.random() - 0.5) * 8,
-      scale: 1.0,
+      angularVel: (Math.random() - 0.5) * 16,
+      scale: 1.25,
       targetScale: 1.0,
       isDragging: false,
       targetX: startX, targetY: startY,
@@ -423,7 +609,7 @@ function initHeroCards() {
       zIndex: i + 1,
     };
 
-    el.style.cssText = `left:${card.x}px;top:${card.y}px;z-index:${card.zIndex};transform:rotate(${card.angle}deg)`;
+    el.style.cssText = `left:${card.x}px;top:${card.y}px;z-index:${card.zIndex};transform:rotate(${card.angle}deg) scale(${card.scale})`;
     cards.push(card);
 
     // ── Drag + click ─────────────────────────────────────
@@ -488,7 +674,7 @@ function initHeroCards() {
           el.title = `${card.project.title} — click to open`;
           return;
         }
-        openModal(card.project.id);
+        openModal(card.project.id, card);
         return;
       }
       // Dampen throw momentum and add angular spin from direction
@@ -712,8 +898,9 @@ function initHeroCards() {
 
     cards.forEach((card) => {
       if (!card.active) {
-        if (elapsed >= card.delayMs) card.active = true;
-        else return;
+        if (elapsed < card.delayMs) return;
+        card.active = true;
+        card.el.classList.remove('is-airborne');
       }
 
       // Spring drag — card follows mouse loosely
