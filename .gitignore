@@ -5,3 +5,4 @@ bower_components
 # font-embedded HTML that tools/cv/build-cv.mjs prints the PDFs from;
 # the published copy is doc/cv_<lang>.html
 tools/cv/.build/
+.claude/launch.json
