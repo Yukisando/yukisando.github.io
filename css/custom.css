@@ -462,7 +462,7 @@
 
       .about {
           display: grid;
-          grid-template-columns: minmax(0, 1fr) 260px;
+          grid-template-columns: minmax(0, 1fr) 340px;
           gap: 56px;
           align-items: center;
       }
@@ -497,8 +497,8 @@
           position: relative;
           margin: 0;
           justify-self: center;
-          width: 240px;
-          padding: 10px 10px 14px;
+          width: 320px;
+          padding: 12px 12px 34px;
           border-radius: 3px;
           background: #fff;
           transform: rotate(2.5deg);
@@ -514,8 +514,8 @@
           position: absolute;
           top: -12px;
           left: 50%;
-          width: 96px;
-          height: 26px;
+          width: 120px;
+          height: 30px;
           background: rgba(255, 255, 255, 0.45);
           border-left: 1px dashed rgba(255, 255, 255, 0.7);
           border-right: 1px dashed rgba(255, 255, 255, 0.7);
@@ -531,15 +531,6 @@
           border-radius: 2px;
       }
 
-      .about__portrait figcaption {
-          margin: 10px 2px 0;
-          font-size: 12px;
-          font-style: italic;
-          line-height: 1.3;
-          color: #4a3f3a;
-          text-align: center;
-      }
-
       @media (max-width: 767px) {
           #about {
               padding: 64px 0 72px;
@@ -552,7 +543,7 @@
 
           .about__portrait {
               order: -1;
-              width: 180px;
+              width: 220px;
               transform: rotate(-2.5deg);
           }
 
