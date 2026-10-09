@@ -735,6 +735,10 @@ function initHeroCards() {
           revealCard(card);
           return;
         }
+        if (card.project.drive && window.CS_DRIVE) {
+          window.CS_DRIVE.start(card);
+          return;
+        }
         openModal(card.project, card);
         return;
       }
@@ -782,6 +786,22 @@ function initHeroCards() {
         card.vx = Math.cos(angle) * speed;
         card.vy = Math.sin(angle) * speed;
         card.angularVel = (Math.random() - 0.5) * 30;
+      });
+    },
+    // Shove cards near a viewport point (the drive-mode car).
+    push(clientX, clientY, vx, vy, radius = 120) {
+      if (frozen) return;
+      const tr = table.getBoundingClientRect();
+      const px = clientX - tr.left;
+      const py = clientY - tr.top;
+      cards.forEach(card => {
+        if (card.isDragging || !card.active || card.el.classList.contains('is-driven-away')) return;
+        const dx = card.x + CARD_W / 2 - px;
+        const dy = card.y + CARD_H / 2 - py;
+        if (Math.hypot(dx, dy) > radius) return;
+        card.vx = clamp(card.vx + vx * 0.5, -22, 22);
+        card.vy = clamp(card.vy + vy * 0.5, -22, 22);
+        card.angularVel = clamp(card.angularVel + (Math.random() - 0.5) * 3, -14, 14);
       });
     },
     setFrozen(value) {
@@ -1080,6 +1100,26 @@ function initHeroCards() {
 
   animId = requestAnimationFrame(loop);
 
+  // Every few seconds one card half-turns and drops back, as if peeking at its other side.
+  function teaseOneCard() {
+    if (frozen || !animId || document.hidden) return;
+    const idle = cards.filter(c => c.active && !c.isDragging && !c.el.classList.contains('is-driven-away'));
+    if (!idle.length) return;
+    const card = idle[Math.floor(Math.random() * idle.length)];
+    const base = card.revealed ? 180 : 0;
+    const peak = base + (Math.random() < 0.5 ? -1 : 1) * (55 + Math.random() * 15);
+    card.el.querySelector('.physics-card-inner').animate([
+      { transform: `rotateY(${base}deg)` },
+      { transform: `rotateY(${peak}deg)`, offset: 0.4 },
+      { transform: `rotateY(${base}deg)` }
+    ], { duration: 1000, easing: 'ease-in-out' });
+  }
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    (function scheduleNudge() {
+      setTimeout(() => { teaseOneCard(); scheduleNudge(); }, 2500 + Math.random() * 3500);
+    })();
+  }
+
   // Pause when hero is out of view
   const observer = new IntersectionObserver(([entry]) => {
     if (entry.isIntersecting) {
@@ -1134,24 +1174,8 @@ function createProjectCard(project) {
 // Page wiring
 // ============================================================
 
-// Below this width the hero shows a fanned hand of cards instead of the physics table.
+// Below this width the hero drops the physics table.
 const HERO_TABLE_QUERY = '(max-width: 900px)';
-
-// Mobile hero: five cards fanned out like a hand; tap one to open it.
-function renderHeroHand() {
-  const hand = document.getElementById('heroHand');
-  if (!hand) return;
-  const picks = COLDSNAP_PROJECTS.filter(p => p.thumbnail).slice(0, 5);
-  hand.innerHTML = picks.map((project, i) => {
-    const offset = i - (picks.length - 1) / 2;
-    return `
-      <button type="button" class="hand-card" style="--i:${offset}" onclick="openModal('${project.id}')" tabindex="-1">
-        <img src="${project.thumbnail}" alt="" loading="lazy">
-        <span>${project.title}</span>
-      </button>
-    `;
-  }).join('');
-}
 
 function initNav() {
   const nav = document.querySelector('.cs-nav');
@@ -1233,7 +1257,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initNav();
   renderFilters();
   renderProjects();
-  renderHeroHand();
   initHeroCards();
   initCounters();
   initReveal();

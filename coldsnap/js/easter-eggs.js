@@ -3,8 +3,9 @@
  *
  * 1. Console greeting for curious developers.
  * 2. Konami code (↑↑↓↓←→←→BA): every hero card flips and gets flung, with sparkles.
- * 3. Type "snap", or click the nav logo 5 times quickly: a cold snap freezes the page (and the cards).
+ * 3. Type "snap", or click the nav logo 5 times quickly (frost builds with each click): a cold snap freezes the page (and the cards).
  * 4. Reveal every card on the table: a secret wizard card drops into the deck.
+ *    Clicking it turns it into a car (js/drive.js).
  * 5. The ✦ at the very bottom of the footer: make a wish.
  *
  * Physics hooks come from window.coldsnapDeck (js/coldsnap.js), which only exists on desktop.
@@ -45,6 +46,8 @@
       s.addEventListener('animationend', () => s.remove());
     }
   }
+
+  window.csSparkle = sparkleBurst;
 
   // ── 1. Console greeting ─────────────────────────────────
   console.log(
@@ -114,38 +117,50 @@
     }
   });
 
+  // Each quick logo click frosts the screen a little more; the fifth freezes it.
   const logo = document.querySelector('.cs-nav__brand');
+  const CLICKS_TO_FREEZE = 5;
   let logoClicks = [];
+  let chillTimer = null;
+
+  function setChill(level) {
+    document.documentElement.style.setProperty('--frost', level / CLICKS_TO_FREEZE);
+    document.body.classList.toggle('is-chilling', level > 0);
+  }
+
   if (logo) {
     logo.addEventListener('click', () => {
+      if (freezing) return;
       const now = Date.now();
       logoClicks = logoClicks.filter(t => now - t < 2000).concat(now);
-      if (logoClicks.length >= 5) {
+      if (logoClicks.length >= CLICKS_TO_FREEZE) {
         logoClicks = [];
+        clearTimeout(chillTimer);
+        setChill(0);
         coldSnap();
+        return;
       }
+      setChill(logoClicks.length);
+      logo.classList.remove('is-shivering');
+      void logo.offsetWidth;
+      logo.classList.add('is-shivering');
+      clearTimeout(chillTimer);
+      chillTimer = setTimeout(() => { logoClicks = []; setChill(0); }, 2000);
     });
+    logo.addEventListener('dragstart', e => e.preventDefault());
   }
 
   // ── 4. The wizard card ──────────────────────────────────
   const WIZARD = {
     id: 'the-wizard',
+    drive: true,
     category: 'Secret',
-    title: 'The Wizard',
+    title: 'Drive me',
     type: 'Secret card',
-    thumbnail: 'assets/coldnsap_logo.png',
-    media: ['assets/coldnsap_logo.png'],
-    description: 'You turned over every single card. That\'s exactly how I work: look under every card before building anything. Slip the word "abracadabra" into your email and I\'ll know you\'re one of the curious ones.',
-    features: ['Curiosity: maxed out', 'Cards turned: all of them', 'Password: abracadabra'],
-    tech: ['Patience', 'Curiosity', 'A little magic'],
-    links: [
-      { label: 'Write to the wizard', labelFr: 'Écrire au magicien', href: 'mailto:contact@coldsnap.fr?subject=Abracadabra', icon: 'fa-magic' }
-    ],
+    thumbnail: 'assets/car.png',
     fr: {
-      title: 'Le Magicien',
-      type: 'Carte secrète',
-      description: 'Vous avez retourné toutes les cartes. C\'est exactement comme ça que je travaille : regarder sous chaque carte avant de construire. Glissez le mot « abracadabra » dans votre e-mail, je saurai que vous faites partie des curieux.',
-      features: ['Curiosité : maximale', 'Cartes retournées : toutes', 'Mot de passe : abracadabra']
+      title: 'Conduis-moi',
+      type: 'Carte secrète'
     }
   };
   let wizardDealt = false;

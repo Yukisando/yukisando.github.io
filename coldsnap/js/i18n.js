@@ -15,26 +15,20 @@
     'lang.label': 'Langue',
 
     'nav.work': 'Réalisations',
-    'nav.process': 'Méthode',
+    'nav.approach': 'Approche',
     'nav.cta': 'Démarrer un projet',
     'nav.menu': 'Menu',
 
-    'hero.lead': 'Installations interactives, jeux éducatifs et applications multiplateformes, du premier atelier à la maintenance. France & Suisse.',
+    'hero.lead': 'Applications, jeux et installations interactives sur mesure qui rendent l\'apprentissage ludique. Conçus directement avec vous, sans intermédiaire.',
     'hero.sub': 'Studio de gamification',
     'hero.cta': 'Démarrer un projet',
     'hero.secondary': 'Voir mes réalisations',
-    'hero.caption': 'Mes projets, en vrac. Attrapez une carte, cliquez pour la retourner.',
 
 
-    'numbers.title': 'En chiffres',
-    'numbers.quake.value': 'Le plus grand',
-    'numbers.quake.label': 'simulateur de séisme d\'Europe, au centre de formation dont j\'ai créé le parcours interactif',
-    'numbers.years': 'ans à livrer des logiciels en production',
-    'numbers.users': 'utilisateurs par an sur la plateforme de réservation et de paiement',
-    'numbers.visitors': 'visiteurs de musée par an sur les installations que j\'ai développées',
-    'numbers.minigames': 'mini-jeux tactiles répartis sur 27 stations',
+    'numbers.users': 'utilisateurs par an sur une plateforme de réservation et de paiement',
+    'numbers.visitors': 'visiteurs de musée par an sur mes installations',
     'numbers.escape': 'sessions d\'escape game jouées',
-
+    'numbers.years': 'ans à livrer des logiciels en production',
 
     'work.title': 'Réalisations',
     'work.filterLabel': 'Filtrer les projets',
@@ -48,26 +42,23 @@
     'filter.Web Platforms': 'Plateformes web',
     'filter.Open Source': 'Open source',
 
-    'process.title': 'Ma méthode',
-    'process.1.title': 'Comprendre',
-    'process.1.text': 'Des ateliers avec vos experts, sismologues, chirurgiens ou enseignants, pour définir ce que le public doit apprendre, ressentir et faire.',
-    'process.2.title': 'Prototyper',
-    'process.2.text': 'Du jouable, très tôt. Je le teste avec de vrais utilisateurs et je garde les idées qui marchent vraiment.',
-    'process.3.title': 'Construire',
-    'process.3.text': 'Architecture de production, contenus, interface multilingue, paiements et matériel, conçus pour tourner toute la journée, tous les jours.',
-    'process.4.title': 'Lancer & suivre',
-    'process.4.text': 'Déploiement, publication sur les stores, flottes de bornes et mises à jour à distance, avec une maintenance en option une fois en ligne.',
-
+    'approach.title': 'Vous parlez à celui qui construit',
+    'approach.lead': 'Pas d\'agence, pas de chargé de compte, pas d\'intermédiaire. Un contact direct, c\'est des réponses et des décisions plus rapides.',
+    'approach.1.title': 'Sans intermédiaire',
+    'approach.1.text': 'Vous parlez à la personne qui écrit le code. Aucun message perdu en route.',
+    'approach.2.title': 'Rapide, parce que direct',
+    'approach.2.text': 'Les décisions se prennent en minutes, pas en semaines. Vous voyez l\'avancement tôt et vous pilotez au fil de l\'eau.',
+    'approach.3.title': 'Fait pour vous',
+    'approach.3.text': 'Pas de modèle. Des outils sur mesure, pensés pour votre public, avec le jeu et l\'apprentissage au centre.',
+    'approach.4.title': 'Honnête, et présent après',
+    'approach.4.text': 'Devis clair, réponses franches, et une aide qui continue après la livraison.',
 
     'contact.title': 'Démarrer un projet',
-    'contact.lead': 'Dites-moi ce que le public doit apprendre ou faire, à qui ça s\'adresse, où ça va tourner et dans quels délais. Je reviens vers vous avec des questions, des idées et un devis.',
-    'numbers.planChange': 'des plans chirurgicaux modifiés après examen du modèle 3D en VR par les chirurgiens (validé cliniquement)',
+    'contact.lead': 'Dites-moi ce que vous avez en tête. Je reviens vers vous avec des questions, des idées et un devis clair.',
     'contact.about': 'Envie de savoir qui se cache derrière ColdSnap ? <a href="https://nathandecastro.com/" target="_blank" rel="noopener">nathandecastro.com</a>',
     'contact.subject': 'Nouveau projet',
     'contact.where': 'Basé à',
-    'contact.whereValue': 'Mouans-Sartoux, Côte d\'Azur. Je travaille en France et en Suisse.',
-    'contact.languages': 'Langues',
-    'contact.languagesValue': 'Français & anglais',
+    'contact.whereValue': 'Mouans-Sartoux, France. Je travaille en France et en Suisse, en français ou en anglais.',
     'contact.terms': 'Conditions',
     'contact.termsValue': 'Conditions générales de vente (CGV)',
 
@@ -78,7 +69,6 @@
     'footer.mentions': 'Mentions légales',
     'footer.cgv': 'CGV',
     'footer.privacy': 'Confidentialité',
-    'footer.docs': 'Tous les documents juridiques',
     'footer.vat': 'TVA',
     'footer.made': 'Fait avec soin, du café et un peu de magie',
 
@@ -89,11 +79,15 @@
     'card.reveal': 'cliquez pour retourner',
     'card.open': 'cliquez pour ouvrir',
 
-    'egg.console': 'Psst. Il y a quelques secrets sur cette page. ↑↑↓↓←→←→BA, c\'est un bon début.',
+    'egg.console': 'Psst. Il y a quelques secrets sur cette page. Vous connaissez le Konami code ?',
     'egg.konami': 'Abracadabra ! Toutes les cartes sont révélées.',
     'egg.freeze': 'Cold snap ! Tout est gelé… dégel en cours.',
     'egg.wizard': 'Une carte de trop ? Le magicien vient de se glisser dans le paquet.',
-    'egg.star': 'Vœu enregistré. ✦'
+    'egg.star': 'Vœu enregistré. ✦',
+    'drive.drive': 'conduire',
+    'drive.drift': 'déraper',
+    'drive.use': 'utiliser',
+    'drive.exit': 'Quitter'
   };
 
   const EN_EXTRA = {
@@ -111,11 +105,15 @@
     'modal.tech': 'Technologies',
     'card.reveal': 'click to reveal',
     'card.open': 'click to open',
-    'egg.console': 'Psst. There are a few secrets on this page. ↑↑↓↓←→←→BA is a good start.',
+    'egg.console': 'Psst. There are a few secrets on this page. Ever heard of the Konami code?',
     'egg.konami': 'Abracadabra! Every card revealed.',
     'egg.freeze': 'Cold snap! Everything froze… thawing out.',
     'egg.wizard': 'One card too many? The wizard just slipped into the deck.',
-    'egg.star': 'Wish recorded. ✦'
+    'egg.star': 'Wish recorded. ✦',
+    'drive.drive': 'drive',
+    'drive.drift': 'drift',
+    'drive.use': 'use',
+    'drive.exit': 'Exit'
   };
 
   const TITLES = {

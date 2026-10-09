@@ -105,8 +105,8 @@
       </a>
 
       <nav class="cs-nav__links" id="navLinks" aria-label="Main">
+        <a href="#approach" data-i18n="nav.approach">Approach</a>
         <a href="#work" data-i18n="nav.work">Work</a>
-        <a href="#process" data-i18n="nav.process">Process</a>
         <a href="#contact" class="cs-nav__cta" data-i18n="nav.cta">Start a project</a>
       </nav>
 
@@ -137,63 +137,65 @@
             <p class="hero__sub"><span data-i18n="hero.sub">Gamification studio</span> · Nathan de Castro</p>
           </div>
         </div>
-        <p class="hero__lead" data-i18n="hero.lead">Interactive installations, educational games and cross-platform apps, from the first workshop to long-term maintenance. France &amp; Switzerland.</p>
-        <div class="hero__actions">
-          <a href="#contact" class="btn btn--primary"><span data-i18n="hero.cta">Start a project</span> <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
-          <a href="#work" class="btn btn--ghost" data-i18n="hero.secondary">See my work</a>
-        </div>
+        <p class="hero__lead" data-i18n="hero.lead">Custom apps, games and interactive installations that make learning fun. Built directly with you, no middle man.</p>
       </div>
-
-      <p class="hero__hint" data-i18n="hero.caption">My work, shuffled. Drag a card, click to flip it.</p>
-
-      <!-- Mobile: a fanned hand of cards (populated by JS) -->
-      <div class="hero__hand" id="heroHand" aria-hidden="true"></div>
     </section>
 
-    <!-- Numbers -->
-    <section class="section numbers" aria-labelledby="numbers-title">
+    <!-- Proof -->
+    <section class="section numbers" aria-label="Track record">
       <div class="container">
-        <div class="section-head">
-          <h2 id="numbers-title" data-i18n="numbers.title">In numbers</h2>
-        </div>
         <div class="stats">
-          <div class="stat stat--wide">
+          <div class="stat">
             <span class="stat__value"><span data-count="50">50</span>k</span>
-            <span class="stat__label" data-i18n="numbers.users">users a year on the reservation &amp; payment platform</span>
-            <span class="stat__context">CPPS</span>
+            <span class="stat__label" data-i18n="numbers.users">users a year on a booking &amp; payment platform</span>
+          </div>
+          <div class="stat">
+            <span class="stat__value"><span data-count="30">30</span>k</span>
+            <span class="stat__label" data-i18n="numbers.visitors">museum visitors a year on my exhibits</span>
+          </div>
+          <div class="stat">
+            <span class="stat__value"><span data-count="3000">3,000</span>+</span>
+            <span class="stat__label" data-i18n="numbers.escape">escape game sessions played</span>
           </div>
           <div class="stat">
             <span class="stat__value"><span data-count="8">8</span></span>
             <span class="stat__label" data-i18n="numbers.years">years shipping production software</span>
           </div>
-          <div class="stat">
-            <span class="stat__value"><span data-count="30">30</span>k</span>
-            <span class="stat__label" data-i18n="numbers.visitors">museum visitors a year using the exhibits I built</span>
-            <span class="stat__context">CPPS</span>
-          </div>
-          <div class="stat">
-            <span class="stat__value"><span data-count="30">30</span>+</span>
-            <span class="stat__label" data-i18n="numbers.minigames">touchscreen mini-games across 27 stations</span>
-          </div>
-          <div class="stat">
-            <span class="stat__value"><span data-count="3000">3,000</span>+</span>
-            <span class="stat__label" data-i18n="numbers.escape">escape game sessions completed</span>
-            <span class="stat__context">Escape With Wallis</span>
-          </div>
-          <div class="stat">
-            <span class="stat__value"><span data-count="52">52</span>%</span>
-            <span class="stat__label" data-i18n="numbers.planChange">of surgical plans changed after surgeons reviewed the 3D VR model (clinically validated)</span>
-            <span class="stat__context">PulmoVR</span>
-          </div>
-          <div class="stat stat--text">
-            <span class="stat__value" data-i18n="numbers.quake.value">Europe's largest</span>
-            <span class="stat__label" data-i18n="numbers.quake.label">earthquake simulator, at the training centre where I built the interactive exhibit</span>
-            <span class="stat__context">CPPS</span>
-          </div>
         </div>
       </div>
     </section>
 
+    <!-- Approach -->
+    <section class="section process" id="approach" aria-labelledby="approach-title">
+      <div class="container">
+        <div class="section-head">
+          <h2 id="approach-title" data-i18n="approach.title">You talk to the person who builds it</h2>
+          <p class="section-head__lead" data-i18n="approach.lead">No agency, no account manager, no middle man. Direct contact means faster answers and faster decisions.</p>
+        </div>
+        <ul class="steps">
+          <li class="step">
+            <i class="fa fa-comments step__icon" aria-hidden="true"></i>
+            <h3 data-i18n="approach.1.title">No middle man</h3>
+            <p data-i18n="approach.1.text">You talk to the person who writes the code. No messages lost along the way.</p>
+          </li>
+          <li class="step">
+            <i class="fa fa-bolt step__icon" aria-hidden="true"></i>
+            <h3 data-i18n="approach.2.title">Fast, because direct</h3>
+            <p data-i18n="approach.2.text">Decisions take minutes, not weeks. You see progress early and steer as we go.</p>
+          </li>
+          <li class="step">
+            <i class="fa fa-puzzle-piece step__icon" aria-hidden="true"></i>
+            <h3 data-i18n="approach.3.title">Built for you</h3>
+            <p data-i18n="approach.3.text">No templates. Custom tools designed around your audience, with play and learning at the core.</p>
+          </li>
+          <li class="step">
+            <i class="fa fa-life-ring step__icon" aria-hidden="true"></i>
+            <h3 data-i18n="approach.4.title">Honest, and there after</h3>
+            <p data-i18n="approach.4.text">Clear quotes, straight answers, and help that continues after launch.</p>
+          </li>
+        </ul>
+      </div>
+    </section>
 
     <!-- Work -->
     <section class="section work" id="work" aria-labelledby="work-title">
@@ -215,51 +217,18 @@
       </div>
     </section>
 
-    <!-- Process -->
-    <section class="section process" id="process" aria-labelledby="process-title">
-      <div class="container">
-        <div class="section-head">
-          <h2 id="process-title" data-i18n="process.title">How I work</h2>
-        </div>
-        <ol class="steps">
-          <li class="step">
-            <span class="step__num">01</span>
-            <h3 data-i18n="process.1.title">Discover</h3>
-            <p data-i18n="process.1.text">Workshops with your domain experts, whether seismologists, surgeons or teachers, to pin down what people should learn, feel and do.</p>
-          </li>
-          <li class="step">
-            <span class="step__num">02</span>
-            <h3 data-i18n="process.2.title">Prototype</h3>
-            <p data-i18n="process.2.text">Something playable early. I test it with real users and keep the ideas that actually land.</p>
-          </li>
-          <li class="step">
-            <span class="step__num">03</span>
-            <h3 data-i18n="process.3.title">Build</h3>
-            <p data-i18n="process.3.text">Production architecture, content, multilingual UI, payments and hardware, built to run all day, every day.</p>
-          </li>
-          <li class="step">
-            <span class="step__num">04</span>
-            <h3 data-i18n="process.4.title">Launch &amp; care</h3>
-            <p data-i18n="process.4.text">Deployment, store releases, kiosk fleets and remote updates, with optional maintenance once it's live.</p>
-          </li>
-        </ol>
-      </div>
-    </section>
-
-
     <!-- Contact -->
     <section class="section contact" id="contact" aria-labelledby="contact-title">
       <div class="container">
         <div class="contact__card">
           <div class="contact__copy">
             <h2 id="contact-title" data-i18n="contact.title">Start a project</h2>
-            <p data-i18n="contact.lead">Tell me what people should learn or do, who it's for, where it will run, and your timeline. I'll get back to you with questions, ideas and a quote.</p>
+            <p data-i18n="contact.lead">Tell me what you have in mind. I'll reply with questions, ideas and a clear quote.</p>
             <a class="btn btn--primary btn--lg" id="contactMail" href="mailto:contact@coldsnap.fr?subject=New%20project"><i class="fa fa-envelope" aria-hidden="true"></i> contact@coldsnap.fr</a>
             <p class="contact__about" data-i18n-html="contact.about">Want to know who's behind ColdSnap? <a href="https://nathandecastro.com/" target="_blank" rel="noopener">nathandecastro.com</a></p>
           </div>
           <dl class="contact__facts">
-            <div><dt data-i18n="contact.where">Based in</dt><dd data-i18n="contact.whereValue">Mouans-Sartoux, Côte d'Azur. Working across France &amp; Switzerland.</dd></div>
-            <div><dt data-i18n="contact.languages">Languages</dt><dd data-i18n="contact.languagesValue">French &amp; English</dd></div>
+            <div><dt data-i18n="contact.where">Based in</dt><dd data-i18n="contact.whereValue">Mouans-Sartoux, France. Working in France &amp; Switzerland, in French or English.</dd></div>
             <div><dt data-i18n="contact.terms">Terms</dt><dd><a data-legal-href="https://nathandecastro.com/apps/generic/cgv/" href="https://nathandecastro.com/apps/generic/cgv/" target="_blank" rel="noopener" data-i18n="contact.termsValue">General terms of sale (CGV)</a></dd></div>
           </dl>
           <img src="assets/coldnsap_logo.png" alt="" class="contact__wizard" aria-hidden="true">
@@ -280,8 +249,8 @@
       </div>
       <div class="cs-footer__col">
         <h3>ColdSnap</h3>
+        <a href="#approach" data-i18n="nav.approach">Approach</a>
         <a href="#work" data-i18n="nav.work">Work</a>
-        <a href="#process" data-i18n="nav.process">Process</a>
       </div>
       <div class="cs-footer__col">
         <h3 data-i18n="footer.contact">Contact</h3>
@@ -295,7 +264,6 @@
         <a href="legal/" data-i18n="footer.mentions">Legal notice</a>
         <a data-legal-href="https://nathandecastro.com/apps/generic/cgv/" href="https://nathandecastro.com/apps/generic/cgv/" target="_blank" rel="noopener" data-i18n="footer.cgv">Terms of sale</a>
         <a data-legal-href="https://nathandecastro.com/apps/generic/privacy/" href="https://nathandecastro.com/apps/generic/privacy/" target="_blank" rel="noopener" data-i18n="footer.privacy">Privacy policy</a>
-        <a data-legal-href="https://nathandecastro.com/apps/generic/" href="https://nathandecastro.com/apps/generic/" target="_blank" rel="noopener" data-i18n="footer.docs">All legal documents</a>
       </div>
     </div>
     <div class="container cs-footer__bottom">
@@ -328,6 +296,8 @@
   <script src="js/i18n.js"></script>
   <script src="data/projects.js" defer></script>
   <script src="js/coldsnap.js" defer></script>
+  <script src="js/car-physics.js" defer></script>
+  <script src="js/drive.js" defer></script>
   <script src="js/easter-eggs.js" defer></script>
 </body>
 

@@ -397,6 +397,18 @@ h1, h2, h3 {
   overflow: hidden;
 }
 
+.hero::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 140px;
+  z-index: 10;
+  background: linear-gradient(to bottom, transparent, var(--bg-dark));
+  pointer-events: none;
+}
+
 .hero::before {
   content: '';
   position: absolute;
@@ -474,33 +486,6 @@ h1, h2, h3 {
   margin: 0 auto 28px;
   font-size: 1.05rem;
   color: var(--text-secondary);
-}
-
-.hero__actions {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 12px;
-}
-
-.hero__hint {
-  position: absolute;
-  left: 50%;
-  bottom: 22px;
-  z-index: 20;
-  transform: translateX(-50%);
-  padding: 6px 14px;
-  border-radius: 999px;
-  background: rgba(12, 14, 19, 0.7);
-  border: 1px solid var(--border-color);
-  font-size: 0.75rem;
-  color: var(--text-muted);
-  white-space: nowrap;
-  pointer-events: none;
-}
-
-.hero__hand {
-  display: none;
 }
 
 /* ── Physics card table ─────────────────────────────────── */
@@ -740,6 +725,23 @@ h1, h2, h3 {
 }
 
 /* ── Numbers ────────────────────────────────────────────── */
+.numbers {
+  padding: 24px 0 72px;
+}
+
+.section-head__lead {
+  margin-top: 14px;
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+}
+
+.step__icon {
+  display: block;
+  margin-bottom: 14px;
+  font-size: 1.9rem;
+  color: var(--orange);
+}
+
 .stats {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -761,12 +763,6 @@ h1, h2, h3 {
   border-color: rgba(245, 132, 26, 0.35);
 }
 
-.stat--wide {
-  grid-column: span 2;
-  background:
-    radial-gradient(ellipse at 100% 0%, rgba(245, 132, 26, 0.22), transparent 60%),
-    var(--bg-raised);
-}
 
 .stat__value {
   font-family: var(--font-display);
@@ -777,14 +773,7 @@ h1, h2, h3 {
   font-variant-numeric: tabular-nums;
 }
 
-.stat--wide .stat__value {
-  color: var(--orange);
-}
 
-.stat--text .stat__value {
-  font-size: clamp(1.5rem, 2.2vw, 1.9rem);
-  line-height: 1.1;
-}
 
 .stat__label {
   color: var(--text-secondary);
@@ -792,15 +781,6 @@ h1, h2, h3 {
   line-height: 1.45;
 }
 
-.stat__context {
-  margin-top: auto;
-  padding-top: 8px;
-  font-size: 0.74rem;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--blue);
-}
 
 /* ── Work ───────────────────────────────────────────────── */
 .filters {
@@ -1806,6 +1786,29 @@ body.is-frozen::after {
   opacity: 1;
 }
 
+/* Build-up: frost creeps in from the edges with each logo click */
+body.is-chilling:not(.is-frozen)::after {
+  opacity: calc(var(--frost, 0) * 0.75);
+  transition: opacity 0.25s ease;
+}
+
+.cs-nav__brand.is-shivering .cs-nav__logo {
+  animation: shiver 0.3s ease;
+}
+
+@keyframes shiver {
+  0%, 100% { transform: none; }
+  20% { transform: translateX(-2px) rotate(-6deg); }
+  40% { transform: translateX(2px) rotate(6deg); }
+  60% { transform: translateX(-1px) rotate(-3deg); }
+  80% { transform: translateX(1px) rotate(3deg); }
+}
+
+.cs-nav img,
+.hero img {
+  -webkit-user-drag: none;
+}
+
 body.is-frozen {
   filter: saturate(0.55) hue-rotate(-12deg);
   transition: filter 1.2s ease;
@@ -1816,7 +1819,7 @@ body.is-thawing {
 }
 
 .card-table.is-frozen .physics-card {
-  cursor: not-allowed;
+  cursor: default;
   box-shadow: 0 0 0 1.5px rgba(205, 238, 246, 0.8), 0 8px 28px rgba(107, 191, 208, 0.35);
 }
 
@@ -1863,6 +1866,237 @@ body.is-thawing {
   width: 96px;
   height: 96px;
   object-fit: contain;
+}
+
+/* Spamming the logo or nav must not highlight text */
+.cs-nav,
+.hero {
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* ── Drive mode ─────────────────────────────────────────── */
+.physics-card.is-driven-away {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+body.is-driving {
+  overflow: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+body.is-driving.keyboard-mode {
+  cursor: none;
+}
+
+body.is-driving main,
+body.is-driving .cs-nav,
+body.is-driving .cs-footer {
+  pointer-events: none;
+}
+
+/* Soft vignette so the car and the page stay readable */
+body.is-driving::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 3000;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 55%, rgba(12, 14, 19, 0.55));
+  animation: drive-fade 0.5s ease both;
+}
+
+@keyframes drive-fade {
+  from { opacity: 0; }
+}
+
+.drive-car {
+  position: fixed;
+  z-index: 3200;
+  width: 64px;
+  height: 64px;
+  pointer-events: none;
+  filter: drop-shadow(0 8px 10px rgba(0, 0, 0, 0.55));
+  will-change: left, top;
+}
+
+.drive-car__body {
+  width: 100%;
+  height: 100%;
+  transform-origin: 50% 50%;
+}
+
+.drive-car__body img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* The card becomes the car */
+.drive-car.is-arriving {
+  animation: car-arrive 0.65s var(--ease-out) both;
+}
+
+.drive-car.is-arriving::before {
+  content: '';
+  position: absolute;
+  inset: -24px;
+  border-radius: 50%;
+  border: 2px solid var(--orange);
+  animation: car-ring 0.7s ease-out both;
+}
+
+.drive-car.is-leaving {
+  animation: car-leave 0.4s ease-in both;
+}
+
+@keyframes car-arrive {
+  from { opacity: 0; scale: 3.4; filter: blur(8px) drop-shadow(0 8px 10px rgba(0, 0, 0, 0.55)); }
+  55% { opacity: 1; }
+}
+
+@keyframes car-ring {
+  from { opacity: 0.9; scale: 0.3; }
+  to { opacity: 0; scale: 2.4; }
+}
+
+@keyframes car-leave {
+  to { opacity: 0; scale: 0.2; }
+}
+
+.drive-puff {
+  position: absolute;
+  z-index: 3100;
+  border-radius: 50%;
+  background: rgba(205, 238, 246, 0.5);
+  filter: blur(3px);
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  animation: drive-puff 0.9s ease-out both;
+}
+
+@keyframes drive-puff {
+  to { opacity: 0; transform: translate(-50%, -50%) scale(3.2); }
+}
+
+kbd {
+  display: inline-block;
+  min-width: 26px;
+  padding: 3px 8px;
+  border-radius: 8px;
+  border: 1px solid var(--border-strong);
+  border-bottom-width: 2px;
+  background: rgba(255, 255, 255, 0.07);
+  font: 600 0.78rem var(--font-body);
+  text-align: center;
+  color: var(--text-primary);
+}
+
+.drive-prompt {
+  position: fixed;
+  z-index: 3300;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px 6px 6px;
+  border-radius: 999px;
+  background: rgba(12, 14, 19, 0.92);
+  border: 1px solid var(--orange);
+  box-shadow: 0 0 24px rgba(245, 132, 26, 0.35);
+  font-size: 0.85rem;
+  font-weight: 600;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate(-50%, -100%) translateY(6px);
+  transition: opacity 0.15s ease, transform 0.2s var(--ease-out);
+}
+
+.drive-prompt kbd {
+  background: var(--orange);
+  border-color: var(--orange-dark);
+  color: #1a0e05;
+}
+
+.drive-prompt.is-visible {
+  opacity: 1;
+  transform: translate(-50%, -100%);
+}
+
+.drive-hud {
+  position: fixed;
+  left: 50%;
+  bottom: 24px;
+  z-index: 3300;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 10px 12px 10px 20px;
+  border-radius: 999px;
+  background: rgba(12, 14, 19, 0.88);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border-strong);
+  box-shadow: var(--shadow);
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  opacity: 0;
+  transform: translate(-50%, 24px);
+  transition: opacity 0.3s ease, transform 0.4s var(--ease-out);
+}
+
+.drive-hud.is-visible {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+.drive-hud__keys {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.drive-hud__keys span {
+  margin-left: 4px;
+}
+
+.drive-hud__exit {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px 6px 8px;
+  border-radius: 999px;
+  border: 0;
+  background: var(--orange);
+  color: #1a0e05;
+  font: 600 0.85rem var(--font-body);
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.drive-hud__exit kbd {
+  background: rgba(255, 255, 255, 0.35);
+  border-color: rgba(0, 0, 0, 0.2);
+  color: #1a0e05;
+}
+
+.drive-hud__exit:hover {
+  background: var(--orange-dark);
+}
+
+.drive-near {
+  outline: 2px solid var(--orange);
+  outline-offset: 5px;
+  box-shadow: 0 0 0 8px rgba(245, 132, 26, 0.16);
+}
+
+.drive-pressed {
+  transform: scale(0.96);
+  transition: transform 0.2s ease;
 }
 
 /* ── Responsive ─────────────────────────────────────────── */
@@ -1938,59 +2172,12 @@ body.is-thawing {
     padding: calc(var(--nav-h) + 32px) 20px 48px;
   }
 
-  .card-table,
-  .hero__hint {
+  .card-table {
     display: none;
   }
 
   .hero__panel {
     padding: 30px 24px 32px;
-  }
-
-  /* A fanned hand of project cards */
-  .hero__hand {
-    display: block;
-    position: relative;
-    height: 250px;
-    margin: 0 auto;
-    width: 100%;
-    max-width: 420px;
-  }
-
-  .hand-card {
-    position: absolute;
-    left: 50%;
-    bottom: 0;
-    width: 120px;
-    height: 172px;
-    margin-left: -60px;
-    padding: 0;
-    border-radius: 12px;
-    border: 1px solid var(--border-strong);
-    background: var(--bg-card);
-    overflow: hidden;
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
-    transform-origin: 50% 140%;
-    transform: rotate(calc(var(--i) * 11deg)) translateY(calc(var(--i) * var(--i) * 4px));
-    cursor: pointer;
-    animation: deal 0.6s var(--ease-out) both;
-    animation-delay: calc((var(--i) + 2) * 70ms);
-  }
-
-  .hand-card img {
-    display: block;
-    width: 100%;
-    height: 110px;
-    object-fit: cover;
-  }
-
-  .hand-card span {
-    display: block;
-    padding: 8px 10px;
-    font-family: var(--font-display);
-    font-size: 0.78rem;
-    font-weight: 700;
-    text-align: left;
   }
 
   .section {
@@ -2030,18 +2217,37 @@ body.is-thawing {
   }
 }
 
-@keyframes deal {
-  from { opacity: 0; transform: translateY(80px) rotate(0deg); }
-}
-
 @media (max-width: 600px) {
-  .stats,
-  .steps {
-    grid-template-columns: 1fr;
+  .stats {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
   }
 
-  .stat--wide {
-    grid-column: auto;
+  .stat {
+    padding: 20px 16px;
+  }
+
+  /* Approach: vertical timeline line */
+  .steps {
+    grid-template-columns: 1fr;
+    row-gap: 0;
+    gap: 0;
+    padding-left: 28px;
+    border-left: 1px solid var(--border-strong);
+  }
+
+  .step {
+    padding: 0 0 36px;
+    border-top: 0;
+  }
+
+  .step:last-child {
+    padding-bottom: 0;
+  }
+
+  .step::before {
+    top: 6px;
+    left: -33px;
   }
 
 
@@ -2051,10 +2257,6 @@ body.is-thawing {
 
   .featured__stat strong {
     font-size: 1.35rem;
-  }
-
-  .hero__actions .btn {
-    flex: 1 1 auto;
   }
 
   .lang-switch button {
