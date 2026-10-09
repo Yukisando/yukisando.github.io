@@ -1,15 +1,15 @@
 /**
  * ColdSnap Projects Data
- * 
+ *
  * HOW TO ADD A NEW PROJECT:
  * ========================
- * 
+ *
  * Simply add a new object to the COLDSNAP_PROJECTS array below.
  * Each project should follow this structure:
- * 
+ *
  * {
  *   id: 'unique-id',                    // Required: Unique identifier (no spaces, use hyphens)
- *   category: 'Category Name',          // Required: 'Unity Games', 'Educational Games', 'Flutter Apps', 'Web Platforms', or custom
+ *   category: 'Category Name',          // Required: one of the CATEGORIES below (drives the Work filters)
  *   type: 'Game' | 'App' | 'Website',   // Required: Short type label shown on cards
  *   title: 'Project Title',             // Required: Display title
  *   shortDescription: 'Brief desc...',  // Optional: Short text for card (max ~100 chars)
@@ -28,16 +28,21 @@
  *   links: [                            // Optional: Action buttons in modal
  *     { label: 'Play Now', href: 'https://...', icon: 'fa-play' },
  *     { label: 'GitHub', href: 'https://...', icon: 'fa-github' }
- *   ]
+ *   ],
+ *   featured: true,                     // Optional: shown as the large case study above the grid
+ *   fr: {                               // Optional: French text; any field missing here falls back to English
+ *     type: '...', shortDescription: '...', description: '...', features: ['...']
+ *   }
  * }
- * 
+ *
  * CATEGORIES:
  * - 'Interactive Installations' - Museum kiosks, training centres, large-screen exhibits
  * - 'Games' - PC, mobile and web games
  * - 'Flutter Apps' - Cross-platform mobile/desktop apps
  * - 'Web Platforms' - Web applications and sites
- * 
- * You can also create custom categories!
+ * - 'Open Source' - Public tools, libraries and plugins
+ *
+ * Links starting with /apps/ point at nathandecastro.com (privacy policies live there).
  */
 
 const COLDSNAP_PROJECTS = [
@@ -49,8 +54,9 @@ const COLDSNAP_PROJECTS = [
     category: 'Interactive Installations',
     type: 'Museum Installation',
     title: 'CPPS Earthquake Museum',
-    shortDescription: 'Interactive exhibit teaching earthquake preparedness through engaging mini-games',
-    description: 'A comprehensive educational exhibit at the Cyprus Civil Defence Museum. Features interactive touchscreen mini-games teaching visitors about earthquake causes, effects, and preparation. Includes an escape room experience and tablet-based learning stations throughout the museum.',
+    featured: true,
+    shortDescription: 'Exhibit framework, touchscreen mini-games and an escape game for a public earthquake training centre',
+    description: 'I built the full technology stack of a public earthquake training centre and museum in Switzerland: an integrated exhibit framework across 3 spaces and 27 interactive stations, designed with seismology experts and university professors. 30+ touchscreen mini-games and a fleet of 30 wall-mounted tablets, each running its own kiosked app over a secured local network, centrally configured and remotely updated. Around it: Escape With Wallis, an hour-long escape game guiding visitors through the exhibit, and a reservation and payment platform for state, private and educational clients with automated invoicing and reporting. The centre is also home to Europe\'s largest earthquake simulator.',
     icon: '🏛️',
     thumbnail: 'assets/projects/cpps/cpps-1.jpg',
     media: [
@@ -60,17 +66,36 @@ const COLDSNAP_PROJECTS = [
       'assets/projects/cpps/cpps-4.jpg',
       'assets/projects/cpps/cpps-5.jpg'
     ],
-    tech: ['Unity', 'C#', 'Touch UI', 'Gamification'],
+    stats: [
+      { value: '30k', label: 'visitors / year', fr: 'visiteurs / an' },
+      { value: '27', label: 'interactive stations', fr: 'stations interactives' },
+      { value: '30+', label: 'touchscreen mini-games', fr: 'mini-jeux tactiles' }
+    ],
+    tech: ['Unity', 'Android', 'Docker', 'Firebase', 'Stripe', 'Kiosk UI'],
     features: [
-      'Multiple interactive mini-games',
-      'Large touchscreen exhibits',
-      'Tablet-based learning stations',
-      'Escape room experience',
-      'Multi-language support'
+      '30+ touchscreen mini-games across 3 spaces and 27 stations',
+      'Fleet of 30 kiosked wall tablets, centrally configured and remotely updated',
+      'Escape With Wallis: hour-long escape game, 3,000+ sessions completed',
+      'Reservation and payment platform, 50,000 users a year',
+      'Designed with seismology experts and university professors',
+      'Multi-language content'
     ],
     links: [
-      { label: 'Learn More', href: 'https://www.valbilon.com/projects/cpps-exhibit', icon: 'fa-external-link' }
-    ]
+      { label: 'Learn More', labelFr: 'En savoir plus', href: 'https://www.valbilon.com/projects/cpps-exhibit', icon: 'fa-external-link' }
+    ],
+    fr: {
+      type: 'Installation muséale',
+      shortDescription: 'Parcours d\'exposition, mini-jeux tactiles et escape game pour un centre public de formation aux séismes',
+      description: 'J\'ai développé toute la technologie d\'un centre public de formation et de prévention des séismes en Suisse : un parcours d\'exposition interactif sur 3 espaces et 27 stations, conçu avec des sismologues et des professeurs d\'université. Plus de 30 mini-jeux tactiles et une flotte de 30 tablettes murales, chacune en mode kiosque sur un réseau local sécurisé, configurées et mises à jour à distance. Autour : Escape With Wallis, un escape game d\'une heure qui guide les visiteurs à travers l\'exposition, et une plateforme de réservation et de paiement pour clients publics, privés et scolaires, avec facturation et reporting automatisés. Le centre abrite aussi le plus grand simulateur de séisme d\'Europe.',
+      features: [
+        'Plus de 30 mini-jeux tactiles sur 3 espaces et 27 stations',
+        'Flotte de 30 tablettes murales en kiosque, pilotées et mises à jour à distance',
+        'Escape With Wallis : escape game d\'une heure, plus de 3 000 sessions jouées',
+        'Plateforme de réservation et de paiement, 50 000 utilisateurs par an',
+        'Conçu avec des sismologues et des professeurs d\'université',
+        'Contenus multilingues'
+      ]
+    }
   },
   {
     id: 'sdana-installation',
@@ -93,7 +118,19 @@ const COLDSNAP_PROJECTS = [
       'Behaviour and safety guidance for visitors',
       'Multi-language navigation and content'
     ],
-    links: []
+    links: [],
+    fr: {
+      type: 'Installation tactile',
+      shortDescription: 'Grand écran tactile pédagogique sur les dangers naturels en Valais',
+      description: 'Une installation interactive créée pour le SDANA, le Service des dangers naturels du Valais. Pensée pour un très grand écran tactile dans les locaux du SDANA, l\'expérience aide les visiteurs à comprendre les principaux dangers naturels, leurs mécanismes et les bons comportements à adopter, à travers des scènes pédagogiques multilingues et une exploration visuelle guidée.',
+      features: [
+        'Conçue pour un grand écran tactile public',
+        'Couvre plusieurs dangers naturels et scénarios de risque',
+        'Explique les mécanismes avec des contenus visuels guidés',
+        'Conseils de comportement et de sécurité',
+        'Navigation et contenus multilingues'
+      ]
+    }
   },
 
   // ============================================
@@ -126,9 +163,22 @@ const COLDSNAP_PROJECTS = [
     links: [
       { label: 'Google Play', href: 'https://play.google.com/store/apps/details?id=com.coldsnap.spinlab', icon: 'fa-android', style: 'play-store' },
       { label: 'App Store', href: 'https://apps.apple.com/fr/app/spinlab/id6758303721', icon: 'fa-apple', style: 'app-store' },
-      { label: 'Visit Website', href: 'https://spinlab.fr', icon: 'fa-globe', secondary: true },
-      { label: 'Privacy Policy', href: '/apps/spinlab/privacy/', icon: 'fa-shield', secondary: true }
-    ]
+      { label: 'Visit Website', labelFr: 'Site web', href: 'https://spinlab.fr', icon: 'fa-globe', secondary: true },
+      { label: 'Privacy Policy', labelFr: 'Confidentialité', href: '/apps/spinlab/privacy/', icon: 'fa-shield', secondary: true }
+    ],
+    fr: {
+      type: 'App mobile',
+      shortDescription: 'Plateforme qui met en relation joueurs de tennis et coachs certifiés pour réserver des cours',
+      description: 'Une plateforme complète qui met en relation joueurs de tennis et coachs certifiés : recherche de coachs géolocalisée, réservation instantanée, paiement sécurisé et suivi de progression. Développée en Flutter pour une expérience fluide sur toutes les plateformes.',
+      features: [
+        'Recherche de coachs géolocalisée',
+        'Réservation en temps réel',
+        'Paiement sécurisé via Stripe',
+        'Suivi de progression',
+        'Messagerie intégrée',
+        'Avis et notes'
+      ]
+    }
   },
   {
     id: 'winston',
@@ -153,7 +203,22 @@ const COLDSNAP_PROJECTS = [
       'Firebase Authentication and Firestore backend',
       'Serverless Cloud Functions architecture'
     ],
-    links: []
+    links: [],
+    fr: {
+      type: 'App web',
+      shortDescription: 'Le majordome administratif : comptabilité, contrats, facturation et LinkedIn assisté par IA dans un seul tableau de bord',
+      description: 'Winston est une plateforme d\'administration interne qui gère tout le back-office d\'un studio multi-sociétés : devis, factures, notes de frais et contrats de bout en bout, avec génération et export PDF. Elle intègre aussi un pipeline de contenu LinkedIn assisté par IA qui rédige et publie des posts professionnels à partir d\'articles d\'actualité (GPT-4o-mini). Le support multi-sociétés permet de piloter toutes les entités du studio depuis un seul tableau de bord.',
+      features: [
+        'Gestion des devis, factures et notes de frais',
+        'Création et suivi des contrats',
+        'Génération et export PDF de tous les documents',
+        'Gestion multi-sociétés depuis un seul tableau de bord',
+        'Génération de posts LinkedIn par IA (GPT-4o-mini)',
+        'Publication LinkedIn directe via OAuth',
+        'Backend Firebase Authentication et Firestore',
+        'Architecture serverless Cloud Functions'
+      ]
+    }
   },
   {
     id: 'vidanim',
@@ -178,7 +243,20 @@ const COLDSNAP_PROJECTS = [
     ],
     links: [
       { label: 'Google Play', href: 'https://play.google.com/store/apps/details?id=com.coldsnap.vidanim', icon: 'fa-android', style: 'play-store' }
-    ]
+    ],
+    fr: {
+      type: 'App mobile/web',
+      shortDescription: 'Bibliothèque d\'activités pour enseignants et animateurs : documenter, estimer et partager',
+      description: 'Vidanim aide les enseignants et animateurs à garder une trace des activités qu\'ils créent pour les enfants. Chaque fiche peut contenir des photos, le matériel nécessaire et le temps de préparation, pour réutiliser facilement les bonnes idées et préparer les prochaines séances. Les activités se partagent entre utilisateurs pour construire ensemble une base de connaissances.',
+      features: [
+        'Créer et archiver des idées d\'activités',
+        'Plusieurs photos par activité',
+        'Matériel nécessaire et notes de préparation',
+        'Temps de création de chaque activité',
+        'Partage d\'activités entre utilisateurs',
+        'Une bibliothèque réutilisable pour les prochaines séances'
+      ]
+    }
   },
 
   // ============================================
@@ -208,8 +286,22 @@ const COLDSNAP_PROJECTS = [
       'Multi-designer level set'
     ],
     links: [
-      { label: 'Play', href: 'https://grapplegroove.web.app', icon: 'fa-play' }
-    ]
+      { label: 'Play', labelFr: 'Jouer', href: 'https://grapplegroove.web.app', icon: 'fa-play' }
+    ],
+    fr: {
+      type: 'Jeu PC',
+      shortDescription: 'Parkour à la première personne au grappin : balancez-vous, grimpez et décollez à travers des niveaux physiques',
+      description: 'Un jeu de parkour nerveux à la première personne, construit autour de deux grappins et d\'une physique d\'élan. Le joueur combine grappins à corde et à perche, course sur les murs, sauts, glissades et plateformes à ressort pour traverser des niveaux de plus en plus créatifs. Inclut un éditeur de niveaux intégré, utilisé par une équipe de plusieurs level designers.',
+      features: [
+        'Deux grappins (corde et perche)',
+        'Parkour complet : course murale, saut, glissade, sprint',
+        'Plateformes à ressort et objets physiques',
+        'Objets interactifs à attraper et lancer',
+        'Checkpoints et réapparition',
+        'Éditeur de niveaux intégré',
+        'Niveaux créés par plusieurs designers'
+      ]
+    }
   },
   {
     id: 'pygmak',
@@ -236,7 +328,20 @@ const COLDSNAP_PROJECTS = [
     ],
     links: [
       { label: 'Google Play', href: 'https://play.google.com/store/apps/details?id=com.coldsnap.pygmak', icon: 'fa-android', style: 'play-store' }
-    ]
+    ],
+    fr: {
+      type: 'Jeu mobile',
+      shortDescription: 'Shooter arcade infini : pulvérisez des vagues de caisses avec bonus et modificateurs corrompus',
+      description: 'Un jeu d\'arcade mobile infini : visez avec une tourelle pour détruire les vagues de caisses avant qu\'elles ne passent. Les bonus (gel, électricité, feu, tir dispersé) renouvellent la boucle de jeu, tandis que les caisses corrompues ajoutent du chaos : aveuglement, visée inversée, explosions, divisions. Système d\'améliorations par vague, boutique cosmétique et résurrection financée par la publicité.',
+      features: [
+        'Boucle arcade infinie par vagues',
+        'Bonus : gel, électricité, feu, tir dispersé, dégâts',
+        'Caisses corrompues et modificateurs de chaos',
+        'Améliorations et boutique cosmétique',
+        'Résurrection via publicité',
+        'Versions WebGL et Android'
+      ]
+    }
   },
 
   // ============================================
@@ -267,8 +372,22 @@ const COLDSNAP_PROJECTS = [
       'Multi-language support'
     ],
     links: [
-      { label: 'Privacy Policy', href: '/apps/generic/privacy/', icon: 'fa-shield', secondary: true }
-    ]
+      { label: 'Privacy Policy', labelFr: 'Confidentialité', href: '/apps/generic/privacy/', icon: 'fa-shield', secondary: true }
+    ],
+    fr: {
+      type: 'App mobile',
+      shortDescription: 'App de fidélité pour le commerce local, qui relie habitants et petits commerces du sud de la France',
+      description: 'Une plateforme mobile de fidélité pensée pour redynamiser le commerce de proximité dans les petites villes du sud de la France. Les clients découvrent les commerces alentour sur une carte interactive, cumulent des points à chaque achat et débloquent des offres locales et des bons plans événementiels. Les commerçants disposent d\'un tableau de bord pour gérer leurs offres et suivre l\'engagement.',
+      features: [
+        'Carte interactive des commerces locaux',
+        'Points et récompenses',
+        'Offres locales et événements exclusifs',
+        'Tableau de bord commerçant avec statistiques',
+        'Scan de QR code en magasin',
+        'Notifications push via FCM',
+        'Multilingue'
+      ]
+    }
   },
   {
     id: 'posti',
@@ -290,7 +409,19 @@ const COLDSNAP_PROJECTS = [
       'Persistent background process',
       'Minimal, distraction-free UI'
     ],
-    links: []
+    links: [],
+    fr: {
+      type: 'App de bureau',
+      shortDescription: 'Todo et notes minimalistes, toujours au premier plan, dans la barre système',
+      description: 'Une petite app de productivité qui vit dans la barre système. Posti reste au premier plan pour accéder instantanément à vos tâches et notes sans changer de contexte. Zéro friction : notez une idée en quelques secondes et reprenez le travail.',
+      features: [
+        'Intégration à la barre système',
+        'Fenêtre toujours au premier plan',
+        'Saisie rapide de tâches et de notes',
+        'Processus persistant en arrière-plan',
+        'Interface minimaliste, sans distraction'
+      ]
+    }
   },
   {
     id: 'badger',
@@ -317,8 +448,21 @@ const COLDSNAP_PROJECTS = [
     ],
     links: [
       { label: 'Google Play', href: 'https://play.google.com/store/apps/details?id=com.coldsnap.badger', icon: 'fa-android', style: 'play-store' },
-      { label: 'Privacy Policy', href: '/apps/generic/privacy/', icon: 'fa-shield', secondary: true }
-    ]
+      { label: 'Privacy Policy', labelFr: 'Confidentialité', href: '/apps/generic/privacy/', icon: 'fa-shield', secondary: true }
+    ],
+    fr: {
+      type: 'App mobile',
+      shortDescription: 'Carte de visite numérique NFC : partagez vos coordonnées en rapprochant deux téléphones',
+      description: 'Le remplaçant moderne de la carte de visite papier. Badger partage vos coordonnées instantanément en rapprochant deux téléphones (NFC), ou par QR code en secours. Créez de belles cartes numériques, exportez-les en VCF et retrouvez tous vos contacts au même endroit.',
+      features: [
+        'Partage de contact NFC (format NDEF)',
+        'QR code pour les appareils sans NFC',
+        'Modèles de cartes soignés',
+        'Export et partage VCF',
+        'Profils stockés sur Firebase',
+        'Interface Material Design 3'
+      ]
+    }
   },
   {
     id: 'colismarket',
@@ -344,8 +488,20 @@ const COLDSNAP_PROJECTS = [
       'Local persistent storage'
     ],
     links: [
-      { label: 'Privacy Policy', href: '/apps/generic/privacy/', icon: 'fa-shield', secondary: true }
-    ]
+      { label: 'Privacy Policy', labelFr: 'Confidentialité', href: '/apps/generic/privacy/', icon: 'fa-shield', secondary: true }
+    ],
+    fr: {
+      type: 'App mobile',
+      shortDescription: 'Gestion de points relais avec lecture OCR des étiquettes pour le suivi des colis',
+      description: 'Une app mobile pour gérer les points relais de retrait et de livraison de colis. L\'OCR ML Kit lit et extrait les informations directement depuis les étiquettes, ce qui accélère la prise en charge des colis pour les opérateurs.',
+      features: [
+        'Lecture OCR des étiquettes avec ML Kit',
+        'Prise en charge et suivi des colis',
+        'Capture d\'images et numérisation de documents',
+        'Tableau de bord opérateur de point relais',
+        'Stockage local persistant'
+      ]
+    }
   },
   {
     id: 'sandlog',
@@ -370,8 +526,19 @@ const COLDSNAP_PROJECTS = [
     ],
     links: [
       { label: 'Google Play', href: 'https://play.google.com/store/apps/details?id=com.coldsnap.sandlog', icon: 'fa-android', style: 'play-store' },
-      { label: 'Privacy Policy', href: '/apps/generic/privacy/', icon: 'fa-shield', secondary: true }
-    ]
+      { label: 'Privacy Policy', labelFr: 'Confidentialité', href: '/apps/generic/privacy/', icon: 'fa-shield', secondary: true }
+    ],
+    fr: {
+      type: 'App mobile',
+      shortDescription: 'Journal de rêves vocal : ouvrez l\'app, parlez, votre rêve est enregistré',
+      description: 'Un journal de rêves sans friction, pensé pour capturer un rêve dès le réveil. Ouvrez l\'app et parlez : Sandlog s\'arrête automatiquement quand le silence revient et enregistre votre rêve. Les enregistrements peuvent être exportés vers Google Drive.',
+      features: [
+        'Enregistrement dès l\'ouverture, sans bouton',
+        'Arrêt automatique au silence',
+        'Stockage des rêves en audio',
+        'Export Google Drive pour la sauvegarde'
+      ]
+    }
   },
   {
     id: 'patoune',
@@ -397,8 +564,21 @@ const COLDSNAP_PROJECTS = [
     ],
     links: [
       { label: 'Google Play', href: 'https://play.google.com/store/apps/details?id=com.patoune.app.patoune', icon: 'fa-android', style: 'play-store' },
-      { label: 'Privacy Policy', href: '/apps/patoune/privacy/', icon: 'fa-shield', secondary: true }
-    ]
+      { label: 'Privacy Policy', labelFr: 'Confidentialité', href: '/apps/patoune/privacy/', icon: 'fa-shield', secondary: true }
+    ],
+    fr: {
+      type: 'App mobile',
+      shortDescription: 'Suivi de la coupe des griffes de votre chat, griffe par griffe',
+      description: 'Une app attachante pour les propriétaires de chats qui rend l\'entretien des griffes simple et sans stress. Patoune propose un schéma de patte pour suivre chaque griffe coupée, des rappels colorés quand il est temps, et des conseils pour couper en toute sécurité.',
+      features: [
+        'Schéma de patte, suivi griffe par griffe',
+        'Rappels colorés',
+        'Conseils de coupe en sécurité',
+        'Multilingue',
+        'Illustrations SVG sur mesure',
+        'Android et Windows'
+      ]
+    }
   },
 
   // ============================================
@@ -426,10 +606,21 @@ const COLDSNAP_PROJECTS = [
       'Easy selection of interface options'
     ],
     links: [
-      { label: 'Download', href: 'https://github.com/Yukisando/WaddonSync/releases', icon: 'fa-download' },
+      { label: 'Download', labelFr: 'Télécharger', href: 'https://github.com/Yukisando/WaddonSync/releases', icon: 'fa-download' },
       { label: 'GitHub', href: 'https://github.com/Yukisando/WaddonSync', icon: 'fa-github', secondary: true },
-      { label: 'Privacy Policy', href: '/apps/waddonsync/privacy/', icon: 'fa-shield', secondary: true }
-    ]
+      { label: 'Privacy Policy', labelFr: 'Confidentialité', href: '/apps/waddonsync/privacy/', icon: 'fa-shield', secondary: true }
+    ],
+    fr: {
+      type: 'App de bureau',
+      shortDescription: 'Sauvegarde automatique des données d\'addons World of Warcraft sur Google Drive',
+      description: 'Un utilitaire de bureau qui sauvegarde en toute sécurité les données de vos addons World of Warcraft sur Google Drive. Ne perdez plus jamais vos réglages, raccourcis ou interfaces.',
+      features: [
+        'Sauvegarde et restauration des données d\'addons',
+        'Intégration Google Drive sécurisée',
+        'Plusieurs installations de WoW',
+        'Sélection simple des options d\'interface'
+      ]
+    }
   },
   {
     id: 'magic-arrow',
@@ -452,7 +643,18 @@ const COLDSNAP_PROJECTS = [
     ],
     links: [
       { label: 'GitHub', href: 'https://github.com/Yukisando/MagicArrow', icon: 'fa-github' }
-    ]
+    ],
+    fr: {
+      type: 'Plugin Minecraft',
+      shortDescription: 'Plugin Minecraft qui donne à l\'arc des pouvoirs selon le bloc sous vos pieds',
+      description: 'Un plugin Minecraft en Java, écrit de zéro, qui donne à l\'arc des super-pouvoirs contextuels. L\'effet dépend du bloc sous les pieds du joueur : sur la glace une flèche gelante, sur la TNT une flèche explosive, sur l\'herbe une flèche qui pose des blocs, etc. Une exploration ludique de l\'API Bukkit/Spigot.',
+      features: [
+        'Pouvoirs de l\'arc selon le bloc sous le joueur',
+        'Flèches qui posent des blocs',
+        'Effets élémentaires (gel, explosion, et plus)',
+        'Écrit de zéro sur l\'API Bukkit/Spigot'
+      ]
+    }
   },
   {
     id: 'bolt',
@@ -481,7 +683,22 @@ const COLDSNAP_PROJECTS = [
     links: [
       { label: 'CurseForge', href: 'https://www.curseforge.com/wow/addons/bolt', icon: 'fa-download', style: 'curseforge' },
       { label: 'GitHub', href: 'https://github.com/Yukisando/B.O.L.T', icon: 'fa-github', secondary: true }
-    ]
+    ],
+    fr: {
+      type: 'Addon WoW',
+      shortDescription: 'Addon World of Warcraft modulaire : du confort de jeu sans toucher aux mécaniques',
+      description: 'Brittle and Occasionally Lethal Tweaks. Un addon World of Warcraft modulaire qui apporte du confort de jeu sans modifier le gameplay : menu de jeu enrichi, contrôles de vol dynamique avancés, alertes de chat, mise en évidence des lanceurs de sorts à mana, suivi des instances sauvegardées, et plus. Activement maintenu, plus de 113 versions publiées.',
+      features: [
+        'Menu de jeu enrichi (quitter le groupe, recharger l\'UI, outils de groupe)',
+        'Contrôles de vol dynamique à la souris',
+        'Alertes sonores par canal de chat',
+        'Couleur des barres de nom pour les classes à mana',
+        'Vue d\'ensemble des instances verrouillées',
+        'Correctif de croissance centrée des cadres de groupe',
+        'Activation/désactivation par module',
+        'Plus de 113 versions publiées via CI/CD'
+      ]
+    }
   },
   {
     id: 'coldsnap-utilities',
@@ -504,7 +721,18 @@ const COLDSNAP_PROJECTS = [
     ],
     links: [
       { label: 'GitHub', href: 'https://github.com/Yukisando/com.coldsnap.utilities', icon: 'fa-github' }
-    ]
+    ],
+    fr: {
+      type: 'Package Unity',
+      shortDescription: 'Package Unity C# d\'utilitaires partagés par tous les projets ColdSnap',
+      description: 'Une bibliothèque open source pour le Unity Package Manager (UPM) qui regroupe les utilitaires, helpers et outils communs à tous les projets ColdSnap. Moins de code répétitif, plus de cohérence dans le pipeline Unity du studio.',
+      features: [
+        'Compatible Unity Package Manager (UPM)',
+        'Scripts utilitaires C# réutilisables',
+        'Partagé par tous les projets Unity ColdSnap',
+        'Activement maintenu'
+      ]
+    }
   },
 
 ];

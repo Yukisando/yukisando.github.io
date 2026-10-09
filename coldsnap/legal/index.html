@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+    if (/(^|\.)nathandecastro\.com$/.test(location.hostname)) {
+      location.replace('https://coldsnap.fr/legal/' + location.search + location.hash);
+    }
+    (function () {
+      var lang = new URLSearchParams(location.search).get('lang');
+      try { lang = lang || localStorage.getItem('coldsnap-lang'); } catch (e) {}
+      lang = lang || ((navigator.language || '').toLowerCase().indexOf('fr') === 0 ? 'fr' : 'en');
+      document.documentElement.lang = lang === 'fr' ? 'fr' : 'en';
+    })();
+  </script>
+  <title>Mentions légales — ColdSnap</title>
+  <meta name="description" content="Mentions légales du site coldsnap.fr : éditeur, hébergement, propriété intellectuelle. Legal notice for coldsnap.fr.">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#11131a">
+  <link rel="canonical" href="https://coldsnap.fr/legal/" />
+  <link rel="icon" href="../favicon.ico" sizes="any" />
+  <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32.png" />
+  <link href="../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link href="../css/coldsnap.css" rel="stylesheet">
+  <style>
+    html[lang="fr"] [lang="en"]:not(html),
+    html[lang="en"] [lang="fr"]:not(html) { display: none; }
+    .legal { max-width: 760px; margin: 0 auto; padding: calc(var(--nav-h) + 56px) 24px 40px; }
+    .legal h1 { font-size: clamp(2.2rem, 5vw, 3.2rem); margin-bottom: 10px; }
+    .legal .doc-meta { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 40px; }
+    .legal h2 { font-size: 1.35rem; margin: 40px 0 14px; }
+    .legal p, .legal li { color: var(--text-secondary); }
+    .legal dl { display: grid; grid-template-columns: max-content 1fr; gap: 8px 24px; padding: 22px 24px; border: 1px solid var(--border-color); border-radius: 18px; background: var(--bg-raised); }
+    .legal dt { color: var(--text-muted); font-size: 0.9rem; }
+    .legal dd { color: var(--text-primary); }
+    .legal a { color: var(--orange); }
+    .legal ul { padding-left: 20px; display: grid; gap: 6px; }
+    .legal-back { display: inline-flex; align-items: center; gap: 8px; margin-bottom: 28px; color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; }
+    .legal-back:hover { color: var(--orange); }
+    @media (max-width: 600px) { .legal dl { grid-template-columns: 1fr; } .legal dt { margin-top: 8px; } }
+  </style>
+</head>
+
+<body>
+  <header class="cs-nav is-scrolled">
+    <div class="cs-nav__inner">
+      <a href="../" class="cs-nav__brand" aria-label="ColdSnap">
+        <span class="cs-nav__logo-wrap"><img src="../assets/coldnsap_logo.png" alt="" class="cs-nav__logo" width="40" height="40"></span>
+        <span class="cs-nav__name">ColdSnap</span>
+      </a>
+      <div class="cs-nav__tools" style="margin-left:auto">
+        <div class="lang-switch" role="group" aria-label="Language">
+          <button type="button" data-lang="fr">FR</button>
+          <button type="button" data-lang="en">EN</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="legal">
+    <!-- ============================ FRANÇAIS ============================ -->
+    <article lang="fr">
+      <a class="legal-back" href="../"><i class="fa fa-arrow-left" aria-hidden="true"></i> Retour à l'accueil</a>
+      <h1>Mentions légales</h1>
+      <p class="doc-meta">Dernière mise à jour : 8 octobre 2026</p>
+
+      <h2>Éditeur du site</h2>
+      <dl>
+        <dt>Nom commercial</dt><dd>ColdSnap</dd>
+        <dt>Exploitant</dt><dd>Nathan de Castro Fernandes, Entrepreneur individuel (EI)</dd>
+        <dt>Siège</dt><dd>4 place Suzanne de Villeneuve, 06370 Mouans-Sartoux, France</dd>
+        <dt>SIREN</dt><dd>940 000 649</dd>
+        <dt>SIRET (siège)</dt><dd>940 000 649 00019</dd>
+        <dt>N° TVA intracommunautaire</dt><dd>FR14940000649</dd>
+        <dt>Activité (NAF/APE)</dt><dd>6201Z, Programmation informatique</dd>
+        <dt>Date de création</dt><dd>23 janvier 2025</dd>
+        <dt>Contact</dt><dd><a href="mailto:contact@coldsnap.fr">contact@coldsnap.fr</a></dd>
+        <dt>Directeur de la publication</dt><dd>Nathan de Castro Fernandes</dd>
+      </dl>
+
+      <h2>Hébergement</h2>
+      <p>Le site est hébergé par GitHub, Inc. (GitHub Pages), 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis, <a href="https://github.com" target="_blank" rel="noopener">github.com</a>.</p>
+      <p>Le nom de domaine coldsnap.fr est servi via Cloudflare, Inc., 101 Townsend Street, San Francisco, CA 94107, États-Unis, <a href="https://www.cloudflare.com" target="_blank" rel="noopener">cloudflare.com</a>.</p>
+
+      <h2>Propriété intellectuelle</h2>
+      <p>L'ensemble des contenus de ce site (textes, visuels, logo, captures d'écran de projets) est la propriété de ColdSnap ou de ses clients et partenaires, et ne peut être reproduit sans autorisation écrite préalable. Les marques citées appartiennent à leurs propriétaires respectifs.</p>
+
+      <h2>Données personnelles</h2>
+      <p>Ce site ne comporte ni formulaire, ni outil de mesure d'audience, ni cookie publicitaire. Seule votre préférence de langue est enregistrée localement dans votre navigateur. Si vous m'écrivez par e-mail, votre message est utilisé uniquement pour vous répondre. Pour en savoir plus ou exercer vos droits, consultez la <a href="https://nathandecastro.com/apps/generic/privacy/?lang=fr" target="_blank" rel="noopener">politique de confidentialité</a> ou écrivez à <a href="mailto:contact@coldsnap.fr">contact@coldsnap.fr</a>.</p>
+
+      <h2>Conditions commerciales</h2>
+      <p>Mes prestations sont régies par mes <a href="https://nathandecastro.com/apps/generic/cgv/?lang=fr" target="_blank" rel="noopener">conditions générales de vente</a>. L'ensemble des documents juridiques est disponible sur <a href="https://nathandecastro.com/apps/generic/?lang=fr" target="_blank" rel="noopener">cette page</a>.</p>
+    </article>
+
+    <!-- ============================ ENGLISH ============================ -->
+    <article lang="en">
+      <a class="legal-back" href="../"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back to home</a>
+      <h1>Legal notice</h1>
+      <p class="doc-meta">Last updated: 8 October 2026. The French version (mentions légales) prevails.</p>
+
+      <h2>Publisher</h2>
+      <dl>
+        <dt>Trading name</dt><dd>ColdSnap</dd>
+        <dt>Operator</dt><dd>Nathan de Castro Fernandes, sole proprietor (<em>Entrepreneur individuel</em>, EI)</dd>
+        <dt>Registered address</dt><dd>4 place Suzanne de Villeneuve, 06370 Mouans-Sartoux, France</dd>
+        <dt>SIREN</dt><dd>940 000 649</dd>
+        <dt>SIRET (head office)</dt><dd>940 000 649 00019</dd>
+        <dt>VAT number</dt><dd>FR14940000649</dd>
+        <dt>Activity (NAF/APE)</dt><dd>6201Z, Computer programming</dd>
+        <dt>Founded</dt><dd>23 January 2025</dd>
+        <dt>Contact</dt><dd><a href="mailto:contact@coldsnap.fr">contact@coldsnap.fr</a></dd>
+        <dt>Publication director</dt><dd>Nathan de Castro Fernandes</dd>
+      </dl>
+
+      <h2>Hosting</h2>
+      <p>This site is hosted by GitHub, Inc. (GitHub Pages), 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, USA, <a href="https://github.com" target="_blank" rel="noopener">github.com</a>.</p>
+      <p>The coldsnap.fr domain is served through Cloudflare, Inc., 101 Townsend Street, San Francisco, CA 94107, USA, <a href="https://www.cloudflare.com" target="_blank" rel="noopener">cloudflare.com</a>.</p>
+
+      <h2>Intellectual property</h2>
+      <p>All content on this site (text, visuals, logo, project screenshots) belongs to ColdSnap or its clients and partners and may not be reproduced without prior written permission. Trademarks mentioned belong to their respective owners.</p>
+
+      <h2>Personal data</h2>
+      <p>This site has no forms, no analytics and no advertising cookies. Only your language preference is stored locally in your browser. If you email me, your message is used only to reply to you. To learn more or exercise your rights, see the <a href="https://nathandecastro.com/apps/generic/privacy/" target="_blank" rel="noopener">privacy policy</a> or write to <a href="mailto:contact@coldsnap.fr">contact@coldsnap.fr</a>.</p>
+
+      <h2>Terms of sale</h2>
+      <p>My services are governed by my <a href="https://nathandecastro.com/apps/generic/cgv/" target="_blank" rel="noopener">general terms of sale</a>. All legal documents are available on <a href="https://nathandecastro.com/apps/generic/" target="_blank" rel="noopener">this page</a>.</p>
+    </article>
+  </main>
+
+  <footer class="cs-footer" style="margin-top:40px">
+    <div class="container cs-footer__bottom" style="margin-top:0;border-top:0;padding-top:0">
+      <p>© <span id="year">2026</span> ColdSnap · Nathan de Castro Fernandes EI · SIRET 940 000 649 00019</p>
+      <p><a href="../" style="color:inherit">coldsnap.fr</a></p>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      var titles = { fr: 'Mentions légales — ColdSnap', en: 'Legal notice — ColdSnap' };
+      function apply(lang) {
+        document.documentElement.lang = lang;
+        document.title = titles[lang];
+        document.querySelectorAll('[data-lang]').forEach(function (b) {
+          b.setAttribute('aria-pressed', String(b.dataset.lang === lang));
+        });
+      }
+      document.querySelectorAll('[data-lang]').forEach(function (b) {
+        b.addEventListener('click', function () {
+          try { localStorage.setItem('coldsnap-lang', b.dataset.lang); } catch (e) {}
+          apply(b.dataset.lang);
+        });
+      });
+      apply(document.documentElement.lang === 'fr' ? 'fr' : 'en');
+      document.getElementById('year').textContent = new Date().getFullYear();
+    })();
+  </script>
+</body>
+
+</html>

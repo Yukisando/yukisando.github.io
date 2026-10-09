@@ -1,8 +1,20 @@
 /**
- * ColdSnap - Project Navigation JavaScript
- * 
- * This file handles all the dynamic functionality for the ColdSnap page
+ * ColdSnap - Site JavaScript
+ *
+ * Nav, project rendering + filters, project modal, the physics card table in the
+ * hero, and small scroll effects. Text comes from js/i18n.js (CS_I18N).
  */
+
+const i18n = window.CS_I18N;
+
+// Privacy policies and other /apps/ pages live on nathandecastro.com, not coldsnap.fr.
+function resolveHref(href) {
+  return href.startsWith('/apps/') ? 'https://nathandecastro.com' + href : href;
+}
+
+function escapeAttr(value) {
+  return String(value).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/'/g, '&#39;').replace(/</g, '&lt;');
+}
 
 // Current carousel state
 let currentSlide = 0;
@@ -278,10 +290,14 @@ function playCardClose(card) {
 }
 
 // Modal functions
-function openModal(projectId, fromCard) {
-  const project = COLDSNAP_PROJECTS.find(p => p.id === projectId);
+// `projectRef` is a project id, or a project object (the easter-egg wizard card isn't in the data).
+function openModal(projectRef, fromCard) {
+  const project = typeof projectRef === 'object'
+    ? projectRef
+    : COLDSNAP_PROJECTS.find(p => p.id === projectRef);
   if (!project) return;
-  
+  const field = name => i18n.field(project, name);
+
   const modal = document.getElementById('projectModal');
   const modalBody = document.getElementById('modalBody');
   const modalFooter = document.getElementById('modalFooter');
@@ -302,7 +318,7 @@ function openModal(projectId, fromCard) {
         </div>`;
       } else {
         return `<div class="carousel-slide ${index === 0 ? 'active' : ''}">
-          <img src="${item}" alt="${project.title}" loading="lazy" onclick="openZoom('${item}')">
+          <img src="${item}" alt="${escapeAttr(project.title)}" loading="lazy" onclick="openZoom('${escapeAttr(item)}')">
         </div>`;
       }
     }).join('');
@@ -331,7 +347,7 @@ function openModal(projectId, fromCard) {
   let techHTML = '';
   if (project.tech && project.tech.length > 0) {
     techHTML = `
-      <h3>Technologies</h3>
+      <h3>${i18n.t('modal.tech')}</h3>
       <div class="modal-tech-stack">
         ${project.tech.map(t => `<span class="tech-tag">${t}</span>`).join('')}
       </div>
@@ -342,28 +358,34 @@ function openModal(projectId, fromCard) {
   if (project.links && project.links.length > 0) {
     linksHTML = `
       <div class="modal-links">
-        ${project.links.map((link, i) => `
-          <a href="${link.href}" class="modal-link ${link.style ? link.style : (link.secondary ? 'secondary' : '')}" target="_blank" rel="noopener">
-            ${link.icon ? `<i class="fa ${link.icon}"></i>` : ''}
-            ${link.label}
+        ${project.links.map(link => {
+          const external = !link.href.startsWith('mailto:');
+          return `
+          <a href="${escapeAttr(resolveHref(link.href))}" class="modal-link ${link.style ? link.style : (link.secondary ? 'secondary' : '')}"${external ? ' target="_blank" rel="noopener"' : ''}>
+            ${link.icon ? `<i class="fa ${link.icon}" aria-hidden="true"></i>` : ''}
+            ${i18n.lang === 'fr' && link.labelFr ? link.labelFr : link.label}
           </a>
-        `).join('')}
+        `;
+        }).join('')}
       </div>
     `;
   }
-  
+
+  const description = field('description');
+  const features = field('features');
+
   modalBody.innerHTML = `
     <div class="modal-header">
-      <span class="project-type">${project.type}</span>
-      <h2>${project.title}</h2>
+      <span class="project-type">${field('type')}</span>
+      <h2>${field('title')}</h2>
     </div>
     ${galleryHTML}
     <div class="modal-body">
-      ${project.description ? `<p>${project.description}</p>` : ''}
-      ${project.features ? `
-        <h3>Features</h3>
+      ${description ? `<p>${description}</p>` : ''}
+      ${features ? `
+        <h3>${i18n.t('modal.features')}</h3>
         <ul>
-          ${project.features.map(f => `<li>${f}</li>`).join('')}
+          ${features.map(f => `<li>${f}</li>`).join('')}
         </ul>
       ` : ''}
       ${techHTML}
@@ -433,6 +455,8 @@ function resetModal() {
 // Close modal with Escape key
 document.addEventListener('keydown', function(event) {
   const zoomActive = document.getElementById('zoomModal').classList.contains('active');
+  const modalActive = document.getElementById('projectModal').classList.contains('active');
+  if (!zoomActive && !modalActive) return;
 
   if (event.key === 'Escape') {
     if (zoomActive) closeZoom();
@@ -448,73 +472,93 @@ document.addEventListener('keydown', function(event) {
   }
 });
 
-// Render all projects
+// Work section: filters, featured case study and project grid
+const CATEGORY_ICONS = {
+  'Interactive Installations': 'fa-desktop',
+  'Games': 'fa-gamepad',
+  'Flutter Apps': 'fa-mobile',
+  'Web Platforms': 'fa-globe',
+  'Open Source': 'fa-code'
+};
+let activeFilter = 'all';
+
+function renderFilters() {
+  const filters = document.getElementById('workFilters');
+  if (!filters) return;
+  const categories = [...new Set(COLDSNAP_PROJECTS.map(p => p.category || 'Other'))];
+  const counts = { all: COLDSNAP_PROJECTS.length };
+  COLDSNAP_PROJECTS.forEach(p => { counts[p.category] = (counts[p.category] || 0) + 1; });
+
+  filters.innerHTML = ['all', ...categories].map(cat => `
+    <button type="button" class="filter${cat === activeFilter ? ' is-active' : ''}" data-filter="${escapeAttr(cat)}" aria-pressed="${cat === activeFilter}">
+      ${i18n.t('filter.' + cat)} <span class="filter__count">${counts[cat]}</span>
+    </button>
+  `).join('');
+
+  filters.querySelectorAll('[data-filter]').forEach(btn => {
+    btn.addEventListener('click', () => setFilter(btn.dataset.filter));
+  });
+}
+
+function setFilter(category) {
+  activeFilter = category;
+  renderFilters();
+  renderProjects();
+}
+
 function renderProjects() {
   const container = document.getElementById('projects-container');
-  
-  // Check if projects data exists
+
   if (typeof COLDSNAP_PROJECTS === 'undefined' || COLDSNAP_PROJECTS.length === 0) {
     container.innerHTML = `
       <div class="empty-state">
         <i class="fa fa-folder-open-o"></i>
         <h3>No projects yet</h3>
-        <p>Projects will appear here once added to the data file.</p>
       </div>
     `;
     return;
   }
-  
-  // Group projects by category
-  const categories = {};
-  COLDSNAP_PROJECTS.forEach(project => {
-    const cat = project.category || 'Other';
-    if (!categories[cat]) {
-      categories[cat] = [];
-    }
-    categories[cat].push(project);
-  });
-  
-  // Define section icons
-  const sectionIcons = {
-    'Interactive Installations': 'fa-desktop',
-    'Games': 'fa-gamepad',
-    'Flutter Apps': 'fa-mobile',
-    'Web Platforms': 'fa-globe',
-    'Open Source': 'fa-code',
-    'Other': 'fa-folder'
-  };
-  
-  // Define section descriptions
-  const sectionDescriptions = {
-    'Interactive Installations': 'Museum kiosks, training centre exhibits and large-format touchscreen experiences',
-    'Games': 'PC and mobile games built for fun',
-    'Flutter Apps': 'Cross-platform mobile, web, and desktop applications',
-    'Web Platforms': 'Full-stack web applications and internal tools',
-    'Open Source': 'Public tools, libraries and plugins'
-  };
-  
-  // Build HTML for each category
-  let html = '';
-  
-  Object.keys(categories).forEach(category => {
-    const icon = sectionIcons[category] || 'fa-folder';
-    const description = sectionDescriptions[category] || '';
-    const sectionId = category.toLowerCase().replace(/\s+/g, '-');
-    
-    html += `
-      <section class="project-section" id="${sectionId}">
-        <div class="section-header">
-          <h2><i class="fa ${icon}"></i> ${category}</h2>
-          ${description ? `<p>${description}</p>` : ''}
+
+  const visible = COLDSNAP_PROJECTS.filter(p => activeFilter === 'all' || p.category === activeFilter);
+  const featured = visible.find(p => p.featured);
+  const rest = visible.filter(p => p !== featured);
+
+  container.innerHTML = `
+    ${featured ? createFeaturedCard(featured) : ''}
+    <div class="project-grid">
+      ${rest.map(createProjectCard).join('')}
+    </div>
+  `;
+}
+
+
+function createFeaturedCard(project) {
+  const field = name => i18n.field(project, name);
+  const stats = (project.stats || []).map(s => `
+    <div class="featured__stat">
+      <strong>${s.value}</strong>
+      <span>${i18n.lang === 'fr' && s.fr ? s.fr : s.label}</span>
+    </div>
+  `).join('');
+
+  return `
+    <article class="featured" >
+      <button type="button" class="featured__media" onclick="openModal('${project.id}')" aria-label="${escapeAttr(i18n.t('work.open') + ': ' + project.title)}">
+        <img src="${project.thumbnail}" alt="" loading="lazy">
+      </button>
+      <div class="featured__body">
+        <div class="featured__meta">
+          <span class="featured__label">${i18n.t('work.featured')}</span>
         </div>
-        <div class="project-grid">
-          ${categories[category].map(project => createProjectCard(project)).join('')}
-        </div>
-      </section>
-    `;
-  });
-  
-  container.innerHTML = html;
+        <h3>${project.title}</h3>
+        <p>${field('description').split('. ').slice(0, 2).join('. ')}.</p>
+        <div class="featured__stats">${stats}</div>
+        <button type="button" class="btn btn--ghost" onclick="openModal('${project.id}')">
+          ${i18n.t('work.open')} <i class="fa fa-arrow-right" aria-hidden="true"></i>
+        </button>
+      </div>
+    </article>
+  `;
 }
 
 // ============================================================
@@ -522,7 +566,7 @@ function renderProjects() {
 // ============================================================
 
 function initHeroCards() {
-  if (window.matchMedia('(max-width: 768px)').matches) return;
+  if (window.matchMedia(HERO_TABLE_QUERY).matches) return;
 
   const table = document.getElementById('card-table');
   if (!table || typeof COLDSNAP_PROJECTS === 'undefined' || COLDSNAP_PROJECTS.length === 0) return;
@@ -548,15 +592,32 @@ function initHeroCards() {
   let animId = null;
   let lastTs = 0;
 
+  let frozen = false;
+
+  function cardTitle(card) {
+    return `${card.project.title} — ${i18n.t(card.revealed ? 'card.open' : 'card.reveal')}`;
+  }
+
+  function revealCard(card) {
+    if (card.revealed) return;
+    card.revealed = true;
+    card.el.classList.add('is-revealed');
+    card.el.classList.remove('is-face-down');
+    card.el.title = cardTitle(card);
+    if (cards.every(c => c.revealed)) {
+      document.dispatchEvent(new CustomEvent('coldsnap:all-revealed'));
+    }
+  }
+
   // ── Build cards ──────────────────────────────────────────
-  COLDSNAP_PROJECTS.forEach((project, i) => {
+  // `delayMs` is measured from launch; `extraClass` styles special cards (the wizard).
+  function spawnCard(project, delayMs, extraClass = '') {
     const el = document.createElement('div');
-    el.className = 'physics-card is-face-down is-airborne';
+    el.className = `physics-card is-face-down is-airborne ${extraClass}`.trim();
     el.dataset.projectId = project.id;
-    el.title = `${project.title} — click to reveal`;
 
     const thumb = project.thumbnail
-      ? `<img src="${project.thumbnail}" alt="${project.title}" draggable="false">`
+      ? `<img src="${project.thumbnail}" alt="" draggable="false">`
       : `<div class="physics-card-icon">${project.icon || '🎮'}</div>`;
 
     el.innerHTML = `
@@ -567,8 +628,8 @@ function initHeroCards() {
         <div class="physics-card-face physics-card-front">
           <div class="physics-card-thumb">${thumb}</div>
           <div class="physics-card-meta">
-            <span class="physics-card-type">${project.type}</span>
-            <h3 class="physics-card-title">${project.title}</h3>
+            <span class="physics-card-type">${i18n.field(project, 'type')}</span>
+            <h3 class="physics-card-title">${i18n.field(project, 'title')}</h3>
           </div>
           <div class="physics-card-shine"></div>
         </div>
@@ -585,6 +646,7 @@ function initHeroCards() {
     const tossAngle = Math.random() * Math.PI * 2;
     const speed = 12 + Math.random() * 10;
     const startAngle = (Math.random() - 0.5) * 70;
+    const zIndex = cards.length ? Math.max(...cards.map(c => c.zIndex)) + 1 : 1;
 
     const card = {
       el, project,
@@ -604,11 +666,12 @@ function initHeroCards() {
       pointerX: startX + CARD_W / 2, pointerY: startY + CARD_H / 2,
       prevDragVx: 0, prevDragVy: 0,
       revealed: false,
-      delayMs: i * 55,
+      delayMs,
       active: false,
-      zIndex: i + 1,
+      zIndex,
     };
 
+    el.title = cardTitle(card);
     el.style.cssText = `left:${card.x}px;top:${card.y}px;z-index:${card.zIndex};transform:rotate(${card.angle}deg) scale(${card.scale})`;
     cards.push(card);
 
@@ -618,6 +681,7 @@ function initHeroCards() {
 
     el.addEventListener('pointerdown', (e) => {
       e.preventDefault();
+      if (frozen) return;
       el.setPointerCapture(e.pointerId);
       card.isDragging = true;
       card.active = true;
@@ -668,13 +732,10 @@ function initHeroCards() {
         resetCardOriginToCenter(card);
         card.targetScale = 1.0;
         if (!card.revealed) {
-          card.revealed = true;
-          el.classList.add('is-revealed');
-          el.classList.remove('is-face-down');
-          el.title = `${card.project.title} — click to open`;
+          revealCard(card);
           return;
         }
-        openModal(card.project.id, card);
+        openModal(card.project, card);
         return;
       }
       // Dampen throw momentum and add angular spin from direction
@@ -689,18 +750,50 @@ function initHeroCards() {
 
     el.addEventListener('pointerup', onRelease);
     el.addEventListener('pointercancel', onRelease);
+    return card;
+  }
+
+  COLDSNAP_PROJECTS.forEach((project, i) => spawnCard(project, i * 55));
+
+  i18n.onChange(() => {
+    cards.forEach(card => {
+      card.el.querySelector('.physics-card-type').textContent = i18n.field(card.project, 'type');
+      card.el.title = cardTitle(card);
+    });
   });
 
-  // ── Hint ─────────────────────────────────────────────────
-  const hint = document.createElement('div');
-  hint.className = 'card-table-hint';
-  hint.textContent = 'drag  ·  click to reveal';
-  table.appendChild(hint);
-  const hintDelay = COLDSNAP_PROJECTS.length * 130 + 2400;
-  setTimeout(() => {
-    hint.classList.add('visible');
-    setTimeout(() => hint.classList.remove('visible'), 3200);
-  }, hintDelay);
+  // Hooks for js/easter-eggs.js
+  window.coldsnapDeck = {
+    get cards() { return cards; },
+    addCard(project, extraClass) {
+      return spawnCard(project, Date.now() - launchTime, extraClass);
+    },
+    revealAll() {
+      cards.forEach((card, i) => setTimeout(() => revealCard(card), i * 60));
+    },
+    // Fling every card in a random direction.
+    shuffle() {
+      if (frozen) return;
+      cards.forEach(card => {
+        if (card.isDragging) return;
+        const angle = Math.random() * Math.PI * 2;
+        const speed = 14 + Math.random() * 14;
+        card.active = true;
+        card.vx = Math.cos(angle) * speed;
+        card.vy = Math.sin(angle) * speed;
+        card.angularVel = (Math.random() - 0.5) * 30;
+      });
+    },
+    setFrozen(value) {
+      frozen = value;
+      cards.forEach(card => {
+        card.isDragging = false;
+        card.el.classList.remove('is-dragging');
+        if (value) { card.vx = 0; card.vy = 0; card.angularVel = 0; }
+      });
+      table.classList.toggle('is-frozen', value);
+    },
+  };
 
   function clamp(value, min, max) {
     return Math.max(min, Math.min(max, value));
@@ -896,6 +989,8 @@ function initHeroCards() {
     H = table.clientHeight;
     const elapsed = Date.now() - launchTime;
 
+    if (frozen) return;
+
     cards.forEach((card) => {
       if (!card.active) {
         if (elapsed < card.delayMs) return;
@@ -997,7 +1092,7 @@ function initHeroCards() {
   observer.observe(table);
 
   window.addEventListener('resize', () => {
-    if (window.matchMedia('(max-width: 768px)').matches) return;
+    if (window.matchMedia(HERO_TABLE_QUERY).matches) return;
     W = table.clientWidth;
     H = table.clientHeight;
     cards.forEach(card => {
@@ -1010,32 +1105,141 @@ function initHeroCards() {
 
 // Create a project card
 function createProjectCard(project) {
-  let thumbnailContent = '';
-  
-  if (project.thumbnail) {
-    thumbnailContent = `<img src="${project.thumbnail}" alt="${project.title}" loading="lazy">`;
-  } else if (project.icon) {
-    thumbnailContent = `<div class="project-placeholder">${project.icon}</div>`;
-  } else {
-    thumbnailContent = `<div class="project-placeholder">🎮</div>`;
-  }
-  
-  const techTags = project.tech ? 
-    project.tech.slice(0, 3).map(t => `<span class="tech-tag">${t}</span>`).join('') : '';
-  
+  const field = name => i18n.field(project, name);
+  const thumbnailContent = project.thumbnail
+    ? `<img src="${project.thumbnail}" alt="" loading="lazy">`
+    : `<div class="project-placeholder">${project.icon || '🎮'}</div>`;
+
+  const techTags = project.tech
+    ? project.tech.slice(0, 3).map(t => `<span class="tech-tag">${t}</span>`).join('')
+    : '';
+  const icon = CATEGORY_ICONS[project.category] || 'fa-folder';
+
   return `
-    <div class="project-card" onclick="openModal('${project.id}')">
-      <div class="project-thumbnail">
+    <button type="button" class="project-card" onclick="openModal('${project.id}')">
+      <span class="project-thumbnail">
         ${thumbnailContent}
-        <span class="project-type-badge">${project.type || 'Project'}</span>
-      </div>
-      <div class="project-info">
-        <h3>${project.title}</h3>
-        <p>${project.shortDescription || project.description?.substring(0, 120) + '...' || 'Click to learn more'}</p>
-        <div class="project-tech">
-          ${techTags}
-        </div>
-      </div>
-    </div>
+      </span>
+      <span class="project-info">
+        <span class="project-type"><i class="fa ${icon}" aria-hidden="true"></i> ${field('type') || 'Project'}</span>
+        <span class="project-title">${project.title}</span>
+        <span class="project-desc">${field('shortDescription') || ''}</span>
+        <span class="project-tech">${techTags}</span>
+      </span>
+    </button>
   `;
 }
+
+// ============================================================
+// Page wiring
+// ============================================================
+
+// Below this width the hero shows a fanned hand of cards instead of the physics table.
+const HERO_TABLE_QUERY = '(max-width: 900px)';
+
+// Mobile hero: five cards fanned out like a hand; tap one to open it.
+function renderHeroHand() {
+  const hand = document.getElementById('heroHand');
+  if (!hand) return;
+  const picks = COLDSNAP_PROJECTS.filter(p => p.thumbnail).slice(0, 5);
+  hand.innerHTML = picks.map((project, i) => {
+    const offset = i - (picks.length - 1) / 2;
+    return `
+      <button type="button" class="hand-card" style="--i:${offset}" onclick="openModal('${project.id}')" tabindex="-1">
+        <img src="${project.thumbnail}" alt="" loading="lazy">
+        <span>${project.title}</span>
+      </button>
+    `;
+  }).join('');
+}
+
+function initNav() {
+  const nav = document.querySelector('.cs-nav');
+  const toggle = document.getElementById('navToggle');
+  const links = document.getElementById('navLinks');
+
+  const onScroll = () => nav.classList.toggle('is-scrolled', window.scrollY > 12);
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  const setOpen = open => {
+    nav.classList.toggle('is-open', open);
+    toggle.setAttribute('aria-expanded', String(open));
+  };
+  toggle.addEventListener('click', () => setOpen(!nav.classList.contains('is-open')));
+  links.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setOpen(false)));
+
+  // Highlight the section in view
+  const sections = [...links.querySelectorAll('a[href^="#"]')]
+    .map(a => document.querySelector(a.getAttribute('href')))
+    .filter(Boolean);
+  const spy = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      links.querySelectorAll('a').forEach(a => {
+        a.classList.toggle('is-current', a.getAttribute('href') === '#' + entry.target.id);
+      });
+    });
+  }, { rootMargin: '-45% 0px -50% 0px' });
+  sections.forEach(section => spy.observe(section));
+
+}
+
+// Count stats up from zero the first time they scroll into view.
+function initCounters() {
+  const counters = document.querySelectorAll('[data-count]');
+  const format = n => n.toLocaleString(i18n.lang === 'fr' ? 'fr-FR' : 'en-GB');
+  counters.forEach(el => { el.textContent = format(Number(el.dataset.count)); });
+  if (prefersReducedMotion()) return;
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      observer.unobserve(entry.target);
+      const el = entry.target;
+      const target = Number(el.dataset.count);
+      const start = performance.now();
+      const duration = 1200;
+      const tick = now => {
+        const t = Math.min(1, (now - start) / duration);
+        el.textContent = format(Math.round(target * (1 - Math.pow(1 - t, 3))));
+        if (t < 1) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    });
+  }, { threshold: 0.6 });
+  counters.forEach(el => observer.observe(el));
+
+  i18n.onChange(() => counters.forEach(el => { el.textContent = format(Number(el.dataset.count)); }));
+}
+
+// Fade sections in as they scroll into view.
+function initReveal() {
+  const targets = document.querySelectorAll('.section-head, .stat, .step, .contact__card');
+  if (prefersReducedMotion() || !('IntersectionObserver' in window)) return;
+  targets.forEach(el => el.classList.add('reveal'));
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add('is-visible');
+      observer.unobserve(entry.target);
+    });
+  }, { threshold: 0.15 });
+  targets.forEach(el => observer.observe(el));
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('year').textContent = new Date().getFullYear();
+  initNav();
+  renderFilters();
+  renderProjects();
+  renderHeroHand();
+  initHeroCards();
+  initCounters();
+  initReveal();
+
+  i18n.onChange(() => {
+    renderFilters();
+    renderProjects();
+  });
+});
