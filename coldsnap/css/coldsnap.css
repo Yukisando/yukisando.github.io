@@ -1742,7 +1742,35 @@ body.is-spellbound .hero__panel {
   box-shadow: 0 24px 70px rgba(0, 0, 0, 0.4), 0 0 0 2px rgba(245, 132, 26, 0.6), 0 0 60px rgba(245, 132, 26, 0.35);
 }
 
-/* Cold snap: the ice is drawn on #frost-page by js/frost.js (see the frost block at the end) */
+/* Cold snap: frost creeps in from the edges */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 3400;
+  pointer-events: none;
+  opacity: 0;
+  background:
+    radial-gradient(ellipse 60% 45% at 0% 0%, rgba(220, 245, 255, 0.55), transparent 70%),
+    radial-gradient(ellipse 60% 45% at 100% 0%, rgba(220, 245, 255, 0.5), transparent 70%),
+    radial-gradient(ellipse 60% 45% at 0% 100%, rgba(220, 245, 255, 0.5), transparent 70%),
+    radial-gradient(ellipse 60% 45% at 100% 100%, rgba(220, 245, 255, 0.55), transparent 70%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cg stroke='%23ffffff' stroke-opacity='.35' stroke-width='1.2' fill='none' stroke-linecap='round'%3E%3Cpath d='M30 18v24M18 30h24M21.5 21.5l17 17M38.5 21.5l-17 17'/%3E%3Cpath d='M92 80v16M84 88h16M86.3 82.3l11.4 11.4M97.7 82.3L86.3 93.7'/%3E%3C/g%3E%3C/svg%3E");
+  box-shadow: inset 0 0 120px rgba(190, 235, 255, 0.55);
+  -webkit-mask-image: radial-gradient(ellipse 75% 70% at 50% 50%, transparent 45%, #000 100%);
+  mask-image: radial-gradient(ellipse 75% 70% at 50% 50%, transparent 45%, #000 100%);
+  transition: opacity 1.2s ease;
+}
+
+body.is-frozen::after {
+  opacity: 1;
+}
+
+/* Build-up: frost creeps in from the edges with each logo click */
+body.is-chilling:not(.is-frozen)::after {
+  opacity: calc(var(--frost, 0) * 0.75);
+  transition: opacity 0.25s ease;
+}
 
 .cs-nav__brand.is-shivering .cs-nav__logo {
   animation: shiver 0.3s ease;
@@ -1762,7 +1790,7 @@ body.is-spellbound .hero__panel {
 }
 
 /* The cold tint goes on the page content, never on <body>: a filter on <body> would
-   turn it into the containing block for every position: fixed element (nav, frost, toast). */
+   turn it into the containing block for every position: fixed element (nav, toast). */
 body.is-frozen > main,
 body.is-frozen > .cs-footer {
   filter: saturate(0.55) hue-rotate(-12deg);
@@ -2269,16 +2297,4 @@ kbd {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
-}
-
-/* ══════════════════════════════════════════════════════════
-   Frost (js/frost.js)
-   ══════════════════════════════════════════════════════════ */
-
-/* Page-wide frost: the logo-click build-up and the cold snap. */
-.frost-page {
-  position: fixed;
-  inset: 0;
-  z-index: 3400;
-  pointer-events: none;
 }

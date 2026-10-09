@@ -9,7 +9,7 @@
  * 5. The ✦ at the very bottom of the footer: make a wish.
  *
  * Every egg found is reported to the shared secrets counter (js/secrets.js), the
- * same one nathandecastro.com uses. The ice for 3 is drawn by js/frost.js.
+ * same one nathandecastro.com uses.
  *
  * Physics hooks come from window.coldsnapDeck (js/coldsnap.js), which only exists on desktop.
  */
@@ -101,11 +101,6 @@
       if (window.coldsnapDeck) window.coldsnapDeck.setFrozen(false);
       freezing = false;
     };
-    if (window.CS_FROST) {
-      // real ice: js/frost.js grows crystals over the whole viewport, holds, then thaws
-      window.CS_FROST.snap().then(done);
-      return;
-    }
     document.body.classList.add('is-frozen');
     setTimeout(() => {
       document.body.classList.remove('is-frozen');
@@ -142,7 +137,8 @@
   let chillTimer = null;
 
   function setChill(level) {
-    if (window.CS_FROST) window.CS_FROST.chill(level / CLICKS_TO_FREEZE);
+    document.documentElement.style.setProperty('--frost', level / CLICKS_TO_FREEZE);
+    document.body.classList.toggle('is-chilling', level > 0);
   }
 
   if (logo) {
