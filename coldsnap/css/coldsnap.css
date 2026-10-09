@@ -1762,35 +1762,7 @@ body.is-spellbound .hero__panel {
   box-shadow: 0 24px 70px rgba(0, 0, 0, 0.4), 0 0 0 2px rgba(245, 132, 26, 0.6), 0 0 60px rgba(245, 132, 26, 0.35);
 }
 
-/* Cold snap: frost creeps in from the edges */
-body::after {
-  content: '';
-  position: fixed;
-  inset: 0;
-  z-index: 3400;
-  pointer-events: none;
-  opacity: 0;
-  background:
-    radial-gradient(ellipse 60% 45% at 0% 0%, rgba(220, 245, 255, 0.55), transparent 70%),
-    radial-gradient(ellipse 60% 45% at 100% 0%, rgba(220, 245, 255, 0.5), transparent 70%),
-    radial-gradient(ellipse 60% 45% at 0% 100%, rgba(220, 245, 255, 0.5), transparent 70%),
-    radial-gradient(ellipse 60% 45% at 100% 100%, rgba(220, 245, 255, 0.55), transparent 70%),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cg stroke='%23ffffff' stroke-opacity='.35' stroke-width='1.2' fill='none' stroke-linecap='round'%3E%3Cpath d='M30 18v24M18 30h24M21.5 21.5l17 17M38.5 21.5l-17 17'/%3E%3Cpath d='M92 80v16M84 88h16M86.3 82.3l11.4 11.4M97.7 82.3L86.3 93.7'/%3E%3C/g%3E%3C/svg%3E");
-  box-shadow: inset 0 0 120px rgba(190, 235, 255, 0.55);
-  -webkit-mask-image: radial-gradient(ellipse 75% 70% at 50% 50%, transparent 45%, #000 100%);
-  mask-image: radial-gradient(ellipse 75% 70% at 50% 50%, transparent 45%, #000 100%);
-  transition: opacity 1.2s ease;
-}
-
-body.is-frozen::after {
-  opacity: 1;
-}
-
-/* Build-up: frost creeps in from the edges with each logo click */
-body.is-chilling:not(.is-frozen)::after {
-  opacity: calc(var(--frost, 0) * 0.75);
-  transition: opacity 0.25s ease;
-}
+/* Cold snap: the ice is drawn on #frost-page by js/frost.js (see the frost block at the end) */
 
 .cs-nav__brand.is-shivering .cs-nav__logo {
   animation: shiver 0.3s ease;
@@ -1809,12 +1781,16 @@ body.is-chilling:not(.is-frozen)::after {
   -webkit-user-drag: none;
 }
 
-body.is-frozen {
+/* The cold tint goes on the page content, never on <body>: a filter on <body> would
+   turn it into the containing block for every position: fixed element (nav, frost, toast). */
+body.is-frozen > main,
+body.is-frozen > .cs-footer {
   filter: saturate(0.55) hue-rotate(-12deg);
   transition: filter 1.2s ease;
 }
 
-body.is-thawing {
+body.is-thawing > main,
+body.is-thawing > .cs-footer {
   transition: filter 1.2s ease;
 }
 
@@ -2313,4 +2289,165 @@ kbd {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+/* ══════════════════════════════════════════════════════════
+   Frost (js/frost.js)
+   ══════════════════════════════════════════════════════════ */
+
+/* Page-wide frost: the logo-click build-up and the cold snap. */
+.frost-page {
+  position: fixed;
+  inset: 0;
+  z-index: 3400;
+  pointer-events: none;
+}
+
+/* ══════════════════════════════════════════════════════════
+   Secrets counter (js/easter-eggs.js)
+   Appears after the first secret is found; click it to see what is left.
+   ══════════════════════════════════════════════════════════ */
+
+.secrets {
+  position: fixed;
+  left: 16px;
+  bottom: 16px;
+  z-index: 3900;
+  display: none;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.secrets.is-visible {
+  display: flex;
+}
+
+.secrets__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px 8px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--border-strong);
+  background: rgba(12, 14, 19, 0.92);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: var(--text-primary);
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+  cursor: pointer;
+  transform: translateY(0);
+  animation: secrets-in 0.6s var(--ease-out);
+}
+
+.secrets__btn:hover,
+.secrets__btn:focus-visible {
+  border-color: var(--orange);
+}
+
+.secrets__btn:focus-visible {
+  outline: 2px solid var(--orange);
+  outline-offset: 2px;
+}
+
+.secrets__star {
+  color: #ffe7a3;
+  text-shadow: 0 0 8px rgba(255, 210, 120, 0.9);
+}
+
+.secrets__btn.is-bumping .secrets__star {
+  animation: secrets-bump 0.7s var(--ease-out);
+}
+
+.secrets__btn.is-complete .secrets__star {
+  color: var(--ice);
+  text-shadow: 0 0 10px rgba(107, 191, 208, 0.9);
+}
+
+.secrets__count {
+  font-variant-numeric: tabular-nums;
+}
+
+.secrets__label {
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.secrets__list {
+  margin: 0;
+  padding: 10px 14px;
+  list-style: none;
+  border-radius: 14px;
+  border: 1px solid var(--border-strong);
+  background: rgba(12, 14, 19, 0.94);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  animation: secrets-in 0.35s var(--ease-out);
+}
+
+.secrets__list[hidden] {
+  display: none;
+}
+
+.secrets__list li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 3px 0;
+}
+
+.secrets__list li::before {
+  content: '?';
+  width: 16px;
+  text-align: center;
+  color: var(--text-muted);
+}
+
+.secrets__list li.is-found {
+  color: var(--text-primary);
+}
+
+.secrets__list li.is-found::before {
+  content: '✦';
+  color: #ffe7a3;
+}
+
+.secrets__list li.is-hint {
+  margin-top: 4px;
+  padding-top: 7px;
+  border-top: 1px solid var(--border-strong);
+  font-style: italic;
+}
+
+.secrets__list li.is-hint::before {
+  content: none;
+}
+
+@keyframes secrets-in {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes secrets-bump {
+  0% { transform: scale(1) rotate(0); }
+  35% { transform: scale(1.7) rotate(25deg); }
+  100% { transform: scale(1) rotate(0); }
+}
+
+@media (max-width: 600px) {
+  .secrets { left: 12px; bottom: 12px; }
+  .secrets__label { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .secrets__btn,
+  .secrets__list,
+  .secrets__btn.is-bumping .secrets__star { animation: none; }
 }

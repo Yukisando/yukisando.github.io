@@ -8,6 +8,10 @@
  *    Clicking it turns it into a car (js/drive.js).
  * 5. The ✦ at the very bottom of the footer: make a wish.
  *
+ * Every egg found is recorded (localStorage) in a small counter at the bottom-left
+ * corner, so finding one makes you want to find the rest. The ice for 3 is drawn
+ * by js/frost.js.
+ *
  * Physics hooks come from window.coldsnapDeck (js/coldsnap.js), which only exists on desktop.
  */
 (function () {
@@ -23,6 +27,73 @@
     el.classList.add('is-visible');
     clearTimeout(toastTimer);
     toastTimer = setTimeout(() => el.classList.remove('is-visible'), 3600);
+  }
+
+  // ── Secrets counter ─────────────────────────────────────
+  const SECRETS = ['konami', 'snap', 'wizard', 'star'];
+  const STORE = 'coldsnap-secrets';
+  let found = [];
+  try { found = JSON.parse(localStorage.getItem(STORE) || '[]'); } catch (e) { found = []; }
+  found = found.filter(k => SECRETS.includes(k));
+
+  const secretsBox = document.getElementById('secrets');
+  const secretsBtn = document.getElementById('secretsBtn');
+  const secretsCount = document.getElementById('secretsCount');
+  const secretsList = document.getElementById('secretsList');
+
+  function renderSecrets() {
+    if (!secretsBox) return;
+    const total = SECRETS.length;
+    const complete = found.length === total;
+    secretsBox.classList.toggle('is-visible', found.length > 0);
+    secretsBtn.classList.toggle('is-complete', complete);
+    secretsCount.textContent = found.length + '/' + total;
+    secretsBtn.setAttribute('aria-label', i18n.t('secrets.aria').replace('{n}', found.length).replace('{total}', total));
+    secretsList.innerHTML = '';
+    SECRETS.forEach(key => {
+      const li = document.createElement('li');
+      const got = found.includes(key);
+      li.className = got ? 'is-found' : '';
+      li.textContent = got ? i18n.t('secrets.' + key) : i18n.t('secrets.hidden');
+      secretsList.appendChild(li);
+    });
+    const hint = document.createElement('li');
+    hint.className = 'is-hint';
+    hint.textContent = i18n.t(complete ? 'secrets.complete' : 'secrets.more');
+    secretsList.appendChild(hint);
+  }
+
+  // Marks a secret as found. Returns the suffix to append to the egg's toast.
+  function award(key) {
+    if (!SECRETS.includes(key) || found.includes(key)) return '';
+    found.push(key);
+    try { localStorage.setItem(STORE, JSON.stringify(found)); } catch (e) { /* private mode */ }
+    renderSecrets();
+    if (secretsBtn) {
+      secretsBtn.classList.remove('is-bumping');
+      void secretsBtn.offsetWidth;
+      secretsBtn.classList.add('is-bumping');
+    }
+    if (found.length === SECRETS.length) {
+      setTimeout(() => toast(i18n.t('secrets.complete')), 4200);
+    }
+    return ' · ' + found.length + '/' + SECRETS.length;
+  }
+
+  if (secretsBtn) {
+    secretsBtn.addEventListener('click', () => {
+      const open = secretsList.hidden;
+      secretsList.hidden = !open;
+      secretsBtn.setAttribute('aria-expanded', String(open));
+    });
+    document.addEventListener('click', e => {
+      if (!secretsList.hidden && !secretsBox.contains(e.target)) {
+        secretsList.hidden = true;
+        secretsBtn.setAttribute('aria-expanded', 'false');
+      }
+    });
+    i18n.onChange(renderSecrets);
+    renderSecrets();
   }
 
   // ── Sparkles ────────────────────────────────────────────
@@ -75,7 +146,7 @@
       deck.revealAll();
       deck.shuffle();
     }
-    toast(i18n.t('egg.konami'));
+    toast(i18n.t('egg.konami') + award('konami'));
   }
 
   // ── 3. Cold snap ────────────────────────────────────────
@@ -85,16 +156,24 @@
   function coldSnap() {
     if (freezing) return;
     freezing = true;
-    document.body.classList.add('is-frozen');
     if (window.coldsnapDeck) window.coldsnapDeck.setFrozen(true);
-    toast(i18n.t('egg.freeze'));
+    toast(i18n.t('egg.freeze') + award('snap'));
+    const done = () => {
+      if (window.coldsnapDeck) window.coldsnapDeck.setFrozen(false);
+      freezing = false;
+    };
+    if (window.CS_FROST) {
+      // real ice: js/frost.js grows crystals over the whole viewport, holds, then thaws
+      window.CS_FROST.snap().then(done);
+      return;
+    }
+    document.body.classList.add('is-frozen');
     setTimeout(() => {
       document.body.classList.remove('is-frozen');
       document.body.classList.add('is-thawing');
-      if (window.coldsnapDeck) window.coldsnapDeck.setFrozen(false);
       setTimeout(() => {
         document.body.classList.remove('is-thawing');
-        freezing = false;
+        done();
       }, 1200);
     }, 5000);
   }
@@ -124,8 +203,7 @@
   let chillTimer = null;
 
   function setChill(level) {
-    document.documentElement.style.setProperty('--frost', level / CLICKS_TO_FREEZE);
-    document.body.classList.toggle('is-chilling', level > 0);
+    if (window.CS_FROST) window.CS_FROST.chill(level / CLICKS_TO_FREEZE);
   }
 
   if (logo) {
@@ -175,7 +253,7 @@
         const r = table.getBoundingClientRect();
         sparkleBurst(24, { x: r.left + r.width / 2, y: r.top + r.height / 2 });
       }
-      toast(i18n.t('egg.wizard'));
+      toast(i18n.t('egg.wizard') + award('wizard'));
     }, 700);
   });
 
@@ -192,7 +270,7 @@
         const r = star.getBoundingClientRect();
         sparkleBurst(14, { x: r.left + r.width / 2, y: r.top + r.height / 2 });
       }
-      toast(i18n.t('egg.star'));
+      toast(i18n.t('egg.star') + award('star'));
     });
   }
 })();

@@ -44,7 +44,7 @@
   <link rel="preload" href="fonts/Inter-var.woff2" as="font" type="font/woff2" crossorigin>
 
   <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-  <link href="css/coldsnap.css" rel="stylesheet">
+  <link href="css/coldsnap.css?v=20261009b" rel="stylesheet">
 
   <!-- Structured Data -->
   <script type="application/ld+json">
@@ -289,16 +289,30 @@
     <button class="zoom-nav-btn next" onclick="event.stopPropagation(); nextZoom()" aria-label="Next"><i class="fa fa-chevron-right"></i></button>
   </div>
 
+  <!-- Page-wide frost: logo-click build-up and the cold snap (js/frost.js) -->
+  <canvas id="frost-page" class="frost-page" aria-hidden="true"></canvas>
+
   <!-- Toasts (easter eggs) -->
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
+  <!-- Secrets counter: shows up once the first easter egg is found (js/easter-eggs.js) -->
+  <div class="secrets" id="secrets">
+    <button type="button" class="secrets__btn" id="secretsBtn" aria-expanded="false" aria-controls="secretsList">
+      <span class="secrets__star" aria-hidden="true">&#10022;</span>
+      <span class="secrets__count" id="secretsCount">0/4</span>
+      <span class="secrets__label" data-i18n="secrets.label">secrets</span>
+    </button>
+    <ul class="secrets__list" id="secretsList" hidden></ul>
+  </div>
+
   <!-- i18n runs synchronously so translated text is in place before first paint -->
-  <script src="js/i18n.js"></script>
-  <script src="data/projects.js" defer></script>
-  <script src="js/coldsnap.js" defer></script>
-  <script src="js/car-physics.js" defer></script>
-  <script src="js/drive.js" defer></script>
-  <script src="js/easter-eggs.js" defer></script>
+  <script src="js/i18n.js?v=20261009b"></script>
+  <script src="data/projects.js?v=20261009b" defer></script>
+  <script src="js/coldsnap.js?v=20261009b" defer></script>
+  <script src="js/frost.js?v=20261009b" defer></script>
+  <script src="js/car-physics.js?v=20261009b" defer></script>
+  <script src="js/drive.js?v=20261009b" defer></script>
+  <script src="js/easter-eggs.js?v=20261009b" defer></script>
 </body>
 
 </html>

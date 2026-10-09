@@ -58,7 +58,7 @@ const COLDSNAP_PROJECTS = [
     shortDescription: 'Exhibit framework, touchscreen mini-games and an escape game for a public earthquake training centre',
     description: 'I built the full technology stack of a public earthquake training centre and museum in Switzerland: an integrated exhibit framework across 3 spaces and 27 interactive stations, designed with seismology experts and university professors. 30+ touchscreen mini-games and a fleet of 30 wall-mounted tablets, each running its own kiosked app over a secured local network, centrally configured and remotely updated. Around it: Escape With Wallis, an hour-long escape game guiding visitors through the exhibit, and a reservation and payment platform for state, private and educational clients with automated invoicing and reporting. The centre is also home to Europe\'s largest earthquake simulator.',
     icon: '🏛️',
-    thumbnail: 'assets/projects/cpps/cpps-1.jpg',
+    thumbnail: 'assets/projects/cpps/cpps-1-thumb.webp',
     media: [
       'assets/projects/cpps/cpps-1.jpg',
       'assets/projects/cpps/cpps-2.jpg',
@@ -104,7 +104,7 @@ const COLDSNAP_PROJECTS = [
     title: 'SDANA Natural Hazards Installation',
     shortDescription: 'Large-format educational touchscreen teaching visitors about natural hazards in Valais',
     description: 'An interactive installation created for SDANA, the Service des dangers naturels du Valais. Designed for a massive touchscreen at the SDANA facility, the experience helps visitors understand major natural hazards, their mechanisms, and the right behaviours to adopt through multilingual educational scenes and guided visual exploration.',
-    thumbnail: 'assets/projects/sdana/sdana-1.png',
+    thumbnail: 'assets/projects/sdana/sdana-1-thumb.webp',
     media: [
       'assets/projects/sdana/sdana-1.png',
       'assets/projects/sdana/sdana-2.png',
@@ -144,7 +144,7 @@ const COLDSNAP_PROJECTS = [
     shortDescription: 'Platform connecting tennis players with certified coaches for booking lessons',
     description: 'A comprehensive platform that connects tennis players with certified coaches. Features include geolocated coach discovery, instant booking, secure payment processing, and training progress tracking. Built with Flutter for seamless cross-platform experience.',
     icon: '🎾',
-    thumbnail: 'assets/projects/spinlab/spinlab-1.jpeg',
+    thumbnail: 'assets/projects/spinlab/spinlab-1-thumb.webp',
     media: [
       'assets/projects/spinlab/spinlab-1.jpeg',
       'assets/projects/spinlab/spinlab-2.jpeg',
@@ -188,7 +188,7 @@ const COLDSNAP_PROJECTS = [
     shortDescription: 'Company-wide admin butler: accounting, contracts, invoicing and AI-powered LinkedIn management in one dashboard',
     description: 'Winston is an internal company-wide admin platform built to run the full back-office of a multi-company studio. It handles quotes, invoices, business expenses, and contracts end-to-end, with PDF generation and export throughout. On top of that, it features an AI-powered LinkedIn content pipeline that automatically generates and publishes professional posts from news articles using GPT-4o-mini. Multi-company support means the same dashboard manages all entities under the studio umbrella.',
     icon: '🤖',
-    thumbnail: 'assets/projects/winston/winston-1.png',
+    thumbnail: 'assets/projects/winston/winston-1-thumb.webp',
     media: [
       'assets/projects/winston/winston-1.png'
     ],
@@ -227,7 +227,7 @@ const COLDSNAP_PROJECTS = [
     title: 'Vidanim',
     shortDescription: 'Activity library for teachers and animators to document, estimate, and share creative work',
     description: 'Vidanim helps teachers and animators keep track of the activities they create for children. Each entry can include photos, required materials, and the time it took to prepare, making it easier to reuse successful ideas and plan future sessions. The app also supports sharing activities with other Vidanim users so teams can collaborate and build a reusable knowledge base together.',
-    thumbnail: 'assets/projects/Vidanim/vidanim%20(1).jpg',
+    thumbnail: 'assets/projects/Vidanim/vidanim%20(1)-thumb.webp',
     media: [
       'assets/projects/Vidanim/vidanim%20(1).jpg',
       'assets/projects/Vidanim/vidanim%20(2).jpg'
@@ -270,7 +270,7 @@ const COLDSNAP_PROJECTS = [
     shortDescription: 'First-person grappling hook parkour game: swing, climb and launch through physics-driven levels',
     description: 'A fast-paced first-person parkour game built around dual grappling hooks and momentum physics. Players combine rope and pole grapples with wall-running, vaulting, sliding and dynamic spring platforms to blast through increasingly creative levels. Includes a built-in level editor used during development by a multi-person team.',
     icon: '🪝',
-    thumbnail: 'assets/projects/grapple-groove/grapple-groove-1.png',
+    thumbnail: 'assets/projects/grapple-groove/grapple-groove-1-thumb.webp',
     media: [
       'assets/projects/grapple-groove/grapple-groove-1.png',
       'assets/projects/grapple-groove/grapple-groove-2.png'
@@ -311,7 +311,7 @@ const COLDSNAP_PROJECTS = [
     shortDescription: 'Endless cannon-shooter: blast waves of crates with power-ups and corrupted modifiers',
     description: 'An endless mobile arcade game where players aim a turret to destroy incoming waves of crates before they breach. Power-ups like freeze, electrify, blaze and scatter shot keep the loop fresh, while corrupted crates introduce chaos modifiers: blindness, reversed aim, explosions and splits. Features a wave-based upgrade system, cosmetic shop, and ad-supported revive.',
     icon: '🎯',
-    thumbnail: 'assets/projects/pygmak/pygmak-1.jpg',
+    thumbnail: 'assets/projects/pygmak/pygmak-1-thumb.webp',
     media: [
       'assets/projects/pygmak/pygmak-1.jpg',
       'assets/projects/pygmak/pygmak-2.jpg',
@@ -355,7 +355,7 @@ const COLDSNAP_PROJECTS = [
     shortDescription: 'Local commerce loyalty app connecting shoppers with small businesses in southern France',
     description: 'A mobile loyalty and rewards platform designed to revive local commerce in small towns across southern France. Shoppers discover nearby businesses on an interactive map, earn points with each purchase, and unlock exclusive local offers and event deals. Merchants get a full dashboard to manage offers and track customer engagement.',
     icon: '🛍️',
-    thumbnail: 'assets/projects/maya/maya-1.jpg',
+    thumbnail: 'assets/projects/maya/maya-1-thumb.webp',
     media: [
       'assets/projects/maya/maya-1.jpg',
       'assets/projects/maya/maya-2.jpg',
@@ -397,7 +397,7 @@ const COLDSNAP_PROJECTS = [
     shortDescription: 'Minimalist always-on-top system tray todo and notes app for desktop',
     description: 'A lightweight desktop productivity app that lives in your system tray. Posti stays always-on-top for instant access to todos and quick notes without switching context. Designed for minimal friction, capture a thought in seconds and get back to work.',
     icon: '📌',
-    thumbnail: 'assets/projects/posti/posti-1.png',
+    thumbnail: 'assets/projects/posti/posti-1-thumb.webp',
     media: [
       'assets/projects/posti/posti-1.png'
     ],
@@ -431,7 +431,7 @@ const COLDSNAP_PROJECTS = [
     shortDescription: 'NFC-powered digital business card, share contacts by tapping phones',
     description: 'A modern replacement for physical business cards. Badger lets you share your contact details instantly by tapping phones via NFC, or via QR code as a fallback. Create beautiful digital card profiles, export as VCF, and manage all your shared contacts in one place.',
     icon: '🪪',
-    thumbnail: 'assets/projects/badger/badger-1.jpg',
+    thumbnail: 'assets/projects/badger/badger-1-thumb.webp',
     media: [
       'assets/projects/badger/badger-1.jpg',
       'assets/projects/badger/badger-2.jpg',
@@ -472,7 +472,7 @@ const COLDSNAP_PROJECTS = [
     shortDescription: 'Parcel relay point management app with OCR scanning for package tracking',
     description: 'A mobile app for managing package pickup and delivery relay points. Features ML Kit-powered OCR to scan and extract parcel information directly from labels, streamlining the package intake process for relay operators.',
     icon: '📦',
-    thumbnail: 'assets/projects/colismarket/colismarket-1.jpg',
+    thumbnail: 'assets/projects/colismarket/colismarket-1-thumb.webp',
     media: [
       'assets/projects/colismarket/colismarket-1.jpg',
       'assets/projects/colismarket/colismarket-2.jpg',
@@ -511,7 +511,7 @@ const COLDSNAP_PROJECTS = [
     shortDescription: 'Voice dream journal: open the app, speak, and your dream is saved automatically',
     description: 'A frictionless dream journaling app designed to capture dreams the moment you wake up. Open the app and speak; Sandlog automatically stops recording when silence is detected and saves your dream entry. Recordings can be exported to the user\'s Google Drive for safe cloud storage.',
     icon: '🌙',
-    thumbnail: 'assets/projects/sandlog/sandlog-1.jpg',
+    thumbnail: 'assets/projects/sandlog/sandlog-1-thumb.webp',
     media: [
       'assets/projects/sandlog/sandlog-1.jpg',
       'assets/projects/sandlog/sandlog-2.jpg',
@@ -548,7 +548,7 @@ const COLDSNAP_PROJECTS = [
     shortDescription: 'Cat claw trimming tracker to visualize and schedule your cat\'s nail maintenance',
     description: 'A charming companion app for cat owners that makes claw maintenance easy and stress-free. Patoune provides a visual paw diagram to track which claws have been trimmed, colour-coded reminders when trimming is due, and guidance on safe trimming techniques.',
     icon: '🐾',
-    thumbnail: 'assets/projects/patoune/patoune-1.jpg',
+    thumbnail: 'assets/projects/patoune/patoune-1-thumb.webp',
     media: [
       'assets/projects/patoune/patoune-1.jpg',
       'assets/projects/patoune/patoune-2.jpg'
@@ -592,7 +592,7 @@ const COLDSNAP_PROJECTS = [
     shortDescription: 'Backup World of Warcraft addon data to Google Drive automatically',
     description: 'A desktop utility that securely backs up your World of Warcraft addon data to Google Drive. Never lose your addon settings, keybindings, or UI configurations again.',
     icon: '🎮',
-    thumbnail: 'assets/projects/waddonsync/waddonsync-1.png',
+    thumbnail: 'assets/projects/waddonsync/waddonsync-1-thumb.webp',
     media: [
       'assets/projects/waddonsync/waddonsync-1.png',
       'assets/projects/waddonsync/waddonsync-2.png',
@@ -630,7 +630,7 @@ const COLDSNAP_PROJECTS = [
     shortDescription: 'Minecraft plugin adding block-placing and elemental abilities to bows based on the block you stand on',
     description: 'A Java Minecraft plugin built from scratch that gives the bow and arrow context-sensitive superpowers. The effect fired depends on the block under the player\'s feet: standing on ice fires a freeze arrow, on TNT fires an explosive, on grass places blocks, and so on. A fun exploration of the Bukkit/Spigot API.',
     icon: '🏹',
-    thumbnail: 'assets/projects/magic-arrow/magic-arrow-1.jpg',
+    thumbnail: 'assets/projects/magic-arrow/magic-arrow-1-thumb.webp',
     media: [
       'assets/projects/magic-arrow/magic-arrow-1.jpg',
     ],
@@ -664,7 +664,7 @@ const COLDSNAP_PROJECTS = [
     shortDescription: 'Modular World of Warcraft addon with quality-of-life improvements that don\'t change core mechanics',
     description: 'Brittle and Occasionally Lethal Tweaks. A modular World of Warcraft addon delivering quality-of-life improvements without altering core gameplay. Features game menu enhancements, advanced skyriding controls, chat notifications, nameplate mana-user highlighting, saved instance tracking, and more. Actively maintained with 113+ versioned releases.',
     icon: '⚔️',
-    thumbnail: 'assets/projects/bolt/bolt-1.png',
+    thumbnail: 'assets/projects/bolt/bolt-1-thumb.webp',
     media: [
       'assets/projects/bolt/bolt-1.png',
       'assets/projects/bolt/bolt-2.png'
@@ -708,7 +708,7 @@ const COLDSNAP_PROJECTS = [
     shortDescription: 'Reusable Unity C# utility package shared across all ColdSnap projects',
     description: 'An open-source Unity Package Manager (UPM) library providing shared utilities, helpers, and tools used across all ColdSnap projects. Reduces boilerplate and ensures consistency throughout the studio\'s internal Unity development pipeline.',
     icon: '🛠️',
-    thumbnail: 'assets/projects/coldsnap-utilities/utilities-1.png',
+    thumbnail: 'assets/projects/coldsnap-utilities/utilities-1-thumb.webp',
     media: [
       'assets/projects/coldsnap-utilities/utilities-1.png'
     ],
