@@ -1,26 +1,9 @@
 /* ColdSnap CSS */
 
 @font-face {
-  font-family: 'Bricolage Grotesque';
-  src: url('../fonts/BricolageGrotesque-var.woff2') format('woff2');
-  font-weight: 200 800;
-  font-style: normal;
-  font-display: swap;
-}
-
-/* Brand wordmark */
-@font-face {
   font-family: 'Comfortaa';
-  src: url('../fonts/Comfortaa-Bold.ttf') format('truetype');
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Inter';
-  src: url('../fonts/Inter-var.woff2') format('woff2');
-  font-weight: 100 900;
+  src: url('../fonts/Comfortaa-var.woff2') format('woff2');
+  font-weight: 300 700;
   font-style: normal;
   font-display: swap;
 }
@@ -55,9 +38,9 @@
   --text-muted: rgba(244, 241, 234, 0.45);
 
   /* Type */
-  --font-display: 'Bricolage Grotesque', 'Segoe UI', system-ui, sans-serif;
-  --font-brand: 'Comfortaa', 'Segoe UI', sans-serif;
-  --font-body: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --font-display: 'Comfortaa', 'Segoe UI', system-ui, sans-serif;
+  --font-brand: 'Comfortaa', 'Segoe UI', system-ui, sans-serif;
+  --font-body: 'Comfortaa', 'Segoe UI', system-ui, sans-serif;
 
   /* UI */
   --border-color: rgba(255, 255, 255, 0.08);
@@ -180,13 +163,11 @@ h1, h2, h3 {
 .btn--primary {
   background: var(--orange);
   color: #fff;
-  box-shadow: 0 10px 30px rgba(245, 132, 26, 0.28);
 }
 
 .btn--primary:hover {
   background: var(--orange-dark);
   transform: translateY(-2px);
-  box-shadow: 0 14px 36px rgba(245, 132, 26, 0.36);
 }
 
 .btn--primary .fa-arrow-right {
@@ -1104,7 +1085,6 @@ h1, h2, h3 {
 .contact__card .btn--primary {
   background: #12141b;
   color: #fff;
-  box-shadow: 0 14px 34px rgba(18, 20, 27, 0.35);
 }
 
 .contact__card .btn--primary:hover {
@@ -1170,8 +1150,8 @@ h1, h2, h3 {
 
 /* ── Footer ─────────────────────────────────────────────── */
 .cs-footer {
-  margin-top: 110px;
-  padding: 64px 0 28px;
+  margin-top: 64px;
+  padding: 40px 0 20px;
   border-top: 1px solid var(--border-color);
   background: var(--bg-darker);
 }
@@ -1179,16 +1159,16 @@ h1, h2, h3 {
 .cs-footer__grid {
   display: grid;
   grid-template-columns: 2fr 1fr 1fr 1fr;
-  gap: 40px;
+  gap: 28px;
 }
 
 .cs-footer__logo {
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-bottom: 14px;
+  margin-bottom: 10px;
   font-family: var(--font-brand);
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   font-weight: 700;
 }
 
@@ -1201,7 +1181,7 @@ h1, h2, h3 {
 .cs-footer__col {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 7px;
 }
 
 .cs-footer__col h3 {
@@ -1231,10 +1211,10 @@ h1, h2, h3 {
   justify-content: space-between;
   align-items: center;
   gap: 12px;
-  margin-top: 48px;
-  padding-top: 22px;
+  margin-top: 28px;
+  padding-top: 16px;
   border-top: 1px solid var(--border-color);
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   color: var(--text-muted);
 }
 
@@ -2301,153 +2281,4 @@ kbd {
   inset: 0;
   z-index: 3400;
   pointer-events: none;
-}
-
-/* ══════════════════════════════════════════════════════════
-   Secrets counter (js/easter-eggs.js)
-   Appears after the first secret is found; click it to see what is left.
-   ══════════════════════════════════════════════════════════ */
-
-.secrets {
-  position: fixed;
-  left: 16px;
-  bottom: 16px;
-  z-index: 3900;
-  display: none;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 8px;
-}
-
-.secrets.is-visible {
-  display: flex;
-}
-
-.secrets__btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 14px 8px 12px;
-  border-radius: 999px;
-  border: 1px solid var(--border-strong);
-  background: rgba(12, 14, 19, 0.92);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  color: var(--text-primary);
-  font: inherit;
-  font-size: 0.82rem;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
-  cursor: pointer;
-  transform: translateY(0);
-  animation: secrets-in 0.6s var(--ease-out);
-}
-
-.secrets__btn:hover,
-.secrets__btn:focus-visible {
-  border-color: var(--orange);
-}
-
-.secrets__btn:focus-visible {
-  outline: 2px solid var(--orange);
-  outline-offset: 2px;
-}
-
-.secrets__star {
-  color: #ffe7a3;
-  text-shadow: 0 0 8px rgba(255, 210, 120, 0.9);
-}
-
-.secrets__btn.is-bumping .secrets__star {
-  animation: secrets-bump 0.7s var(--ease-out);
-}
-
-.secrets__btn.is-complete .secrets__star {
-  color: var(--ice);
-  text-shadow: 0 0 10px rgba(107, 191, 208, 0.9);
-}
-
-.secrets__count {
-  font-variant-numeric: tabular-nums;
-}
-
-.secrets__label {
-  color: var(--text-muted);
-  font-weight: 500;
-}
-
-.secrets__list {
-  margin: 0;
-  padding: 10px 14px;
-  list-style: none;
-  border-radius: 14px;
-  border: 1px solid var(--border-strong);
-  background: rgba(12, 14, 19, 0.94);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
-  font-size: 0.82rem;
-  color: var(--text-muted);
-  animation: secrets-in 0.35s var(--ease-out);
-}
-
-.secrets__list[hidden] {
-  display: none;
-}
-
-.secrets__list li {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 3px 0;
-}
-
-.secrets__list li::before {
-  content: '?';
-  width: 16px;
-  text-align: center;
-  color: var(--text-muted);
-}
-
-.secrets__list li.is-found {
-  color: var(--text-primary);
-}
-
-.secrets__list li.is-found::before {
-  content: '✦';
-  color: #ffe7a3;
-}
-
-.secrets__list li.is-hint {
-  margin-top: 4px;
-  padding-top: 7px;
-  border-top: 1px solid var(--border-strong);
-  font-style: italic;
-}
-
-.secrets__list li.is-hint::before {
-  content: none;
-}
-
-@keyframes secrets-in {
-  from { opacity: 0; transform: translateY(12px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes secrets-bump {
-  0% { transform: scale(1) rotate(0); }
-  35% { transform: scale(1.7) rotate(25deg); }
-  100% { transform: scale(1) rotate(0); }
-}
-
-@media (max-width: 600px) {
-  .secrets { left: 12px; bottom: 12px; }
-  .secrets__label { display: none; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .secrets__btn,
-  .secrets__list,
-  .secrets__btn.is-bumping .secrets__star { animation: none; }
 }

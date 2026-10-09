@@ -40,11 +40,10 @@
   <link rel="icon" href="favicon.ico" sizes="any" />
   <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
-  <link rel="preload" href="fonts/BricolageGrotesque-var.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="fonts/Inter-var.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/Comfortaa-var.woff2" as="font" type="font/woff2" crossorigin>
 
   <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-  <link href="css/coldsnap.css?v=20261009b" rel="stylesheet">
+  <link href="css/coldsnap.css?v=20261009c" rel="stylesheet">
 
   <!-- Structured Data -->
   <script type="application/ld+json">
@@ -295,24 +294,16 @@
   <!-- Toasts (easter eggs) -->
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-  <!-- Secrets counter: shows up once the first easter egg is found (js/easter-eggs.js) -->
-  <div class="secrets" id="secrets">
-    <button type="button" class="secrets__btn" id="secretsBtn" aria-expanded="false" aria-controls="secretsList">
-      <span class="secrets__star" aria-hidden="true">&#10022;</span>
-      <span class="secrets__count" id="secretsCount">0/4</span>
-      <span class="secrets__label" data-i18n="secrets.label">secrets</span>
-    </button>
-    <ul class="secrets__list" id="secretsList" hidden></ul>
-  </div>
 
   <!-- i18n runs synchronously so translated text is in place before first paint -->
-  <script src="js/i18n.js?v=20261009b"></script>
-  <script src="data/projects.js?v=20261009b" defer></script>
-  <script src="js/coldsnap.js?v=20261009b" defer></script>
-  <script src="js/frost.js?v=20261009b" defer></script>
-  <script src="js/car-physics.js?v=20261009b" defer></script>
-  <script src="js/drive.js?v=20261009b" defer></script>
-  <script src="js/easter-eggs.js?v=20261009b" defer></script>
+  <script src="js/i18n.js?v=20261009c"></script>
+  <script src="data/projects.js?v=20261009c" defer></script>
+  <script src="js/coldsnap.js?v=20261009c" defer></script>
+  <script src="js/frost.js?v=20261009c" defer></script>
+  <script src="js/car-physics.js?v=20261009c" defer></script>
+  <script src="js/drive.js?v=20261009c" defer></script>
+  <script src="js/secrets.js?v=20261009c" data-site="coldsnap" defer></script>
+  <script src="js/easter-eggs.js?v=20261009c" defer></script>
 </body>
 
 </html>

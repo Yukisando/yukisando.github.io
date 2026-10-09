@@ -83,7 +83,7 @@
           line-height: 1.1;
           border-width: 1px;
           border-style: solid;
-          transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+          transition: transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
       }
 
       .site-button:hover,
@@ -105,7 +105,6 @@
           background: #ffffff;
           color: #d44e34 !important;
           border: 2px solid rgba(255, 255, 255, 0.92);
-          box-shadow: 0 16px 34px rgba(95, 24, 8, 0.28);
       }
 
       .site-button--primary:hover,
@@ -113,21 +112,18 @@
       .cv-panel__button--primary:hover,
       .cv-panel__button--primary:focus {
           background: #fff7f2;
-          box-shadow: 0 20px 40px rgba(95, 24, 8, 0.35);
       }
 
       #main-button.site-button--primary {
           background: rgba(255, 255, 255, 0.14);
           color: #fff7f2 !important;
           border: 1px solid rgba(255, 255, 255, 0.24);
-          box-shadow: 0 16px 34px rgba(0, 0, 0, 0.18);
       }
 
       #main-button.site-button--primary:hover,
       #main-button.site-button--primary:focus {
           background: rgba(255, 255, 255, 0.22);
           color: #ffffff !important;
-          box-shadow: 0 20px 40px rgba(0, 0, 0, 0.24);
       }
 
       .site-button--secondary,
@@ -135,7 +131,6 @@
           background: rgba(255, 255, 255, 0.12);
           border: 1px solid rgba(255, 255, 255, 0.28);
           color: #ffffff !important;
-          box-shadow: 0 12px 24px rgba(95, 24, 8, 0.18);
       }
 
       .site-button--secondary:hover,
@@ -143,7 +138,6 @@
       .cv-panel__button--secondary:hover,
       .cv-panel__button--secondary:focus {
           background: rgba(255, 255, 255, 0.18);
-          box-shadow: 0 16px 28px rgba(95, 24, 8, 0.24);
       }
 
       .cv-panel__divider {
@@ -301,6 +295,7 @@
           vertical-align: middle;
       }
 
+      .contact-card__eyebrow {
           margin-bottom: 10px;
           font-size: 12px;
           letter-spacing: 0.18em;
@@ -457,5 +452,127 @@
 
           #contact {
               padding: 62px 0 70px;
+          }
+      }
+
+      /* ── About: text beside a printed photo ─────────────────── */
+      #about {
+          padding: 90px 0;
+      }
+
+      .about {
+          display: grid;
+          grid-template-columns: minmax(0, 1fr) 260px;
+          gap: 56px;
+          align-items: center;
+      }
+
+      /* Bootstrap's clearfix pseudo-elements would become grid items */
+      .about::before,
+      .about::after {
+          content: none;
+      }
+
+      .about__text .section-heading {
+          text-align: left;
+      }
+
+      .about__rule {
+          margin-left: 0;
+          margin-right: 0;
+      }
+
+      .about__text p {
+          max-width: 58ch;
+          text-align: left;
+      }
+
+      .about__cta {
+          display: inline-flex;
+          margin-top: 6px;
+      }
+
+      /* the portrait: a photo print, slightly askew, taped to the page */
+      .about__portrait {
+          position: relative;
+          margin: 0;
+          justify-self: center;
+          width: 240px;
+          padding: 10px 10px 14px;
+          border-radius: 3px;
+          background: #fff;
+          transform: rotate(2.5deg);
+          transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+      }
+
+      .about__portrait:hover {
+          transform: rotate(0deg) scale(1.02);
+      }
+
+      .about__portrait::before {
+          content: '';
+          position: absolute;
+          top: -12px;
+          left: 50%;
+          width: 96px;
+          height: 26px;
+          background: rgba(255, 255, 255, 0.45);
+          border-left: 1px dashed rgba(255, 255, 255, 0.7);
+          border-right: 1px dashed rgba(255, 255, 255, 0.7);
+          transform: translateX(-50%) rotate(-4deg);
+      }
+
+      .about__portrait img {
+          display: block;
+          width: 100%;
+          height: auto;
+          aspect-ratio: 480 / 706;
+          object-fit: cover;
+          border-radius: 2px;
+      }
+
+      .about__portrait figcaption {
+          margin: 10px 2px 0;
+          font-size: 12px;
+          font-style: italic;
+          line-height: 1.3;
+          color: #4a3f3a;
+          text-align: center;
+      }
+
+      @media (max-width: 767px) {
+          #about {
+              padding: 64px 0 72px;
+          }
+
+          .about {
+              grid-template-columns: 1fr;
+              gap: 36px;
+          }
+
+          .about__portrait {
+              order: -1;
+              width: 180px;
+              transform: rotate(-2.5deg);
+          }
+
+          .about__text .section-heading {
+              text-align: center;
+          }
+
+          .about__rule {
+              margin-left: auto;
+              margin-right: auto;
+          }
+
+          .about__text p {
+              max-width: none;
+          }
+
+          .about__cta {
+              display: flex;
+              margin-left: auto;
+              margin-right: auto;
+              width: fit-content;
           }
       }
