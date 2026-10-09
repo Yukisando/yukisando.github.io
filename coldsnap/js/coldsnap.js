@@ -1,7 +1,7 @@
 /**
  * ColdSnap - Site JavaScript
  *
- * Nav, project rendering + filters, project modal, the physics card table in the
+ * Nav, the project viewer, shelf and filters, the project popup, the physics card table in the
  * hero, and small scroll effects. Text comes from js/i18n.js (CS_I18N).
  */
 
@@ -472,7 +472,15 @@ document.addEventListener('keydown', function(event) {
   }
 });
 
-// Work section: filters, featured case study and project grid
+// ============================================================
+// Work: project viewer + shelf
+// ============================================================
+// The viewer shows one project in full: media you can flick through, the story,
+// figures and every link. The shelf below holds all the projects as cards;
+// clicking one deals it into the viewer. The shelf starts folded, fading out
+// under its first row, until you ask for the rest.
+// (Cards on the hero table still open the popup, with their book animation.)
+
 const CATEGORY_ICONS = {
   'Interactive Installations': 'fa-desktop',
   'Games': 'fa-gamepad',
@@ -481,6 +489,29 @@ const CATEGORY_ICONS = {
   'Open Source': 'fa-code'
 };
 let activeFilter = 'all';
+let activeProjectId = null;
+let viewerMedia = [];
+let viewerMediaIndex = 0;
+let viewerFlip = 0;
+let viewerExpanded = false;
+let shelfOpen = false;
+
+const isVideo = src => /\.(mp4|webm)$/i.test(src);
+// Light copies made by tools/coldsnap-media.py; the originals are kept for the zoom.
+const mediaVariant = (src, suffix) => src.replace(/\.[a-z0-9]+$/i, '-' + suffix);
+
+function projectMedia(project) {
+  if (project.media && project.media.length) {
+    return project.media.map(src => isVideo(src)
+      ? { video: true, src: mediaVariant(src, 'view.mp4'), full: src, view: mediaVariant(src, 'view.webp'), mini: mediaVariant(src, 'mini.webp') }
+      : { src, full: src, view: mediaVariant(src, 'view.webp'), mini: mediaVariant(src, 'mini.webp') });
+  }
+  return project.thumbnail ? [{ src: project.thumbnail, full: project.thumbnail, view: project.thumbnail, mini: project.thumbnail }] : [];
+}
+
+function visibleProjects() {
+  return COLDSNAP_PROJECTS.filter(p => activeFilter === 'all' || p.category === activeFilter);
+}
 
 function renderFilters() {
   const filters = document.getElementById('workFilters');
@@ -503,11 +534,19 @@ function renderFilters() {
 function setFilter(category) {
   activeFilter = category;
   renderFilters();
-  renderProjects();
+  const list = visibleProjects();
+  if (list.some(p => p.id === activeProjectId)) {
+    renderViewer();
+  } else if (list.length) {
+    showProject((list.find(p => p.featured) || list[0]).id, { animate: true });
+  }
+  renderShelf();
 }
 
-function renderProjects() {
+// Builds the viewer and shelf once; later calls (language change) just refill them.
+function renderWork() {
   const container = document.getElementById('projects-container');
+  if (!container) return;
 
   if (typeof COLDSNAP_PROJECTS === 'undefined' || COLDSNAP_PROJECTS.length === 0) {
     container.innerHTML = `
@@ -519,46 +558,378 @@ function renderProjects() {
     return;
   }
 
-  const visible = COLDSNAP_PROJECTS.filter(p => activeFilter === 'all' || p.category === activeFilter);
-  const featured = visible.find(p => p.featured);
-  const rest = visible.filter(p => p !== featured);
+  if (!document.getElementById('projectViewer')) {
+    container.innerHTML = `
+      <article class="viewer" id="projectViewer" tabindex="-1"></article>
+      <div class="shelf" id="projectShelf">
+        <div class="project-grid" id="projectGrid"></div>
+        <div class="shelf__fold">
+          <button type="button" class="btn btn--ghost shelf__toggle" id="shelfToggle" aria-expanded="false" aria-controls="projectGrid"></button>
+        </div>
+      </div>
+    `;
+    initViewer();
+    initShelf();
+  }
 
-  container.innerHTML = `
-    ${featured ? createFeaturedCard(featured) : ''}
-    <div class="project-grid">
-      ${rest.map(createProjectCard).join('')}
-    </div>
-  `;
+  if (!activeProjectId) {
+    const asked = new URLSearchParams(location.search).get('project');
+    const start = COLDSNAP_PROJECTS.find(p => p.id === asked)
+      || COLDSNAP_PROJECTS.find(p => p.featured)
+      || COLDSNAP_PROJECTS[0];
+    activeProjectId = start.id;
+    if (start.id === asked) {
+      requestAnimationFrame(() => document.getElementById('work').scrollIntoView());
+    }
+  }
+  renderViewer();
+  renderShelf();
 }
 
+function showProject(id, { animate = false, scroll = false, direction = 1 } = {}) {
+  const project = COLDSNAP_PROJECTS.find(p => p.id === id);
+  const viewer = document.getElementById('projectViewer');
+  if (!project || !viewer) return;
+  const changed = id !== activeProjectId;
+  activeProjectId = id;
+  viewerMediaIndex = 0;
+  if (changed) viewerExpanded = false;
+  markActiveCard();
 
-function createFeaturedCard(project) {
+  // ?project=<id> makes the current project shareable.
+  const url = new URL(location.href);
+  url.searchParams.set('project', id);
+  history.replaceState(null, '', url);
+
+  if (scroll) {
+    const top = viewer.getBoundingClientRect().top;
+    if (top < 0 || top > innerHeight * 0.35) {
+      viewer.scrollIntoView({ behavior: prefersReducedMotion() ? 'auto' : 'smooth', block: 'start' });
+    }
+  }
+
+  // Keep keyboard focus on the pager when stepping through projects with it.
+  const step = document.activeElement && viewer.contains(document.activeElement)
+    ? document.activeElement.dataset.step
+    : null;
+  const swap = () => {
+    renderViewer();
+    if (step) {
+      const again = viewer.querySelector(`[data-step="${step}"]`);
+      if (again) again.focus();
+    }
+  };
+
+  if (!animate || !changed || prefersReducedMotion() || !viewer.animate) {
+    swap();
+    return;
+  }
+
+  // Deal the new project like a card: the viewer turns over and comes back up with the new face.
+  const token = ++viewerFlip;
+  viewer.getAnimations().forEach(a => a.cancel());
+  const turn = deg => `perspective(2600px) rotateY(${deg}deg)`;
+  const comeBack = () => {
+    if (token !== viewerFlip) return;
+    viewerFlip++;
+    swap();
+    viewer.animate([
+      { transform: turn(80 * direction), opacity: 0.2 },
+      { transform: turn(0), opacity: 1 }
+    ], { duration: 380, easing: 'cubic-bezier(0.2, 0.8, 0.2, 1)' });
+  };
+  viewer.animate([
+    { transform: turn(0), opacity: 1 },
+    { transform: turn(-80 * direction), opacity: 0.2 }
+  ], { duration: 200, easing: 'cubic-bezier(0.5, 0, 0.9, 0.5)' }).finished.then(comeBack, () => {});
+  // Animations stall in a tab that isn't painting; the new project must still show up.
+  setTimeout(comeBack, 320);
+}
+
+function renderViewer() {
+  const viewer = document.getElementById('projectViewer');
+  const project = COLDSNAP_PROJECTS.find(p => p.id === activeProjectId);
+  if (!viewer || !project) return;
   const field = name => i18n.field(project, name);
+  const list = visibleProjects();
+  const index = list.findIndex(p => p.id === project.id);
+
+  viewerMedia = projectMedia(project);
+  viewerMediaIndex = Math.min(viewerMediaIndex, Math.max(0, viewerMedia.length - 1));
+
+  const strip = viewerMedia.length > 1 ? `
+    <div class="viewer__strip">
+      ${viewerMedia.map((m, i) => `
+        <button type="button" class="viewer__thumb" data-media="${i}" aria-label="${i + 1} / ${viewerMedia.length}">
+          <img src="${escapeAttr(m.mini)}" data-fallback="${escapeAttr(m.full)}" alt="" loading="lazy" draggable="false">
+          ${m.video ? '<i class="fa fa-play" aria-hidden="true"></i>' : ''}
+        </button>
+      `).join('')}
+    </div>` : '';
+
   const stats = (project.stats || []).map(s => `
-    <div class="featured__stat">
+    <div class="viewer__stat">
       <strong>${s.value}</strong>
       <span>${i18n.lang === 'fr' && s.fr ? s.fr : s.label}</span>
     </div>
   `).join('');
 
-  return `
-    <article class="featured" >
-      <button type="button" class="featured__media" onclick="openModal('${project.id}')" aria-label="${escapeAttr(i18n.t('work.open') + ': ' + project.title)}">
-        <img src="${project.thumbnail}" alt="" loading="lazy">
-      </button>
-      <div class="featured__body">
-        <div class="featured__meta">
-          <span class="featured__label">${i18n.t('work.featured')}</span>
-        </div>
-        <h3>${project.title}</h3>
-        <p>${field('description').split('. ').slice(0, 2).join('. ')}.</p>
-        <div class="featured__stats">${stats}</div>
-        <button type="button" class="btn btn--ghost" onclick="openModal('${project.id}')">
-          ${i18n.t('work.open')} <i class="fa fa-arrow-right" aria-hidden="true"></i>
-        </button>
+  const features = field('features');
+  const links = (project.links || []).map(link => {
+    const external = !link.href.startsWith('mailto:');
+    return `
+      <a href="${escapeAttr(resolveHref(link.href))}" class="modal-link ${link.style ? link.style : (link.secondary ? 'secondary' : '')}"${external ? ' target="_blank" rel="noopener"' : ''}>
+        ${link.icon ? `<i class="fa ${link.icon}" aria-hidden="true"></i>` : ''}
+        ${i18n.lang === 'fr' && link.labelFr ? link.labelFr : link.label}
+      </a>
+    `;
+  }).join('');
+
+  // The summary shows a few lines; the full story, features and tech fold out on demand.
+  const description = field('description') || field('shortDescription') || '';
+  const extra = [
+    features && features.length ? `<ul class="viewer__features">${features.map(f => `<li>${f}</li>`).join('')}</ul>` : '',
+    project.tech && project.tech.length ? `<div class="viewer__tech">${project.tech.map(t => `<span class="tech-tag">${t}</span>`).join('')}</div>` : ''
+  ].join('');
+  const foldable = Boolean(extra) || description.length > 260;
+
+  viewer.classList.toggle('is-foldable', foldable);
+  viewer.classList.toggle('is-expanded', viewerExpanded);
+  viewer.setAttribute('aria-label', project.title);
+  viewer.innerHTML = `
+    <div class="viewer__media">
+      <div class="viewer__stage" id="viewerStage"></div>
+      ${strip}
+    </div>
+    <div class="viewer__body">
+      <div class="viewer__top">
+        <span class="viewer__type"><i class="fa ${CATEGORY_ICONS[project.category] || 'fa-folder'}" aria-hidden="true"></i> ${field('type') || ''}</span>
+        ${list.length > 1 && index !== -1 ? `
+          <div class="viewer__pager">
+            <button type="button" class="viewer__step" data-step="-1" aria-label="${escapeAttr(i18n.t('viewer.prev'))}"><i class="fa fa-chevron-left" aria-hidden="true"></i></button>
+            <span class="viewer__index">${index + 1} / ${list.length}</span>
+            <button type="button" class="viewer__step" data-step="1" aria-label="${escapeAttr(i18n.t('viewer.next'))}"><i class="fa fa-chevron-right" aria-hidden="true"></i></button>
+          </div>` : ''}
       </div>
-    </article>
+      <h3 class="viewer__title">${project.title}</h3>
+      <p class="viewer__desc">${description}</p>
+      ${stats ? `<div class="viewer__stats">${stats}</div>` : ''}
+      ${extra ? `<div class="viewer__extra" id="viewerExtra">${extra}</div>` : ''}
+      ${foldable ? `
+        <button type="button" class="viewer__toggle" data-toggle aria-expanded="${viewerExpanded}" aria-controls="viewerExtra">
+          ${i18n.t(viewerExpanded ? 'viewer.less' : 'viewer.more')} <i class="fa fa-chevron-${viewerExpanded ? 'up' : 'down'}" aria-hidden="true"></i>
+        </button>` : ''}
+      ${links ? `<div class="viewer__links">${links}</div>` : ''}
+    </div>
   `;
+  renderStage();
+}
+
+function renderStage() {
+  const stage = document.getElementById('viewerStage');
+  if (!stage) return;
+  const project = COLDSNAP_PROJECTS.find(p => p.id === activeProjectId);
+  const item = viewerMedia[viewerMediaIndex];
+  const many = viewerMedia.length > 1;
+
+  let shot;
+  if (!item) {
+    shot = `<div class="viewer__placeholder">${project.icon || '🎮'}</div>`;
+  } else if (item.video) {
+    shot = `<video class="viewer__shot" src="${escapeAttr(item.src)}" data-fallback="${escapeAttr(item.full)}" poster="${escapeAttr(item.view)}" autoplay muted loop playsinline controls preload="metadata"></video>`;
+  } else {
+    shot = `
+      <button type="button" class="viewer__zoom" aria-label="${escapeAttr(i18n.t('viewer.zoom'))}">
+        <img class="viewer__shot" src="${escapeAttr(item.view)}" data-fallback="${escapeAttr(item.full)}" alt="${escapeAttr(project.title)}" draggable="false">
+      </button>`;
+  }
+
+  stage.innerHTML = `
+    ${item ? `<img class="viewer__backdrop" src="${escapeAttr(item.view)}" data-fallback="${escapeAttr(item.full)}" alt="" aria-hidden="true">` : ''}
+    ${shot}
+    ${many ? `
+      <button type="button" class="viewer__arrow prev" data-media-step="-1" aria-label="${escapeAttr(i18n.t('viewer.prevMedia'))}"><i class="fa fa-chevron-left" aria-hidden="true"></i></button>
+      <button type="button" class="viewer__arrow next" data-media-step="1" aria-label="${escapeAttr(i18n.t('viewer.nextMedia'))}"><i class="fa fa-chevron-right" aria-hidden="true"></i></button>
+      <span class="viewer__count">${viewerMediaIndex + 1} / ${viewerMedia.length}</span>
+    ` : ''}
+  `;
+
+  document.querySelectorAll('#projectViewer .viewer__thumb').forEach((thumb, i) => {
+    thumb.classList.toggle('is-active', i === viewerMediaIndex);
+    if (i === viewerMediaIndex) thumb.setAttribute('aria-current', 'true');
+    else thumb.removeAttribute('aria-current');
+  });
+}
+
+function stepMedia(step) {
+  if (viewerMedia.length < 2) return;
+  viewerMediaIndex = (viewerMediaIndex + step + viewerMedia.length) % viewerMedia.length;
+  renderStage();
+}
+
+function stepProject(step) {
+  const list = visibleProjects();
+  const index = list.findIndex(p => p.id === activeProjectId);
+  if (list.length < 2 || index === -1) return;
+  showProject(list[(index + step + list.length) % list.length].id, { animate: true, direction: step });
+}
+
+// One set of listeners on the viewer survives every re-render.
+function initViewer() {
+  const viewer = document.getElementById('projectViewer');
+
+  viewer.addEventListener('click', e => {
+    const target = e.target.closest('button');
+    if (!target || !viewer.contains(target)) return;
+    if (target.hasAttribute('data-toggle')) {
+      viewerExpanded = !viewerExpanded;
+      renderViewer();
+      const toggle = viewer.querySelector('[data-toggle]');
+      if (toggle) toggle.focus();
+    }
+    else if (target.dataset.step) stepProject(Number(target.dataset.step));
+    else if (target.dataset.mediaStep) stepMedia(Number(target.dataset.mediaStep));
+    else if (target.dataset.media) { viewerMediaIndex = Number(target.dataset.media); renderStage(); }
+    else if (target.classList.contains('viewer__zoom')) {
+      zoomImages = viewerMedia.filter(m => !m.video).map(m => m.full);
+      openZoom(viewerMedia[viewerMediaIndex].full);
+    }
+  });
+
+  // A light copy that isn't there yet falls back to the original file.
+  viewer.addEventListener('error', e => {
+    const el = e.target;
+    if (el.dataset && el.dataset.fallback) {
+      const next = el.dataset.fallback;
+      delete el.dataset.fallback;
+      el.src = next;
+    }
+  }, true);
+
+  viewer.addEventListener('keydown', e => {
+    if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+    if (e.target.closest('video, a')) return;
+    e.preventDefault();
+    const step = e.key === 'ArrowRight' ? 1 : -1;
+    if (e.target.closest('.viewer__body')) stepProject(step);
+    else stepMedia(step);
+  });
+
+  // Swipe through the media on touch screens.
+  let touchX = null;
+  viewer.addEventListener('touchstart', e => {
+    touchX = e.target.closest('.viewer__stage') ? e.touches[0].clientX : null;
+  }, { passive: true });
+  viewer.addEventListener('touchend', e => {
+    if (touchX === null) return;
+    const dx = e.changedTouches[0].clientX - touchX;
+    touchX = null;
+    if (Math.abs(dx) > 40) stepMedia(dx < 0 ? 1 : -1);
+  }, { passive: true });
+}
+
+// ── Shelf ──────────────────────────────────────────────────
+function renderShelf() {
+  const grid = document.getElementById('projectGrid');
+  if (!grid) return;
+  grid.innerHTML = visibleProjects().map(createProjectCard).join('');
+  updateShelfFold();
+}
+
+function markActiveCard() {
+  document.querySelectorAll('#projectGrid .project-card').forEach(card => {
+    const active = card.dataset.project === activeProjectId;
+    card.classList.toggle('is-active', active);
+    if (active) card.setAttribute('aria-current', 'true');
+    else card.removeAttribute('aria-current');
+  });
+}
+
+// Folded, the shelf shows its first row and a faded slice of the second.
+function foldedHeight(grid) {
+  const cards = [...grid.children];
+  const secondRow = cards.find(c => c.offsetTop > cards[0].offsetTop);
+  if (!secondRow) return Infinity;
+  return secondRow.offsetTop + secondRow.offsetHeight * 0.5;
+}
+
+function updateShelfFold() {
+  const shelf = document.getElementById('projectShelf');
+  const grid = document.getElementById('projectGrid');
+  const toggle = document.getElementById('shelfToggle');
+  if (!shelf || !grid || !grid.children.length) return;
+  const current = grid.style.maxHeight;
+  grid.style.maxHeight = 'none';
+  const full = grid.scrollHeight;
+  const folded = foldedHeight(grid);
+  grid.style.maxHeight = current;
+  const foldable = full > folded + 60;
+  const open = shelfOpen || !foldable;
+
+  shelf.classList.toggle('is-foldable', foldable);
+  shelf.classList.toggle('is-open', open);
+  // Set on the next frame so the change from the old height animates.
+  requestAnimationFrame(() => { grid.style.maxHeight = (open ? full : folded) + 'px'; });
+  toggle.hidden = !foldable;
+  toggle.setAttribute('aria-expanded', String(open));
+  toggle.innerHTML = open
+    ? `${i18n.t('work.less')} <i class="fa fa-chevron-up" aria-hidden="true"></i>`
+    : `${i18n.t('work.more').replace('{n}', grid.children.length)} <i class="fa fa-chevron-down" aria-hidden="true"></i>`;
+}
+
+function setShelfOpen(open) {
+  shelfOpen = open;
+  updateShelfFold();
+  if (!open) {
+    const shelf = document.getElementById('projectShelf');
+    if (shelf.getBoundingClientRect().top < 0) {
+      shelf.scrollIntoView({ behavior: prefersReducedMotion() ? 'auto' : 'smooth', block: 'start' });
+    }
+  }
+}
+
+function initShelf() {
+  const grid = document.getElementById('projectGrid');
+  document.getElementById('shelfToggle').addEventListener('click', () => setShelfOpen(!shelfOpen));
+
+  grid.addEventListener('click', e => {
+    const card = e.target.closest('[data-project]');
+    if (card) showProject(card.dataset.project, { animate: true, scroll: true });
+  });
+
+  // Tabbing into the faded part unfolds the shelf.
+  grid.addEventListener('focusin', e => {
+    const card = e.target.closest('.project-card');
+    if (!shelfOpen && card && card.offsetTop + card.offsetHeight > grid.clientHeight) setShelfOpen(true);
+  });
+
+  // Cards tilt towards the pointer and catch the light, like a holo card.
+  if (window.matchMedia('(hover: hover) and (pointer: fine)').matches && !prefersReducedMotion()) {
+    grid.addEventListener('pointermove', e => {
+      const card = e.target.closest('.project-card');
+      if (!card) return;
+      const r = card.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width;
+      const y = (e.clientY - r.top) / r.height;
+      card.style.setProperty('--rx', ((0.5 - y) * 10).toFixed(2) + 'deg');
+      card.style.setProperty('--ry', ((x - 0.5) * 12).toFixed(2) + 'deg');
+      card.style.setProperty('--mx', (x * 100).toFixed(1) + '%');
+      card.style.setProperty('--my', (y * 100).toFixed(1) + '%');
+    });
+    grid.addEventListener('pointerout', e => {
+      const card = e.target.closest('.project-card');
+      if (card && !card.contains(e.relatedTarget)) {
+        card.style.removeProperty('--rx');
+        card.style.removeProperty('--ry');
+      }
+    });
+  }
+
+  let resizeTimer = null;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(updateShelfFold, 150);
+  });
 }
 
 // ============================================================
@@ -1131,6 +1502,26 @@ function initHeroCards() {
   }, { threshold: 0 });
   observer.observe(table);
 
+  // When the window settles on a new size, the deck is dealt again across the new table:
+  // each card is lifted and tossed towards a fresh random spot (and they knock into each other).
+  function redeal() {
+    if (frozen) return;
+    cards.forEach(card => {
+      if (!card.active || card.isDragging || card.el.classList.contains('is-driven-away')) return;
+      const tx = Math.random() * Math.max(0, W - CARD_W);
+      const ty = Math.random() * Math.max(0, H - CARD_H);
+      // With AIR_DAMP friction a card coasts v / (1 - AIR_DAMP) px, so this lands it near its spot.
+      card.vx = (tx - card.x) * (1 - AIR_DAMP);
+      card.vy = (ty - card.y) * (1 - AIR_DAMP);
+      card.angularVel = (Math.random() - 0.5) * 24;
+      card.scale = 1.18;
+      card.targetScale = 1.0;
+    });
+  }
+
+  let resizeTimer = null;
+  let dealtW = W;
+  let dealtH = H;
   window.addEventListener('resize', () => {
     if (window.matchMedia(HERO_TABLE_QUERY).matches) return;
     W = table.clientWidth;
@@ -1140,31 +1531,35 @@ function initHeroCards() {
       card.x = Math.min(card.x, W - CARD_W);
       card.y = Math.min(card.y, H - CARD_H);
     });
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      if (W === dealtW && H === dealtH) return;
+      dealtW = W;
+      dealtH = H;
+      redeal();
+    }, 180);
   });
 }
 
-// Create a project card
-function createProjectCard(project) {
+// A card on the shelf; clicking it deals the project into the viewer.
+function createProjectCard(project, i) {
   const field = name => i18n.field(project, name);
+  const active = project.id === activeProjectId;
   const thumbnailContent = project.thumbnail
-    ? `<img src="${project.thumbnail}" alt="" loading="lazy">`
-    : `<div class="project-placeholder">${project.icon || '🎮'}</div>`;
-
-  const techTags = project.tech
-    ? project.tech.slice(0, 3).map(t => `<span class="tech-tag">${t}</span>`).join('')
-    : '';
+    ? `<img src="${project.thumbnail}" alt="" loading="lazy" draggable="false">`
+    : `<span class="project-placeholder">${project.icon || '🎮'}</span>`;
   const icon = CATEGORY_ICONS[project.category] || 'fa-folder';
 
   return `
-    <button type="button" class="project-card" onclick="openModal('${project.id}')">
+    <button type="button" class="project-card${active ? ' is-active' : ''}" data-project="${project.id}"${active ? ' aria-current="true"' : ''} style="--i: ${i}">
       <span class="project-thumbnail">
         ${thumbnailContent}
+        <span class="project-card__now">${i18n.t('work.showing')}</span>
       </span>
       <span class="project-info">
         <span class="project-type"><i class="fa ${icon}" aria-hidden="true"></i> ${field('type') || 'Project'}</span>
         <span class="project-title">${project.title}</span>
         <span class="project-desc">${field('shortDescription') || ''}</span>
-        <span class="project-tech">${techTags}</span>
       </span>
     </button>
   `;
@@ -1256,13 +1651,13 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('year').textContent = new Date().getFullYear();
   initNav();
   renderFilters();
-  renderProjects();
+  renderWork();
   initHeroCards();
   initCounters();
   initReveal();
 
   i18n.onChange(() => {
     renderFilters();
-    renderProjects();
+    renderWork();
   });
 });

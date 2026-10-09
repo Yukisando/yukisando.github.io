@@ -13,23 +13,23 @@
  *   type: 'Game' | 'App' | 'Website',   // Required: Short type label shown on cards
  *   title: 'Project Title',             // Required: Display title
  *   shortDescription: 'Brief desc...',  // Optional: Short text for card (max ~100 chars)
- *   description: 'Full description...', // Optional: Detailed description for modal
+ *   description: 'Full description...', // Optional: Detailed description for the viewer
  *   icon: '🎮',                         // Optional: Emoji icon if no thumbnail
  *   thumbnail: '/path/to/image.jpg',    // Optional: Thumbnail image path
- *   media: [                            // Optional: Array of images/videos for modal gallery
+ *   media: [                            // Optional: images/videos for the viewer (run tools/coldsnap-media.py after adding)
  *     '/path/to/image1.jpg',
  *     '/path/to/video.mp4'
  *   ],
  *   tech: ['Unity', 'C#', 'Firebase'],  // Optional: Technology tags
- *   features: [                         // Optional: List of features for modal
+ *   features: [                         // Optional: List of features for the viewer
  *     'Feature 1',
  *     'Feature 2'
  *   ],
- *   links: [                            // Optional: Action buttons in modal
+ *   links: [                            // Optional: Action buttons in the viewer
  *     { label: 'Play Now', href: 'https://...', icon: 'fa-play' },
  *     { label: 'GitHub', href: 'https://...', icon: 'fa-github' }
  *   ],
- *   featured: true,                     // Optional: shown as the large case study above the grid
+ *   featured: true,                     // Optional: the project the viewer opens on
  *   fr: {                               // Optional: French text; any field missing here falls back to English
  *     type: '...', shortDescription: '...', description: '...', features: ['...']
  *   }
