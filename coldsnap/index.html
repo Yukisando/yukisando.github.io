@@ -43,7 +43,7 @@
   <link rel="preload" href="fonts/Comfortaa-var.woff2" as="font" type="font/woff2" crossorigin>
 
   <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-  <link href="css/coldsnap.css?v=20261009f" rel="stylesheet">
+  <link href="css/coldsnap.css?v=20261010c" rel="stylesheet">
 
   <!-- Structured Data -->
   <script type="application/ld+json">
@@ -104,8 +104,8 @@
       </a>
 
       <nav class="cs-nav__links" id="navLinks" aria-label="Main">
-        <a href="#approach" data-i18n="nav.approach">Approach</a>
         <a href="#work" data-i18n="nav.work">Work</a>
+        <a href="#approach" data-i18n="nav.approach">Approach</a>
         <a href="#contact" class="cs-nav__cta" data-i18n="nav.cta">Start a project</a>
       </nav>
 
@@ -137,6 +137,50 @@
           </div>
         </div>
         <p class="hero__lead" data-i18n="hero.lead">Custom apps, games and interactive installations that make learning fun. You work directly with me, from the first idea to launch.</p>
+      </div>
+    </section>
+
+    <!-- Proof -->
+    <section class="section numbers" aria-label="Track record">
+      <div class="container">
+        <div class="stats">
+          <div class="stat">
+            <span class="stat__value"><span data-count="50">50</span>k</span>
+            <span class="stat__label" data-i18n="numbers.users">users a year on a booking &amp; payment platform</span>
+          </div>
+          <div class="stat">
+            <span class="stat__value"><span data-count="30">30</span>k</span>
+            <span class="stat__label" data-i18n="numbers.visitors">museum visitors a year on my exhibits</span>
+          </div>
+          <div class="stat">
+            <span class="stat__value"><span data-count="3000">3,000</span>+</span>
+            <span class="stat__label" data-i18n="numbers.escape">escape game sessions played</span>
+          </div>
+          <div class="stat">
+            <span class="stat__value"><span data-count="8">8</span></span>
+            <span class="stat__label" data-i18n="numbers.years">years shipping production software</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Work -->
+    <section class="section work" id="work" aria-labelledby="work-title">
+      <div class="container">
+        <div class="section-head section-head--split">
+          <h2 id="work-title" data-i18n="work.title">Projects</h2>
+          <div class="filters" id="workFilters" role="group" data-i18n-attr="aria-label:work.filterLabel" aria-label="Filter projects"></div>
+        </div>
+        <div id="projects-container">
+          <noscript>
+            <ul>
+              <li>CPPS Earthquake Museum and SDANA Natural Hazards: interactive installations</li>
+              <li>SpinLab, Winston, Vidanim, Maya, Posti, Badger, ColisMarket, Sandlog, Patoune: Flutter apps</li>
+              <li>GrappleGroove, Pygmak: games</li>
+              <li>WaddonSync, Magic Arrow, B.O.L.T, ColdSnap Utilities: open source</li>
+            </ul>
+          </noscript>
+        </div>
       </div>
     </section>
 
@@ -172,50 +216,6 @@
       </div>
     </section>
 
-    <!-- Work -->
-    <section class="section work" id="work" aria-labelledby="work-title">
-      <div class="container">
-        <div class="section-head section-head--split">
-          <h2 id="work-title" data-i18n="work.title">Projects</h2>
-          <div class="filters" id="workFilters" role="group" data-i18n-attr="aria-label:work.filterLabel" aria-label="Filter projects"></div>
-        </div>
-        <div id="projects-container">
-          <noscript>
-            <ul>
-              <li>CPPS Earthquake Museum and SDANA Natural Hazards: interactive installations</li>
-              <li>SpinLab, Winston, Vidanim, Maya, Posti, Badger, ColisMarket, Sandlog, Patoune: Flutter apps</li>
-              <li>GrappleGroove, Pygmak: games</li>
-              <li>WaddonSync, Magic Arrow, B.O.L.T, ColdSnap Utilities: open source</li>
-            </ul>
-          </noscript>
-        </div>
-      </div>
-    </section>
-
-    <!-- Proof -->
-    <section class="section numbers" aria-label="Track record">
-      <div class="container">
-        <div class="stats">
-          <div class="stat">
-            <span class="stat__value"><span data-count="50">50</span>k</span>
-            <span class="stat__label" data-i18n="numbers.users">users a year on a booking &amp; payment platform</span>
-          </div>
-          <div class="stat">
-            <span class="stat__value"><span data-count="30">30</span>k</span>
-            <span class="stat__label" data-i18n="numbers.visitors">museum visitors a year on my exhibits</span>
-          </div>
-          <div class="stat">
-            <span class="stat__value"><span data-count="3000">3,000</span>+</span>
-            <span class="stat__label" data-i18n="numbers.escape">escape game sessions played</span>
-          </div>
-          <div class="stat">
-            <span class="stat__value"><span data-count="8">8</span></span>
-            <span class="stat__label" data-i18n="numbers.years">years shipping production software</span>
-          </div>
-        </div>
-      </div>
-    </section>
-
     <!-- Contact -->
     <section class="section contact" id="contact" aria-labelledby="contact-title">
       <div class="container">
@@ -248,8 +248,8 @@
       </div>
       <div class="cs-footer__col">
         <h3>ColdSnap</h3>
-        <a href="#approach" data-i18n="nav.approach">Approach</a>
         <a href="#work" data-i18n="nav.work">Work</a>
+        <a href="#approach" data-i18n="nav.approach">Approach</a>
       </div>
       <div class="cs-footer__col">
         <h3 data-i18n="footer.contact">Contact</h3>
@@ -267,7 +267,7 @@
     </div>
     <div class="container cs-footer__bottom">
       <p>© <span id="year">2026</span> ColdSnap · Nathan de Castro Fernandes EI · SIRET 940 000 649 00019 · <span data-i18n="footer.vat">VAT</span> FR14940000649</p>
-      <p class="cs-footer__secret"><span data-i18n="footer.made">Made with care, coffee and a little magic</span> <button type="button" class="secret-star" id="secretStar" aria-label="✦">✦</button></p>
+      <p class="cs-footer__secret"><span data-i18n="footer.made">Made with love and a little magic</span> <button type="button" class="secret-star" id="secretStar" aria-label="✦">✦</button></p>
     </div>
   </footer>
 
@@ -293,13 +293,13 @@
 
 
   <!-- i18n runs synchronously so translated text is in place before first paint -->
-  <script src="js/i18n.js?v=20261009f"></script>
-  <script src="data/projects.js?v=20261009f" defer></script>
-  <script src="js/coldsnap.js?v=20261009f" defer></script>
-  <script src="js/car-physics.js?v=20261009f" defer></script>
-  <script src="js/drive.js?v=20261009f" defer></script>
-  <script src="js/secrets.js?v=20261009f" data-site="coldsnap" defer></script>
-  <script src="js/easter-eggs.js?v=20261009f" defer></script>
+  <script src="js/i18n.js?v=20261010c"></script>
+  <script src="data/projects.js?v=20261010c" defer></script>
+  <script src="js/coldsnap.js?v=20261010c" defer></script>
+  <script src="js/car-physics.js?v=20261010c" defer></script>
+  <script src="js/drive.js?v=20261010c" defer></script>
+  <script src="js/secrets.js?v=20261010c" data-site="coldsnap" defer></script>
+  <script src="js/easter-eggs.js?v=20261010c" defer></script>
 </body>
 
 </html>

@@ -11,6 +11,13 @@
  * the landing page merges them into its own storage. Travel both ways and the
  * two copies converge.
  *
+ * The ↺ in the panel wipes them and starts over. A reset is stamped with its time
+ * (?sr=...) and travels the same way: a site that sees a newer reset clears its
+ * own list, and drops finds carried in from a site that hasn't heard of it yet.
+ *
+ * A shared secret (the Konami code) is one secret that counts on both sites:
+ * found on either, it shows as found on both.
+ *
  * Include once per page:  <script src="js/secrets.js" data-site="home" defer>
  * then award from an egg: window.Secrets.award('konami')
  *
@@ -27,7 +34,6 @@
       path: '/',
       secrets: {
         weee: { en: 'Scrolling is overrated', fr: 'Le scroll, c\'est surfait' },
-        konami: { en: 'Knew the code', fr: 'Connaît le code' },
         hadoken: { en: 'Hadoken!', fr: 'Hadoken !' },
         fanclub: { en: 'Found the fan club', fr: 'A trouvé le fan club' }
       }
@@ -36,12 +42,16 @@
       host: 'coldsnap.fr',
       path: '/coldsnap/',
       secrets: {
-        konami: { en: 'Knew the code, again', fr: 'Connaît le code, encore' },
         snap: { en: 'Caused a cold snap', fr: 'A déclenché un cold snap' },
         wizard: { en: 'Found the wizard', fr: 'A trouvé le magicien' },
         star: { en: 'Made a wish', fr: 'A fait un vœu' }
       }
     }
+  };
+
+  // Hidden on both sites; stored as "shared.<key>" and listed under whichever site you're on.
+  var SHARED = {
+    konami: { en: 'Knew the code!', fr: 'Connaît le code !' }
   };
 
   var TEXT = {
@@ -52,7 +62,10 @@
       found: 'Secret {n}/{total}',
       more: 'More secrets are hiding on this page…',
       elsewhere: 'The rest hides on {site} →',
-      complete: 'All found. You are thorough. I like thorough.'
+      complete: 'All found. You are thorough. I like thorough.',
+      reset: 'Reset secrets',
+      confirm: 'Reset all?',
+      cleared: 'Secrets reset. Happy hunting.'
     },
     fr: {
       label: 'secrets',
@@ -61,7 +74,10 @@
       found: 'Secret {n}/{total}',
       more: 'Il reste des secrets sur cette page…',
       elsewhere: 'Le reste se cache sur {site} →',
-      complete: 'Tout trouvé. Vous êtes minutieux. J\'aime ça.'
+      complete: 'Tout trouvé. Vous êtes minutieux. J\'aime ça.',
+      reset: 'Réinitialiser les secrets',
+      confirm: 'Tout effacer ?',
+      cleared: 'Secrets remis à zéro. Bonne chasse.'
     }
   };
 
@@ -91,7 +107,16 @@
     '.secrets__list li::before{content:"?";width:14px;text-align:center}' +
     '.secrets__list li.is-found{opacity:1}' +
     '.secrets__list li.is-found::before{content:"\\2726";color:#ffe7a3}' +
-    '.secrets__hint{margin:10px 0 0;padding-top:8px;border-top:1px solid rgba(255,255,255,.12);font-style:italic;opacity:.7}' +
+    '.secrets__foot{display:flex;align-items:flex-end;gap:10px;margin-top:10px;padding-top:8px;border-top:1px solid rgba(255,255,255,.12)}' +
+    '.secrets__hint{flex:1;margin:0;font-style:italic;opacity:.7}' +
+    '.secrets__reset{flex:none;display:inline-flex;align-items:center;justify-content:center;gap:6px;min-width:26px;height:26px;padding:0 6px;' +
+      'border-radius:999px;border:1px solid transparent;background:none;color:inherit;font:inherit;font-size:12px;font-weight:700;' +
+      'opacity:.5;cursor:pointer;transition:opacity .2s ease,border-color .2s ease,color .2s ease}' +
+    '.secrets__reset:hover,.secrets__reset:focus-visible{opacity:1;border-color:rgba(255,255,255,.18)}' +
+    '.secrets__reset:focus-visible{outline:2px solid #f5841a;outline-offset:2px}' +
+    '.secrets__reset svg{width:14px;height:14px}' +
+    '.secrets__reset span:empty{display:none}' +
+    '.secrets__reset.is-armed{opacity:1;color:#f5841a;border-color:#f5841a;padding:0 10px}' +
     '.secrets__hint a{color:#f5841a;text-decoration:none}' +
     '.secrets__hint a:hover{text-decoration:underline}' +
     '.secrets__toast{position:fixed;left:16px;bottom:64px;z-index:3900;padding:8px 14px;border-radius:12px;border:1px solid rgba(255,255,255,.18);' +
@@ -105,12 +130,14 @@
     '@media (prefers-reduced-motion:reduce){.secrets__btn,.secrets__panel,.secrets__btn.is-bumping .secrets__star{animation:none}.secrets__toast{transition:none}}';
 
   var STORE = 'secrets.found';
+  var RESET_STORE = 'secrets.reset';
   var PARAM = 's';
+  var RESET_PARAM = 'sr';
   var script = document.currentScript;
   var site = (script && script.getAttribute('data-site')) || (location.pathname.indexOf('/coldsnap/') === 0 || location.hostname === 'coldsnap.fr' ? 'coldsnap' : 'home');
   if (!SITES[site]) site = 'home';
 
-  var ALL = [];
+  var ALL = Object.keys(SHARED).map(function (k) { return 'shared.' + k; });
   Object.keys(SITES).forEach(function (s) {
     Object.keys(SITES[s].secrets).forEach(function (k) { ALL.push(s + '.' + k); });
   });
@@ -121,14 +148,18 @@
     Object.keys(vars || {}).forEach(function (v) { str = str.replace('{' + v + '}', vars[v]); });
     return str;
   }
+  function keyFor(key) { return (SHARED[key] ? 'shared' : site) + '.' + key; }
   function name(full) {
     var parts = full.split('.');
-    return SITES[parts[0]].secrets[parts[1]][lang()];
+    var group = parts[0] === 'shared' ? SHARED : SITES[parts[0]].secrets;
+    return group[parts[1]][lang()];
   }
 
   // ── storage ─────────────────────────────────────────────
   var found = [];
+  var resetAt = 0; // when the secrets were last reset, on either site
   function load() {
+    try { resetAt = Number(localStorage.getItem(RESET_STORE)) || 0; } catch (e) { resetAt = 0; }
     try { found = JSON.parse(localStorage.getItem(STORE) || '[]'); } catch (e) { found = []; }
     if (!Array.isArray(found)) found = [];
     // the first version of the coldsnap counter stored bare keys
@@ -140,21 +171,37 @@
     found = dedupe(found);
   }
   function save() {
-    try { localStorage.setItem(STORE, JSON.stringify(found)); } catch (e) { /* private mode */ }
+    try {
+      localStorage.setItem(STORE, JSON.stringify(found));
+      if (resetAt) localStorage.setItem(RESET_STORE, String(resetAt));
+    } catch (e) { /* private mode */ }
+  }
+  // Each site used to have its own Konami secret (home.konami, coldsnap.konami).
+  function migrate(k) {
+    var parts = String(k).split('.');
+    return SITES[parts[0]] && SHARED[parts[1]] ? 'shared.' + parts[1] : k;
   }
   function dedupe(list) {
+    list = list.map(migrate);
     return list.filter(function (k, i) { return ALL.indexOf(k) !== -1 && list.indexOf(k) === i; });
   }
 
-  // ── cross-site handoff (?s=home.konami,coldsnap.snap) ───
+  // ── cross-site handoff (?s=home.konami,coldsnap.snap&sr=<reset time>) ───
   function readHandoff() {
     var url;
     try { url = new URL(location.href); } catch (e) { return; }
     var s = url.searchParams.get(PARAM);
-    if (s === null) return;
-    found = dedupe(found.concat(s.split(',')));
+    var sr = Number(url.searchParams.get(RESET_PARAM)) || 0;
+    if (s === null && !sr) return;
+    if (sr > resetAt) {
+      found = [];
+      resetAt = sr;
+    }
+    // Finds from a site that missed the latest reset date from before it.
+    if (s !== null && sr >= resetAt) found = dedupe(found.concat(s.split(',')));
     save();
     url.searchParams.delete(PARAM);
+    url.searchParams.delete(RESET_PARAM);
     try { history.replaceState(history.state, '', url.pathname + url.search + url.hash); } catch (e) { /* file:// */ }
   }
 
@@ -173,22 +220,30 @@
     return inColdsnap === (otherSite() === 'coldsnap');
   }
 
+  function stamp(url) {
+    if (found.length) url.searchParams.set(PARAM, found.join(','));
+    else url.searchParams.delete(PARAM);
+    if (resetAt) url.searchParams.set(RESET_PARAM, String(resetAt));
+  }
+
   function carry(a) {
-    if (!found.length) return;
+    if (!found.length && !resetAt) return;
     var url = new URL(a.getAttribute('href'), location.href);
-    url.searchParams.set(PARAM, found.join(','));
+    stamp(url);
     a.setAttribute('href', url.toString());
   }
 
   function otherSiteHref() {
     var other = SITES[otherSite()];
     var url = new URL(location.hostname === 'localhost' || location.hostname === '127.0.0.1' ? other.path : 'https://' + other.host + '/', location.href);
-    if (found.length) url.searchParams.set(PARAM, found.join(','));
+    stamp(url);
     return url.toString();
   }
 
   // ── UI ──────────────────────────────────────────────────
-  var box, btn, star, count, panel, toastEl, toastTimer;
+  var box, btn, star, count, panel, toastEl, toastTimer, armTimer;
+  var RESET_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+    '<path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 3v5h5"/></svg>';
 
   function build() {
     var style = document.createElement('style');
@@ -229,6 +284,21 @@
       panel.hidden = !open;
       btn.setAttribute('aria-expanded', String(open));
     });
+    // The reset button asks once ("Reset all?") before it wipes anything.
+    panel.addEventListener('click', function (e) {
+      var r = e.target.closest('.secrets__reset');
+      if (!r) return;
+      if (r.classList.contains('is-armed')) { reset(); return; }
+      r.classList.add('is-armed');
+      r.querySelector('span').textContent = t('confirm');
+      r.setAttribute('aria-label', t('confirm'));
+      clearTimeout(armTimer);
+      armTimer = setTimeout(function () {
+        r.classList.remove('is-armed');
+        r.querySelector('span').textContent = '';
+        r.setAttribute('aria-label', t('reset'));
+      }, 3000);
+    });
     document.addEventListener('click', function (e) {
       if (!panel.hidden && !box.contains(e.target)) {
         panel.hidden = true;
@@ -264,8 +334,9 @@
       panel.appendChild(head);
       var ul = document.createElement('ul');
       ul.className = 'secrets__list';
-      Object.keys(SITES[s].secrets).forEach(function (k) {
-        var full = s + '.' + k;
+      var keys = Object.keys(SITES[s].secrets).map(function (k) { return s + '.' + k; });
+      if (s === site) keys = keys.concat(Object.keys(SHARED).map(function (k) { return 'shared.' + k; }));
+      keys.forEach(function (full) {
         var got = found.indexOf(full) !== -1;
         if (s === site && !got) hereDone = false;
         var li = document.createElement('li');
@@ -290,7 +361,17 @@
     } else {
       hint.textContent = t('more');
     }
-    panel.appendChild(hint);
+    var resetBtn = document.createElement('button');
+    resetBtn.type = 'button';
+    resetBtn.className = 'secrets__reset';
+    resetBtn.title = t('reset');
+    resetBtn.setAttribute('aria-label', t('reset'));
+    resetBtn.innerHTML = RESET_ICON + '<span></span>';
+    var foot = document.createElement('div');
+    foot.className = 'secrets__foot';
+    foot.appendChild(hint);
+    foot.appendChild(resetBtn);
+    panel.appendChild(foot);
   }
 
   function toast(html) {
@@ -302,7 +383,7 @@
 
   // Marks a secret of this site as found. Safe to call again; only the first time counts.
   function award(key) {
-    var full = site + '.' + key;
+    var full = keyFor(key);
     if (ALL.indexOf(full) === -1 || found.indexOf(full) !== -1) return false;
     found.push(full);
     save();
@@ -333,8 +414,21 @@
     }
   }
 
+  // Forgets every secret here, and on the other site the next time you cross over.
+  function reset() {
+    clearTimeout(armTimer);
+    found = [];
+    resetAt = Date.now();
+    save();
+    panel.hidden = true;
+    btn.setAttribute('aria-expanded', 'false');
+    render();
+    toast(t('cleared'));
+  }
+
   window.Secrets = {
     award: award,
+    reset: reset,
     get found() { return found.slice(); },
     get total() { return ALL.length; },
     get site() { return site; }

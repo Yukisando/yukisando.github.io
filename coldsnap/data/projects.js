@@ -31,7 +31,8 @@
  *   ],
  *   featured: true,                     // Optional: the project the viewer opens on
  *   fr: {                               // Optional: French text; any field missing here falls back to English
- *     type: '...', shortDescription: '...', description: '...', features: ['...']
+ *     type: '...', shortDescription: '...', description: '...', features: ['...'],
+ *     thumbnail: '...', media: ['...']  // Optional: French screenshots, when the app's UI is in French
  *   }
  * }
  *
@@ -350,42 +351,60 @@ const COLDSNAP_PROJECTS = [
   {
     id: 'maya',
     category: 'Flutter Apps',
-    type: 'Mobile App',
+    type: 'Town App',
     title: 'Maya',
-    shortDescription: 'Local commerce loyalty app connecting shoppers with small businesses in southern France',
-    description: 'A mobile loyalty and rewards platform designed to revive local commerce in small towns across southern France. Shoppers discover nearby businesses on an interactive map, earn points with each purchase, and unlock exclusive local offers and event deals. Merchants get a full dashboard to manage offers and track customer engagement.',
-    icon: '🛍️',
-    thumbnail: 'assets/projects/maya/maya-1-thumb.webp',
+    shortDescription: 'The town hall in every resident\'s pocket: news, alerts, polls, problem reports and local shops',
+    description: 'Maya is the app I make for towns. Residents get their town\'s news and events, urgent alerts, polls and practical information in one place, and only the notifications they choose. They can report a problem with a photo and a pin on the map, then follow it until it\'s fixed. News and events are imported from the town\'s existing website, and town hall staff run the rest from a web back office. Towns add only the modules they need: automatic Météo-France and Vigicrues warnings, waste collection reminders, places on the map, and local shops with a QR code loyalty game, the Hive. Free for residents and shops, no ads, no trackers, data hosted in France. First town: Mouans-Sartoux.',
+    icon: '🐝',
+    thumbnail: 'assets/projects/maya/maya-en-1-thumb.webp',
     media: [
-      'assets/projects/maya/maya-1.jpg',
-      'assets/projects/maya/maya-2.jpg',
-      'assets/projects/maya/maya-3.jpg'
+      'assets/projects/maya/maya-en-1.jpg',
+      'assets/projects/maya/maya-en-2.jpg',
+      'assets/projects/maya/maya-en-3.jpg',
+      'assets/projects/maya/maya-en-4.jpg',
+      'assets/projects/maya/maya-en-5.jpg',
+      'assets/projects/maya/maya-en-6.jpg'
     ],
-    tech: ['Flutter', 'Dart', 'Firebase', 'Google Maps', 'FCM', 'QR Code'],
+    tech: ['Flutter', 'Firebase', 'Cloud Functions', 'Next.js', 'FCM', 'Google Maps'],
     features: [
-      'Interactive map of local businesses',
-      'Points and rewards system',
-      'Exclusive local offers and events',
-      'Merchant dashboard with analytics',
-      'QR code scanning for in-store purchases',
-      'Push notifications via FCM',
-      'Multi-language support'
+      'News and events imported from the town\'s website',
+      'Push notifications by topic, picked by each resident',
+      'Urgent alerts, with Météo-France and Vigicrues warnings relayed automatically',
+      'Anonymous polls: one vote per account, results after voting',
+      'Problem reports with photo and location, tracked until resolved',
+      'Waste collection days with a reminder the night before',
+      'Map of local shops; the Hive rewards visits with pollen and badges via QR code',
+      'Web back office for town hall staff, scheduled posts',
+      'iPhone, Android and web; data hosted in France, GDPR compliant'
     ],
     links: [
-      { label: 'Privacy Policy', labelFr: 'Confidentialité', href: '/apps/generic/privacy/', icon: 'fa-shield', secondary: true }
+      { label: 'Visit Website', labelFr: 'Site web', href: 'https://maya.coldsnap.fr/', icon: 'fa-globe' },
+      { label: 'Try the App', labelFr: 'Essayer l\'app', href: 'https://maya-app.coldsnap.fr/', icon: 'fa-mobile' },
+      { label: 'Privacy Policy', labelFr: 'Confidentialité', href: 'https://maya.coldsnap.fr/confidentialite', icon: 'fa-shield', secondary: true }
     ],
     fr: {
-      type: 'App mobile',
-      shortDescription: 'App de fidélité pour le commerce local, qui relie habitants et petits commerces du sud de la France',
-      description: 'Une plateforme mobile de fidélité pensée pour redynamiser le commerce de proximité dans les petites villes du sud de la France. Les clients découvrent les commerces alentour sur une carte interactive, cumulent des points à chaque achat et débloquent des offres locales et des bons plans événementiels. Les commerçants disposent d\'un tableau de bord pour gérer leurs offres et suivre l\'engagement.',
+      type: 'App communale',
+      shortDescription: 'La mairie dans la poche de chaque habitant : actus, alertes, sondages, signalements et commerces',
+      description: 'Maya, c\'est l\'application que je fais pour les communes. Les habitants y retrouvent les actualités et l\'agenda de leur ville, les alertes urgentes, les sondages et les infos pratiques, et ne reçoivent que les notifications qu\'ils ont choisies. Ils peuvent signaler un problème avec une photo et un repère sur la carte, puis suivre son traitement. Les actualités et l\'agenda sont importés du site de la commune, et les agents gèrent le reste depuis un espace mairie sur le web. Chaque commune n\'ajoute que les modules dont elle a besoin : vigilances Météo-France et Vigicrues automatiques, rappels de collecte des déchets, lieux de la ville sur la carte, et commerce local avec la Ruche, un programme de fidélité par QR code. Gratuit pour les habitants et les commerçants, sans publicité ni traceur, données hébergées en France. Première commune : Mouans-Sartoux.',
+      thumbnail: 'assets/projects/maya/maya-fr-1-thumb.webp',
+      media: [
+        'assets/projects/maya/maya-fr-1.jpg',
+        'assets/projects/maya/maya-fr-2.jpg',
+        'assets/projects/maya/maya-fr-3.jpg',
+        'assets/projects/maya/maya-fr-4.jpg',
+        'assets/projects/maya/maya-fr-5.jpg',
+        'assets/projects/maya/maya-fr-6.jpg'
+      ],
       features: [
-        'Carte interactive des commerces locaux',
-        'Points et récompenses',
-        'Offres locales et événements exclusifs',
-        'Tableau de bord commerçant avec statistiques',
-        'Scan de QR code en magasin',
-        'Notifications push via FCM',
-        'Multilingue'
+        'Actualités et agenda importés du site de la commune',
+        'Notifications par thème, choisies par chaque habitant',
+        'Alertes urgentes, vigilances Météo-France et Vigicrues relayées automatiquement',
+        'Sondages anonymes : un vote par compte, résultats après le vote',
+        'Signalements avec photo et position, suivis jusqu\'à la résolution',
+        'Jours de collecte des déchets, avec un rappel la veille',
+        'Carte des commerces ; la Ruche récompense les visites en pollen et badges par QR code',
+        'Espace mairie sur le web pour les agents, envois programmés',
+        'iPhone, Android et web ; données hébergées en France, conforme au RGPD'
       ]
     }
   },

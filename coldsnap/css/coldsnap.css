@@ -707,7 +707,7 @@ h1, h2, h3 {
 
 /* ── Numbers ────────────────────────────────────────────── */
 .numbers {
-  padding: 24px 0 72px;
+  padding: 72px 0 0;
 }
 
 .section-head__lead {
@@ -2532,6 +2532,11 @@ kbd {
 
   .section {
     padding: 80px 0;
+  }
+
+  /* Right under the hero, which already leaves room below its panel */
+  .numbers {
+    padding: 8px 0 0;
   }
 
   .container {

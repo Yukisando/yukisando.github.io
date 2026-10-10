@@ -305,13 +305,14 @@ function openModal(projectRef, fromCard) {
   stopProjectModalMedia(true);
   
   // Build carousel HTML for media
+  const media = field('media');
   let galleryHTML = '';
-  if (project.media && project.media.length > 0) {
-    totalSlides = project.media.length;
+  if (media && media.length > 0) {
+    totalSlides = media.length;
     
-    zoomImages = project.media.filter(m => !m.endsWith('.mp4') && !m.endsWith('.webm'));
+    zoomImages = media.filter(m => !m.endsWith('.mp4') && !m.endsWith('.webm'));
 
-    const slides = project.media.map((item, index) => {
+    const slides = media.map((item, index) => {
       if (item.endsWith('.mp4') || item.endsWith('.webm')) {
         return `<div class="carousel-slide ${index === 0 ? 'active' : ''}">
           <video src="${item}" controls autoplay muted loop playsinline preload="metadata"></video>
@@ -323,7 +324,7 @@ function openModal(projectRef, fromCard) {
       }
     }).join('');
     
-    const dots = project.media.map((_, index) => 
+    const dots = media.map((_, index) => 
       `<button class="carousel-dot ${index === 0 ? 'active' : ''}" onclick="goToSlide(${index})"></button>`
     ).join('');
     
@@ -331,14 +332,14 @@ function openModal(projectRef, fromCard) {
       <div class="modal-carousel">
         <div class="carousel-container">
           ${slides}
-          ${project.media.length > 1 ? `
+          ${media.length > 1 ? `
             <button class="carousel-btn prev" onclick="prevSlide()"><i class="fa fa-chevron-left"></i></button>
             <button class="carousel-btn next" onclick="nextSlide()"><i class="fa fa-chevron-right"></i></button>
           ` : ''}
         </div>
-        ${project.media.length > 1 ? `
+        ${media.length > 1 ? `
           <div class="carousel-dots">${dots}</div>
-          <div class="carousel-counter">1 / ${project.media.length}</div>
+          <div class="carousel-counter">1 / ${media.length}</div>
         ` : ''}
       </div>
     `;
@@ -401,7 +402,7 @@ function openModal(projectRef, fromCard) {
   document.body.style.overflow = 'hidden';
 
   // Initialize carousel
-  if (project.media && project.media.length > 0) {
+  if (media && media.length > 0) {
     initCarousel();
   }
 
@@ -500,13 +501,16 @@ const isVideo = src => /\.(mp4|webm)$/i.test(src);
 // Light copies made by tools/coldsnap-media.py; the originals are kept for the zoom.
 const mediaVariant = (src, suffix) => src.replace(/\.[a-z0-9]+$/i, '-' + suffix);
 
+// A project can swap in its own French screenshots (fr.media, fr.thumbnail).
 function projectMedia(project) {
-  if (project.media && project.media.length) {
-    return project.media.map(src => isVideo(src)
+  const media = i18n.field(project, 'media');
+  const thumbnail = i18n.field(project, 'thumbnail');
+  if (media && media.length) {
+    return media.map(src => isVideo(src)
       ? { video: true, src: mediaVariant(src, 'view.mp4'), full: src, view: mediaVariant(src, 'view.webp'), mini: mediaVariant(src, 'mini.webp') }
       : { src, full: src, view: mediaVariant(src, 'view.webp'), mini: mediaVariant(src, 'mini.webp') });
   }
-  return project.thumbnail ? [{ src: project.thumbnail, full: project.thumbnail, view: project.thumbnail, mini: project.thumbnail }] : [];
+  return thumbnail ? [{ src: thumbnail, full: thumbnail, view: thumbnail, mini: thumbnail }] : [];
 }
 
 function visibleProjects() {
@@ -987,8 +991,9 @@ function initHeroCards() {
     el.className = `physics-card is-face-down is-airborne ${extraClass}`.trim();
     el.dataset.projectId = project.id;
 
-    const thumb = project.thumbnail
-      ? `<img src="${project.thumbnail}" alt="" draggable="false">`
+    const thumbnail = i18n.field(project, 'thumbnail');
+    const thumb = thumbnail
+      ? `<img src="${thumbnail}" alt="" draggable="false">`
       : `<div class="physics-card-icon">${project.icon || '🎮'}</div>`;
 
     el.innerHTML = `
@@ -1545,8 +1550,9 @@ function initHeroCards() {
 function createProjectCard(project, i) {
   const field = name => i18n.field(project, name);
   const active = project.id === activeProjectId;
-  const thumbnailContent = project.thumbnail
-    ? `<img src="${project.thumbnail}" alt="" loading="lazy" draggable="false">`
+  const thumbnail = field('thumbnail');
+  const thumbnailContent = thumbnail
+    ? `<img src="${thumbnail}" alt="" loading="lazy" draggable="false">`
     : `<span class="project-placeholder">${project.icon || '🎮'}</span>`;
   const icon = CATEGORY_ICONS[project.category] || 'fa-folder';
 
@@ -1580,6 +1586,13 @@ function initNav() {
   const onScroll = () => nav.classList.toggle('is-scrolled', window.scrollY > 12);
   onScroll();
   window.addEventListener('scroll', onScroll, { passive: true });
+
+  // The logo goes back to the top by hand: following #top (the fixed nav) let some
+  // browsers jump to the project viewer instead, which broke the five-tap cold snap.
+  document.querySelector('.cs-nav__brand').addEventListener('click', e => {
+    e.preventDefault();
+    if (window.scrollY > 0) window.scrollTo({ top: 0, behavior: prefersReducedMotion() ? 'auto' : 'smooth' });
+  });
 
   const setOpen = open => {
     nav.classList.toggle('is-open', open);
