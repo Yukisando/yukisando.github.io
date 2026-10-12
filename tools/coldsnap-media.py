@@ -4,7 +4,7 @@ Builds the light copies the ColdSnap project viewer loads.
 For every file listed in coldsnap/data/projects.js `media`, writes next to it:
   <name>-view.webp  up to 1400 px, shown in the viewer stage (a video's poster)
   <name>-mini.webp  up to 240 px, shown in the viewer's filmstrip
-  <name>-view.mp4   videos only: 1280 px tall, muted, H.264 (needs ffmpeg)
+  <name>-view.mp4   videos only: 1280 px on the long edge, H.264 + AAC (needs ffmpeg)
 The originals stay untouched and are what the full-screen zoom opens.
 Existing copies are skipped, so run it again after adding a project:
 
@@ -47,8 +47,8 @@ for rel in paths:
         continue
     video = src.with_name(f'{src.stem}-view.mp4')
     if not video.exists():
-        subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', str(src), '-vf', 'scale=-2:1280',
-                        '-c:v', 'libx264', '-crf', '28', '-preset', 'slow', '-an',
+        subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', str(src), '-vf', "scale='if(gt(iw,ih),1280,-2)':'if(gt(iw,ih),-2,1280)'",
+                        '-c:v', 'libx264', '-crf', '28', '-preset', 'slow', '-c:a', 'aac', '-b:a', '128k',
                         '-movflags', '+faststart', str(video)], check=True)
         print(f'{video.relative_to(ROOT)}  {video.stat().st_size // 1024} KB')
     with tempfile.TemporaryDirectory() as tmp:

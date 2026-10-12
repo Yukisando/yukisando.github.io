@@ -358,6 +358,7 @@ const COLDSNAP_PROJECTS = [
     icon: '🐝',
     thumbnail: 'assets/projects/maya/maya-en-1-thumb.webp',
     media: [
+      'assets/projects/maya/maya-trailer-en.mp4',
       'assets/projects/maya/maya-en-1.jpg',
       'assets/projects/maya/maya-en-2.jpg',
       'assets/projects/maya/maya-en-3.jpg',
