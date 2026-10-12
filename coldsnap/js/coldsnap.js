@@ -727,6 +727,32 @@ function renderViewer() {
     </div>
   `;
   renderStage();
+  preloadNeighbours(list, index);
+}
+
+// Fetch the pictures of the next and previous projects in the background,
+// so the pager shows them straight away.
+const preloaded = new Map();
+
+function preloadImage(src, fallback) {
+  if (!src || preloaded.has(src)) return;
+  const img = new Image();
+  img.decoding = 'async';
+  if (fallback && fallback !== src) img.onerror = () => preloadImage(fallback);
+  img.src = src;
+  preloaded.set(src, img);
+}
+
+function preloadNeighbours(list, index) {
+  if (list.length < 2 || index === -1) return;
+  const run = () => [1, -1].forEach(step => {
+    const project = list[(index + step + list.length) % list.length];
+    const media = projectMedia(project);
+    if (media[0]) preloadImage(media[0].view, media[0].full);
+    media.forEach(m => preloadImage(m.mini, m.full));
+  });
+  if (window.requestIdleCallback) requestIdleCallback(run, { timeout: 1500 });
+  else setTimeout(run, 300);
 }
 
 function renderStage() {
@@ -786,10 +812,11 @@ function initViewer() {
     const target = e.target.closest('button');
     if (!target || !viewer.contains(target)) return;
     if (target.hasAttribute('data-toggle')) {
+      // Unfold in place: no re-render, so the page stays where it is and focus stays on the button.
       viewerExpanded = !viewerExpanded;
-      renderViewer();
-      const toggle = viewer.querySelector('[data-toggle]');
-      if (toggle) toggle.focus();
+      viewer.classList.toggle('is-expanded', viewerExpanded);
+      target.setAttribute('aria-expanded', String(viewerExpanded));
+      target.innerHTML = `${i18n.t(viewerExpanded ? 'viewer.less' : 'viewer.more')} <i class="fa fa-chevron-${viewerExpanded ? 'up' : 'down'}" aria-hidden="true"></i>`;
     }
     else if (target.dataset.step) stepProject(Number(target.dataset.step));
     else if (target.dataset.mediaStep) stepMedia(Number(target.dataset.mediaStep));
