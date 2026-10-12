@@ -309,38 +309,44 @@ const COLDSNAP_PROJECTS = [
     category: 'Games',
     type: 'Mobile Game',
     title: 'Pygmak',
-    shortDescription: 'Endless cannon-shooter: blast waves of crates with power-ups and corrupted modifiers',
-    description: 'An endless mobile arcade game where players aim a turret to destroy incoming waves of crates before they breach. Power-ups like freeze, electrify, blaze and scatter shot keep the loop fresh, while corrupted crates introduce chaos modifiers: blindness, reversed aim, explosions and splits. Features a wave-based upgrade system, cosmetic shop, and ad-supported revive.',
+    shortDescription: 'Survivors-style arcade on the water: steer a flagship, blast crate hordes, build a run one card at a time',
+    description: 'Pygmak is a survivors-style arcade game on the water. Crates rain down in hordes, the flagship\'s gun aims itself, and the player steers along the waterline to dodge what falls and collect the XP stars that float where crates broke. Every level deals a three-card hand taken with one tap: burn, freeze, electrify, scatter, weak point and dozens more, with evolutions unlocked from treasure chests. Three weapon classes (cannon, laser, firework), a gunboat convoy that follows the flagship, elites, ranked bosses every two and a half minutes and a final crate at 15:00, then an endless mode. Corrupted crates split, explode, drop mines or drift down on parachutes. A day/night cycle and seasons roll past, a workshop and skins persist between runs, and a damage recap closes every run. Built on realistic 2D physics so every shot, bounce and splash lands.',
     icon: '🎯',
     thumbnail: 'assets/projects/pygmak/pygmak-1-thumb.webp',
     media: [
       'assets/projects/pygmak/pygmak-1.jpg',
       'assets/projects/pygmak/pygmak-2.jpg',
-      'assets/projects/pygmak/pygmak-demo.mp4'
+      'assets/projects/pygmak/pygmak-3.jpg',
+      'assets/projects/pygmak/pygmak-4.jpg',
+      'assets/projects/pygmak/pygmak-5.jpg',
+      'assets/projects/pygmak/pygmak-6.jpg',
+      'assets/projects/pygmak/pygmak-7.jpg',
+      'assets/projects/pygmak/pygmak-8.jpg',
+      'assets/projects/pygmak/pygmak-9.jpg'
     ],
-    tech: ['Unity 6', 'C#', 'URP', 'LevelPlay Ads', 'Android', 'WebGL'],
+    tech: ['Unity 6', 'C#', 'URP', 'UI Toolkit', 'Feel', 'LevelPlay Ads', 'Android'],
     features: [
-      'Wave-based endless arcade loop',
-      'Power-ups: freeze, electric, fire, scatter, damage boost',
-      'Corrupted crates with chaos modifiers',
-      'Upgrade system and cosmetic shop',
-      'Ad-supported revive system',
-      'WebGL and Android build targets'
+      'Steer the flagship; the gun aims itself',
+      'Three weapon classes: cannon, laser, firework',
+      'Level-up card hands, chest evolutions and a gunboat convoy',
+      'Elites, ranked bosses, a 15-minute arc and endless mode',
+      'Corrupted crates: split, explode, mines, parachutes',
+      'Day/night cycle, seasons, workshop, skins and damage recap'
     ],
     links: [
       { label: 'Google Play', href: 'https://play.google.com/store/apps/details?id=com.coldsnap.pygmak', icon: 'fa-android', style: 'play-store' }
     ],
     fr: {
       type: 'Jeu mobile',
-      shortDescription: 'Shooter arcade infini : pulvérisez des vagues de caisses avec bonus et modificateurs corrompus',
-      description: 'Un jeu d\'arcade mobile infini : visez avec une tourelle pour détruire les vagues de caisses avant qu\'elles ne passent. Les bonus (gel, électricité, feu, tir dispersé) renouvellent la boucle de jeu, tandis que les caisses corrompues ajoutent du chaos : aveuglement, visée inversée, explosions, divisions. Système d\'améliorations par vague, boutique cosmétique et résurrection financée par la publicité.',
+      shortDescription: 'Arcade façon survivors sur l\'eau : pilotez un navire, pulvérisez des hordes de caisses, construisez votre run carte par carte',
+      description: 'Pygmak est un jeu d\'arcade façon survivors sur l\'eau. Les caisses pleuvent par hordes, le canon du navire vise tout seul, et le joueur pilote le long de la ligne d\'eau pour esquiver ce qui tombe et ramasser les étoiles d\'XP qui flottent là où les caisses se sont brisées. Chaque niveau distribue une main de trois cartes prise d\'un tap : feu, gel, électricité, tir dispersé, point faible et des dizaines d\'autres, avec des évolutions débloquées dans les coffres. Trois classes d\'armes (canon, laser, feu d\'artifice), un convoi de canonnières qui suit le navire, des élites, des boss classés toutes les deux minutes et demie et une caisse finale à 15:00, puis un mode infini. Les caisses corrompues se divisent, explosent, lâchent des mines ou descendent en parachute. Un cycle jour/nuit et des saisons défilent, un atelier et des skins persistent entre les parties, et un récapitulatif des dégâts clôt chaque run. Construit sur une physique 2D réaliste, pour que chaque tir, rebond et éclaboussure ait du poids.',
       features: [
-        'Boucle arcade infinie par vagues',
-        'Bonus : gel, électricité, feu, tir dispersé, dégâts',
-        'Caisses corrompues et modificateurs de chaos',
-        'Améliorations et boutique cosmétique',
-        'Résurrection via publicité',
-        'Versions WebGL et Android'
+        'Pilotez le navire ; le canon vise tout seul',
+        'Trois classes d\'armes : canon, laser, feu d\'artifice',
+        'Mains de cartes à chaque niveau, évolutions par coffres, convoi de canonnières',
+        'Élites, boss classés, un arc de 15 minutes puis un mode infini',
+        'Caisses corrompues : division, explosion, mines, parachutes',
+        'Cycle jour/nuit, saisons, atelier, skins et récap des dégâts'
       ]
     }
   },
