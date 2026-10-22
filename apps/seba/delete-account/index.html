@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Delete Seba Account</title>
+    <link rel="stylesheet" href="/css/site-nav.css" />
+    <style>
+      body {
+        font-family: "Comfortaa", "Segoe UI", Arial, sans-serif;
+        line-height: 1.6;
+        margin: 0;
+        color: #333;
+        background: linear-gradient(135deg, #2a1b3d 0%, #7a3e9d 100%);
+        min-height: 100vh;
+      }
+      main {
+        max-width: 840px;
+        margin: 0 auto;
+        padding: 120px 20px 40px;
+      }
+      .container {
+        background: white;
+        border-radius: 16px;
+        padding: 40px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+      }
+      h1 {
+        color: #7a3e9d;
+        margin-top: 0;
+      }
+      h2 {
+        color: #5f6368;
+        margin-top: 30px;
+      }
+      .warning {
+        background: #fff3cd;
+        border-left: 4px solid #ffc107;
+        padding: 15px;
+        margin: 20px 0;
+        border-radius: 4px;
+      }
+      .danger {
+        background: #f8d7da;
+        border-left: 4px solid #dc3545;
+        padding: 15px;
+        margin: 20px 0;
+        border-radius: 4px;
+      }
+      li {
+        margin: 8px 0;
+      }
+      a {
+        color: #5a2d75;
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+      .button {
+        display: inline-block;
+        background: #7a3e9d;
+        color: white;
+        padding: 12px 24px;
+        border-radius: 8px;
+        font-weight: 500;
+        margin-top: 10px;
+      }
+      .button:hover {
+        background: #5a2d75;
+        text-decoration: none;
+      }
+      footer {
+        margin-top: 40px;
+        padding-top: 16px;
+        border-top: 1px solid #ddd;
+        text-align: center;
+        color: #5f6368;
+        font-size: 0.9em;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="site-nav" data-site-nav data-site-nav-mode="solid"></nav>
+    <main>
+      <div class="site-context-bar">
+        <a href="/apps/seba/privacy/" class="site-context-link">Privacy Policy</a>
+        <a href="/apps/seba/tos/" class="site-context-link">Terms of Service</a>
+        <a href="/apps/seba/delete-account/" class="site-context-link is-active">Delete Account</a>
+      </div>
+
+      <div class="container">
+        <h1>Delete Your Seba Account</h1>
+
+        <div class="warning">
+          <strong>Important:</strong> deleting your account is permanent and
+          cannot be undone. Your collection cannot be recovered.
+        </div>
+
+        <h2>Delete it in the game</h2>
+        <ol>
+          <li>Open Seba and tap the <strong>person icon</strong> at the top of the home screen.</li>
+          <li>Tap <strong>Delete account</strong> (<strong>Delete my data</strong> when playing as a guest).</li>
+          <li>Confirm with <strong>Delete</strong>.</li>
+        </ol>
+        <p>Your account and its data are deleted right away, guests included.</p>
+
+        <h2>No access to the game? Ask us by email</h2>
+        <p>
+          Send us an email from the address you saved your collection with
+          (guests: include your friend code, shown in the Friends tab). We
+          delete the account within 7 days and confirm by email.
+        </p>
+        <a
+          class="button"
+          href="mailto:contact@coldsnap.fr?subject=Seba%20account%20deletion&body=Please%20delete%20my%20Seba%20account.%0D%0A%0D%0AAccount%20email%20or%20friend%20code%3A%20"
+          >Email a deletion request</a
+        >
+
+        <div class="danger">
+          <h2 style="margin-top: 0">What is deleted</h2>
+          <ul>
+            <li>Your account (random identifier, and your email and password if you saved them)</li>
+            <li>Your collection, packs and allowance, and your display name</li>
+            <li>Your friends, friend code and trade offers</li>
+            <li>Your push notification devices</li>
+            <li>Your first-find credits (those cards can be found first again)</li>
+            <li>Your Deep Pouch claim; the purchase stays with your store account and can be restored on a new account</li>
+          </ul>
+          <p>
+            Nothing is kept after deletion, except crash reports, which
+            Crashlytics removes after 90 days.
+          </p>
+        </div>
+
+        <h2>Questions?</h2>
+        <ul>
+          <li><strong>Email:</strong> <a href="mailto:contact@coldsnap.fr">contact@coldsnap.fr</a></li>
+          <li><strong>Privacy Policy:</strong> <a href="/apps/seba/privacy/">View Privacy Policy</a></li>
+        </ul>
+
+        <footer>
+          <p>
+            <a href="/apps/seba/privacy/">Privacy Policy</a> ·
+            <a href="/apps/seba/tos/">Terms of Service</a> ·
+            <a href="/apps/seba/delete-account/">Delete Account</a>
+          </p>
+          <p>© 2026 Nathan de Castro. All rights reserved.</p>
+        </footer>
+      </div>
+    </main>
+    <script src="/js/site-nav.js" defer></script>
+  </body>
+</html>
