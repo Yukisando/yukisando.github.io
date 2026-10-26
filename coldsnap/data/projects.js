@@ -323,47 +323,6 @@ const COLDSNAP_PROJECTS = [
   // GAMES
   // ============================================
   {
-    id: 'grapple-groove',
-    category: 'Games',
-    type: 'PC Game',
-    title: 'GrappleGroove',
-    shortDescription: 'First-person grappling hook parkour game: swing, climb and launch through physics-driven levels',
-    description: 'A fast-paced first-person parkour game built around dual grappling hooks and momentum physics. Players combine rope and pole grapples with wall-running, vaulting, sliding and dynamic spring platforms to blast through increasingly creative levels. Includes a built-in level editor used during development by a multi-person team.',
-    icon: '🪝',
-    thumbnail: 'assets/projects/grapple-groove/grapple-groove-1-thumb.webp',
-    media: [
-      'assets/projects/grapple-groove/grapple-groove-1.png',
-      'assets/projects/grapple-groove/grapple-groove-2.png'
-    ],
-    tech: ['Unity 6', 'C#', 'URP', 'Spring Physics', 'Android', 'PC'],
-    features: [
-      'Dual grappling hooks (rope and pole types)',
-      'Full parkour system: wall-run, vault, slide, sprint',
-      'Momentum-based spring platforms and physics objects',
-      'Throwable and grabbable interactive objects',
-      'Checkpoint and respawn system',
-      'In-engine level editor',
-      'Multi-designer level set'
-    ],
-    links: [
-      { label: 'Play', labelFr: 'Jouer', href: 'https://grapplegroove.web.app', icon: 'fa-play' }
-    ],
-    fr: {
-      type: 'Jeu PC',
-      shortDescription: 'Parkour à la première personne au grappin : balancez-vous, grimpez et décollez à travers des niveaux physiques',
-      description: 'Un jeu de parkour nerveux à la première personne, construit autour de deux grappins et d\'une physique d\'élan. Le joueur combine grappins à corde et à perche, course sur les murs, sauts, glissades et plateformes à ressort pour traverser des niveaux de plus en plus créatifs. Inclut un éditeur de niveaux intégré, utilisé par une équipe de plusieurs level designers.',
-      features: [
-        'Deux grappins (corde et perche)',
-        'Parkour complet : course murale, saut, glissade, sprint',
-        'Plateformes à ressort et objets physiques',
-        'Objets interactifs à attraper et lancer',
-        'Checkpoints et réapparition',
-        'Éditeur de niveaux intégré',
-        'Niveaux créés par plusieurs designers'
-      ]
-    }
-  },
-  {
     id: 'pygmak',
     category: 'Games',
     type: 'Mobile Game',
@@ -569,36 +528,39 @@ const COLDSNAP_PROJECTS = [
     }
   },
   {
-    id: 'posti',
+    id: 'sandlog',
     category: 'Flutter Apps',
-    type: 'Desktop App',
-    title: 'Posti',
-    shortDescription: 'Minimalist always-on-top system tray todo and notes app for desktop',
-    description: 'A lightweight desktop productivity app that lives in your system tray. Posti stays always-on-top for instant access to todos and quick notes without switching context. Designed for minimal friction, capture a thought in seconds and get back to work.',
-    icon: '📌',
-    thumbnail: 'assets/projects/posti/posti-1-thumb.webp',
+    type: 'Mobile App',
+    title: 'Sandlog',
+    shortDescription: 'Voice dream journal: open the app, speak, and your dream is saved automatically',
+    description: 'A frictionless dream journaling app designed to capture dreams the moment you wake up. Open the app and speak; Sandlog automatically stops recording when silence is detected and saves your dream entry. Recordings can be exported to the user\'s Google Drive for safe cloud storage.',
+    icon: '🌙',
+    thumbnail: 'assets/projects/sandlog/sandlog-1-thumb.webp',
     media: [
-      'assets/projects/posti/posti-1.png'
+      'assets/projects/sandlog/sandlog-1.jpg',
+      'assets/projects/sandlog/sandlog-2.jpg',
+      'assets/projects/sandlog/sandlog-3.jpg'
     ],
-    tech: ['Flutter', 'Dart', 'Windows', 'macOS'],
+    tech: ['Flutter', 'Dart', 'Google Drive API', 'Voice Recording', 'Silence Detection'],
     features: [
-      'System tray integration',
-      'Always-on-top window',
-      'Quick todo and note capture',
-      'Persistent background process',
-      'Minimal, distraction-free UI'
+      'Instant recording on app open, no buttons needed',
+      'Automatic stop on silence detection',
+      'Voice dream entry storage',
+      'Google Drive export for cloud backup'
     ],
-    links: [],
+    links: [
+      { label: 'Google Play', href: 'https://play.google.com/store/apps/details?id=com.coldsnap.sandlog', icon: 'fa-android', style: 'play-store' },
+      { label: 'Privacy Policy', labelFr: 'Confidentialité', href: '/apps/generic/privacy/', icon: 'fa-shield', secondary: true }
+    ],
     fr: {
-      type: 'App de bureau',
-      shortDescription: 'Todo et notes minimalistes, toujours au premier plan, dans la barre système',
-      description: 'Une petite app de productivité qui vit dans la barre système. Posti reste au premier plan pour accéder instantanément à vos tâches et notes sans changer de contexte. Zéro friction : notez une idée en quelques secondes et reprenez le travail.',
+      type: 'App mobile',
+      shortDescription: 'Journal de rêves vocal : ouvrez l\'app, parlez, votre rêve est enregistré',
+      description: 'Un journal de rêves sans friction, pensé pour capturer un rêve dès le réveil. Ouvrez l\'app et parlez : Sandlog s\'arrête automatiquement quand le silence revient et enregistre votre rêve. Les enregistrements peuvent être exportés vers Google Drive.',
       features: [
-        'Intégration à la barre système',
-        'Fenêtre toujours au premier plan',
-        'Saisie rapide de tâches et de notes',
-        'Processus persistant en arrière-plan',
-        'Interface minimaliste, sans distraction'
+        'Enregistrement dès l\'ouverture, sans bouton',
+        'Arrêt automatique au silence',
+        'Stockage des rêves en audio',
+        'Export Google Drive pour la sauvegarde'
       ]
     }
   },
@@ -683,43 +645,6 @@ const COLDSNAP_PROJECTS = [
     }
   },
   {
-    id: 'sandlog',
-    category: 'Flutter Apps',
-    type: 'Mobile App',
-    title: 'Sandlog',
-    shortDescription: 'Voice dream journal: open the app, speak, and your dream is saved automatically',
-    description: 'A frictionless dream journaling app designed to capture dreams the moment you wake up. Open the app and speak; Sandlog automatically stops recording when silence is detected and saves your dream entry. Recordings can be exported to the user\'s Google Drive for safe cloud storage.',
-    icon: '🌙',
-    thumbnail: 'assets/projects/sandlog/sandlog-1-thumb.webp',
-    media: [
-      'assets/projects/sandlog/sandlog-1.jpg',
-      'assets/projects/sandlog/sandlog-2.jpg',
-      'assets/projects/sandlog/sandlog-3.jpg'
-    ],
-    tech: ['Flutter', 'Dart', 'Google Drive API', 'Voice Recording', 'Silence Detection'],
-    features: [
-      'Instant recording on app open, no buttons needed',
-      'Automatic stop on silence detection',
-      'Voice dream entry storage',
-      'Google Drive export for cloud backup'
-    ],
-    links: [
-      { label: 'Google Play', href: 'https://play.google.com/store/apps/details?id=com.coldsnap.sandlog', icon: 'fa-android', style: 'play-store' },
-      { label: 'Privacy Policy', labelFr: 'Confidentialité', href: '/apps/generic/privacy/', icon: 'fa-shield', secondary: true }
-    ],
-    fr: {
-      type: 'App mobile',
-      shortDescription: 'Journal de rêves vocal : ouvrez l\'app, parlez, votre rêve est enregistré',
-      description: 'Un journal de rêves sans friction, pensé pour capturer un rêve dès le réveil. Ouvrez l\'app et parlez : Sandlog s\'arrête automatiquement quand le silence revient et enregistre votre rêve. Les enregistrements peuvent être exportés vers Google Drive.',
-      features: [
-        'Enregistrement dès l\'ouverture, sans bouton',
-        'Arrêt automatique au silence',
-        'Stockage des rêves en audio',
-        'Export Google Drive pour la sauvegarde'
-      ]
-    }
-  },
-  {
     id: 'patoune',
     category: 'Flutter Apps',
     type: 'Mobile App',
@@ -763,6 +688,81 @@ const COLDSNAP_PROJECTS = [
   // ============================================
   // OPEN SOURCE
   // ============================================
+  {
+    id: 'posti',
+    category: 'Flutter Apps',
+    type: 'Desktop App',
+    title: 'Posti',
+    shortDescription: 'Minimalist always-on-top system tray todo and notes app for desktop',
+    description: 'A lightweight desktop productivity app that lives in your system tray. Posti stays always-on-top for instant access to todos and quick notes without switching context. Designed for minimal friction, capture a thought in seconds and get back to work.',
+    icon: '📌',
+    thumbnail: 'assets/projects/posti/posti-1-thumb.webp',
+    media: [
+      'assets/projects/posti/posti-1.png'
+    ],
+    tech: ['Flutter', 'Dart', 'Windows', 'macOS'],
+    features: [
+      'System tray integration',
+      'Always-on-top window',
+      'Quick todo and note capture',
+      'Persistent background process',
+      'Minimal, distraction-free UI'
+    ],
+    links: [],
+    fr: {
+      type: 'App de bureau',
+      shortDescription: 'Todo et notes minimalistes, toujours au premier plan, dans la barre système',
+      description: 'Une petite app de productivité qui vit dans la barre système. Posti reste au premier plan pour accéder instantanément à vos tâches et notes sans changer de contexte. Zéro friction : notez une idée en quelques secondes et reprenez le travail.',
+      features: [
+        'Intégration à la barre système',
+        'Fenêtre toujours au premier plan',
+        'Saisie rapide de tâches et de notes',
+        'Processus persistant en arrière-plan',
+        'Interface minimaliste, sans distraction'
+      ]
+    }
+  },
+  {
+    id: 'grapple-groove',
+    category: 'Games',
+    type: 'PC Game',
+    title: 'GrappleGroove',
+    shortDescription: 'First-person grappling hook parkour game: swing, climb and launch through physics-driven levels',
+    description: 'A fast-paced first-person parkour game built around dual grappling hooks and momentum physics. Players combine rope and pole grapples with wall-running, vaulting, sliding and dynamic spring platforms to blast through increasingly creative levels. Includes a built-in level editor used during development by a multi-person team.',
+    icon: '🪝',
+    thumbnail: 'assets/projects/grapple-groove/grapple-groove-1-thumb.webp',
+    media: [
+      'assets/projects/grapple-groove/grapple-groove-1.png',
+      'assets/projects/grapple-groove/grapple-groove-2.png'
+    ],
+    tech: ['Unity 6', 'C#', 'URP', 'Spring Physics', 'Android', 'PC'],
+    features: [
+      'Dual grappling hooks (rope and pole types)',
+      'Full parkour system: wall-run, vault, slide, sprint',
+      'Momentum-based spring platforms and physics objects',
+      'Throwable and grabbable interactive objects',
+      'Checkpoint and respawn system',
+      'In-engine level editor',
+      'Multi-designer level set'
+    ],
+    links: [
+      { label: 'Play', labelFr: 'Jouer', href: 'https://grapplegroove.web.app', icon: 'fa-play' }
+    ],
+    fr: {
+      type: 'Jeu PC',
+      shortDescription: 'Parkour à la première personne au grappin : balancez-vous, grimpez et décollez à travers des niveaux physiques',
+      description: 'Un jeu de parkour nerveux à la première personne, construit autour de deux grappins et d\'une physique d\'élan. Le joueur combine grappins à corde et à perche, course sur les murs, sauts, glissades et plateformes à ressort pour traverser des niveaux de plus en plus créatifs. Inclut un éditeur de niveaux intégré, utilisé par une équipe de plusieurs level designers.',
+      features: [
+        'Deux grappins (corde et perche)',
+        'Parkour complet : course murale, saut, glissade, sprint',
+        'Plateformes à ressort et objets physiques',
+        'Objets interactifs à attraper et lancer',
+        'Checkpoints et réapparition',
+        'Éditeur de niveaux intégré',
+        'Niveaux créés par plusieurs designers'
+      ]
+    }
+  },
   {
     id: 'waddonsync',
     category: 'Open Source',
