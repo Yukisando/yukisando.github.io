@@ -2,12 +2,12 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://nathandecastro.com/</loc>
-    <lastmod>2026-02-20</lastmod>
+    <lastmod>2026-10-10</lastmod>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://nathandecastro.com/stuff/</loc>
-    <lastmod>2026-05-07</lastmod>
+    <lastmod>2026-08-16</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
@@ -16,38 +16,113 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://nathandecastro.com/apps/waddonsync/</loc>
-    <lastmod>2026-02-20</lastmod>
+    <loc>https://nathandecastro.com/apps/generic/</loc>
+    <lastmod>2026-10-06</lastmod>
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://nathandecastro.com/apps/sandlog/</loc>
+    <lastmod>2026-08-16</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://nathandecastro.com/apps/waddonsync/</loc>
+    <lastmod>2026-08-16</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://nathandecastro.com/apps/generic/privacy/</loc>
+    <lastmod>2026-10-16</lastmod>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://nathandecastro.com/apps/generic/tos/</loc>
+    <lastmod>2026-10-06</lastmod>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://nathandecastro.com/apps/generic/cgv/</loc>
+    <lastmod>2026-10-06</lastmod>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://nathandecastro.com/apps/generic/charter/</loc>
+    <lastmod>2026-10-06</lastmod>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://nathandecastro.com/apps/generic/delete-account/</loc>
+    <lastmod>2026-10-06</lastmod>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://nathandecastro.com/apps/sandlog/privacy/</loc>
+    <lastmod>2026-10-06</lastmod>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://nathandecastro.com/apps/sandlog/tos/</loc>
+    <lastmod>2026-10-06</lastmod>
+    <priority>0.3</priority>
+  </url>
+  <url>
     <loc>https://nathandecastro.com/apps/waddonsync/privacy/</loc>
-    <lastmod>2026-02-20</lastmod>
+    <lastmod>2026-10-06</lastmod>
     <priority>0.3</priority>
   </url>
   <url>
     <loc>https://nathandecastro.com/apps/waddonsync/tos/</loc>
-    <lastmod>2026-02-20</lastmod>
+    <lastmod>2026-10-06</lastmod>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://nathandecastro.com/apps/badger/privacy/</loc>
+    <lastmod>2026-10-12</lastmod>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://nathandecastro.com/apps/badger/tos/</loc>
+    <lastmod>2026-10-12</lastmod>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://nathandecastro.com/apps/badger/delete-account/</loc>
+    <lastmod>2026-10-12</lastmod>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://nathandecastro.com/apps/seba/privacy/</loc>
+    <lastmod>2026-10-22</lastmod>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://nathandecastro.com/apps/seba/tos/</loc>
+    <lastmod>2026-10-22</lastmod>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://nathandecastro.com/apps/seba/delete-account/</loc>
+    <lastmod>2026-10-22</lastmod>
     <priority>0.3</priority>
   </url>
   <url>
     <loc>https://nathandecastro.com/apps/spinlab/privacy/</loc>
-    <lastmod>2026-02-20</lastmod>
+    <lastmod>2026-08-16</lastmod>
     <priority>0.3</priority>
   </url>
   <url>
     <loc>https://nathandecastro.com/apps/spinlab/tos/</loc>
-    <lastmod>2026-02-20</lastmod>
+    <lastmod>2026-08-16</lastmod>
     <priority>0.3</priority>
   </url>
   <url>
     <loc>https://nathandecastro.com/apps/spinlab/delete-account/</loc>
-    <lastmod>2026-02-20</lastmod>
+    <lastmod>2026-08-16</lastmod>
     <priority>0.3</priority>
   </url>
   <url>
     <loc>https://nathandecastro.com/apps/patoune/privacy/</loc>
-    <lastmod>2026-02-20</lastmod>
+    <lastmod>2026-10-06</lastmod>
     <priority>0.3</priority>
   </url>
 </urlset>
