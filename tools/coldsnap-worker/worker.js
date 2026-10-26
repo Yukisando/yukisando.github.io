@@ -17,6 +17,13 @@ export default {
       return Response.redirect(url.toString(), 301);
     }
 
+    // /index.html and /legal/index.html duplicate / and /legal/; send them to the
+    // canonical URL so search engines index one address per page.
+    if (url.pathname.endsWith('/index.html')) {
+      url.pathname = url.pathname.slice(0, -'index.html'.length);
+      return Response.redirect(url.toString(), 301);
+    }
+
     if (request.method !== 'GET' && request.method !== 'HEAD') {
       return new Response('Method Not Allowed', { status: 405, headers: { Allow: 'GET, HEAD' } });
     }

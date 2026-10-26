@@ -564,7 +564,7 @@ function render(doc, lang, cfg, fonts) {
 
   return `<!doctype html>
 <html lang="${lang}">
-<head><meta charset="utf-8"><title>${t(doc.name)} — CV</title><style>${css(
+<head><meta charset="utf-8"><meta name="robots" content="noindex, indexifembedded"><title>${t(doc.name)} — CV</title><style>${css(
     cfg.scale,
     cfg.layout,
     fonts
