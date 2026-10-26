@@ -210,7 +210,7 @@ const COLDSNAP_PROJECTS = [
       'Play without an account; iPhone, Android and web'
     ],
     links: [
-      { label: 'Try the App', labelFr: 'Essayer l\'app', href: 'https://exploreum.valbilon.ch/', icon: 'fa-globe' },
+      { label: 'Try the App', labelFr: 'Essayer l\'app', href: 'https://exploreum.coldsnap.fr/', icon: 'fa-globe' },
       { label: 'Google Play', href: 'https://play.google.com/store/apps/details?id=com.coldsnap.exploreum', icon: 'fa-android', style: 'play-store' },
       { label: 'App Store', href: 'https://apps.apple.com/app/exploreum/id6822310253', icon: 'fa-apple', style: 'app-store' },
       { label: 'Privacy Policy', labelFr: 'Confidentialité', href: 'https://exploreum.web.app/privacy', icon: 'fa-shield', secondary: true }
