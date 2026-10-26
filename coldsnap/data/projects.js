@@ -182,6 +182,65 @@ const COLDSNAP_PROJECTS = [
     }
   },
   {
+    id: 'exploreum',
+    category: 'Flutter Apps',
+    type: 'Edutainment App',
+    title: 'Exploreum',
+    shortDescription: 'Museums, towns and walks turned into interactive stories to play on your phone',
+    description: 'Exploreum turns a museum visit, a walk through town or an outdoor site into a story you play on your phone. Each experience strings together illustrated pages and games: quizzes, estimates, ranking and sorting challenges, picture puzzles and map challenges. Guided walks show their stops on a map, so visitors always know where to go next. Some experiences play anywhere; others unlock on site with a QR code on a sign. No account needed to start, no ads, in French, English and German. Partner museums and venues get their own page, and run their scenarios, events and printed codes from a web back office.',
+    icon: '🧭',
+    thumbnail: 'assets/projects/exploreum/exploreum-en-1-thumb.webp',
+    media: [
+      'assets/projects/exploreum/exploreum-en-1.jpg',
+      'assets/projects/exploreum/exploreum-en-2.jpg',
+      'assets/projects/exploreum/exploreum-en-3.jpg',
+      'assets/projects/exploreum/exploreum-en-4.jpg',
+      'assets/projects/exploreum/exploreum-en-5.jpg'
+    ],
+    tech: ['Flutter', 'Firebase', 'Cloud Functions', 'Next.js', 'App Check', 'OpenStreetMap'],
+    features: [
+      'Illustrated story pages with quizzes, estimates, sorting and puzzle challenges',
+      'On-site experiences unlocked by QR code on printed signs',
+      'Guided walks with a step-by-step map',
+      'Audio guide and several languages for some experiences',
+      'Daily streak, badges, and resume where you left off',
+      '"Near you" list, only when location is shared',
+      'A page for each partner museum and venue',
+      'Web back office for partners: scenarios, events, printed codes',
+      'Play without an account; iPhone, Android and web'
+    ],
+    links: [
+      { label: 'Try the App', labelFr: 'Essayer l\'app', href: 'https://exploreum.valbilon.ch/', icon: 'fa-globe' },
+      { label: 'Google Play', href: 'https://play.google.com/store/apps/details?id=com.coldsnap.exploreum', icon: 'fa-android', style: 'play-store' },
+      { label: 'App Store', href: 'https://apps.apple.com/app/exploreum/id6822310253', icon: 'fa-apple', style: 'app-store' },
+      { label: 'Privacy Policy', labelFr: 'Confidentialité', href: 'https://exploreum.web.app/privacy', icon: 'fa-shield', secondary: true }
+    ],
+    fr: {
+      type: 'App ludo-éducative',
+      shortDescription: 'Musées, villes et balades deviennent des histoires interactives à jouer sur son téléphone',
+      description: 'Exploreum transforme la visite d\'un musée, une balade en ville ou un site en plein air en une histoire à jouer sur son téléphone. Chaque expérience enchaîne des pages illustrées et des jeux : quiz, estimations, défis de classement et de tri, puzzles d\'images et défis sur carte. Les balades guidées affichent leurs étapes sur une carte : on sait toujours où aller ensuite. Certaines expériences se jouent partout, d\'autres se débloquent sur place grâce au QR code d\'un panneau. Sans compte pour commencer, sans publicité, en français, anglais et allemand. Les musées et lieux partenaires ont leur propre page et gèrent leurs scénarios, événements et codes imprimés depuis un espace web.',
+      thumbnail: 'assets/projects/exploreum/exploreum-fr-1-thumb.webp',
+      media: [
+        'assets/projects/exploreum/exploreum-fr-1.jpg',
+        'assets/projects/exploreum/exploreum-fr-2.jpg',
+        'assets/projects/exploreum/exploreum-fr-3.jpg',
+        'assets/projects/exploreum/exploreum-fr-4.jpg',
+        'assets/projects/exploreum/exploreum-fr-5.jpg'
+      ],
+      features: [
+        'Pages illustrées avec quiz, estimations, défis de tri et puzzles',
+        'Expériences sur place débloquées par QR code sur des panneaux imprimés',
+        'Balades guidées avec carte, étape par étape',
+        'Audioguide et plusieurs langues pour certaines expériences',
+        'Série de jours, badges, et reprise là où on en était',
+        'Liste « Près de vous », seulement si la position est partagée',
+        'Une page pour chaque musée et lieu partenaire',
+        'Espace web pour les partenaires : scénarios, événements, codes imprimés',
+        'Jouable sans compte ; iPhone, Android et web'
+      ]
+    }
+  },
+  {
     id: 'winston',
     category: 'Flutter Apps',
     type: 'Web App',
@@ -351,6 +410,100 @@ const COLDSNAP_PROJECTS = [
     }
   },
 
+  {
+    id: 'seba',
+    category: 'Games',
+    type: 'Card Game',
+    title: 'Seba',
+    shortDescription: 'Collect over 900 mythical creatures and gods, nearly all shown on historic artworks',
+    description: 'Seba is a card game of creatures from every culture\'s myths: dragons, kappa, firebirds, sea serpents and the gods of old pantheons. Open a free pack, peel five stickers and fill your bestiary. Nearly every card shows a public-domain artwork from Wikimedia Commons, The Met, the Cleveland Museum of Art or the Art Institute of Chicago, credited on the card with the creature\'s tradition and a short description. Rarity means something: legendary cards are the creatures the whole world knows, rare ones are told in only a few languages. Named after Albertus Seba, the 18th-century Amsterdam apothecary whose book of curiosities put real animals beside dragons and a seven-headed hydra.',
+    icon: '🐉',
+    thumbnail: 'assets/projects/seba/seba-en-1-thumb.webp',
+    media: [
+      'assets/projects/seba/seba-en-1.jpg',
+      'assets/projects/seba/seba-en-2.jpg',
+      'assets/projects/seba/seba-en-3.jpg',
+      'assets/projects/seba/seba-en-4.jpg'
+    ],
+    tech: ['Flutter', 'Firebase', 'Cloud Functions', 'FCM', 'In-app purchases'],
+    features: [
+      'A free pack every hour, two kept in store, and a push when they are ready',
+      'Over 900 creatures and gods, from Greek and Norse myth to Japanese yōkai',
+      'Historic artworks from museum open-access collections, credited on every card',
+      'Twelve regions to complete, from the Celtic isles to the Americas',
+      'Friends by code, one-for-one trades and a friends leaderboard',
+      'The first player to find a card has their name on every copy',
+      'Guest play; packs are never sold'
+    ],
+    links: [
+      { label: 'Google Play', href: 'https://play.google.com/store/apps/details?id=com.coldsnap.seba', icon: 'fa-android', style: 'play-store' },
+      { label: 'Privacy Policy', labelFr: 'Confidentialité', href: '/apps/seba/privacy/', icon: 'fa-shield', secondary: true }
+    ],
+    fr: {
+      type: 'Jeu de cartes',
+      shortDescription: 'Collectionne plus de 900 créatures et dieux mythiques, presque tous sur de vraies œuvres',
+      description: 'Seba est un jeu de cartes des créatures de tous les mythes du monde : dragons, kappa, oiseaux de feu, serpents de mer et dieux des panthéons anciens. Ouvre un paquet gratuit, décolle cinq autocollants et remplis ton bestiaire. Presque chaque carte montre une œuvre du domaine public venue de Wikimedia Commons, du Met, du Cleveland Museum of Art ou de l\'Art Institute of Chicago, créditée sur la carte avec la tradition de la créature et une courte description. La rareté a du sens : les légendaires sont les créatures que le monde entier connaît, les rares ne sont racontées que dans quelques langues. Le nom vient d\'Albertus Seba, apothicaire d\'Amsterdam du XVIIIe siècle dont le livre de curiosités plaçait de vrais animaux à côté de dragons et d\'une hydre à sept têtes.',
+      thumbnail: 'assets/projects/seba/seba-fr-1-thumb.webp',
+      media: [
+        'assets/projects/seba/seba-fr-1.jpg',
+        'assets/projects/seba/seba-fr-2.jpg',
+        'assets/projects/seba/seba-fr-3.jpg',
+        'assets/projects/seba/seba-fr-4.jpg'
+      ],
+      features: [
+        'Un paquet gratuit chaque heure, deux en réserve, et une notification quand ils sont prêts',
+        'Plus de 900 créatures et dieux, des mythes grecs et nordiques aux yōkai japonais',
+        'Des œuvres historiques des collections en accès libre des musées, créditées sur chaque carte',
+        'Douze régions à compléter, des îles celtes aux Amériques',
+        'Amis par code, échanges une carte contre une et classement entre amis',
+        'Le premier joueur à trouver une carte a son nom sur chaque exemplaire',
+        'Jeu en invité ; les paquets ne sont jamais vendus'
+      ]
+    }
+  },
+  {
+    id: 'badalone',
+    category: 'Games',
+    type: 'Card Game',
+    title: 'Badalone',
+    shortDescription: 'Open packs of real, ridiculous patents drawn from 12 million inventions',
+    description: 'Every Badalone pack is nine real patents pulled at random from the entire US patent archive: more than twelve million inventions, from 1836 to last week. A method of swinging on a swing. A hat with a built-in umbrella. The light bulb. Each card shows the original drawing redrawn as a white-on-black blueprint, an absurdity index and the plain-words abstract on the back, and opens the original document in one tap. Rarity is earned by influence: the more later inventions built on a patent, the rarer its card. Named after Il Badalone, Brunelleschi\'s river barge and the subject of the first patent ever granted (Florence, 1421). No ads, no purchases.',
+    icon: '📜',
+    thumbnail: 'assets/projects/badalone/badalone-en-1-thumb.webp',
+    media: [
+      'assets/projects/badalone/badalone-en-1.jpg',
+      'assets/projects/badalone/badalone-en-2.jpg',
+      'assets/projects/badalone/badalone-en-3.jpg',
+      'assets/projects/badalone/badalone-en-4.jpg'
+    ],
+    tech: ['Flutter', 'Firebase', 'Cloud Functions', 'Patent data', 'FCM'],
+    features: [
+      'Nine random patents per pack, drawn live from 12 million+ inventions',
+      'Original drawings redrawn as white-on-black blueprints',
+      'Rarity earned by influence, age and collector numbers',
+      'An absurdity index and a plain-words abstract for every invention',
+      'Searchable codex of every patent discovered',
+      'The first player to find a patent has their name on every copy',
+      'Friends by code, leaderboard and one-for-one trades; no ads, no purchases'
+    ],
+    links: [
+      { label: 'Google Play', href: 'https://play.google.com/store/apps/details?id=com.coldsnap.badalone', icon: 'fa-android', style: 'play-store' }
+    ],
+    fr: {
+      type: 'Jeu de cartes',
+      shortDescription: 'Ouvre des paquets de vrais brevets, souvent absurdes, tirés de 12 millions d\'inventions',
+      description: 'Chaque paquet de Badalone contient neuf vrais brevets tirés au hasard de toutes les archives américaines : plus de douze millions d\'inventions, de 1836 à la semaine dernière. Une méthode pour se balancer sur une balançoire. Un chapeau avec parapluie intégré. L\'ampoule électrique. Chaque carte montre le dessin d\'origine redessiné en plan blanc sur noir, un indice d\'absurdité et le résumé en mots simples au dos, et ouvre le document original en un geste. La rareté se gagne par l\'influence : plus d\'inventions se sont appuyées sur un brevet, plus sa carte est rare. Le nom vient d\'Il Badalone, la barge fluviale de Brunelleschi, objet du tout premier brevet (Florence, 1421). Sans publicité, sans achat.',
+      features: [
+        'Neuf brevets au hasard par paquet, tirés en direct de plus de 12 millions d\'inventions',
+        'Les dessins d\'origine redessinés en plans blanc sur noir',
+        'Une rareté gagnée par l\'influence, l\'âge et le numéro de collection',
+        'Un indice d\'absurdité et un résumé en mots simples pour chaque invention',
+        'Un codex de tous les brevets découverts, avec recherche',
+        'Le premier joueur à trouver un brevet a son nom sur chaque exemplaire',
+        'Amis par code, classement et échanges une contre une ; sans pub ni achat'
+      ]
+    }
+  },
   // ============================================
   // FLUTTER APPS (continued)
   // ============================================
