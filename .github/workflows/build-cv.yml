@@ -23,9 +23,14 @@ concurrency:
   group: build-cv
   cancel-in-progress: true
 
+defaults:
+  run:
+    shell: bash
+
 jobs:
   build:
-    runs-on: ubuntu-latest
+    # This PC when the repo variable PC_RUNNER is set (flutter-ship's pc-runner), else GitHub's ubuntu-latest.
+    runs-on: ${{ fromJSON(vars.PC_RUNNER || '"ubuntu-latest"') }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -35,8 +40,10 @@ jobs:
         with:
           node-version: '20'
 
-      # The runner image ships Google Chrome, so the build needs no npm install.
+      # The ubuntu image ships Google Chrome, so the build needs no npm install. On the
+      # Windows PC, build-cv.mjs finds Edge instead.
       - name: Show browser version
+        if: runner.os == 'Linux'
         run: google-chrome --version
 
       # Fails the job if a CV no longer fits 2 pages, rather than publishing a
