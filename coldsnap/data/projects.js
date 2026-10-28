@@ -764,6 +764,51 @@ const COLDSNAP_PROJECTS = [
     }
   },
   {
+    id: 'sharekm',
+    category: 'Open Source',
+    type: 'Windows Tray App',
+    title: 'ShareKM',
+    shortDescription: 'Share one keyboard and mouse between two Windows PCs, with encrypted pairing and shared clipboard',
+    description: 'A tiny Windows tray app that lets one keyboard and mouse control two PCs on the same network, with clipboard text shared both ways. One hotkey switches which PC you are on. It finds the other PC by itself, pairs with a passphrase and encrypts everything it sends (AES-256-GCM), and can optionally run as administrator to control elevated windows. A single self-contained exe: no install, no account, no PowerToys. Free for non-commercial use, with the source on GitHub.',
+    icon: '⌨️',
+    thumbnail: 'assets/projects/sharekm/sharekm-1-thumb.webp',
+    media: [
+      'assets/projects/sharekm/sharekm-1.png',
+      'assets/projects/sharekm/sharekm-2.png',
+      'assets/projects/sharekm/sharekm-3.png'
+    ],
+    tech: ['C#', '.NET', 'WinForms', 'Win32 hooks', 'AES-GCM'],
+    features: [
+      'One hotkey to switch control between your PCs (rebindable with a Record button)',
+      'Finds other PCs running ShareKM on the network automatically',
+      'Passphrase pairing with AES-256-GCM encryption on the link',
+      'Clipboard text shared in both directions',
+      'Adjustable mouse update rate (60-1000 Hz)',
+      'Optional administrator mode to control elevated windows',
+      'Windows 11 style settings window, follows light and dark mode',
+      'Single self-contained exe, starts with Windows'
+    ],
+    links: [
+      { label: 'Download', labelFr: 'Télécharger', href: 'https://github.com/Yukisando/ShareKM/releases/latest', icon: 'fa-download' },
+      { label: 'GitHub', href: 'https://github.com/Yukisando/ShareKM', icon: 'fa-github', secondary: true }
+    ],
+    fr: {
+      type: 'App Windows (barre système)',
+      shortDescription: 'Partagez un clavier et une souris entre deux PC Windows, avec appairage chiffré et presse-papiers partagé',
+      description: 'Une petite app Windows dans la barre système qui permet de piloter deux PC du même réseau avec un seul clavier et une seule souris, avec le texte du presse-papiers partagé dans les deux sens. Un raccourci clavier suffit pour passer d\'un PC à l\'autre. Elle trouve l\'autre PC toute seule, s\'appaire avec une phrase secrète et chiffre tout ce qu\'elle envoie (AES-256-GCM), et peut tourner en administrateur pour piloter les fenêtres élevées. Un seul exécutable autonome : sans installation, sans compte, sans PowerToys. Gratuit pour un usage non commercial, code source sur GitHub.',
+      features: [
+        'Un raccourci pour passer d\'un PC à l\'autre (modifiable avec un bouton Enregistrer)',
+        'Détecte automatiquement les autres PC qui font tourner ShareKM sur le réseau',
+        'Appairage par phrase secrète et chiffrement AES-256-GCM du lien',
+        'Texte du presse-papiers partagé dans les deux sens',
+        'Fréquence de mise à jour de la souris réglable (60 à 1000 Hz)',
+        'Mode administrateur facultatif pour piloter les fenêtres élevées',
+        'Fenêtre de réglages style Windows 11, thème clair et sombre',
+        'Un seul exécutable autonome, démarrage avec Windows'
+      ]
+    }
+  },
+  {
     id: 'waddonsync',
     category: 'Open Source',
     type: 'Desktop App',
