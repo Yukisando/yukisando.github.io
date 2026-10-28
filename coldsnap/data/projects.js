@@ -165,7 +165,7 @@ const COLDSNAP_PROJECTS = [
       { label: 'Google Play', href: 'https://play.google.com/store/apps/details?id=com.coldsnap.spinlab', icon: 'fa-android', style: 'play-store' },
       { label: 'App Store', href: 'https://apps.apple.com/fr/app/spinlab/id6758303721', icon: 'fa-apple', style: 'app-store' },
       { label: 'Visit Website', labelFr: 'Site web', href: 'https://spinlab.fr', icon: 'fa-globe', secondary: true },
-      { label: 'Privacy Policy', labelFr: 'Confidentialité', href: '/apps/spinlab/privacy/', icon: 'fa-shield', secondary: true }
+      { label: 'Privacy Policy', labelFr: 'Confidentialité', href: 'https://spinlab.fr/politique-de-confidentialite/', icon: 'fa-shield', secondary: true }
     ],
     fr: {
       type: 'App mobile',
