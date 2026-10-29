@@ -19,7 +19,7 @@
     'nav.cta': 'Démarrer un projet',
     'nav.menu': 'Menu',
 
-    'hero.lead': 'Applications, jeux et installations interactives sur mesure qui rendent l\'apprentissage ludique. Vous travaillez directement avec nous, de la première idée jusqu\'à la livraison.',
+    'hero.lead': 'Applications, jeux et installations interactives sur mesure qui rendent l\'apprentissage ludique.',
     'hero.sub': 'Studio de gamification',
     'hero.cta': 'Démarrer un projet',
     'hero.secondary': 'Voir nos réalisations',
