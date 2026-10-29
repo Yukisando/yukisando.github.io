@@ -15,6 +15,8 @@
  * (?sr=...) and travels the same way: a site that sees a newer reset clears its
  * own list, and drops finds carried in from a site that hasn't heard of it yet.
  *
+ * Desktop only: below 900px the counter is hidden and award() does nothing.
+ *
  * A shared secret (the Konami code) is one secret that counts on both sites:
  * found on either, it shows as found on both.
  *
@@ -127,7 +129,7 @@
     '.secrets__toast b{color:#ffe7a3;font-weight:700}' +
     '@keyframes secrets-in{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}' +
     '@keyframes secrets-bump{0%{transform:scale(1) rotate(0)}35%{transform:scale(1.7) rotate(25deg)}100%{transform:scale(1) rotate(0)}}' +
-    '@media (max-width:600px){.secrets{left:12px;bottom:12px}.secrets__label{display:none}.secrets__toast{left:12px;bottom:58px}}' +
+    '@media (max-width:900px){.secrets,.secrets__toast{display:none !important}}' +
     '@media (prefers-reduced-motion:reduce){.secrets__btn,.secrets__panel,.secrets__btn.is-bumping .secrets__star{animation:none}.secrets__toast{transition:none}}';
 
   var STORE = 'secrets.found';
@@ -142,6 +144,9 @@
   Object.keys(SITES).forEach(function (s) {
     Object.keys(SITES[s].secrets).forEach(function (k) { ALL.push(s + '.' + k); });
   });
+
+  // The hunt is a desktop thing: phones neither see the counter nor collect finds.
+  function isDesktop() { return !window.matchMedia('(max-width: 900px)').matches; }
 
   function lang() { return document.documentElement.lang === 'fr' ? 'fr' : 'en'; }
   function t(key, vars) {
@@ -384,6 +389,7 @@
 
   // Marks a secret of this site as found. Safe to call again; only the first time counts.
   function award(key) {
+    if (!isDesktop()) return false;
     var full = keyFor(key);
     if (ALL.indexOf(full) === -1 || found.indexOf(full) !== -1) return false;
     found.push(full);
