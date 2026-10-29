@@ -462,7 +462,15 @@ h1, h2, h3 {
   margin-right: -0.38em;
   text-transform: uppercase;
   text-align: center;
+  white-space: nowrap;
   color: var(--orange);
+}
+
+@media (max-width: 480px) {
+  .hero__sub {
+    letter-spacing: 0.2em;
+    margin-right: -0.2em;
+  }
 }
 
 .hero__lead {
