@@ -441,9 +441,8 @@ h1, h2, h3 {
 .hero__brand-text {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  gap: 8px;
-  text-align: left;
+  align-items: stretch;
+  gap: 10px;
 }
 
 .hero__name {
@@ -454,12 +453,16 @@ h1, h2, h3 {
   letter-spacing: -0.02em;
 }
 
+/* Brand lockup: the tagline spans the wordmark's width, set wide like a logo subtitle */
 .hero__sub {
-  font-size: 0.74rem;
+  font-family: var(--font-brand);
+  font-size: clamp(0.72rem, 1.1vw, 0.86rem);
   font-weight: 600;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.38em;
+  margin-right: -0.38em;
   text-transform: uppercase;
-  color: var(--text-muted);
+  text-align: center;
+  color: var(--orange);
 }
 
 .hero__lead {
