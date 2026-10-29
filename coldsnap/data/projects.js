@@ -150,7 +150,9 @@ const COLDSNAP_PROJECTS = [
       'assets/projects/spinlab/spinlab-1.jpeg',
       'assets/projects/spinlab/spinlab-2.jpeg',
       'assets/projects/spinlab/spinlab-3.jpeg',
-      'assets/projects/spinlab/spinlab-4.jpeg'
+      'assets/projects/spinlab/spinlab-4.jpeg',
+      'assets/projects/spinlab/spinlab-5.jpeg',
+      'assets/projects/spinlab/spinlab-6.jpeg'
     ],
     tech: ['Flutter', 'Dart', 'Firebase', 'Stripe', 'Google Maps'],
     features: [
