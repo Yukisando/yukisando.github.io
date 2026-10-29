@@ -42,7 +42,8 @@
       host: 'coldsnap.fr',
       path: '/coldsnap/',
       secrets: {
-        snap: { en: 'Caused a cold snap', fr: 'A déclenché un cold snap' },
+        flip: { en: 'Turned a card over', fr: 'A retourné une carte' },
+        snap:{ en: 'Caused a cold snap', fr: 'A déclenché un cold snap' },
         wizard: { en: 'Found the wizard', fr: 'A trouvé le magicien' },
         star: { en: 'Made a wish', fr: 'A fait un vœu' }
       }

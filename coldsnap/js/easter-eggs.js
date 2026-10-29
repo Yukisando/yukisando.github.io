@@ -4,9 +4,10 @@
  * 1. Console greeting for curious developers.
  * 2. Konami code (↑↑↓↓←→←→BA): every hero card flips and gets flung, with sparkles.
  * 3. Type "snap", or click the nav logo 5 times quickly (frost builds with each click): a cold snap freezes the page (and the cards).
- * 4. Reveal every card on the table: a secret wizard card drops into the deck.
+ * 4. Turn any hero card over by hand: the first, easy secret that starts the hunt.
+ * 5. Reveal every card on the table: a secret wizard card drops into the deck.
  *    Clicking it turns it into a car (js/drive.js).
- * 5. The ✦ at the very bottom of the footer: make a wish.
+ * 6. The ✦ at the very bottom of the footer: make a wish.
  *
  * Every egg found is reported to the shared secrets counter (js/secrets.js), the
  * same one nathandecastro.com uses.
@@ -163,7 +164,11 @@
     logo.addEventListener('dragstart', e => e.preventDefault());
   }
 
-  // ── 4. The wizard card ──────────────────────────────────
+  // ── 4. First card turned over by hand ───────────────────
+  // The easiest secret, so the counter shows up early and starts the hunt.
+  document.addEventListener('coldsnap:card-flipped', () => award('flip'));
+
+  // ── 5. The wizard card ──────────────────────────────────
   const WIZARD = {
     id: 'the-wizard',
     drive: true,
@@ -193,7 +198,7 @@
     }, 700);
   });
 
-  // ── 5. Wishing star ─────────────────────────────────────
+  // ── 6. Wishing star ─────────────────────────────────────
   const star = document.getElementById('secretStar');
   if (star) {
     star.addEventListener('click', () => {

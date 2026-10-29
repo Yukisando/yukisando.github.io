@@ -1136,6 +1136,7 @@ function initHeroCards() {
         card.targetScale = 1.0;
         if (!card.revealed) {
           revealCard(card);
+          document.dispatchEvent(new CustomEvent('coldsnap:card-flipped'));
           return;
         }
         if (card.project.drive && window.CS_DRIVE) {
@@ -1503,19 +1504,21 @@ function initHeroCards() {
 
   animId = requestAnimationFrame(loop);
 
-  // Every few seconds one card half-turns and drops back, as if peeking at its other side.
+  // Every few seconds one face-down card hops off the table and lands again, as if
+  // something under it wants out. Its shadow stays on the table, which sells the jump.
   function teaseOneCard() {
     if (frozen || !animId || document.hidden) return;
-    const idle = cards.filter(c => c.active && !c.isDragging && !c.el.classList.contains('is-driven-away'));
+    const idle = cards.filter(c => c.active && !c.revealed && !c.isDragging && !c.el.classList.contains('is-driven-away'));
     if (!idle.length) return;
     const card = idle[Math.floor(Math.random() * idle.length)];
-    const base = card.revealed ? 180 : 0;
-    const peak = base + (Math.random() < 0.5 ? -1 : 1) * (55 + Math.random() * 15);
+    const tilt = (Math.random() < 0.5 ? -1 : 1) * (2 + Math.random() * 2);
     card.el.querySelector('.physics-card-inner').animate([
-      { transform: `rotateY(${base}deg)` },
-      { transform: `rotateY(${peak}deg)`, offset: 0.4 },
-      { transform: `rotateY(${base}deg)` }
-    ], { duration: 1000, easing: 'ease-in-out' });
+      { transform: 'translateY(0) rotateX(0deg) rotate(0deg) scale(1)', easing: 'cubic-bezier(0.2, 0.7, 0.3, 1)' },
+      { transform: `translateY(-7px) rotateX(10deg) rotate(${tilt}deg) scale(1.07)`, offset: 0.35, easing: 'cubic-bezier(0.6, 0, 0.9, 0.5)' },
+      { transform: `translateY(0) rotateX(0deg) rotate(${tilt * 0.3}deg) scale(0.98)`, offset: 0.62 },
+      { transform: 'translateY(-1px) rotateX(2deg) rotate(0deg) scale(1.01)', offset: 0.8 },
+      { transform: 'translateY(0) rotateX(0deg) rotate(0deg) scale(1)' }
+    ], { duration: 620 });
   }
   if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     (function scheduleNudge() {
@@ -1644,6 +1647,19 @@ function initNav() {
 
 }
 
+// The scroll hint at the bottom of the hero goes away for good on the first scroll.
+function initScrollHint() {
+  const hint = document.getElementById('scrollHint');
+  if (!hint) return;
+  const hide = () => {
+    if (window.scrollY < 24) return;
+    hint.classList.add('is-hidden');
+    window.removeEventListener('scroll', hide);
+  };
+  hide();
+  window.addEventListener('scroll', hide, { passive: true });
+}
+
 // Count stats up from zero the first time they scroll into view.
 function initCounters() {
   const counters = document.querySelectorAll('[data-count]');
@@ -1693,6 +1709,7 @@ document.addEventListener('DOMContentLoaded', () => {
   renderFilters();
   renderWork();
   initHeroCards();
+  initScrollHint();
   initCounters();
   initReveal();
 
