@@ -145,14 +145,14 @@ const COLDSNAP_PROJECTS = [
     shortDescription: 'Platform connecting tennis players with certified coaches for booking lessons',
     description: 'A comprehensive platform that connects tennis players with certified coaches. Features include geolocated coach discovery, instant booking, secure payment processing, and training progress tracking. Built with Flutter for seamless cross-platform experience.',
     icon: '🎾',
-    thumbnail: 'assets/projects/spinlab/spinlab-1-thumb.webp',
+    thumbnail: 'assets/projects/spinlab/spinlab-1-thumb.webp?v=20261029',
     media: [
-      'assets/projects/spinlab/spinlab-1.jpeg',
-      'assets/projects/spinlab/spinlab-2.jpeg',
-      'assets/projects/spinlab/spinlab-3.jpeg',
-      'assets/projects/spinlab/spinlab-4.jpeg',
-      'assets/projects/spinlab/spinlab-5.jpeg',
-      'assets/projects/spinlab/spinlab-6.jpeg'
+      'assets/projects/spinlab/spinlab-1.jpeg?v=20261029',
+      'assets/projects/spinlab/spinlab-2.jpeg?v=20261029',
+      'assets/projects/spinlab/spinlab-3.jpeg?v=20261029',
+      'assets/projects/spinlab/spinlab-4.jpeg?v=20261029',
+      'assets/projects/spinlab/spinlab-5.jpeg?v=20261029',
+      'assets/projects/spinlab/spinlab-6.jpeg?v=20261029'
     ],
     tech: ['Flutter', 'Dart', 'Firebase', 'Stripe', 'Google Maps'],
     features: [

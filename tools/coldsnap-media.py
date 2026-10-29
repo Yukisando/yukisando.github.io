@@ -22,7 +22,7 @@ ROOT = Path(__file__).resolve().parent.parent / 'coldsnap'
 SIZES = {'view': (1400, 80), 'mini': (240, 70)}
 
 data = (ROOT / 'data' / 'projects.js').read_text(encoding='utf-8')
-paths = sorted(set(re.findall(r"'(assets/projects/[^']+\.(?:jpe?g|png|mp4|webm))'", data, re.I)))
+paths = sorted(set(re.findall(r"'(assets/projects/[^'?]+\.(?:jpe?g|png|mp4|webm))(?:\?[^']*)?'", data, re.I)))
 
 
 def write_webps(src, image_path):

@@ -497,9 +497,10 @@ let viewerFlip = 0;
 let viewerExpanded = false;
 let shelfOpen = false;
 
-const isVideo = src => /\.(mp4|webm)$/i.test(src);
+const isVideo = src => /\.(mp4|webm)(\?|$)/i.test(src);
 // Light copies made by tools/coldsnap-media.py; the originals are kept for the zoom.
-const mediaVariant = (src, suffix) => src.replace(/\.[a-z0-9]+$/i, '-' + suffix);
+// A ?v= cache-buster on the original carries over to its copies.
+const mediaVariant = (src, suffix) => src.replace(/\.[a-z0-9]+(\?.*)?$/i, (_, query) => '-' + suffix + (query || ''));
 
 // A project can swap in its own French screenshots (fr.media, fr.thumbnail).
 function projectMedia(project) {
