@@ -1477,8 +1477,7 @@ video.viewer__shot {
   font-size: 0.95rem;
 }
 
-.contact__facts a,
-.contact__about a {
+.contact__facts a {
   color: var(--orange);
   font-weight: 600;
   text-decoration: none;
@@ -1486,15 +1485,8 @@ video.viewer__shot {
   transition: border-color 0.2s ease;
 }
 
-.contact__facts a:hover,
-.contact__about a:hover {
+.contact__facts a:hover {
   border-color: var(--orange);
-}
-
-.contact__copy .contact__about {
-  margin: 22px 0 0;
-  font-size: 0.95rem;
-  color: var(--text-muted);
 }
 
 /* The wizard peeks in from the corner */

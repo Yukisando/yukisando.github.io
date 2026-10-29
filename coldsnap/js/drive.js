@@ -16,7 +16,7 @@
   const INTERACT_RANGE = 70;
   const TARGETS = [
     '.cs-nav__brand', '.cs-nav__links a', '.filter',
-    '.project-card', '.contact__card .btn', '.contact__about a',
+    '.project-card', '.contact__card .btn',
     '.cs-footer a'
   ].join(',');
 

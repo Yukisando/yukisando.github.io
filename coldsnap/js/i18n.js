@@ -63,7 +63,6 @@
 
     'contact.title': 'Démarrer un projet',
     'contact.lead': 'Dites-nous ce que vous avez en tête. Nous revenons vers vous avec des questions, des idées et un devis clair.',
-    'contact.about': 'Envie de savoir qui se cache derrière ColdSnap ? <a href="https://nathandecastro.com/" target="_blank" rel="noopener">nathandecastro.com</a>',
     'contact.subject': 'Nouveau projet',
     'contact.where': 'Basé à',
     'contact.whereValue': 'Mouans-Sartoux, France. Nous travaillons en France et en Suisse, en français ou en anglais.',
