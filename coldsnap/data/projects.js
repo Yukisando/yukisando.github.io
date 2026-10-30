@@ -537,11 +537,12 @@ const COLDSNAP_PROJECTS = [
     shortDescription: 'Voice dream journal: open the app, speak, and your dream is saved automatically',
     description: 'A frictionless dream journaling app designed to capture dreams the moment you wake up. Open the app and speak; Sandlog automatically stops recording when silence is detected and saves your dream entry. Recordings can be exported to the user\'s Google Drive for safe cloud storage.',
     icon: '🌙',
-    thumbnail: 'assets/projects/sandlog/sandlog-1-thumb.webp',
+    thumbnail: 'assets/projects/sandlog/sandlog-1-thumb.webp?v=20261030',
     media: [
-      'assets/projects/sandlog/sandlog-1.jpg',
-      'assets/projects/sandlog/sandlog-2.jpg',
-      'assets/projects/sandlog/sandlog-3.jpg'
+      'assets/projects/sandlog/sandlog-1.jpg?v=20261030',
+      'assets/projects/sandlog/sandlog-2.jpg?v=20261030',
+      'assets/projects/sandlog/sandlog-3.jpg?v=20261030',
+      'assets/projects/sandlog/sandlog-4.jpg?v=20261030'
     ],
     tech: ['Flutter', 'Dart', 'Google Drive API', 'Voice Recording', 'Silence Detection'],
     features: [
