@@ -8,8 +8,6 @@
  * 5. Reveal every card on the table: a secret wizard card drops into the deck.
  *    Clicking it turns it into a car (js/drive.js).
  * 6. The ✦ at the very bottom of the footer: make a wish.
- * 7. Type "zombie", or click the tiny gem next to the ✦: David runs past with the horde
- *    behind him, and a link to the arcade (ms.coldsnap.fr) appears.
  *
  * Every egg found is reported to the shared secrets counter (js/secrets.js), the
  * same one nathandecastro.com uses.
@@ -128,9 +126,8 @@
     }
 
     if (key.length === 1) {
-      typed = (typed + key).slice(-6);
-      if (typed.endsWith('snap')) coldSnap();
-      if (typed === 'zombie') releaseHorde();
+      typed = (typed + key).slice(-4);
+      if (typed === 'snap') coldSnap();
     }
   });
 
@@ -218,62 +215,4 @@
       award('star');
     });
   }
-
-  // ── 7. The horde ────────────────────────────────────────
-  // Function declarations are hoisted, so the keydown handler above can call this.
-  const arcadeUrl = () => 'https://ms.coldsnap.fr/?lang=' + i18n.lang;
-  const syncArcadeLinks = () => {
-    document.querySelectorAll('[data-arcade-link]').forEach(link => { link.href = arcadeUrl(); });
-  };
-  syncArcadeLinks();
-  i18n.onChange(syncArcadeLinks);
-
-  // [sprite, seconds before it enters, seconds to cross the screen]
-  const HORDE = [
-    ['david', 0, 4.2],
-    ['zombie_fast', 0.7, 4.6],
-    ['zombie_fast', 1.2, 4.4],
-    ['zombie_big', 1.6, 5.6],
-    ['zombie_fast', 2.3, 4.6],
-    ['zombie_big', 2.9, 5.8]
-  ];
-  let hordeRunning = false;
-
-  function showArcadeLink() {
-    const link = document.createElement('a');
-    link.className = 'btn btn--primary arcade-coin';
-    link.dataset.arcadeLink = '';
-    link.href = arcadeUrl();
-    link.innerHTML = '<span></span> <i class="fa fa-arrow-right" aria-hidden="true"></i>';
-    link.firstChild.textContent = i18n.t('egg.zombie');
-    document.body.appendChild(link);
-    setTimeout(() => link.remove(), 12000);
-  }
-
-  function releaseHorde() {
-    if (hordeRunning) return;
-    hordeRunning = true;
-    setTimeout(() => { hordeRunning = false; }, 12000);
-    award('zombie');
-    showArcadeLink();
-    if (reducedMotion()) return;
-
-    const flash = document.createElement('div');
-    flash.className = 'crt-flash';
-    flash.addEventListener('animationend', () => flash.remove());
-    document.body.appendChild(flash);
-
-    HORDE.forEach(([sprite, delay, duration]) => {
-      const runner = document.createElement('span');
-      runner.className = 'horde-runner';
-      runner.style.backgroundImage = `url(assets/arcade/${sprite}.png)`;
-      runner.style.animationDelay = `0s, ${delay}s`;
-      runner.style.animationDuration = `0.36s, ${duration}s`;
-      runner.addEventListener('animationend', e => { if (e.animationName === 'horde-run') runner.remove(); });
-      document.body.appendChild(runner);
-    });
-  }
-
-  const gem = document.getElementById('secretGem');
-  if (gem) gem.addEventListener('click', releaseHorde);
 })();
