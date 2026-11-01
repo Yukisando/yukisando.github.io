@@ -30,6 +30,7 @@
  *     { label: 'GitHub', href: 'https://...', icon: 'fa-github' }
  *   ],
  *   featured: true,                     // Optional: the project the viewer opens on
+ *   coinSlot: 'https://...',            // Optional: shows a coin to drag into a slot, which opens this address (js/arcade-coin.js)
  *   fr: {                               // Optional: French text; any field missing here falls back to English
  *     type: '...', shortDescription: '...', description: '...', features: ['...'],
  *     thumbnail: '...', media: ['...']  // Optional: French screenshots, when the app's UI is in French
@@ -324,6 +325,41 @@ const COLDSNAP_PROJECTS = [
   // ============================================
   // GAMES
   // ============================================
+  {
+    id: 'coldsnap-arcade',
+    category: 'Games',
+    type: 'Retro Arcade',
+    title: 'ColdSnap Arcade',
+    coinSlot: 'https://arcade.coldsnap.fr/',
+    shortDescription: 'Games written for real retro consoles, playable in the browser, with a shared leaderboard',
+    description: 'Real games for old consoles, playable from any browser and competing on one leaderboard. The first one, David contre les zombies, is a survival game written in C for the Sega Master System. It runs on the original console from a flash cartridge, and here from the very same ROM.',
+    icon: '🕹️',
+    thumbnail: 'assets/projects/arcade/arcade-1-thumb.webp',
+    media: [
+      'assets/projects/arcade/arcade-3.png',
+      'assets/projects/arcade/arcade-4.png',
+      'assets/projects/arcade/arcade-1.png',
+      'assets/projects/arcade/arcade-2.png'
+    ],
+    tech: ['C', 'Z80', 'SDCC', 'EmulatorJS', 'Cloudflare Workers', 'Cloudflare D1'],
+    features: [
+      'Runs the real ROM in the browser, the same file as on the console',
+      'One leaderboard for every game, on every console',
+      'Keyboard, controller and touch controls',
+      'Master System and Super Nintendo score reading tested, more consoles to come'
+    ],
+    fr: {
+      type: 'Arcade rétro',
+      shortDescription: 'Des jeux écrits pour de vraies consoles rétro, jouables dans le navigateur, avec un classement commun',
+      description: "De vrais jeux pour anciennes consoles, jouables depuis n'importe quel navigateur, avec un seul classement. Le premier, David contre les zombies, est un jeu de survie écrit en C pour la Sega Master System. Il tourne sur la console d'origine depuis une cartouche flash, et ici depuis exactement la même ROM.",
+      features: [
+        'Fait tourner la vraie ROM dans le navigateur, le même fichier que sur la console',
+        'Un seul classement pour tous les jeux, sur toutes les consoles',
+        'Commandes au clavier, à la manette et au tactile',
+        "Lecture des scores testée sur Master System et Super Nintendo, d'autres consoles à venir"
+      ]
+    }
+  },
   {
     id: 'pygmak',
     category: 'Games',

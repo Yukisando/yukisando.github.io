@@ -724,6 +724,24 @@ function renderViewer() {
         <button type="button" class="viewer__toggle" data-toggle aria-expanded="${viewerExpanded}" aria-controls="viewerExtra">
           ${i18n.t(viewerExpanded ? 'viewer.less' : 'viewer.more')} <i class="fa fa-chevron-${viewerExpanded ? 'up' : 'down'}" aria-hidden="true"></i>
         </button>` : ''}
+      ${project.coinSlot ? `
+        <div class="coin-slot" data-href="${escapeAttr(project.coinSlot)}">
+          <div class="coin-slot__row">
+            <button type="button" class="coin" aria-label="${escapeAttr(i18n.t('coin.label'))}">
+              <span class="coin__body">
+                <i></i><i></i><i></i><i></i><i></i>
+                <span class="coin__face"><img src="assets/arcade/coin-effigy.png" alt="" draggable="false"></span>
+                <span class="coin__face coin__face--back"><img src="assets/arcade/coin-effigy.png" alt="" draggable="false"></span>
+              </span>
+            </button>
+            <span class="coin-slot__path" aria-hidden="true"><i></i><i></i><i></i></span>
+            <div class="coin-slot__plate">
+              <span class="coin-slot__led">${i18n.t('coin.insert')}</span>
+              <span class="coin-slot__hole"></span>
+            </div>
+          </div>
+          <p class="coin-slot__hint">${i18n.t('coin.hint')}</p>
+        </div>` : ''}
       ${links ? `<div class="viewer__links">${links}</div>` : ''}
     </div>
   `;

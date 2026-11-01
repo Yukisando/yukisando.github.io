@@ -43,7 +43,7 @@
   <link rel="preload" href="fonts/Comfortaa-var.woff2" as="font" type="font/woff2" crossorigin>
 
   <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-  <link href="css/coldsnap.css?v=20261101a" rel="stylesheet">
+  <link href="css/coldsnap.css?v=20261101d" rel="stylesheet">
 
   <!-- Structured Data -->
   <script type="application/ld+json">
@@ -106,7 +106,7 @@
       <nav class="cs-nav__links" id="navLinks" aria-label="Main">
         <a href="#work" data-i18n="nav.work">Work</a>
         <a href="#approach" data-i18n="nav.approach">Approach</a>
-        <a href="https://ms.coldsnap.fr" data-arcade-link>Arcade</a>
+        <a href="?project=coldsnap-arcade#work" data-arcade-link>Arcade</a>
         <a href="#contact" class="cs-nav__cta" data-i18n="nav.cta">Start a project</a>
       </nav>
 
@@ -253,7 +253,7 @@
         <h3>ColdSnap</h3>
         <a href="#work" data-i18n="nav.work">Work</a>
         <a href="#approach" data-i18n="nav.approach">Approach</a>
-        <a href="https://ms.coldsnap.fr" data-arcade-link>Arcade</a>
+        <a href="?project=coldsnap-arcade#work" data-arcade-link>Arcade</a>
       </div>
       <div class="cs-footer__col">
         <h3 data-i18n="footer.contact">Contact</h3>
@@ -271,7 +271,7 @@
     </div>
     <div class="container cs-footer__bottom">
       <p>© <span id="year">2026</span> ColdSnap · SIRET 940 000 649 00019 · <span data-i18n="footer.vat">VAT</span> FR14940000649</p>
-      <p class="cs-footer__secret"><span data-i18n="footer.made">Made with love and a little magic</span> <button type="button" class="secret-star" id="secretStar" aria-label="✦">✦</button><button type="button" class="secret-gem" id="secretGem" aria-label="◆"></button></p>
+      <p class="cs-footer__secret"><span data-i18n="footer.made">Made with love and a little magic</span> <button type="button" class="secret-star" id="secretStar" aria-label="✦">✦</button></p>
     </div>
   </footer>
 
@@ -297,13 +297,14 @@
 
 
   <!-- i18n runs synchronously so translated text is in place before first paint -->
-  <script src="js/i18n.js?v=20261101a"></script>
-  <script src="data/projects.js?v=20261030a" defer></script>
-  <script src="js/coldsnap.js?v=20261029b" defer></script>
+  <script src="js/i18n.js?v=20261101b"></script>
+  <script src="data/projects.js?v=20261101b" defer></script>
+  <script src="js/coldsnap.js?v=20261101c" defer></script>
   <script src="js/car-physics.js?v=20261028a" defer></script>
   <script src="js/drive.js?v=20261028a" defer></script>
-  <script src="js/secrets.js?v=20261101a" data-site="coldsnap" defer></script>
-  <script src="js/easter-eggs.js?v=20261101a" defer></script>
+  <script src="js/secrets.js?v=20261101b" data-site="coldsnap" defer></script>
+  <script src="js/easter-eggs.js?v=20261101b" defer></script>
+  <script src="js/arcade-coin.js?v=20261101c" defer></script>
 </body>
 
 </html>
