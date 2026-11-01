@@ -731,7 +731,7 @@ function renderViewer() {
               <span class="coin__body">
                 <i></i><i></i><i></i><i></i><i></i>
                 <span class="coin__face"><img src="assets/arcade/coin-effigy.png" alt="" draggable="false"></span>
-                <span class="coin__face coin__face--back"><img src="assets/arcade/coin-effigy.png" alt="" draggable="false"></span>
+                <span class="coin__face coin__face--back"><svg class="coin__one" viewBox="0 0 7 9" aria-hidden="true"><path d="M3 0h2v7h2v2H0V7h2V3H1V2h1V1h1z"/></svg></span>
               </span>
             </button>
             <span class="coin-slot__path" aria-hidden="true"><i></i><i></i><i></i></span>
