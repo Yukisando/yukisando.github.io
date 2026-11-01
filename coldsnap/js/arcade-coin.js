@@ -3,8 +3,8 @@
  *
  * A project with `coinSlot` in data/projects.js shows a coin and a slot in the viewer.
  * Drag the coin into the slot, or click it or press Enter on it to let it fly there by itself.
- * The coin drops in, David runs past with the horde behind him, the screen shuts off like an
- * old TV, and the arcade opens.
+ * The coin glides over, turns edge-on to the slit and drops in, then the screen shuts off like
+ * an old TV and the arcade opens.
  *
  * The viewer re-renders its markup, so everything hangs off listeners on the document.
  */
@@ -27,6 +27,9 @@
   const wait = ms => new Promise(done => setTimeout(done, ms));
 
   const spin = degrees => `perspective(260px) rotateY(${degrees}deg)`;
+  const pose = ({ x = 0, y = 0, rotate = 0, scale = 1 }) =>
+    `translate(${x}px, ${y}px) rotate(${rotate}deg) scale(${scale})`;
+  const dragPose = (dx, dy) => ({ x: dx, y: dy, rotate: dx / 5, scale: 1.1 });
 
   // Where the spinning coin is right now, in degrees from face-on (-180 to 180).
   function currentAngle(body) {
@@ -63,32 +66,32 @@
     } catch (e) { /* no sound is fine */ }
   }
 
-  // [sprite, seconds before it enters, seconds to cross the screen]
-  const HORDE = [
-    ['david', 0, 1.1],
-    ['zombie_fast', 0.2, 1.2],
-    ['zombie_fast', 0.36, 1.15],
-    ['zombie_big', 0.5, 1.4],
-    ['zombie_fast', 0.7, 1.2]
-  ];
-
-  function releaseHorde() {
-    HORDE.forEach(([sprite, delay, duration]) => {
-      const runner = document.createElement('span');
-      runner.className = 'horde-runner';
-      runner.style.backgroundImage = `url(assets/arcade/${sprite}.png)`;
-      runner.style.animationDelay = `0s, ${delay}s`;
-      runner.style.animationDuration = `0.24s, ${duration}s`;
-      runner.addEventListener('animationend', e => { if (e.animationName === 'horde-run') runner.remove(); });
-      document.body.appendChild(runner);
-    });
+  // The flight to the slot as keyframes along a curve: it lifts a little, then glides down onto the slit.
+  function flightFrames(start, end) {
+    const lift = { x: (start.x + end.x) / 2, y: Math.min(start.y, end.y) - 34 };
+    const ease = t => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+    const frames = [];
+    for (let i = 0; i <= 20; i++) {
+      const t = ease(i / 20);
+      const u = 1 - t;
+      frames.push({
+        transform: pose({
+          x: u * u * start.x + 2 * u * t * lift.x + t * t * end.x,
+          y: u * u * start.y + 2 * u * t * lift.y + t * t * end.y,
+          rotate: start.rotate * u,
+          scale: start.scale + (end.scale - start.scale) * t + 0.1 * Math.sin(Math.PI * t)
+        }),
+        offset: i / 20
+      });
+    }
+    return frames;
   }
 
   function enterArcade(slot) {
     location.href = `${slot.dataset.href}?lang=${i18n.lang}`;
   }
 
-  async function insertCoin(coin, dx, dy) {
+  async function insertCoin(coin, start) {
     const slot = coin.closest('.coin-slot');
     const plate = slot.querySelector('.coin-slot__plate');
     const hole = slot.querySelector('.coin-slot__hole');
@@ -96,36 +99,45 @@
     const startAngle = currentAngle(body);
     inserting = true;
     slot.classList.add('is-inserting');
-    coin.setAttribute('disabled', '');
 
     if (reducedMotion()) {
+      coin.setAttribute('disabled', '');
       enterArcade(slot);
       return;
     }
 
-    const to = offsetToSlot(coin, hole, dx, dy);
-    const at = (x, y, scale) => `translate(${x}px, ${y}px) scale(${scale})`;
-    // Fly to the slot and finish edge-on: seen from the side, the coin lines up with the slit.
-    play(body, [
-      { transform: spin(startAngle) },
-      { transform: spin(810) }
-    ], { duration: 460, easing: 'ease-out' });
-    await play(coin, [
-      { transform: at(dx, dy, 1.1) },
-      { transform: at((dx + to.x) / 2, Math.min(dy, to.y) - 26, 1.1), offset: 0.55 },
-      { transform: at(to.x, to.y, 0.9) }
-    ], { duration: 460, easing: 'ease-in-out' });
-    coinSound();
-    await play(coin, [
-      { transform: at(to.x, to.y, 0.9), opacity: 1 },
-      { transform: at(to.x, to.y, 0.6), opacity: 0 }
-    ], { duration: 130, easing: 'ease-in' });
+    // From here on the coin is only ever moved by its own animations, starting exactly where it is.
+    const to = offsetToSlot(coin, hole, start.x, start.y);
+    coin.style.transform = pose(start);
+    coin.setAttribute('disabled', '');
+    coin.classList.remove('is-dragging');
+    plate.classList.add('is-ready');
 
+    // Glide over and finish edge-on: seen from the side, the coin lines up with the slit.
+    const end = { x: to.x, y: to.y, scale: 0.78 };
+    const edgeOn = Math.ceil((startAngle + 120 - 90) / 180) * 180 + 90;
+    play(body, [{ transform: spin(startAngle) }, { transform: spin(edgeOn) }],
+      { duration: 640, easing: 'cubic-bezier(0.45, 0, 0.25, 1)' });
+    await play(coin, flightFrames(start, end), { duration: 640 });
+    await wait(90);
+
+    // In it goes, away from the player and into the dark.
+    await play(coin, [
+      { transform: pose(end), opacity: 1, filter: 'brightness(1)' },
+      { transform: pose({ ...end, scale: 0.45 }), opacity: 0, filter: 'brightness(0.3)' }
+    ], { duration: 190, easing: 'ease-in' });
+
+    coinSound();
+    plate.classList.remove('is-ready');
     plate.classList.add('is-credit');
+    plate.animate([
+      { transform: 'translateY(0)' },
+      { transform: 'translateY(3px)', offset: 0.3 },
+      { transform: 'translateY(0)' }
+    ], { duration: 280, easing: 'ease-out' });
     slot.querySelector('.coin-slot__led').textContent = i18n.t('coin.credit');
     if (window.csSparkle) window.csSparkle(18, centre(hole));
-    releaseHorde();
-    await wait(1150);
+    await wait(600);
 
     const shutter = document.createElement('div');
     shutter.className = 'crt-shutter';
@@ -134,17 +146,40 @@
     enterArcade(slot);
   }
 
+  // Missed the slot: it springs back to its resting place, overshooting a little.
+  function returnCoin(coin, dx, dy) {
+    coin.classList.remove('is-dragging');
+    if (reducedMotion()) {
+      coin.style.transform = '';
+      return;
+    }
+    // is-returning keeps the idle bob off until the coin is home, so it can't jump there first.
+    coin.classList.add('is-returning');
+    const from = dragPose(dx, dy);
+    const back = coin.animate([
+      { transform: pose(from) },
+      { transform: pose({ x: -dx * 0.06, y: -dy * 0.06, rotate: -from.rotate * 0.25, scale: 0.97 }), offset: 0.62 },
+      { transform: pose({}) }
+    ], { duration: 560, easing: 'cubic-bezier(0.3, 0.55, 0.35, 1)', fill: 'forwards' });
+    const settle = () => {
+      coin.style.transform = '';
+      coin.classList.remove('is-returning');
+      back.cancel();
+    };
+    back.finished.then(settle, () => {});
+  }
+
   // Coming back with the browser's Back button can restore the page exactly as it was left.
   window.addEventListener('pageshow', e => {
     if (!e.persisted) return;
     inserting = false;
-    document.querySelectorAll('.crt-shutter, .horde-runner').forEach(el => el.remove());
+    document.querySelectorAll('.crt-shutter').forEach(el => el.remove());
     if (typeof renderViewer === 'function') renderViewer();
   });
 
   document.addEventListener('pointerdown', e => {
     const coin = e.target.closest('.coin');
-    if (!coin || inserting || e.button !== 0) return;
+    if (!coin || inserting || e.button !== 0 || coin.classList.contains('is-returning')) return;
     const slot = coin.closest('.coin-slot');
     const plate = slot.querySelector('.coin-slot__plate');
     const hole = slot.querySelector('.coin-slot__hole');
@@ -177,7 +212,7 @@
         coin.setPointerCapture(e.pointerId);
         coin.classList.add('is-dragging');
       }
-      coin.style.transform = `translate(${dx}px, ${dy}px) rotate(${dx / 5}deg) scale(1.1)`;
+      coin.style.transform = pose(dragPose(dx, dy));
       plate.classList.toggle('is-ready', distanceToSlot() < DROP_DISTANCE);
     };
 
@@ -189,22 +224,10 @@
       if (!dragging) return;  // a plain press: the click handler below takes it
       coin.dataset.justDragged = '1';
       setTimeout(() => { delete coin.dataset.justDragged; }, 0);
-      // Measure first: without is-dragging the idle animation takes the coin back to its resting place.
       const inSlot = distanceToSlot() < DROP_DISTANCE;
-      coin.classList.remove('is-dragging');
       plate.classList.remove('is-ready');
-      if (inSlot) {
-        insertCoin(coin, dx, dy);
-        return;
-      }
-      // Missed: it springs back to where it was.
-      coin.style.transform = '';
-      if (!reducedMotion()) {
-        coin.animate([
-          { transform: `translate(${dx}px, ${dy}px) rotate(${dx / 5}deg) scale(1.1)` },
-          { transform: 'translate(0, 0) rotate(0deg) scale(1)' }
-        ], { duration: 420, easing: 'cubic-bezier(0.3, 1.6, 0.5, 1)' });
-      }
+      if (inSlot) insertCoin(coin, dragPose(dx, dy));
+      else returnCoin(coin, dx, dy);
     };
 
     window.addEventListener('pointermove', onMove);
@@ -215,7 +238,7 @@
   // A click or the keyboard: the coin goes in by itself.
   document.addEventListener('click', e => {
     const coin = e.target.closest('.coin');
-    if (coin && !inserting && !coin.dataset.justDragged) insertCoin(coin, 0, 0);
+    if (coin && !inserting && !coin.dataset.justDragged) insertCoin(coin, { x: 0, y: 0, rotate: 0, scale: 1 });
 
     // Arcade links in the nav and footer open the project here, without a page reload.
     const link = e.target.closest('[data-arcade-link]');
