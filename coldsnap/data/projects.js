@@ -337,6 +337,7 @@ const COLDSNAP_PROJECTS = [
     thumbnail: 'assets/projects/arcade/arcade-1-thumb.webp',
     media: [
       'assets/projects/arcade/arcade-3.png',
+      'assets/projects/arcade/arcade-5.png',
       'assets/projects/arcade/arcade-4.png',
       'assets/projects/arcade/arcade-1.png',
       'assets/projects/arcade/arcade-2.png'
