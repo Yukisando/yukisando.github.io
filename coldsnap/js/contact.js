@@ -25,7 +25,7 @@
     const locale = i18n.lang === 'fr' ? 'fr-FR' : 'en-GB';
     const day = new Date();
     const chips = [];
-    while (chips.length < 10) {
+    while (chips.length < 8) {
       day.setDate(day.getDate() + 1);
       if (day.getDay() === 0 || day.getDay() === 6) continue;
       const label = day.toLocaleDateString(locale, { weekday: 'short', day: 'numeric', month: 'short' });
@@ -42,7 +42,8 @@
     slotsBox.querySelectorAll('[aria-pressed="false"]').forEach(b => { b.disabled = picked.length >= MAX_SLOTS; });
   }
 
-  call.addEventListener('change', () => {
+  // "Get back to me by": Phone shows the number field and the call slots.
+  function syncCall() {
     callFields.hidden = !call.checked;
     form.elements.phone.required = call.checked;
     if (call.checked && !slotsBox.children.length) buildSlots();
@@ -50,7 +51,8 @@
       slotsBox.querySelectorAll('[aria-pressed="true"]').forEach(b => b.setAttribute('aria-pressed', 'false'));
       syncSlots();
     }
-  });
+  }
+  form.querySelectorAll('input[name="reply"]').forEach(radio => radio.addEventListener('change', syncCall));
 
   slotsBox.addEventListener('click', event => {
     const chip = event.target.closest('.cform__chip');
@@ -63,7 +65,6 @@
     event.preventDefault();
     const button = form.querySelector('[type="submit"]');
     const data = Object.fromEntries(new FormData(form));
-    delete data.call;
     button.disabled = true;
     show('sending');
     let result = 'unavailable';

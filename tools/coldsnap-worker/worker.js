@@ -148,7 +148,7 @@ async function fetchLegalPage(request, path, search) {
 // Secret: BREVO_API_KEY. Var: CONTACT_TO (defaults to contact@coldsnap.fr), which must
 // be a sender verified in Brevo.
 
-const LIMITS = { name: 120, email: 200, org: 160, audience: 60, phone: 40, slots: 400, message: 5000 };
+const LIMITS = { name: 120, email: 200, org: 160, audience: 60, reply: 20, phone: 40, slots: 400, message: 5000 };
 
 async function handleContact(request, env, url) {
   if (request.method !== 'POST') {
@@ -189,6 +189,7 @@ async function handleContact(request, env, url) {
     email: field('email'),
     org: field('org'),
     audience: field('audience'),
+    reply: field('reply'),
     phone: field('phone'),
     slots: field('slots'),
     message: field('message'),
@@ -203,6 +204,7 @@ async function handleContact(request, env, url) {
     `E-mail : ${form.email}`,
     form.org ? `Structure : ${form.org}` : null,
     form.audience ? `Type : ${form.audience}` : null,
+    form.reply ? `Réponse souhaitée : ${form.reply}` : null,
     form.phone ? `Téléphone : ${form.phone}` : null,
     form.slots ? `Créneaux pour un appel : ${form.slots}` : null,
     `Page : ${lang === 'en' ? 'anglaise' : 'française'}`,

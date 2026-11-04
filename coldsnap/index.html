@@ -58,7 +58,7 @@
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=20261104a" />
   <link rel="preload" href="/fonts/Comfortaa-var.woff2" as="font" type="font/woff2" crossorigin>
 
-  <link href="/css/coldsnap.css?v=20261104c" rel="stylesheet">
+  <link href="/css/coldsnap.css?v=20261104d" rel="stylesheet">
 
   <!-- Structured Data -->
   <script type="application/ld+json">
@@ -70,6 +70,7 @@
     "url": "https://coldsnap.fr/",
     "logo": "https://coldsnap.fr/assets/coldnsap_logo.png",
     "email": "contact@coldsnap.fr",
+    "telephone": "+33 6 27 64 80 28",
     "description": "Gamification studio creating interactive installations, educational games and cross-platform apps",
     "vatID": "FR14940000649",
     "taxID": "94000064900019",
@@ -184,14 +185,21 @@
       </div>
     </section>
 
-    <!-- Clients: plain names, no logos -->
+    <!-- Clients: logos drift by and pause under the pointer; the second copy closes the loop -->
     <section class="clients" data-i18n-attr="aria-label:clients.label" aria-label="Clients">
-      <div class="container clients__inner">
-        <span class="clients__label" data-i18n="clients.label">Ils ont travaillé avec nous</span>
-        <ul class="clients__list">
-          <li>CPPS</li>
-          <li><a href="https://www.surgicalreality.com/" target="_blank" rel="noopener">Surgical Reality</a></li>
-          <li><a href="https://www.maxev.fr/" target="_blank" rel="noopener">Maxev</a></li>
+      <p class="clients__label" data-i18n="clients.label">Ils ont travaillé avec nous</p>
+      <div class="clients__viewport">
+        <ul class="clients__track">
+          <li><a href="https://www.cpps-vs.ch/home" target="_blank" rel="noopener" aria-label="CPPS"><img src="/assets/clients/cpps.webp" alt="" loading="lazy" decoding="async"></a></li>
+          <li><a href="https://www.surgicalreality.com/" target="_blank" rel="noopener" aria-label="Surgical Reality"><img src="/assets/clients/surgical-reality.svg" alt="" loading="lazy" decoding="async"><span>Surgical Reality</span></a></li>
+          <li><a href="https://www.maxev.fr/" target="_blank" rel="noopener" aria-label="Maxev"><img src="/assets/clients/maxev.svg" alt="" loading="lazy" decoding="async"></a></li>
+          <li><a href="https://spinlab.fr/" target="_blank" rel="noopener" aria-label="SpinLab"><img src="/assets/clients/spinlab.svg" alt="" loading="lazy" decoding="async"></a></li>
+          <li><a href="https://www.replay-festival.com/" target="_blank" rel="noopener" aria-label="Re-Play festival"><img src="/assets/clients/replay.webp" alt="" loading="lazy" decoding="async"></a></li>
+          <li><a href="https://www.cpps-vs.ch/home" target="_blank" rel="noopener" aria-hidden="true" tabindex="-1"><img src="/assets/clients/cpps.webp" alt="" loading="lazy" decoding="async"></a></li>
+          <li><a href="https://www.surgicalreality.com/" target="_blank" rel="noopener" aria-hidden="true" tabindex="-1"><img src="/assets/clients/surgical-reality.svg" alt="" loading="lazy" decoding="async"><span>Surgical Reality</span></a></li>
+          <li><a href="https://www.maxev.fr/" target="_blank" rel="noopener" aria-hidden="true" tabindex="-1"><img src="/assets/clients/maxev.svg" alt="" loading="lazy" decoding="async"></a></li>
+          <li><a href="https://spinlab.fr/" target="_blank" rel="noopener" aria-hidden="true" tabindex="-1"><img src="/assets/clients/spinlab.svg" alt="" loading="lazy" decoding="async"></a></li>
+          <li><a href="https://www.replay-festival.com/" target="_blank" rel="noopener" aria-hidden="true" tabindex="-1"><img src="/assets/clients/replay.webp" alt="" loading="lazy" decoding="async"></a></li>
         </ul>
       </div>
     </section>
@@ -260,24 +268,28 @@
                 <label class="cform__field"><span data-i18n="form.name">Nom</span><input name="name" autocomplete="name" maxlength="120" required></label>
                 <label class="cform__field"><span data-i18n="form.email">E-mail</span><input name="email" type="email" autocomplete="email" maxlength="200" required></label>
               </div>
-              <div class="cform__row">
-                <label class="cform__field"><span data-i18n="form.org">Structure (facultatif)</span><input name="org" autocomplete="organization" maxlength="160"></label>
-                <label class="cform__field"><span data-i18n="form.audience">Vous êtes</span>
-                  <select name="audience">
-                    <option value="" data-i18n="form.audience.pick">Choisir…</option>
-                    <option value="Musée / lieu culturel" data-i18n="form.audience.museum">Un musée ou un lieu culturel</option>
-                    <option value="École / formation" data-i18n="form.audience.school">Une école ou un centre de formation</option>
-                    <option value="Collectivité" data-i18n="form.audience.public">Une collectivité</option>
-                    <option value="Entreprise" data-i18n="form.audience.company">Une entreprise</option>
-                    <option value="Autre" data-i18n="form.audience.other">Autre chose</option>
-                  </select>
-                </label>
-              </div>
+              <label class="cform__field"><span data-i18n="form.org">Structure (facultatif)</span><input name="org" autocomplete="organization" maxlength="160"></label>
+              <fieldset class="cform__group">
+                <legend data-i18n="form.audience">Vous êtes</legend>
+                <div class="cform__chips">
+                  <label class="cform__pick"><input type="radio" name="audience" value="Musée / lieu culturel"><span data-i18n="form.audience.museum">Un musée ou un lieu culturel</span></label>
+                  <label class="cform__pick"><input type="radio" name="audience" value="École / formation"><span data-i18n="form.audience.school">Une école ou un centre de formation</span></label>
+                  <label class="cform__pick"><input type="radio" name="audience" value="Collectivité"><span data-i18n="form.audience.public">Une collectivité</span></label>
+                  <label class="cform__pick"><input type="radio" name="audience" value="Entreprise"><span data-i18n="form.audience.company">Une entreprise</span></label>
+                  <label class="cform__pick"><input type="radio" name="audience" value="Autre"><span data-i18n="form.audience.other">Autre chose</span></label>
+                </div>
+              </fieldset>
               <label class="cform__field"><span data-i18n="form.message">Votre projet</span><textarea name="message" rows="4" minlength="10" maxlength="5000" required data-i18n-attr="placeholder:form.messageHint" placeholder="What it is for, who will use it, and when you would like it."></textarea></label>
-              <label class="cform__switch"><input type="checkbox" name="call" id="contactCall"> <span data-i18n="form.call">Je préfère en parler au téléphone</span></label>
+              <fieldset class="cform__group">
+                <legend data-i18n="form.reply">Répondez-moi par</legend>
+                <div class="cform__toggle">
+                  <label><input type="radio" name="reply" value="E-mail" checked><span data-i18n="form.reply.email">E-mail</span></label>
+                  <label><input type="radio" name="reply" value="Téléphone" id="contactCall"><span data-i18n="form.reply.phone">Téléphone</span></label>
+                </div>
+              </fieldset>
               <div class="cform__call" id="contactCallFields" hidden>
                 <label class="cform__field"><span data-i18n="form.phone">Téléphone</span><input name="phone" type="tel" autocomplete="tel" maxlength="40"></label>
-                <fieldset class="cform__slots">
+                <fieldset class="cform__group">
                   <legend data-i18n="form.slots">Quand vous appeler ? Jusqu’à trois créneaux</legend>
                   <div class="cform__chips" id="contactSlots"></div>
                 </fieldset>
@@ -292,7 +304,7 @@
             </form>
           </div>
           <dl class="contact__facts">
-            <div><dt data-i18n="contact.direct">Ou par e-mail</dt><dd><a id="contactMail" href="mailto:contact@coldsnap.fr?subject=New%20project">contact@coldsnap.fr</a></dd></div>
+            <div><dt data-i18n="contact.direct">Ou en direct</dt><dd><a id="contactMail" href="mailto:contact@coldsnap.fr?subject=New%20project">contact@coldsnap.fr</a><br><a href="tel:+33627648028">+33 6 27 64 80 28</a></dd></div>
             <div><dt data-i18n="contact.where">Basé à</dt><dd data-i18n="contact.whereValue">Mouans-Sartoux, France. Nous travaillons en France et en Suisse, en français ou en anglais.</dd></div>
             <div><dt data-i18n="contact.terms">Conditions</dt><dd><a data-legal-href="/legal/cgv/" href="/legal/cgv/?lang=fr" data-i18n="contact.termsValue">Conditions générales de vente (CGV)</a></dd></div>
           </dl>
@@ -360,11 +372,11 @@
 
 
   <!-- i18n runs synchronously so translated text is in place before first paint -->
-  <script src="/js/i18n-strings.js?v=20261104a"></script>
+  <script src="/js/i18n-strings.js?v=20261104b"></script>
   <script src="/js/i18n.js?v=20261104a"></script>
   <script src="/data/projects.js?v=20261104a" defer></script>
   <script src="/js/coldsnap.js?v=20261104b" defer></script>
-  <script src="/js/contact.js?v=20261104a" defer></script>
+  <script src="/js/contact.js?v=20261104b" defer></script>
   <script src="/js/car-physics.js?v=20261028a" defer></script>
   <script src="/js/drive.js?v=20261104a" defer></script>
   <script src="/js/secrets.js?v=20261101b" data-site="coldsnap" defer></script>
