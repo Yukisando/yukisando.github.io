@@ -864,6 +864,7 @@ h1, h2, h3 {
 .clients__track a:hover,
 .clients__track a:focus-visible {
   opacity: 1;
+  filter: none;
 }
 
 .clients__track img {
