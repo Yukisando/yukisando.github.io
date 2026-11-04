@@ -877,6 +877,19 @@ h1, h2, h3 {
   width: auto;
 }
 
+/* A logo whose white parts vanish in the white silhouette (Valbilon's V) has its own idle
+   version with those parts cut out, swapped for the colour logo on hover. */
+.clients__track .clients__hover,
+.clients__track a:hover .clients__idle,
+.clients__track a:focus-visible .clients__idle {
+  display: none;
+}
+
+.clients__track a:hover .clients__hover,
+.clients__track a:focus-visible .clients__hover {
+  display: block;
+}
+
 @keyframes clients-drift {
   to { transform: translateX(-50%); }
 }
