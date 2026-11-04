@@ -732,7 +732,7 @@ function renderViewer() {
             <button type="button" class="viewer__step" data-step="1" aria-label="${escapeAttr(i18n.t('viewer.next'))}"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg#chevron-right"/></svg></button>
           </div>` : ''}
       </div>
-      <h3 class="viewer__title">${project.title}</h3>
+      <h3 class="viewer__title"><a href="${i18n.lang === 'fr' ? '/projets/' : '/en/projects/'}${project.id}/">${project.title}</a></h3>
       <p class="viewer__desc">${description}</p>
       ${stats ? `<div class="viewer__stats">${stats}</div>` : ''}
       ${extra ? `<div class="viewer__extra" id="viewerExtra">${extra}</div>` : ''}

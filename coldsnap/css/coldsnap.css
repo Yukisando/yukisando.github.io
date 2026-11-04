@@ -1248,6 +1248,20 @@ video.viewer__shot {
   font-size: clamp(1.6rem, 2.5vw, 2.15rem);
 }
 
+/* The title opens the project's own page. */
+.viewer__title a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.viewer__title a:hover,
+.viewer__title a:focus-visible {
+  color: var(--orange);
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+}
+
 .viewer__desc {
   color: var(--text-secondary);
   font-size: 0.97rem;

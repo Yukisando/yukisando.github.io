@@ -4,9 +4,19 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex">
+  <script>
+    // Near-miss project addresses (/projects/maya, /projets/Maya, /en/projets/maya/) go to the
+    // real page; that page's own language redirect then picks FR or EN. Unknown ids stay here.
+    (function () {
+      var m = location.pathname.match(/^\/(en\/)?(projets?|projects?)\/([a-z0-9-]+)\/?$/i);
+      if (!m) return;
+      var target = (m[1] || /^projects?$/i.test(m[2]) ? '/en/projects/' : '/projets/') + m[3].toLowerCase() + '/';
+      if (target !== location.pathname) location.replace(target + location.search + location.hash);
+    })();
+  </script>
   <title>Page introuvable — ColdSnap</title>
   <link rel="icon" href="/favicon.ico" sizes="any">
-  <link href="/css/coldsnap.css?v=20261104g" rel="stylesheet">
+  <link href="/css/coldsnap.css?v=20261104h" rel="stylesheet">
   <style>
     .lost { min-height: 100vh; display: grid; place-content: center; gap: 18px; padding: 24px; text-align: center; }
     .lost img { width: 120px; margin: 0 auto; transform: rotate(-8deg); opacity: 0.85; }
