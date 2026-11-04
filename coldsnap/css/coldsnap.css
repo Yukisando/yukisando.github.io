@@ -792,7 +792,7 @@ h1, h2, h3 {
   margin: 0;
   padding: 6px 0;
   list-style: none;
-  animation: clients-drift 32s linear infinite;
+  animation: clients-drift 90s linear infinite;
 }
 
 .clients__viewport:hover .clients__track,
@@ -841,7 +841,6 @@ h1, h2, h3 {
     justify-content: center;
     width: auto;
   }
-  .clients__track li[aria-hidden="true"],
   .clients__track li:has(a[aria-hidden="true"]) {
     display: none;
   }
