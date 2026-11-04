@@ -27,8 +27,6 @@
   <link href="/css/coldsnap.css?v=20261104h" rel="stylesheet">
   <style>
     .lost { min-height: 100vh; display: grid; place-content: center; justify-items: center; gap: 22px; padding: 32px 16px; text-align: center; }
-    .lost h1 { font-size: clamp(1.4rem, 4vw, 2rem); }
-    .lost__lead { color: var(--text-secondary); }
     .lost__home a { color: var(--orange); }
 
     /* The arcade screen */
@@ -42,20 +40,15 @@
     @keyframes count-blink { 50% { opacity: 0.35; } }
 
     .lost .coin-slot { justify-items: center; }
-    .lost .coin-slot__hint { color: var(--text-muted); font-size: 0.85rem; }
   </style>
 </head>
 <body>
   <main class="lost">
-    <h1 data-i18n="404.title">Error 404 · Page not found</h1>
-
-    <div class="arcade-screen" id="arcadeScreen" aria-hidden="true">
+    <div class="arcade-screen" id="arcadeScreen">
       <div class="arcade-screen__over">GAME OVER</div>
-      <span class="arcade-screen__code">404</span>
+      <h1 class="arcade-screen__code">404</h1>
       <div class="arcade-screen__continue"><span data-i18n="404.continue">CONTINUE?</span> <span class="arcade-screen__count" id="continueCount">9</span></div>
     </div>
-
-    <p class="lost__lead" data-i18n="404.lead">No page here. One more coin?</p>
 
     <div class="coin-slot" id="homeSlot" data-href="/">
       <div class="coin-slot__row">
@@ -72,7 +65,6 @@
           <span class="coin-slot__hole"></span>
         </div>
       </div>
-      <p class="coin-slot__hint" data-i18n="404.hint">Drag the coin into the slot, or wait for the countdown.</p>
     </div>
 
     <p class="lost__home"><a href="/" id="homeLink" data-i18n="404.home">Back to home</a></p>
@@ -80,7 +72,7 @@
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-  <script src="/js/i18n-strings.js?v=20261104d"></script>
+  <script src="/js/i18n-strings.js?v=20261104e"></script>
   <script src="/js/i18n.js?v=20261104b"></script>
   <script>
     // Game over: CONTINUE? counts down from 9. A coin in the slot (js/arcade-coin.js) goes home
