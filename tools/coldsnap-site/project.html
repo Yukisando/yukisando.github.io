@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<!-- {{banner}} -->
+<html lang="{{lang}}">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  {{partial:redirect}}
+  <title>{{title}}</title>
+  <meta name="description" content="{{description}}">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="ColdSnap">
+  <meta property="og:locale" content="{{og_locale}}">
+  <meta property="og:locale:alternate" content="{{og_locale_alt}}">
+  <meta property="og:title" content="{{title}}">
+  <meta property="og:description" content="{{description}}">
+  <meta property="og:url" content="{{url}}">
+  <meta property="og:image" content="{{image}}">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{title}}">
+  <meta name="twitter:description" content="{{description}}">
+  <meta name="twitter:image" content="{{image}}">
+  <meta name="author" content="ColdSnap">
+  <meta name="theme-color" content="#11131a">
+  <link rel="canonical" href="{{url}}" />
+  <link rel="alternate" hreflang="fr" href="{{url_fr}}" />
+  <link rel="alternate" hreflang="en" href="{{url_en}}" />
+  <link rel="alternate" hreflang="x-default" href="{{url_fr}}" />
+  <link rel="icon" href="/favicon.ico?v=20261028a" sizes="any" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png?v=20261028a" />
+  <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=20261104a" />
+  <link rel="preload" href="/fonts/Comfortaa-var.woff2" as="font" type="font/woff2" crossorigin>
+  <link href="/css/coldsnap.css?v={{css_version}}" rel="stylesheet">
+  <script type="application/ld+json">
+{{jsonld}}
+  </script>
+</head>
+
+<body class="page-sub">
+  <a class="skip-link" href="#main" data-i18n="skip">Skip to content</a>
+
+  {{partial:header}}
+
+  <main id="main" class="sub">
+    <div class="container">
+      <nav class="crumbs" aria-label="Breadcrumb">
+        <ol>
+{{crumbs}}
+        </ol>
+      </nav>
+{{content}}
+    </div>
+  </main>
+
+  {{partial:footer}}
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="/js/i18n-strings.js?v={{strings_version}}"></script>
+  <script src="/js/i18n.js?v={{i18n_version}}"></script>
+  <script src="/js/page.js?v=20261104a" defer></script>
+  <script src="/js/secrets.js?v=20261101b" data-site="coldsnap" defer></script>
+  <script src="/js/easter-eggs.js?v=20261104a" defer></script>
+</body>
+
+</html>

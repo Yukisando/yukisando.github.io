@@ -11,7 +11,7 @@
  * what scripts render (projects, viewer, cards) and links the FR/EN switch.
  */
 (function () {
-  const { FR, EN_EXTRA, TITLES } = window.CS_STRINGS;
+  const { FR, EN_EXTRA } = window.CS_STRINGS;
 
   const EN = Object.assign({}, EN_EXTRA);
   const listeners = [];
@@ -42,7 +42,6 @@
 
   function apply() {
     document.documentElement.lang = lang;
-    document.title = TITLES[lang];
     document.querySelectorAll('[data-i18n]').forEach(el => { el.textContent = t(el.dataset.i18n); });
     document.querySelectorAll('[data-i18n-html]').forEach(el => { el.innerHTML = t(el.dataset.i18nHtml); });
     document.querySelectorAll('[data-i18n-attr]').forEach(el => {
@@ -62,15 +61,16 @@
     if (mail) mail.href = 'mailto:contact@coldsnap.fr?subject=' + encodeURIComponent(t('contact.subject'));
   }
 
-  // Each language is its own static page (/ in French, /en/ in English);
-  // switching remembers the choice and loads the other page at the same spot.
+  // Each language is its own static page (/ and /en/, /projets/<id>/ and /en/projects/<id>/);
+  // switching remembers the choice and loads the page's hreflang twin at the same spot.
   function setLang(next) {
     next = next === 'fr' ? 'fr' : 'en';
     try { localStorage.setItem('coldsnap-lang', next); } catch (e) {}
     if (next === lang) return;
     const url = new URL(location.href);
+    const twin = document.querySelector(`link[rel="alternate"][hreflang="${next}"]`);
     url.searchParams.delete('lang');
-    url.pathname = next === 'en' ? '/en/' : '/';
+    url.pathname = twin ? new URL(twin.href).pathname : (next === 'en' ? '/en/' : '/');
     location.href = url.toString();
   }
 

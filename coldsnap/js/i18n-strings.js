@@ -94,6 +94,10 @@
     'contact.terms': 'Conditions',
     'contact.termsValue': 'Conditions générales de vente (CGV)',
 
+    'project.home': 'Accueil',
+    'project.viewer': 'Voir sur la page d\'accueil',
+    'projects.description': 'Toutes les réalisations ColdSnap : installations interactives, jeux, apps Flutter, plateformes web et outils open source.',
+    'footer.projects': 'Tous les projets',
     'footer.tagline': 'Rendre l\'apprentissage ludique grâce à la gamification.',
     'footer.contact': 'Contact',
     'footer.founder': 'Fondateur',

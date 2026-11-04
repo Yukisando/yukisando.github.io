@@ -6,6 +6,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- partial:redirect (shared with the project pages) -->
   <script>
     // ColdSnap lives at coldsnap.fr (proxied from here by tools/coldsnap-worker).
     // Old nathandecastro.com/coldsnap/ links forward there.
@@ -29,9 +30,10 @@
       if (want === page || (want !== 'fr' && want !== 'en')) return;
       params.delete('lang');
       var query = params.toString();
-      location.replace((want === 'en' ? '/en/' : '/') + (query ? '?' + query : '') + location.hash);
+      location.replace((want === 'en' ? '{{path_en}}' : '{{path_fr}}') + (query ? '?' + query : '') + location.hash);
     })();
   </script>
+  <!-- /partial:redirect -->
   <meta name="description" content="{{description}}">
   <meta name="robots" content="index, follow, max-image-preview:large">
   <meta property="og:type" content="website">
@@ -58,7 +60,7 @@
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=20261104a" />
   <link rel="preload" href="/fonts/Comfortaa-var.woff2" as="font" type="font/woff2" crossorigin>
 
-  <link href="/css/coldsnap.css?v=20261104e" rel="stylesheet">
+  <link href="/css/coldsnap.css?v=20261104f" rel="stylesheet">
 
   <!-- Structured Data -->
   <script type="application/ld+json">
@@ -109,9 +111,10 @@
   <a class="skip-link" href="#main" data-i18n="skip">Skip to content</a>
 
   <!-- Navigation -->
+  <!-- partial:header (shared with the project pages, where its links point back at / or /en/) -->
   <header class="cs-nav" id="top">
     <div class="cs-nav__inner">
-      <a href="#top" class="cs-nav__brand" aria-label="ColdSnap">
+      <a href="{{home}}#top" class="cs-nav__brand" aria-label="ColdSnap">
         <span class="cs-nav__logo-wrap">
           <img src="/assets/coldsnap-logo.webp" alt="" class="cs-nav__logo" id="brandLogo" width="40" height="40">
           <span class="cs-nav__sparkle" aria-hidden="true">✦</span>
@@ -120,16 +123,16 @@
       </a>
 
       <nav class="cs-nav__links" id="navLinks" aria-label="Main">
-        <a href="#work" data-i18n="nav.work">Work</a>
-        <a href="#approach" data-i18n="nav.approach">Approach</a>
-        <a href="?project=coldsnap-arcade#work" data-arcade-link>Arcade</a>
-        <a href="#contact" class="cs-nav__cta" data-i18n="nav.cta">Start a project</a>
+        <a href="{{home}}#work" data-i18n="nav.work">Work</a>
+        <a href="{{home}}#approach" data-i18n="nav.approach">Approach</a>
+        <a href="{{home}}?project=coldsnap-arcade#work" data-arcade-link>Arcade</a>
+        <a href="{{home}}#contact" class="cs-nav__cta" data-i18n="nav.cta">Start a project</a>
       </nav>
 
       <div class="cs-nav__tools">
         <div class="lang-switch" role="group" data-i18n-attr="aria-label:lang.label" aria-label="Language">
-          <a href="/" hreflang="fr" lang="fr" data-lang="fr"{{current_fr}}>FR</a>
-          <a href="/en/" hreflang="en" lang="en" data-lang="en"{{current_en}}>EN</a>
+          <a href="{{path_fr}}" hreflang="fr" lang="fr" data-lang="fr"{{current_fr}}>FR</a>
+          <a href="{{path_en}}" hreflang="en" lang="en" data-lang="en"{{current_en}}>EN</a>
         </div>
         <button type="button" class="cs-nav__toggle" id="navToggle" aria-expanded="false" aria-controls="navLinks" data-i18n-attr="aria-label:nav.menu" aria-label="Menu">
           <span></span><span></span><span></span>
@@ -137,6 +140,7 @@
       </div>
     </div>
   </header>
+  <!-- /partial:header -->
 
   <main id="main">
     <!-- Hero -->
@@ -235,10 +239,7 @@
         <div id="projects-container">
           <noscript>
             <ul>
-              <li>CPPS Earthquake Museum and SDANA Natural Hazards: interactive installations</li>
-              <li>SpinLab, Winston, Vidanim, Maya, Posti, Badger, ColisMarket, Sandlog, Patoune: Flutter apps</li>
-              <li>GrappleGroove, Pygmak: games</li>
-              <li>ShareKM, WaddonSync, Magic Arrow, B.O.L.T, ColdSnap Utilities: open source</li>
+{{noscript_projects}}
             </ul>
           </noscript>
         </div>
@@ -336,6 +337,7 @@
   </main>
 
   <!-- Footer -->
+  <!-- partial:footer -->
   <footer class="cs-footer">
     <div class="container cs-footer__grid">
       <div class="cs-footer__brand">
@@ -347,9 +349,10 @@
       </div>
       <div class="cs-footer__col">
         <h3>ColdSnap</h3>
-        <a href="#work" data-i18n="nav.work">Work</a>
-        <a href="#approach" data-i18n="nav.approach">Approach</a>
-        <a href="?project=coldsnap-arcade#work" data-arcade-link>Arcade</a>
+        <a href="{{home}}#work" data-i18n="nav.work">Work</a>
+        <a href="{{projects_index}}" data-i18n="footer.projects">All projects</a>
+        <a href="{{home}}#approach" data-i18n="nav.approach">Approach</a>
+        <a href="{{home}}?project=coldsnap-arcade#work" data-arcade-link>Arcade</a>
       </div>
       <div class="cs-footer__col">
         <h3 data-i18n="footer.contact">Contact</h3>
@@ -370,6 +373,7 @@
       <p class="cs-footer__secret"><span data-i18n="footer.made">Made with love and a little magic</span> <button type="button" class="secret-star" id="secretStar" aria-label="✦">✦</button></p>
     </div>
   </footer>
+  <!-- /partial:footer -->
 
   <!-- Project Modal -->
   <div class="modal-overlay" id="projectModal" onclick="closeModal(event)">
@@ -393,8 +397,8 @@
 
 
   <!-- i18n runs synchronously so translated text is in place before first paint -->
-  <script src="/js/i18n-strings.js?v=20261104b"></script>
-  <script src="/js/i18n.js?v=20261104a"></script>
+  <script src="/js/i18n-strings.js?v=20261104c"></script>
+  <script src="/js/i18n.js?v=20261104b"></script>
   <script src="/data/projects.js?v=20261104b" defer></script>
   <script src="/js/coldsnap.js?v=20261104c" defer></script>
   <script src="/js/contact.js?v=20261104b" defer></script>
