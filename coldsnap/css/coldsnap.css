@@ -809,8 +809,13 @@ h1, h2, h3 {
 /* ── Numbers ────────────────────────────────────────────── */
 /* Clients: monochrome logos drifting by; pause on hover, colour on the one pointed at */
 .clients {
-  padding: 8px 0 0;
+  padding: 40px 0 0;
   text-align: center;
+}
+
+/* The strip sits halfway between the numbers and the projects. */
+.clients + .work {
+  padding-top: 44px;
 }
 
 .clients__label {
