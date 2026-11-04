@@ -99,6 +99,7 @@
     const startAngle = currentAngle(body);
     inserting = true;
     slot.classList.add('is-inserting');
+    document.dispatchEvent(new CustomEvent('coldsnap:coin-inserted', { detail: { slot } }));
 
     if (reducedMotion()) {
       coin.setAttribute('disabled', '');

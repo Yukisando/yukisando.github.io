@@ -13,23 +13,112 @@
       var target = (m[1] || /^projects?$/i.test(m[2]) ? '/en/projects/' : '/projets/') + m[3].toLowerCase() + '/';
       if (target !== location.pathname) location.replace(target + location.search + location.hash);
     })();
+    // One page for both languages: /en/... addresses, then the saved choice, then the browser decide.
+    (function () {
+      var lang = /^\/en(\/|$)/.test(location.pathname) ? 'en' : null;
+      try { lang = lang || localStorage.getItem('coldsnap-lang'); } catch (e) {}
+      lang = lang || ((navigator.language || '').toLowerCase().indexOf('fr') === 0 ? 'fr' : 'en');
+      document.documentElement.lang = lang === 'fr' ? 'fr' : 'en';
+    })();
   </script>
-  <title>Page introuvable — ColdSnap</title>
+  <title>404 — ColdSnap</title>
   <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="preload" href="/fonts/Comfortaa-var.woff2" as="font" type="font/woff2" crossorigin>
   <link href="/css/coldsnap.css?v=20261104h" rel="stylesheet">
   <style>
-    .lost { min-height: 100vh; display: grid; place-content: center; gap: 18px; padding: 24px; text-align: center; }
-    .lost img { width: 120px; margin: 0 auto; transform: rotate(-8deg); opacity: 0.85; }
-    .lost h1 { font-size: clamp(1.8rem, 5vw, 2.6rem); }
-    .lost p { color: var(--text-secondary); }
-    .lost a { color: var(--orange); }
+    .lost { min-height: 100vh; display: grid; place-content: center; justify-items: center; gap: 22px; padding: 32px 16px; text-align: center; }
+    .lost h1 { font-size: clamp(1.4rem, 4vw, 2rem); }
+    .lost__lead { color: var(--text-secondary); }
+    .lost__home a { color: var(--orange); }
+
+    /* The arcade screen */
+    .arcade-screen { position: relative; overflow: hidden; width: min(100%, 480px); padding: 34px 24px 30px; border: 6px solid var(--bg-card); border-radius: 22px; background: #07080c; }
+    .arcade-screen::after { content: ''; position: absolute; inset: 0; pointer-events: none; background: repeating-linear-gradient(rgba(255, 255, 255, 0.04) 0 1px, transparent 1px 3px); }
+    .arcade-screen__over { font-weight: 700; font-size: clamp(1.4rem, 5vw, 2rem); letter-spacing: 0.24em; color: var(--coral); }
+    .arcade-screen__code { display: block; margin: 6px 0 10px; font-weight: 700; font-size: clamp(4rem, 18vw, 7rem); line-height: 1; letter-spacing: 0.06em; color: var(--orange); }
+    .arcade-screen__continue { font-weight: 700; letter-spacing: 0.18em; color: var(--ice); }
+    .arcade-screen__count { display: inline-block; min-width: 1.4em; color: var(--text-primary); animation: count-blink 1s steps(1) infinite; }
+    .arcade-screen.is-paused .arcade-screen__count { animation: none; }
+    @keyframes count-blink { 50% { opacity: 0.35; } }
+
+    .lost .coin-slot { justify-items: center; }
+    .lost .coin-slot__hint { color: var(--text-muted); font-size: 0.85rem; }
   </style>
 </head>
 <body>
   <main class="lost">
-    <img src="/assets/coldsnap-logo.webp" alt="" width="120" height="120">
-    <h1>Cette page s'est envolée.</h1>
-    <p><a href="/">Retour à l'accueil</a> · <a href="/en/" lang="en">Back to home</a></p>
+    <h1 data-i18n="404.title">Error 404 · Page not found</h1>
+
+    <div class="arcade-screen" id="arcadeScreen" aria-hidden="true">
+      <div class="arcade-screen__over">GAME OVER</div>
+      <span class="arcade-screen__code">404</span>
+      <div class="arcade-screen__continue"><span data-i18n="404.continue">CONTINUE?</span> <span class="arcade-screen__count" id="continueCount">9</span></div>
+    </div>
+
+    <p class="lost__lead" data-i18n="404.lead">No page here. One more coin?</p>
+
+    <div class="coin-slot" id="homeSlot" data-href="/">
+      <div class="coin-slot__row">
+        <button type="button" class="coin" data-i18n-attr="aria-label:404.home" aria-label="Back to home">
+          <span class="coin__body">
+            <i></i><i></i><i></i><i></i><i></i>
+            <span class="coin__face"><img src="/assets/arcade/coin-effigy.png" alt="" draggable="false"></span>
+            <span class="coin__face coin__face--back"><svg class="coin__one" viewBox="0 0 7 9" aria-hidden="true"><path d="M3 0h2v7h2v2H0V7h2V3H1V2h1V1h1z"/></svg></span>
+          </span>
+        </button>
+        <span class="coin-slot__path" aria-hidden="true"><i></i><i></i><i></i></span>
+        <div class="coin-slot__plate">
+          <span class="coin-slot__led" data-i18n="coin.insert">Insert coin</span>
+          <span class="coin-slot__hole"></span>
+        </div>
+      </div>
+      <p class="coin-slot__hint" data-i18n="404.hint">Drag the coin into the slot, or wait for the countdown.</p>
+    </div>
+
+    <p class="lost__home"><a href="/" id="homeLink" data-i18n="404.home">Back to home</a></p>
   </main>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="/js/i18n-strings.js?v=20261104d"></script>
+  <script src="/js/i18n.js?v=20261104b"></script>
+  <script>
+    // Game over: CONTINUE? counts down from 9. A coin in the slot (js/arcade-coin.js) goes home
+    // and counts as a secret; at 0 the screen shuts off and goes home anyway.
+    (function () {
+      var home = document.documentElement.lang === 'fr' ? '/' : '/en/';
+      document.getElementById('homeSlot').dataset.href = home;
+      document.getElementById('homeLink').href = home;
+      document.title = (document.documentElement.lang === 'fr' ? '404 — Page introuvable' : '404 — Page not found') + ' | ColdSnap';
+
+      var screen = document.getElementById('arcadeScreen');
+      var count = document.getElementById('continueCount');
+      var left = 9;
+      var timer = setInterval(function () {
+        left -= 1;
+        count.textContent = left;
+        if (left > 0) return;
+        clearInterval(timer);
+        // No surprise page change for people who asked for less motion: the link stays.
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        var shutter = document.createElement('div');
+        shutter.className = 'crt-shutter';
+        document.body.appendChild(shutter);
+        setTimeout(function () { location.href = home; }, 420);
+      }, 1000);
+
+      // Touching the coin stops the clock: the player is taking the hint.
+      var stop = function () { clearInterval(timer); screen.classList.add('is-paused'); };
+      document.querySelector('.coin').addEventListener('pointerdown', stop);
+      document.querySelector('.coin').addEventListener('keydown', stop);
+      document.addEventListener('coldsnap:coin-inserted', function () {
+        stop();
+        if (window.Secrets) window.Secrets.award('continue');
+      });
+    })();
+  </script>
+  <script src="/js/secrets.js?v=20261104a" data-site="coldsnap" defer></script>
+  <script src="/js/easter-eggs.js?v=20261104a" defer></script>
+  <script src="/js/arcade-coin.js?v=20261104b" defer></script>
 </body>
 </html>
