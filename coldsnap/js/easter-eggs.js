@@ -175,7 +175,7 @@
     category: 'Secret',
     title: 'Drive me',
     type: 'Secret card',
-    thumbnail: 'assets/car.png',
+    thumbnail: '/assets/car.png',
     fr: {
       title: 'Conduis-moi',
       type: 'Carte secrète'

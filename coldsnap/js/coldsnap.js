@@ -7,6 +7,12 @@
 
 const i18n = window.CS_I18N;
 
+// Inline SVG icon from assets/icons.svg; accepts the old Font Awesome names ('fa-github').
+function icon(name, extra = '') {
+  const id = String(name).replace(/^fa-/, '');
+  return `<svg class="icon icon-${id}${extra ? ' ' + extra : ''}" aria-hidden="true"><use href="/assets/icons.svg#${id}"/></svg>`;
+}
+
 // Privacy policies and other /apps/ pages live on nathandecastro.com, not coldsnap.fr.
 function resolveHref(href) {
   return href.startsWith('/apps/') ? 'https://nathandecastro.com' + href : href;
@@ -333,8 +339,8 @@ function openModal(projectRef, fromCard) {
         <div class="carousel-container">
           ${slides}
           ${media.length > 1 ? `
-            <button class="carousel-btn prev" onclick="prevSlide()"><i class="fa fa-chevron-left"></i></button>
-            <button class="carousel-btn next" onclick="nextSlide()"><i class="fa fa-chevron-right"></i></button>
+            <button class="carousel-btn prev" onclick="prevSlide()"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg#chevron-left"/></svg></button>
+            <button class="carousel-btn next" onclick="nextSlide()"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg#chevron-right"/></svg></button>
           ` : ''}
         </div>
         ${media.length > 1 ? `
@@ -363,7 +369,7 @@ function openModal(projectRef, fromCard) {
           const external = !link.href.startsWith('mailto:');
           return `
           <a href="${escapeAttr(resolveHref(link.href))}" class="modal-link ${link.style ? link.style : (link.secondary ? 'secondary' : '')}"${external ? ' target="_blank" rel="noopener"' : ''}>
-            ${link.icon ? `<i class="fa ${link.icon}" aria-hidden="true"></i>` : ''}
+            ${link.icon ? `${icon(link.icon)}` : ''}
             ${i18n.lang === 'fr' && link.labelFr ? link.labelFr : link.label}
           </a>
         `;
@@ -556,7 +562,7 @@ function renderWork() {
   if (typeof COLDSNAP_PROJECTS === 'undefined' || COLDSNAP_PROJECTS.length === 0) {
     container.innerHTML = `
       <div class="empty-state">
-        <i class="fa fa-folder-open-o"></i>
+        <svg class="icon" aria-hidden="true"><use href="/assets/icons.svg#folder-open-o"/></svg>
         <h3>No projects yet</h3>
       </div>
     `;
@@ -575,6 +581,7 @@ function renderWork() {
     `;
     initViewer();
     initShelf();
+    watchViewer();
   }
 
   if (!activeProjectId) {
@@ -667,7 +674,7 @@ function renderViewer() {
       ${viewerMedia.map((m, i) => `
         <button type="button" class="viewer__thumb" data-media="${i}" aria-label="${i + 1} / ${viewerMedia.length}">
           <img src="${escapeAttr(m.mini)}" data-fallback="${escapeAttr(m.full)}" alt="" loading="lazy" draggable="false">
-          ${m.video ? '<i class="fa fa-play" aria-hidden="true"></i>' : ''}
+          ${m.video ? '<svg class="icon" aria-hidden="true"><use href="/assets/icons.svg#play"/></svg>' : ''}
         </button>
       `).join('')}
     </div>` : '';
@@ -684,7 +691,7 @@ function renderViewer() {
     const external = !link.href.startsWith('mailto:');
     return `
       <a href="${escapeAttr(resolveHref(link.href))}" class="modal-link ${link.style ? link.style : (link.secondary ? 'secondary' : '')}"${external ? ' target="_blank" rel="noopener"' : ''}>
-        ${link.icon ? `<i class="fa ${link.icon}" aria-hidden="true"></i>` : ''}
+        ${link.icon ? `${icon(link.icon)}` : ''}
         ${i18n.lang === 'fr' && link.labelFr ? link.labelFr : link.label}
       </a>
     `;
@@ -708,12 +715,12 @@ function renderViewer() {
     </div>
     <div class="viewer__body">
       <div class="viewer__top">
-        <span class="viewer__type"><i class="fa ${CATEGORY_ICONS[project.category] || 'fa-folder'}" aria-hidden="true"></i> ${field('type') || ''}</span>
+        <span class="viewer__type">${icon(CATEGORY_ICONS[project.category] || 'fa-folder')} ${field('type') || ''}</span>
         ${list.length > 1 && index !== -1 ? `
           <div class="viewer__pager">
-            <button type="button" class="viewer__step" data-step="-1" aria-label="${escapeAttr(i18n.t('viewer.prev'))}"><i class="fa fa-chevron-left" aria-hidden="true"></i></button>
+            <button type="button" class="viewer__step" data-step="-1" aria-label="${escapeAttr(i18n.t('viewer.prev'))}"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg#chevron-left"/></svg></button>
             <span class="viewer__index">${index + 1} / ${list.length}</span>
-            <button type="button" class="viewer__step" data-step="1" aria-label="${escapeAttr(i18n.t('viewer.next'))}"><i class="fa fa-chevron-right" aria-hidden="true"></i></button>
+            <button type="button" class="viewer__step" data-step="1" aria-label="${escapeAttr(i18n.t('viewer.next'))}"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg#chevron-right"/></svg></button>
           </div>` : ''}
       </div>
       <h3 class="viewer__title">${project.title}</h3>
@@ -722,7 +729,7 @@ function renderViewer() {
       ${extra ? `<div class="viewer__extra" id="viewerExtra">${extra}</div>` : ''}
       ${foldable ? `
         <button type="button" class="viewer__toggle" data-toggle aria-expanded="${viewerExpanded}" aria-controls="viewerExtra">
-          ${i18n.t(viewerExpanded ? 'viewer.less' : 'viewer.more')} <i class="fa fa-chevron-${viewerExpanded ? 'up' : 'down'}" aria-hidden="true"></i>
+          ${i18n.t(viewerExpanded ? 'viewer.less' : 'viewer.more')} ${icon(viewerExpanded ? 'chevron-up' : 'chevron-down')}
         </button>` : ''}
       ${project.coinSlot ? `
         <div class="coin-slot" data-href="${escapeAttr(project.coinSlot)}">
@@ -730,7 +737,7 @@ function renderViewer() {
             <button type="button" class="coin" aria-label="${escapeAttr(i18n.t('coin.label'))}">
               <span class="coin__body">
                 <i></i><i></i><i></i><i></i><i></i>
-                <span class="coin__face"><img src="assets/arcade/coin-effigy.png" alt="" draggable="false"></span>
+                <span class="coin__face"><img src="/assets/arcade/coin-effigy.png" alt="" draggable="false"></span>
                 <span class="coin__face coin__face--back"><svg class="coin__one" viewBox="0 0 7 9" aria-hidden="true"><path d="M3 0h2v7h2v2H0V7h2V3H1V2h1V1h1z"/></svg></span>
               </span>
             </button>
@@ -762,8 +769,44 @@ function preloadImage(src, fallback) {
   preloaded.set(src, img);
 }
 
+// Project media loads only once the Work section is about to scroll into view,
+// so the first visit downloads the hero, not the screenshots further down.
+let viewerNear = false;
+let pendingPreload = null;
+
+function watchViewer() {
+  const work = document.getElementById('work');
+  const viewer = document.getElementById('projectViewer');
+  if (!work || !viewer || !('IntersectionObserver' in window)) {
+    viewerNear = true;
+    return;
+  }
+  new IntersectionObserver((entries, observer) => {
+    if (!entries.some(e => e.isIntersecting)) return;
+    observer.disconnect();
+    viewerNear = true;
+    renderStage();
+    if (pendingPreload) {
+      const run = pendingPreload;
+      pendingPreload = null;
+      run();
+    }
+  }, { rootMargin: '200px 0px' }).observe(work);
+  // A playing project video pauses while it is off screen.
+  new IntersectionObserver(entries => {
+    const video = viewer.querySelector('video.viewer__shot');
+    if (!video) return;
+    if (entries[0].isIntersecting) video.play().catch(() => {});
+    else video.pause();
+  }).observe(viewer);
+}
+
 function preloadNeighbours(list, index) {
   if (list.length < 2 || index === -1) return;
+  if (!viewerNear) {
+    pendingPreload = () => preloadNeighbours(list, index);
+    return;
+  }
   const run = () => [1, -1].forEach(step => {
     const project = list[(index + step + list.length) % list.length];
     const media = projectMedia(project);
@@ -781,6 +824,11 @@ function renderStage() {
   const item = viewerMedia[viewerMediaIndex];
   const many = viewerMedia.length > 1;
 
+  if (!viewerNear) {
+    stage.innerHTML = '';
+    return;
+  }
+
   let shot;
   if (!item) {
     shot = `<div class="viewer__placeholder">${project.icon || '🎮'}</div>`;
@@ -797,8 +845,8 @@ function renderStage() {
     ${item ? `<img class="viewer__backdrop" src="${escapeAttr(item.view)}" data-fallback="${escapeAttr(item.full)}" alt="" aria-hidden="true">` : ''}
     ${shot}
     ${many ? `
-      <button type="button" class="viewer__arrow prev" data-media-step="-1" aria-label="${escapeAttr(i18n.t('viewer.prevMedia'))}"><i class="fa fa-chevron-left" aria-hidden="true"></i></button>
-      <button type="button" class="viewer__arrow next" data-media-step="1" aria-label="${escapeAttr(i18n.t('viewer.nextMedia'))}"><i class="fa fa-chevron-right" aria-hidden="true"></i></button>
+      <button type="button" class="viewer__arrow prev" data-media-step="-1" aria-label="${escapeAttr(i18n.t('viewer.prevMedia'))}"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg#chevron-left"/></svg></button>
+      <button type="button" class="viewer__arrow next" data-media-step="1" aria-label="${escapeAttr(i18n.t('viewer.nextMedia'))}"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg#chevron-right"/></svg></button>
       <span class="viewer__count">${viewerMediaIndex + 1} / ${viewerMedia.length}</span>
     ` : ''}
   `;
@@ -835,7 +883,7 @@ function initViewer() {
       viewerExpanded = !viewerExpanded;
       viewer.classList.toggle('is-expanded', viewerExpanded);
       target.setAttribute('aria-expanded', String(viewerExpanded));
-      target.innerHTML = `${i18n.t(viewerExpanded ? 'viewer.less' : 'viewer.more')} <i class="fa fa-chevron-${viewerExpanded ? 'up' : 'down'}" aria-hidden="true"></i>`;
+      target.innerHTML = `${i18n.t(viewerExpanded ? 'viewer.less' : 'viewer.more')} ${icon(viewerExpanded ? 'chevron-up' : 'chevron-down')}`;
     }
     else if (target.dataset.step) stepProject(Number(target.dataset.step));
     else if (target.dataset.mediaStep) stepMedia(Number(target.dataset.mediaStep));
@@ -882,7 +930,12 @@ function initViewer() {
 function renderShelf() {
   const grid = document.getElementById('projectGrid');
   if (!grid) return;
-  grid.innerHTML = visibleProjects().map(createProjectCard).join('');
+  const list = visibleProjects();
+  // In the full list, our own open-source tools sit last, after a quiet divider.
+  const split = activeFilter === 'all' ? list.findIndex(p => p.category === 'Open Source') : -1;
+  grid.innerHTML = list.map((project, i) => (i === split && i > 0
+    ? `<p class="shelf__divider"><span>${i18n.t('work.openSource')}</span></p>`
+    : '') + createProjectCard(project, i)).join('');
   updateShelfFold();
 }
 
@@ -897,7 +950,7 @@ function markActiveCard() {
 
 // Folded, the shelf shows its first row and a faded slice of the second.
 function foldedHeight(grid) {
-  const cards = [...grid.children];
+  const cards = [...grid.querySelectorAll('.project-card')];
   const secondRow = cards.find(c => c.offsetTop > cards[0].offsetTop);
   if (!secondRow) return Infinity;
   return secondRow.offsetTop + secondRow.offsetHeight * 0.5;
@@ -907,7 +960,8 @@ function updateShelfFold() {
   const shelf = document.getElementById('projectShelf');
   const grid = document.getElementById('projectGrid');
   const toggle = document.getElementById('shelfToggle');
-  if (!shelf || !grid || !grid.children.length) return;
+  const count = grid.querySelectorAll('.project-card').length;
+  if (!shelf || !grid || !count) return;
   const current = grid.style.maxHeight;
   grid.style.maxHeight = 'none';
   const full = grid.scrollHeight;
@@ -923,8 +977,8 @@ function updateShelfFold() {
   toggle.hidden = !foldable;
   toggle.setAttribute('aria-expanded', String(open));
   toggle.innerHTML = open
-    ? `${i18n.t('work.less')} <i class="fa fa-chevron-up" aria-hidden="true"></i>`
-    : `${i18n.t('work.more').replace('{n}', grid.children.length)} <i class="fa fa-chevron-down" aria-hidden="true"></i>`;
+    ? `${i18n.t('work.less')} <svg class="icon" aria-hidden="true"><use href="/assets/icons.svg#chevron-up"/></svg>`
+    : `${i18n.t('work.more').replace('{n}', count)} <svg class="icon" aria-hidden="true"><use href="/assets/icons.svg#chevron-down"/></svg>`;
 }
 
 function setShelfOpen(open) {
@@ -1045,7 +1099,7 @@ function initHeroCards() {
     el.innerHTML = `
       <div class="physics-card-inner">
         <div class="physics-card-face physics-card-back">
-          <img src="assets/coldnsap_logo.png" alt="" class="physics-card-back-mark" draggable="false">
+          <img src="/assets/coldsnap-logo.webp" alt="" class="physics-card-back-mark" draggable="false">
         </div>
         <div class="physics-card-face physics-card-front">
           <div class="physics-card-thumb">${thumb}</div>
@@ -1603,7 +1657,7 @@ function createProjectCard(project, i) {
   const thumbnailContent = thumbnail
     ? `<img src="${thumbnail}" alt="" loading="lazy" draggable="false">`
     : `<span class="project-placeholder">${project.icon || '🎮'}</span>`;
-  const icon = CATEGORY_ICONS[project.category] || 'fa-folder';
+  const catIcon = CATEGORY_ICONS[project.category] || 'fa-folder';
 
   return `
     <button type="button" class="project-card${active ? ' is-active' : ''}" data-project="${project.id}"${active ? ' aria-current="true"' : ''} style="--i: ${i}">
@@ -1612,7 +1666,7 @@ function createProjectCard(project, i) {
         <span class="project-card__now">${i18n.t('work.showing')}</span>
       </span>
       <span class="project-info">
-        <span class="project-type"><i class="fa ${icon}" aria-hidden="true"></i> ${field('type') || 'Project'}</span>
+        <span class="project-type">${icon(catIcon)} ${field('type') || 'Project'}</span>
         <span class="project-title">${project.title}</span>
         <span class="project-desc">${field('shortDescription') || ''}</span>
       </span>

@@ -60,13 +60,13 @@ const COLDSNAP_PROJECTS = [
     shortDescription: 'Exhibit framework, touchscreen mini-games and an escape game for a public earthquake training centre',
     description: 'The complete technology stack of a public earthquake training centre and museum in Switzerland: an integrated exhibit framework across 3 spaces and 27 interactive stations, designed with seismology experts and university professors. 30+ touchscreen mini-games and a fleet of 30 wall-mounted tablets, each running its own kiosked app over a secured local network, centrally configured and remotely updated. Around it: Escape With Wallis, an hour-long escape game guiding visitors through the exhibit, and a reservation and payment platform for state, private and educational clients with automated invoicing and reporting. The centre is also home to Europe\'s largest earthquake simulator.',
     icon: '🏛️',
-    thumbnail: 'assets/projects/cpps/cpps-1-thumb.webp',
+    thumbnail: '/assets/projects/cpps/cpps-1-thumb.webp',
     media: [
-      'assets/projects/cpps/cpps-1.jpg',
-      'assets/projects/cpps/cpps-2.jpg',
-      'assets/projects/cpps/cpps-3.jpg',
-      'assets/projects/cpps/cpps-4.jpg',
-      'assets/projects/cpps/cpps-5.jpg'
+      '/assets/projects/cpps/cpps-1.jpg',
+      '/assets/projects/cpps/cpps-2.jpg',
+      '/assets/projects/cpps/cpps-3.jpg',
+      '/assets/projects/cpps/cpps-4.jpg',
+      '/assets/projects/cpps/cpps-5.jpg'
     ],
     stats: [
       { value: '30k', label: 'visitors / year', fr: 'visiteurs / an' },
@@ -106,11 +106,11 @@ const COLDSNAP_PROJECTS = [
     title: 'SDANA Natural Hazards Installation',
     shortDescription: 'Large-format educational touchscreen teaching visitors about natural hazards in Valais',
     description: 'An interactive installation created for SDANA, the Service des dangers naturels du Valais. Designed for a massive touchscreen at the SDANA facility, the experience helps visitors understand major natural hazards, their mechanisms, and the right behaviours to adopt through multilingual educational scenes and guided visual exploration.',
-    thumbnail: 'assets/projects/sdana/sdana-1-thumb.webp',
+    thumbnail: '/assets/projects/sdana/sdana-1-thumb.webp',
     media: [
-      'assets/projects/sdana/sdana-1.png',
-      'assets/projects/sdana/sdana-2.png',
-      'assets/projects/sdana/sdana-3.png'
+      '/assets/projects/sdana/sdana-1.png',
+      '/assets/projects/sdana/sdana-2.png',
+      '/assets/projects/sdana/sdana-3.png'
     ],
     tech: ['Interactive Installation', 'Large Touchscreen', 'Multi-language UX'],
     features: [
@@ -146,14 +146,14 @@ const COLDSNAP_PROJECTS = [
     shortDescription: 'Platform connecting tennis players with certified coaches for booking lessons',
     description: 'A comprehensive platform that connects tennis players with certified coaches. Features include geolocated coach discovery, instant booking, secure payment processing, and training progress tracking. Built with Flutter for seamless cross-platform experience.',
     icon: '🎾',
-    thumbnail: 'assets/projects/spinlab/spinlab-1-thumb.webp?v=20261029',
+    thumbnail: '/assets/projects/spinlab/spinlab-1-thumb.webp?v=20261029',
     media: [
-      'assets/projects/spinlab/spinlab-1.jpeg?v=20261029',
-      'assets/projects/spinlab/spinlab-2.jpeg?v=20261029',
-      'assets/projects/spinlab/spinlab-3.jpeg?v=20261029',
-      'assets/projects/spinlab/spinlab-4.jpeg?v=20261029',
-      'assets/projects/spinlab/spinlab-5.jpeg?v=20261029',
-      'assets/projects/spinlab/spinlab-6.jpeg?v=20261029'
+      '/assets/projects/spinlab/spinlab-1.jpeg?v=20261029',
+      '/assets/projects/spinlab/spinlab-2.jpeg?v=20261029',
+      '/assets/projects/spinlab/spinlab-3.jpeg?v=20261029',
+      '/assets/projects/spinlab/spinlab-4.jpeg?v=20261029',
+      '/assets/projects/spinlab/spinlab-5.jpeg?v=20261029',
+      '/assets/projects/spinlab/spinlab-6.jpeg?v=20261029'
     ],
     tech: ['Flutter', 'Dart', 'Firebase', 'Stripe', 'Google Maps'],
     features: [
@@ -192,13 +192,13 @@ const COLDSNAP_PROJECTS = [
     shortDescription: 'Museums, towns and walks turned into interactive stories to play on your phone',
     description: 'Exploreum turns a museum visit, a walk through town or an outdoor site into a story you play on your phone. Each experience strings together illustrated pages and games: quizzes, estimates, ranking and sorting challenges, picture puzzles and map challenges. Guided walks show their stops on a map, so visitors always know where to go next. Some experiences play anywhere; others unlock on site with a QR code on a sign. No account needed to start, no ads, in French, English and German. Partner museums and venues get their own page, and run their scenarios, events and printed codes from a web back office.',
     icon: '🧭',
-    thumbnail: 'assets/projects/exploreum/exploreum-en-1-thumb.webp',
+    thumbnail: '/assets/projects/exploreum/exploreum-en-1-thumb.webp',
     media: [
-      'assets/projects/exploreum/exploreum-en-1.jpg',
-      'assets/projects/exploreum/exploreum-en-2.jpg',
-      'assets/projects/exploreum/exploreum-en-3.jpg',
-      'assets/projects/exploreum/exploreum-en-4.jpg',
-      'assets/projects/exploreum/exploreum-en-5.jpg'
+      '/assets/projects/exploreum/exploreum-en-1.jpg',
+      '/assets/projects/exploreum/exploreum-en-2.jpg',
+      '/assets/projects/exploreum/exploreum-en-3.jpg',
+      '/assets/projects/exploreum/exploreum-en-4.jpg',
+      '/assets/projects/exploreum/exploreum-en-5.jpg'
     ],
     tech: ['Flutter', 'Firebase', 'Cloud Functions', 'Next.js', 'App Check', 'OpenStreetMap'],
     features: [
@@ -222,13 +222,13 @@ const COLDSNAP_PROJECTS = [
       type: 'App ludo-éducative',
       shortDescription: 'Musées, villes et balades deviennent des histoires interactives à jouer sur son téléphone',
       description: 'Exploreum transforme la visite d\'un musée, une balade en ville ou un site en plein air en une histoire à jouer sur son téléphone. Chaque expérience enchaîne des pages illustrées et des jeux : quiz, estimations, défis de classement et de tri, puzzles d\'images et défis sur carte. Les balades guidées affichent leurs étapes sur une carte : on sait toujours où aller ensuite. Certaines expériences se jouent partout, d\'autres se débloquent sur place grâce au QR code d\'un panneau. Sans compte pour commencer, sans publicité, en français, anglais et allemand. Les musées et lieux partenaires ont leur propre page et gèrent leurs scénarios, événements et codes imprimés depuis un espace web.',
-      thumbnail: 'assets/projects/exploreum/exploreum-fr-1-thumb.webp',
+      thumbnail: '/assets/projects/exploreum/exploreum-fr-1-thumb.webp',
       media: [
-        'assets/projects/exploreum/exploreum-fr-1.jpg',
-        'assets/projects/exploreum/exploreum-fr-2.jpg',
-        'assets/projects/exploreum/exploreum-fr-3.jpg',
-        'assets/projects/exploreum/exploreum-fr-4.jpg',
-        'assets/projects/exploreum/exploreum-fr-5.jpg'
+        '/assets/projects/exploreum/exploreum-fr-1.jpg',
+        '/assets/projects/exploreum/exploreum-fr-2.jpg',
+        '/assets/projects/exploreum/exploreum-fr-3.jpg',
+        '/assets/projects/exploreum/exploreum-fr-4.jpg',
+        '/assets/projects/exploreum/exploreum-fr-5.jpg'
       ],
       features: [
         'Pages illustrées avec quiz, estimations, défis de tri et puzzles',
@@ -251,9 +251,9 @@ const COLDSNAP_PROJECTS = [
     shortDescription: 'Company-wide admin butler: accounting, contracts, invoicing and AI-powered LinkedIn management in one dashboard',
     description: 'Winston is an internal company-wide admin platform built to run the full back-office of a multi-company studio. It handles quotes, invoices, business expenses, and contracts end-to-end, with PDF generation and export throughout. On top of that, it features an AI-powered LinkedIn content pipeline that automatically generates and publishes professional posts from news articles using GPT-4o-mini. Multi-company support means the same dashboard manages all entities under the studio umbrella.',
     icon: '🤖',
-    thumbnail: 'assets/projects/winston/winston-1-thumb.webp',
+    thumbnail: '/assets/projects/winston/winston-1-thumb.webp',
     media: [
-      'assets/projects/winston/winston-1.png'
+      '/assets/projects/winston/winston-1.png'
     ],
     tech: ['Flutter Web', 'Dart', 'Firebase', 'OpenAI GPT-4o-mini', 'LinkedIn API', 'Cloud Functions'],
     features: [
@@ -290,10 +290,10 @@ const COLDSNAP_PROJECTS = [
     title: 'Vidanim',
     shortDescription: 'Activity library for teachers and animators to document, estimate, and share creative work',
     description: 'Vidanim helps teachers and animators keep track of the activities they create for children. Each entry can include photos, required materials, and the time it took to prepare, making it easier to reuse successful ideas and plan future sessions. The app also supports sharing activities with other Vidanim users so teams can collaborate and build a reusable knowledge base together.',
-    thumbnail: 'assets/projects/Vidanim/vidanim%20(1)-thumb.webp',
+    thumbnail: '/assets/projects/Vidanim/vidanim%20(1)-thumb.webp',
     media: [
-      'assets/projects/Vidanim/vidanim%20(1).jpg',
-      'assets/projects/Vidanim/vidanim%20(2).jpg'
+      '/assets/projects/Vidanim/vidanim%20(1).jpg',
+      '/assets/projects/Vidanim/vidanim%20(2).jpg'
     ],
     tech: ['Flutter', 'Dart', 'Android', 'Web'],
     features: [
@@ -334,13 +334,13 @@ const COLDSNAP_PROJECTS = [
     shortDescription: 'Games written for real retro consoles, playable in the browser, with a shared leaderboard',
     description: 'Real games for old consoles, playable from any browser and competing on one leaderboard. The first one, David contre les zombies, is a survival game written in C for the Sega Master System. It runs on the original console from a flash cartridge, and here from the very same ROM.',
     icon: '🕹️',
-    thumbnail: 'assets/projects/arcade/arcade-1-thumb.webp',
+    thumbnail: '/assets/projects/arcade/arcade-1-thumb.webp',
     media: [
-      'assets/projects/arcade/arcade-3.png',
-      'assets/projects/arcade/arcade-5.png',
-      'assets/projects/arcade/arcade-4.png',
-      'assets/projects/arcade/arcade-1.png',
-      'assets/projects/arcade/arcade-2.png'
+      '/assets/projects/arcade/arcade-3.png',
+      '/assets/projects/arcade/arcade-5.png',
+      '/assets/projects/arcade/arcade-4.png',
+      '/assets/projects/arcade/arcade-1.png',
+      '/assets/projects/arcade/arcade-2.png'
     ],
     tech: ['C', 'Z80', 'SDCC', 'EmulatorJS', 'Cloudflare Workers', 'Cloudflare D1'],
     features: [
@@ -369,17 +369,17 @@ const COLDSNAP_PROJECTS = [
     shortDescription: 'Survivors-style arcade on the water: steer a flagship, blast crate hordes, build a run one card at a time',
     description: 'Pygmak is a survivors-style arcade game on the water. Crates rain down in hordes, the flagship\'s gun aims itself, and the player steers along the waterline to dodge what falls and collect the XP stars that float where crates broke. Every level deals a three-card hand taken with one tap: burn, freeze, electrify, scatter, weak point and dozens more, with evolutions unlocked from treasure chests. Three weapon classes (cannon, laser, firework), a gunboat convoy that follows the flagship, elites, ranked bosses every two and a half minutes and a final crate at 15:00, then an endless mode. Corrupted crates split, explode, drop mines or drift down on parachutes. A day/night cycle and seasons roll past, a workshop and skins persist between runs, and a damage recap closes every run. Built on realistic 2D physics so every shot, bounce and splash lands.',
     icon: '🎯',
-    thumbnail: 'assets/projects/pygmak/pygmak-1-thumb.webp',
+    thumbnail: '/assets/projects/pygmak/pygmak-1-thumb.webp',
     media: [
-      'assets/projects/pygmak/pygmak-1.jpg',
-      'assets/projects/pygmak/pygmak-2.jpg',
-      'assets/projects/pygmak/pygmak-3.jpg',
-      'assets/projects/pygmak/pygmak-4.jpg',
-      'assets/projects/pygmak/pygmak-5.jpg',
-      'assets/projects/pygmak/pygmak-6.jpg',
-      'assets/projects/pygmak/pygmak-7.jpg',
-      'assets/projects/pygmak/pygmak-8.jpg',
-      'assets/projects/pygmak/pygmak-9.jpg'
+      '/assets/projects/pygmak/pygmak-1.jpg',
+      '/assets/projects/pygmak/pygmak-2.jpg',
+      '/assets/projects/pygmak/pygmak-3.jpg',
+      '/assets/projects/pygmak/pygmak-4.jpg',
+      '/assets/projects/pygmak/pygmak-5.jpg',
+      '/assets/projects/pygmak/pygmak-6.jpg',
+      '/assets/projects/pygmak/pygmak-7.jpg',
+      '/assets/projects/pygmak/pygmak-8.jpg',
+      '/assets/projects/pygmak/pygmak-9.jpg'
     ],
     tech: ['Unity 6', 'C#', 'URP', 'UI Toolkit', 'Feel', 'LevelPlay Ads', 'Android'],
     features: [
@@ -416,12 +416,12 @@ const COLDSNAP_PROJECTS = [
     shortDescription: 'Collect over 900 mythical creatures and gods, nearly all shown on historic artworks',
     description: 'Seba is a card game of creatures from every culture\'s myths: dragons, kappa, firebirds, sea serpents and the gods of old pantheons. Open a free pack, peel five stickers and fill your bestiary. Nearly every card shows a public-domain artwork from Wikimedia Commons, The Met, the Cleveland Museum of Art or the Art Institute of Chicago, credited on the card with the creature\'s tradition and a short description. Rarity means something: legendary cards are the creatures the whole world knows, rare ones are told in only a few languages. Named after Albertus Seba, the 18th-century Amsterdam apothecary whose book of curiosities put real animals beside dragons and a seven-headed hydra.',
     icon: '🐉',
-    thumbnail: 'assets/projects/seba/seba-en-1-thumb.webp',
+    thumbnail: '/assets/projects/seba/seba-en-1-thumb.webp',
     media: [
-      'assets/projects/seba/seba-en-1.jpg',
-      'assets/projects/seba/seba-en-2.jpg',
-      'assets/projects/seba/seba-en-3.jpg',
-      'assets/projects/seba/seba-en-4.jpg'
+      '/assets/projects/seba/seba-en-1.jpg',
+      '/assets/projects/seba/seba-en-2.jpg',
+      '/assets/projects/seba/seba-en-3.jpg',
+      '/assets/projects/seba/seba-en-4.jpg'
     ],
     tech: ['Flutter', 'Firebase', 'Cloud Functions', 'FCM', 'In-app purchases'],
     features: [
@@ -441,12 +441,12 @@ const COLDSNAP_PROJECTS = [
       type: 'Jeu de cartes',
       shortDescription: 'Collectionne plus de 900 créatures et dieux mythiques, presque tous sur de vraies œuvres',
       description: 'Seba est un jeu de cartes des créatures de tous les mythes du monde : dragons, kappa, oiseaux de feu, serpents de mer et dieux des panthéons anciens. Ouvre un paquet gratuit, décolle cinq autocollants et remplis ton bestiaire. Presque chaque carte montre une œuvre du domaine public venue de Wikimedia Commons, du Met, du Cleveland Museum of Art ou de l\'Art Institute of Chicago, créditée sur la carte avec la tradition de la créature et une courte description. La rareté a du sens : les légendaires sont les créatures que le monde entier connaît, les rares ne sont racontées que dans quelques langues. Le nom vient d\'Albertus Seba, apothicaire d\'Amsterdam du XVIIIe siècle dont le livre de curiosités plaçait de vrais animaux à côté de dragons et d\'une hydre à sept têtes.',
-      thumbnail: 'assets/projects/seba/seba-fr-1-thumb.webp',
+      thumbnail: '/assets/projects/seba/seba-fr-1-thumb.webp',
       media: [
-        'assets/projects/seba/seba-fr-1.jpg',
-        'assets/projects/seba/seba-fr-2.jpg',
-        'assets/projects/seba/seba-fr-3.jpg',
-        'assets/projects/seba/seba-fr-4.jpg'
+        '/assets/projects/seba/seba-fr-1.jpg',
+        '/assets/projects/seba/seba-fr-2.jpg',
+        '/assets/projects/seba/seba-fr-3.jpg',
+        '/assets/projects/seba/seba-fr-4.jpg'
       ],
       features: [
         'Un paquet gratuit chaque heure, deux en réserve, et une notification quand ils sont prêts',
@@ -467,12 +467,12 @@ const COLDSNAP_PROJECTS = [
     shortDescription: 'Open packs of real, ridiculous patents drawn from 12 million inventions',
     description: 'Every Badalone pack is nine real patents pulled at random from the entire US patent archive: more than twelve million inventions, from 1836 to last week. A method of swinging on a swing. A hat with a built-in umbrella. The light bulb. Each card shows the original drawing redrawn as a white-on-black blueprint, an absurdity index and the plain-words abstract on the back, and opens the original document in one tap. Rarity is earned by influence: the more later inventions built on a patent, the rarer its card. Named after Il Badalone, Brunelleschi\'s river barge and the subject of the first patent ever granted (Florence, 1421). No ads, no purchases.',
     icon: '📜',
-    thumbnail: 'assets/projects/badalone/badalone-en-1-thumb.webp',
+    thumbnail: '/assets/projects/badalone/badalone-en-1-thumb.webp',
     media: [
-      'assets/projects/badalone/badalone-en-1.jpg',
-      'assets/projects/badalone/badalone-en-2.jpg',
-      'assets/projects/badalone/badalone-en-3.jpg',
-      'assets/projects/badalone/badalone-en-4.jpg'
+      '/assets/projects/badalone/badalone-en-1.jpg',
+      '/assets/projects/badalone/badalone-en-2.jpg',
+      '/assets/projects/badalone/badalone-en-3.jpg',
+      '/assets/projects/badalone/badalone-en-4.jpg'
     ],
     tech: ['Flutter', 'Firebase', 'Cloud Functions', 'Patent data', 'FCM'],
     features: [
@@ -513,15 +513,15 @@ const COLDSNAP_PROJECTS = [
     shortDescription: 'The town hall in every resident\'s pocket: news, alerts, polls, problem reports and local shops',
     description: 'Maya is an app built for towns. Residents get their town\'s news and events, urgent alerts, polls and practical information in one place, and only the notifications they choose. They can report a problem with a photo and a pin on the map, then follow it until it\'s fixed. News and events are imported from the town\'s existing website, and town hall staff run the rest from a web back office. Towns add only the modules they need: automatic Météo-France and Vigicrues warnings, waste collection reminders, places on the map, and local shops with a QR code loyalty game, the Hive. Free for residents and shops, no ads, no trackers, data hosted in France. First town: Mouans-Sartoux.',
     icon: '🐝',
-    thumbnail: 'assets/projects/maya/maya-en-1-thumb.webp',
+    thumbnail: '/assets/projects/maya/maya-en-1-thumb.webp',
     media: [
-      'assets/projects/maya/maya-trailer-en.mp4',
-      'assets/projects/maya/maya-en-1.jpg',
-      'assets/projects/maya/maya-en-2.jpg',
-      'assets/projects/maya/maya-en-3.jpg',
-      'assets/projects/maya/maya-en-4.jpg',
-      'assets/projects/maya/maya-en-5.jpg',
-      'assets/projects/maya/maya-en-6.jpg'
+      '/assets/projects/maya/maya-trailer-en.mp4',
+      '/assets/projects/maya/maya-en-1.jpg',
+      '/assets/projects/maya/maya-en-2.jpg',
+      '/assets/projects/maya/maya-en-3.jpg',
+      '/assets/projects/maya/maya-en-4.jpg',
+      '/assets/projects/maya/maya-en-5.jpg',
+      '/assets/projects/maya/maya-en-6.jpg'
     ],
     tech: ['Flutter', 'Firebase', 'Cloud Functions', 'Next.js', 'FCM', 'Google Maps'],
     features: [
@@ -544,14 +544,14 @@ const COLDSNAP_PROJECTS = [
       type: 'App communale',
       shortDescription: 'La mairie dans la poche de chaque habitant : actus, alertes, sondages, signalements et commerces',
       description: 'Maya est une application conçue pour les communes. Les habitants y retrouvent les actualités et l\'agenda de leur ville, les alertes urgentes, les sondages et les infos pratiques, et ne reçoivent que les notifications qu\'ils ont choisies. Ils peuvent signaler un problème avec une photo et un repère sur la carte, puis suivre son traitement. Les actualités et l\'agenda sont importés du site de la commune, et les agents gèrent le reste depuis un espace mairie sur le web. Chaque commune n\'ajoute que les modules dont elle a besoin : vigilances Météo-France et Vigicrues automatiques, rappels de collecte des déchets, lieux de la ville sur la carte, et commerce local avec la Ruche, un programme de fidélité par QR code. Gratuit pour les habitants et les commerçants, sans publicité ni traceur, données hébergées en France. Première commune : Mouans-Sartoux.',
-      thumbnail: 'assets/projects/maya/maya-fr-1-thumb.webp',
+      thumbnail: '/assets/projects/maya/maya-fr-1-thumb.webp',
       media: [
-        'assets/projects/maya/maya-fr-1.jpg',
-        'assets/projects/maya/maya-fr-2.jpg',
-        'assets/projects/maya/maya-fr-3.jpg',
-        'assets/projects/maya/maya-fr-4.jpg',
-        'assets/projects/maya/maya-fr-5.jpg',
-        'assets/projects/maya/maya-fr-6.jpg'
+        '/assets/projects/maya/maya-fr-1.jpg',
+        '/assets/projects/maya/maya-fr-2.jpg',
+        '/assets/projects/maya/maya-fr-3.jpg',
+        '/assets/projects/maya/maya-fr-4.jpg',
+        '/assets/projects/maya/maya-fr-5.jpg',
+        '/assets/projects/maya/maya-fr-6.jpg'
       ],
       features: [
         'Actualités et agenda importés du site de la commune',
@@ -574,12 +574,12 @@ const COLDSNAP_PROJECTS = [
     shortDescription: 'Voice dream journal: open the app, speak, and your dream is saved automatically',
     description: 'A frictionless dream journaling app designed to capture dreams the moment you wake up. Open the app and speak; Sandlog automatically stops recording when silence is detected and saves your dream entry. Recordings can be exported to the user\'s Google Drive for safe cloud storage.',
     icon: '🌙',
-    thumbnail: 'assets/projects/sandlog/sandlog-1-thumb.webp?v=20261030',
+    thumbnail: '/assets/projects/sandlog/sandlog-1-thumb.webp?v=20261030',
     media: [
-      'assets/projects/sandlog/sandlog-1.jpg?v=20261030',
-      'assets/projects/sandlog/sandlog-2.jpg?v=20261030',
-      'assets/projects/sandlog/sandlog-3.jpg?v=20261030',
-      'assets/projects/sandlog/sandlog-4.jpg?v=20261030'
+      '/assets/projects/sandlog/sandlog-1.jpg?v=20261030',
+      '/assets/projects/sandlog/sandlog-2.jpg?v=20261030',
+      '/assets/projects/sandlog/sandlog-3.jpg?v=20261030',
+      '/assets/projects/sandlog/sandlog-4.jpg?v=20261030'
     ],
     tech: ['Flutter', 'Dart', 'Google Drive API', 'Voice Recording', 'Silence Detection'],
     features: [
@@ -612,11 +612,11 @@ const COLDSNAP_PROJECTS = [
     shortDescription: 'NFC-powered digital business card, share contacts by tapping phones',
     description: 'A modern replacement for physical business cards. Badger lets you share your contact details instantly by tapping phones via NFC, or via QR code as a fallback. Create beautiful digital card profiles, export as VCF, and manage all your shared contacts in one place.',
     icon: '🪪',
-    thumbnail: 'assets/projects/badger/badger-1-thumb.webp',
+    thumbnail: '/assets/projects/badger/badger-1-thumb.webp',
     media: [
-      'assets/projects/badger/badger-1.jpg',
-      'assets/projects/badger/badger-2.jpg',
-      'assets/projects/badger/badger-3.jpg'
+      '/assets/projects/badger/badger-1.jpg',
+      '/assets/projects/badger/badger-2.jpg',
+      '/assets/projects/badger/badger-3.jpg'
     ],
     tech: ['Flutter', 'Dart', 'NFC', 'Firebase', 'QR Code', 'Material Design 3'],
     features: [
@@ -653,12 +653,12 @@ const COLDSNAP_PROJECTS = [
     shortDescription: 'Parcel relay point management app with OCR scanning for package tracking',
     description: 'A mobile app for managing package pickup and delivery relay points. Features ML Kit-powered OCR to scan and extract parcel information directly from labels, streamlining the package intake process for relay operators.',
     icon: '📦',
-    thumbnail: 'assets/projects/colismarket/colismarket-1-thumb.webp',
+    thumbnail: '/assets/projects/colismarket/colismarket-1-thumb.webp',
     media: [
-      'assets/projects/colismarket/colismarket-1.jpg',
-      'assets/projects/colismarket/colismarket-2.jpg',
-      'assets/projects/colismarket/colismarket-3.jpg',
-      'assets/projects/colismarket/colismarket-4.jpg'
+      '/assets/projects/colismarket/colismarket-1.jpg',
+      '/assets/projects/colismarket/colismarket-2.jpg',
+      '/assets/projects/colismarket/colismarket-3.jpg',
+      '/assets/projects/colismarket/colismarket-4.jpg'
     ],
     tech: ['Flutter', 'Dart', 'Google ML Kit', 'OCR', 'Android'],
     features: [
@@ -692,10 +692,10 @@ const COLDSNAP_PROJECTS = [
     shortDescription: 'Cat claw trimming tracker to visualize and schedule your cat\'s nail maintenance',
     description: 'A charming companion app for cat owners that makes claw maintenance easy and stress-free. Patoune provides a visual paw diagram to track which claws have been trimmed, colour-coded reminders when trimming is due, and guidance on safe trimming techniques.',
     icon: '🐾',
-    thumbnail: 'assets/projects/patoune/patoune-1-thumb.webp',
+    thumbnail: '/assets/projects/patoune/patoune-1-thumb.webp',
     media: [
-      'assets/projects/patoune/patoune-1.jpg',
-      'assets/projects/patoune/patoune-2.jpg'
+      '/assets/projects/patoune/patoune-1.jpg',
+      '/assets/projects/patoune/patoune-2.jpg'
     ],
     tech: ['Flutter', 'Dart', 'SharedPreferences', 'SVG', 'i18n'],
     features: [
@@ -736,9 +736,9 @@ const COLDSNAP_PROJECTS = [
     shortDescription: 'Minimalist always-on-top system tray todo and notes app for desktop',
     description: 'A lightweight desktop productivity app that lives in your system tray. Posti stays always-on-top for instant access to todos and quick notes without switching context. Designed for minimal friction, capture a thought in seconds and get back to work.',
     icon: '📌',
-    thumbnail: 'assets/projects/posti/posti-1-thumb.webp',
+    thumbnail: '/assets/projects/posti/posti-1-thumb.webp',
     media: [
-      'assets/projects/posti/posti-1.png'
+      '/assets/projects/posti/posti-1.png'
     ],
     tech: ['Flutter', 'Dart', 'Windows', 'macOS'],
     features: [
@@ -770,10 +770,10 @@ const COLDSNAP_PROJECTS = [
     shortDescription: 'First-person grappling hook parkour game: swing, climb and launch through physics-driven levels',
     description: 'A fast-paced first-person parkour game built around dual grappling hooks and momentum physics. Players combine rope and pole grapples with wall-running, vaulting, sliding and dynamic spring platforms to blast through increasingly creative levels. Includes a built-in level editor used during development by a multi-person team.',
     icon: '🪝',
-    thumbnail: 'assets/projects/grapple-groove/grapple-groove-1-thumb.webp',
+    thumbnail: '/assets/projects/grapple-groove/grapple-groove-1-thumb.webp',
     media: [
-      'assets/projects/grapple-groove/grapple-groove-1.png',
-      'assets/projects/grapple-groove/grapple-groove-2.png'
+      '/assets/projects/grapple-groove/grapple-groove-1.png',
+      '/assets/projects/grapple-groove/grapple-groove-2.png'
     ],
     tech: ['Unity 6', 'C#', 'URP', 'Spring Physics', 'Android', 'PC'],
     features: [
@@ -811,11 +811,11 @@ const COLDSNAP_PROJECTS = [
     shortDescription: 'Share one keyboard and mouse between two Windows PCs, with encrypted pairing and shared clipboard',
     description: 'A tiny Windows tray app that lets one keyboard and mouse control two PCs on the same network, with clipboard text shared both ways. One hotkey switches which PC you are on. It finds the other PC by itself, pairs with a passphrase and encrypts everything it sends (AES-256-GCM), and can optionally run as administrator to control elevated windows. A single self-contained exe: no install, no account, no PowerToys. Free for non-commercial use, with the source on GitHub.',
     icon: '⌨️',
-    thumbnail: 'assets/projects/sharekm/sharekm-1-thumb.webp',
+    thumbnail: '/assets/projects/sharekm/sharekm-1-thumb.webp',
     media: [
-      'assets/projects/sharekm/sharekm-1.png',
-      'assets/projects/sharekm/sharekm-2.png',
-      'assets/projects/sharekm/sharekm-3.png'
+      '/assets/projects/sharekm/sharekm-1.png',
+      '/assets/projects/sharekm/sharekm-2.png',
+      '/assets/projects/sharekm/sharekm-3.png'
     ],
     tech: ['C#', '.NET', 'WinForms', 'Win32 hooks', 'AES-GCM'],
     features: [
@@ -856,11 +856,11 @@ const COLDSNAP_PROJECTS = [
     shortDescription: 'Backup World of Warcraft addon data to Google Drive automatically',
     description: 'A desktop utility that securely backs up your World of Warcraft addon data to Google Drive. Never lose your addon settings, keybindings, or UI configurations again.',
     icon: '🎮',
-    thumbnail: 'assets/projects/waddonsync/waddonsync-1-thumb.webp',
+    thumbnail: '/assets/projects/waddonsync/waddonsync-1-thumb.webp',
     media: [
-      'assets/projects/waddonsync/waddonsync-1.png',
-      'assets/projects/waddonsync/waddonsync-2.png',
-      'assets/projects/waddonsync/waddonsync-3.png',
+      '/assets/projects/waddonsync/waddonsync-1.png',
+      '/assets/projects/waddonsync/waddonsync-2.png',
+      '/assets/projects/waddonsync/waddonsync-3.png',
     ],
     tech: ['Flutter', 'Dart', 'Google Drive API', 'OAuth 2.0'],
     features: [
@@ -894,9 +894,9 @@ const COLDSNAP_PROJECTS = [
     shortDescription: 'Minecraft plugin adding block-placing and elemental abilities to bows based on the block you stand on',
     description: 'A Java Minecraft plugin built from scratch that gives the bow and arrow context-sensitive superpowers. The effect fired depends on the block under the player\'s feet: standing on ice fires a freeze arrow, on TNT fires an explosive, on grass places blocks, and so on. A fun exploration of the Bukkit/Spigot API.',
     icon: '🏹',
-    thumbnail: 'assets/projects/magic-arrow/magic-arrow-1-thumb.webp',
+    thumbnail: '/assets/projects/magic-arrow/magic-arrow-1-thumb.webp',
     media: [
-      'assets/projects/magic-arrow/magic-arrow-1.jpg',
+      '/assets/projects/magic-arrow/magic-arrow-1.jpg',
     ],
     tech: ['Java', 'Bukkit/Spigot API', 'Minecraft'],
     features: [
@@ -928,10 +928,10 @@ const COLDSNAP_PROJECTS = [
     shortDescription: 'Modular World of Warcraft addon with quality-of-life improvements that don\'t change core mechanics',
     description: 'Brittle and Occasionally Lethal Tweaks. A modular World of Warcraft addon delivering quality-of-life improvements without altering core gameplay. Features game menu enhancements, advanced skyriding controls, chat notifications, nameplate mana-user highlighting, saved instance tracking, and more. Actively maintained with 113+ versioned releases.',
     icon: '⚔️',
-    thumbnail: 'assets/projects/bolt/bolt-1-thumb.webp',
+    thumbnail: '/assets/projects/bolt/bolt-1-thumb.webp',
     media: [
-      'assets/projects/bolt/bolt-1.png',
-      'assets/projects/bolt/bolt-2.png'
+      '/assets/projects/bolt/bolt-1.png',
+      '/assets/projects/bolt/bolt-2.png'
     ],
     tech: ['Lua', 'World of Warcraft API', 'GitHub Actions', 'CI/CD'],
     features: [
@@ -972,9 +972,9 @@ const COLDSNAP_PROJECTS = [
     shortDescription: 'Reusable Unity C# utility package shared across all ColdSnap projects',
     description: 'An open-source Unity Package Manager (UPM) library providing shared utilities, helpers, and tools used across all ColdSnap projects. Reduces boilerplate and ensures consistency throughout the studio\'s internal Unity development pipeline.',
     icon: '🛠️',
-    thumbnail: 'assets/projects/coldsnap-utilities/utilities-1-thumb.webp',
+    thumbnail: '/assets/projects/coldsnap-utilities/utilities-1-thumb.webp',
     media: [
-      'assets/projects/coldsnap-utilities/utilities-1.png'
+      '/assets/projects/coldsnap-utilities/utilities-1.png'
     ],
     tech: ['Unity', 'C#', 'UPM'],
     features: [

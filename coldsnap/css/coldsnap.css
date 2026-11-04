@@ -170,11 +170,11 @@ h1, h2, h3 {
   transform: translateY(-2px);
 }
 
-.btn--primary .fa-arrow-right {
+.btn--primary .icon-arrow-right {
   transition: transform 0.2s var(--ease-out);
 }
 
-.btn--primary:hover .fa-arrow-right {
+.btn--primary:hover .icon-arrow-right {
   transform: translateX(3px);
 }
 
@@ -320,7 +320,9 @@ h1, h2, h3 {
   border-radius: 999px;
 }
 
+.lang-switch a,
 .lang-switch button {
+  text-decoration: none;
   border: 0;
   background: transparent;
   padding: 4px 10px;
@@ -333,6 +335,7 @@ h1, h2, h3 {
   transition: var(--transition);
 }
 
+.lang-switch a[aria-current="page"],
 .lang-switch button[aria-pressed="true"] {
   background: var(--text-primary);
   color: var(--bg-darker);
@@ -510,6 +513,12 @@ h1, h2, h3 {
     letter-spacing: 0.2em;
     margin-right: -0.2em;
   }
+}
+
+.hero__audience {
+  margin: -16px auto 24px;
+  font-size: 0.92rem;
+  color: var(--text-muted);
 }
 
 .hero__lead {
@@ -756,6 +765,44 @@ h1, h2, h3 {
 }
 
 /* ── Numbers ────────────────────────────────────────────── */
+/* Clients: a single quiet line of names, no logos */
+.clients {
+  padding: 0 0 8px;
+}
+
+.clients__inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: center;
+  gap: 10px 28px;
+}
+
+.clients__label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.clients__list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px 28px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.clients__list li {
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: 0.02em;
+  color: var(--text-secondary);
+}
+
 .numbers {
   padding: 72px 0 0;
 }
@@ -766,8 +813,19 @@ h1, h2, h3 {
   font-size: 1.1rem;
 }
 
+/* SVG icons from assets/icons.svg (replaces Font Awesome); sized by font-size like the old font */
+.icon {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.125em;
+  flex-shrink: 0;
+}
+
 .step__icon {
   display: block;
+  width: 1.9rem;
+  height: 1.9rem;
   margin-bottom: 14px;
   font-size: 1.9rem;
   color: var(--orange);
@@ -1028,7 +1086,7 @@ video.viewer__shot {
   display: block;
 }
 
-.viewer__thumb .fa {
+.viewer__thumb .icon {
   position: absolute;
   inset: 0;
   display: flex;
@@ -1071,7 +1129,7 @@ video.viewer__shot {
   color: var(--orange);
 }
 
-.viewer__type .fa {
+.viewer__type .icon {
   margin-right: 4px;
 }
 
@@ -1146,7 +1204,7 @@ video.viewer__shot {
   color: var(--text-primary);
 }
 
-.viewer__toggle .fa {
+.viewer__toggle .icon {
   font-size: 0.75rem;
 }
 
@@ -1222,6 +1280,25 @@ video.viewer__shot {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   gap: 20px;
+}
+
+.shelf__divider {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 18px 0 2px;
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  letter-spacing: 0.04em;
+}
+
+.shelf__divider::before,
+.shelf__divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--border-color);
 }
 
 .shelf .project-grid {
@@ -1377,7 +1454,7 @@ video.viewer__shot {
   color: var(--orange);
 }
 
-.project-info .project-type .fa {
+.project-info .project-type .icon {
   margin-right: 4px;
 }
 
@@ -1554,6 +1631,162 @@ video.viewer__shot {
 .contact__card:hover .contact__wizard {
   transform: rotate(-4deg) translateY(-24px);
   opacity: 0.55;
+}
+
+/* Contact form: quiet fields on the card, nothing that glows */
+.cform {
+  display: grid;
+  gap: 14px;
+  max-width: 620px;
+}
+
+.cform__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.cform__field {
+  display: grid;
+  gap: 6px;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+
+.cform input:not([type="checkbox"]),
+.cform select,
+.cform textarea {
+  width: 100%;
+  padding: 11px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--border-strong);
+  background: rgba(12, 14, 19, 0.55);
+  color: var(--text-primary);
+  font: inherit;
+  font-size: 0.95rem;
+  transition: border-color 0.2s ease;
+}
+
+.cform textarea {
+  resize: vertical;
+  min-height: 108px;
+}
+
+.cform input:focus,
+.cform select:focus,
+.cform textarea:focus {
+  outline: none;
+  border-color: var(--orange);
+}
+
+.cform select option {
+  background: var(--bg-raised);
+}
+
+.cform__switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  width: fit-content;
+  font-size: 0.92rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+.cform__switch input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--orange);
+}
+
+.cform__call {
+  display: grid;
+  gap: 14px;
+  padding: 16px;
+  border-radius: 16px;
+  border: 1px dashed var(--border-strong);
+}
+
+.cform__call[hidden] {
+  display: none;
+}
+
+.cform__slots {
+  border: 0;
+  padding: 0;
+  margin: 0;
+}
+
+.cform__slots legend {
+  margin-bottom: 8px;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+
+.cform__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.cform__chip {
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--border-strong);
+  background: transparent;
+  color: var(--text-secondary);
+  font: inherit;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.cform__chip[aria-pressed="true"] {
+  background: var(--orange-muted);
+  border-color: var(--orange);
+  color: var(--text-primary);
+}
+
+.cform__chip:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.cform__trap {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.cform__send {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+  margin-top: 4px;
+}
+
+.cform__status {
+  margin: 0 !important;
+  font-size: 0.92rem !important;
+}
+
+.cform__status[data-state="sent"] { color: var(--blue); }
+.cform__status[data-state="invalid"],
+.cform__status[data-state="unavailable"] { color: var(--coral); }
+
+/* Once sent, the fields fold away and only the thank-you stays */
+.cform.is-sent > :not(.cform__send),
+.cform.is-sent .cform__send .btn {
+  display: none;
+}
+
+@media (max-width: 600px) {
+  .cform__row {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* ── Footer ─────────────────────────────────────────────── */
@@ -2941,6 +3174,7 @@ kbd {
     height: calc(100% - 28px);
   }
 
+  .lang-switch a,
   .lang-switch button {
     padding: 4px 8px;
   }

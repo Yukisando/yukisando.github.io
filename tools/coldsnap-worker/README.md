@@ -5,10 +5,29 @@ at `https://coldsnap.fr/`. The ColdSnap page stays in this repo (`coldsnap/`); t
 worker maps `coldsnap.fr/<path>` to `nathandecastro.com/coldsnap/<path>` and
 redirects `www.coldsnap.fr` and `http://` to `https://coldsnap.fr`.
 
-Because of that mapping, files in `coldsnap/` must reference each other with
-relative paths (`css/coldsnap.css`, `assets/...`), and shared site files with
-absolute `https://nathandecastro.com/...` URLs. On nathandecastro.com the page
-forwards visitors to coldsnap.fr.
+Files in `coldsnap/` reference each other with root paths (`/css/coldsnap.css`,
+`/assets/...`): at coldsnap.fr the root is the `coldsnap/` folder, and both the French
+page (`/`) and the English page (`/en/`) share them. Shared site files use absolute
+`https://nathandecastro.com/...` URLs. On nathandecastro.com the page forwards visitors
+to coldsnap.fr. To preview locally, serve the folder as the root:
+`python -m http.server 8765 --directory coldsnap`.
+
+The worker also adds the security headers (HSTS, CSP, nosniff, Referrer-Policy),
+caches `?v=` files for a year, serves the shared CGV and privacy pages at
+`/legal/cgv/` and `/legal/confidentialite/`, shows `coldsnap/404.html` for unknown
+pages, and handles the contact form at `POST /api/contact` (mailed through Brevo).
+
+## Deploy
+
+From this folder, with `CLOUDFLARE_API_TOKEN` (permissions: Account / Workers Scripts:
+Edit, Account / Account Settings: Read, Zone / DNS: Edit on coldsnap.fr) and
+`CLOUDFLARE_ACCOUNT_ID` set:
+
+    npx wrangler@3 deploy
+    npx wrangler@3 secret put BREVO_API_KEY    # once, and when the key changes
+
+`CONTACT_TO` (in `wrangler.toml`) must be a sender verified in Brevo. Deploy the
+worker before pushing pages that link to `/legal/cgv/` or post to `/api/contact`.
 
 ## Setup
 
@@ -30,4 +49,4 @@ forwards visitors to coldsnap.fr.
 6. Check `https://coldsnap.fr/`, then push this repo so nathandecastro.com/coldsnap/
    starts forwarding to it.
 
-To update the worker, paste the new `worker.js` in the dashboard editor again.
+To update the worker without wrangler, paste `worker.js` in the dashboard editor and add the `BREVO_API_KEY` secret under Settings > Variables.

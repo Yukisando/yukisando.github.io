@@ -40,7 +40,7 @@
   function buildUI() {
     carEl = document.createElement('div');
     carEl.className = 'drive-car';
-    carEl.innerHTML = '<div class="drive-car__body"><img src="assets/car.png" alt="" draggable="false"></div>';
+    carEl.innerHTML = '<div class="drive-car__body"><img src="/assets/car.png" alt="" draggable="false"></div>';
     bodyEl = carEl.firstChild;
 
     promptEl = document.createElement('div');

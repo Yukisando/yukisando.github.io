@@ -1,0 +1,14 @@
+# Deploy: npx wrangler@3 deploy  (from this folder; needs CLOUDFLARE_API_TOKEN with
+# Workers Scripts: Edit, and CLOUDFLARE_ACCOUNT_ID). The Brevo key is a secret:
+#   npx wrangler@3 secret put BREVO_API_KEY
+name = "coldsnap"
+main = "worker.js"
+compatibility_date = "2025-02-24"
+workers_dev = false
+routes = [
+  { pattern = "coldsnap.fr", custom_domain = true },
+  { pattern = "www.coldsnap.fr", custom_domain = true },
+]
+
+[vars]
+CONTACT_TO = "contact@coldsnap.fr"
