@@ -803,6 +803,16 @@ h1, h2, h3 {
   color: var(--text-secondary);
 }
 
+.clients__list a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.clients__list a:hover {
+  color: var(--text-primary);
+}
+
 .numbers {
   padding: 72px 0 0;
 }
