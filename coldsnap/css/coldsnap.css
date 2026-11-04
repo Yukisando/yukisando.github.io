@@ -35,7 +35,9 @@
   /* Text */
   --text-primary: #f4f1ea;
   --text-secondary: rgba(244, 241, 234, 0.7);
-  --text-muted: rgba(244, 241, 234, 0.45);
+  --text-muted: rgba(244, 241, 234, 0.62);
+  /* Text and icons on an orange fill: white fails contrast there (2.6:1), this ink passes (7:1). */
+  --on-orange: #1a0e05;
 
   /* Type */
   --font-display: 'Comfortaa', 'Segoe UI', system-ui, sans-serif;
@@ -111,7 +113,7 @@ button {
 
 ::selection {
   background: var(--orange);
-  color: #fff;
+  color: var(--on-orange);
 }
 
 h1, h2, h3 {
@@ -135,7 +137,7 @@ h1, h2, h3 {
   padding: 10px 16px;
   border-radius: 10px;
   background: var(--orange);
-  color: #fff;
+  color: var(--on-orange);
   text-decoration: none;
   font-weight: 600;
 }
@@ -162,7 +164,7 @@ h1, h2, h3 {
 
 .btn--primary {
   background: var(--orange);
-  color: #fff;
+  color: var(--on-orange);
 }
 
 .btn--primary:hover {
@@ -299,7 +301,7 @@ h1, h2, h3 {
   margin-left: 10px;
   padding: 9px 18px;
   background: var(--orange);
-  color: #fff;
+  color: var(--on-orange);
   font-weight: 600;
 }
 
@@ -311,6 +313,46 @@ h1, h2, h3 {
   display: flex;
   align-items: center;
   gap: 12px;
+}
+
+/* Phones and tablets: the same "Start a project" button sits in the bar, outside the menu. */
+.cs-nav__cta--bar {
+  display: none;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: var(--orange);
+  color: var(--on-orange);
+  font-weight: 600;
+  font-size: 0.88rem;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.2s ease;
+}
+
+.cs-nav__cta--bar:hover {
+  background: var(--orange-dark);
+}
+
+/* Second FR/EN switch inside the phone menu, for screens too narrow for the bar. */
+.lang-switch.lang-switch--menu {
+  display: none;
+}
+
+@media (max-width: 480px) {
+  .cs-nav__name,
+  .cs-nav__tools > .lang-switch {
+    display: none;
+  }
+
+  .cs-nav__links .lang-switch--menu {
+    display: inline-flex;
+    align-self: center;
+    margin-top: 12px;
+  }
+
+  .cs-nav__links .lang-switch--menu a {
+    padding: 6px 16px;
+  }
 }
 
 .lang-switch {
@@ -822,7 +864,6 @@ h1, h2, h3 {
 .clients__track a:hover,
 .clients__track a:focus-visible {
   opacity: 1;
-  filter: none;
 }
 
 .clients__track img {
@@ -1078,6 +1119,7 @@ video.viewer__shot {
 .viewer__arrow:hover {
   background: var(--orange);
   border-color: var(--orange);
+  color: var(--on-orange);
 }
 
 .viewer__count {
@@ -1437,7 +1479,7 @@ video.viewer__shot {
   padding: 4px 10px;
   border-radius: 999px;
   background: var(--orange);
-  color: #fff;
+  color: var(--on-orange);
   font-size: 0.68rem;
   font-weight: 700;
   letter-spacing: 0.06em;
@@ -2131,6 +2173,7 @@ video.viewer__shot {
 
 .carousel-btn:hover {
   background: var(--accent);
+  color: var(--on-orange);
 }
 
 .carousel-btn.prev {
@@ -2216,6 +2259,7 @@ video.viewer__shot {
 
 .zoom-close:hover {
   background: var(--accent);
+  color: var(--on-orange);
 }
 
 .zoom-nav-btn {
@@ -2239,6 +2283,7 @@ video.viewer__shot {
 
 .zoom-nav-btn:hover {
   background: var(--accent);
+  color: var(--on-orange);
 }
 
 .zoom-nav-btn.prev {
@@ -2317,7 +2362,7 @@ video.viewer__shot {
   align-items: center;
   gap: 8px;
   background: var(--orange);
-  color: white;
+  color: var(--on-orange);
   padding: 11px 22px;
   border-radius: 7px;
   text-decoration: none;
@@ -2363,7 +2408,7 @@ video.viewer__shot {
 
 .modal-link.curseforge {
   background: #f16436;
-  color: white;
+  color: var(--on-orange);
 }
 
 .modal-link.curseforge:hover {
@@ -2999,7 +3044,7 @@ kbd {
 .drive-prompt kbd {
   background: var(--orange);
   border-color: var(--orange-dark);
-  color: #1a0e05;
+  color: var(--on-orange);
 }
 
 .drive-prompt.is-visible {
@@ -3052,7 +3097,7 @@ kbd {
   border-radius: 999px;
   border: 0;
   background: var(--orange);
-  color: #1a0e05;
+  color: var(--on-orange);
   font: 600 0.85rem var(--font-body);
   cursor: pointer;
   pointer-events: auto;
@@ -3142,8 +3187,11 @@ kbd {
   }
 
   .cs-nav__links a.cs-nav__cta {
-    margin: 8px 0 0;
-    text-align: center;
+    display: none;
+  }
+
+  .cs-nav__cta--bar {
+    display: inline-flex;
   }
 
   .hero {

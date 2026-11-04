@@ -15,6 +15,14 @@
 
   form.elements.started.value = String(Date.now());
 
+  // "Start a project" opens the form: after the jump to #contact the cursor waits in the first field.
+  const openForm = () => form.elements.name.focus({ preventScroll: true });
+  document.addEventListener('click', e => {
+    const link = e.target.closest('a[href$="#contact"]');
+    if (link && new URL(link.href).pathname === location.pathname) setTimeout(openForm, 0);
+  });
+  if (location.hash === '#contact') openForm();
+
   function show(key) {
     status.textContent = i18n.t('form.' + key);
     status.dataset.state = key;
