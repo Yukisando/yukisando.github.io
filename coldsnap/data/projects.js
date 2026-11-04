@@ -68,6 +68,14 @@ const COLDSNAP_PROJECTS = [
       '/assets/projects/cpps/cpps-4.jpg',
       '/assets/projects/cpps/cpps-5.jpg'
     ],
+    // Descriptions for screen readers and search, one per media item, same order.
+    alt: [
+      'Exhibit corner with a wall touchscreen, Swiss seismic map and rock samples on a wooden counter',
+      'Touchscreen game \'The magnitude of an earthquake\': a magnitude slider compares the 1964 Alaska quake with Switzerland',
+      'Touchscreen game \'How to locate an earthquake\': seismometers placed on a map of the Alps to find the epicentre',
+      'Exhibition hall with wall screens, a long wooden table of interactive stations and a seismic cable installation',
+      'Exhibition space with an illuminated landscape diorama, a wall touchscreen and a wooden house model'
+    ],
     stats: [
       { value: '30k', label: 'visitors / year', fr: 'visiteurs / an' },
       { value: '27', label: 'interactive stations', fr: 'stations interactives' },
@@ -86,6 +94,13 @@ const COLDSNAP_PROJECTS = [
       { label: 'Learn More', labelFr: 'En savoir plus', href: 'https://www.valbilon.com/projects/cpps-exhibit', icon: 'fa-external-link' }
     ],
     fr: {
+      alt: [
+        'Coin d\'exposition avec écran tactile mural, carte sismique de la Suisse et échantillons de roche sur un comptoir en bois',
+        'Jeu tactile « La magnitude d\'un séisme » : un curseur compare le séisme d\'Alaska de 1964 à la Suisse',
+        'Jeu tactile « Localiser un séisme » : des sismomètres placés sur une carte des Alpes pour trouver l\'épicentre',
+        'Salle d\'exposition avec écrans muraux, longue table en bois de stations interactives et installation de câble sismique',
+        'Espace d\'exposition avec diorama de paysage éclairé, écran tactile mural et maquette de maison en bois'
+      ],
       type: 'Installation muséale',
       shortDescription: 'Parcours d\'exposition, mini-jeux tactiles et escape game pour un centre public de formation aux séismes',
       description: 'Toute la technologie d\'un centre public de formation et de prévention des séismes en Suisse : un parcours d\'exposition interactif sur 3 espaces et 27 stations, conçu avec des sismologues et des professeurs d\'université. Plus de 30 mini-jeux tactiles et une flotte de 30 tablettes murales, chacune en mode kiosque sur un réseau local sécurisé, configurées et mises à jour à distance. Autour : Escape With Wallis, un escape game d\'une heure qui guide les visiteurs à travers l\'exposition, et une plateforme de réservation et de paiement pour clients publics, privés et scolaires, avec facturation et reporting automatisés. Le centre abrite aussi le plus grand simulateur de séisme d\'Europe.',
@@ -112,6 +127,12 @@ const COLDSNAP_PROJECTS = [
       '/assets/projects/sdana/sdana-2.png',
       '/assets/projects/sdana/sdana-3.png'
     ],
+    // Descriptions for screen readers and search, one per media item, same order.
+    alt: [
+      'Home screen of the Natural Hazards touchscreen: illustrated panels of avalanches, floods, storms and rockfall',
+      'Storm definition screen: a short explanation next to a photo of a storm cloud over fields',
+      'Storm mechanism screen in German: the maturing phase of a cumulonimbus with a step slider'
+    ],
     tech: ['Interactive Installation', 'Large Touchscreen', 'Multi-language UX'],
     features: [
       'Built for a large public touchscreen display',
@@ -122,6 +143,11 @@ const COLDSNAP_PROJECTS = [
     ],
     links: [],
     fr: {
+      alt: [
+        'Écran d\'accueil de la borne Dangers naturels : panneaux illustrés d\'avalanches, crues, orages et chutes de pierres',
+        'Écran « Orage, définition » : une courte explication à côté d\'une photo de nuage d\'orage sur des champs',
+        'Écran sur le mécanisme de l\'orage en allemand : phase de maturité d\'un cumulonimbus avec curseur d\'étapes'
+      ],
       type: 'Installation tactile',
       shortDescription: 'Grand écran tactile pédagogique sur les dangers naturels en Valais',
       description: 'Une installation interactive créée pour le SDANA, le Service des dangers naturels du Valais. Pensée pour un très grand écran tactile dans les locaux du SDANA, l\'expérience aide les visiteurs à comprendre les principaux dangers naturels, leurs mécanismes et les bons comportements à adopter, à travers des scènes pédagogiques multilingues et une exploration visuelle guidée.',
@@ -155,6 +181,15 @@ const COLDSNAP_PROJECTS = [
       '/assets/projects/spinlab/spinlab-5.jpeg?v=20261029',
       '/assets/projects/spinlab/spinlab-6.jpeg?v=20261029'
     ],
+    // Descriptions for screen readers and search, one per media item, same order.
+    alt: [
+      'SpinLab coach list with photos, sports, hourly rates and distance',
+      'Map of Paris with coach photos as pins',
+      'Coach profile with speciality, rate per hour and biography',
+      'Booking screen: available days, a calendar and time slots',
+      'Booking confirmation dialog with the total and cancellation terms before payment',
+      'Coach view of upcoming paid bookings with dates, times and a revoke button'
+    ],
     tech: ['Flutter', 'Dart', 'Firebase', 'Stripe', 'Google Maps'],
     features: [
       'Geolocated coach discovery',
@@ -171,6 +206,14 @@ const COLDSNAP_PROJECTS = [
       { label: 'Privacy Policy', labelFr: 'Confidentialité', href: 'https://spinlab.fr/politique-de-confidentialite/', icon: 'fa-shield', secondary: true }
     ],
     fr: {
+      alt: [
+        'Liste des coachs SpinLab avec photos, sports, tarifs horaires et distance',
+        'Carte de Paris avec les photos des coachs en repères',
+        'Profil d\'un coach : spécialité, tarif horaire et biographie',
+        'Écran de réservation : jours disponibles, calendrier et créneaux horaires',
+        'Fenêtre de confirmation de réservation avec le total et les conditions d\'annulation avant paiement',
+        'Vue coach des réservations payées à venir, avec dates, heures et bouton d\'annulation'
+      ],
       type: 'App mobile',
       shortDescription: 'Plateforme qui met en relation joueurs de tennis et coachs certifiés pour réserver des cours',
       description: 'Une plateforme complète qui met en relation joueurs de tennis et coachs certifiés : recherche de coachs géolocalisée, réservation instantanée, paiement sécurisé et suivi de progression. Développée en Flutter pour une expérience fluide sur toutes les plateformes.',
@@ -200,6 +243,14 @@ const COLDSNAP_PROJECTS = [
       '/assets/projects/exploreum/exploreum-en-4.jpg',
       '/assets/projects/exploreum/exploreum-en-5.jpg'
     ],
+    // Descriptions for screen readers and search, one per media item, same order.
+    alt: [
+      'Story intro: a night mountain lit by a flash, \'Step inside the story\'',
+      'Hands-on challenge: draw distance circles on a map to find the vent of an eruption',
+      'Trail map of Visp with numbered stops through the old town',
+      'Hazard Watch experience card: virtual, about 20 minutes, with a start button',
+      'Badges screen with milestones and streaks to collect'
+    ],
     tech: ['Flutter', 'Firebase', 'Cloud Functions', 'Next.js', 'App Check', 'OpenStreetMap'],
     features: [
       'Illustrated story pages with quizzes, estimates, sorting and puzzle challenges',
@@ -219,6 +270,13 @@ const COLDSNAP_PROJECTS = [
       { label: 'Privacy Policy', labelFr: 'Confidentialité', href: 'https://exploreum.web.app/privacy', icon: 'fa-shield', secondary: true }
     ],
     fr: {
+      alt: [
+        'Introduction de l\'histoire : une montagne de nuit éclairée par un éclair, « Entrez dans l\'histoire »',
+        'Défi concret : tracer des cercles de distance sur une carte pour trouver la cheminée d\'une éruption',
+        'Carte du parcours de Viège avec des étapes numérotées dans la vieille ville',
+        'Fiche de l\'expérience Hazard Watch : virtuelle, environ 20 minutes, avec un bouton pour commencer',
+        'Écran des badges : étapes et séries à collectionner'
+      ],
       type: 'App ludo-éducative',
       shortDescription: 'Musées, villes et balades deviennent des histoires interactives à jouer sur son téléphone',
       description: 'Exploreum transforme la visite d\'un musée, une balade en ville ou un site en plein air en une histoire à jouer sur son téléphone. Chaque expérience enchaîne des pages illustrées et des jeux : quiz, estimations, défis de classement et de tri, puzzles d\'images et défis sur carte. Les balades guidées affichent leurs étapes sur une carte : on sait toujours où aller ensuite. Certaines expériences se jouent partout, d\'autres se débloquent sur place grâce au QR code d\'un panneau. Sans compte pour commencer, sans publicité, en français, anglais et allemand. Les musées et lieux partenaires ont leur propre page et gèrent leurs scénarios, événements et codes imprimés depuis un espace web.',
@@ -255,6 +313,10 @@ const COLDSNAP_PROJECTS = [
     media: [
       '/assets/projects/winston/winston-1.png'
     ],
+    // Descriptions for screen readers and search, one per media item, same order.
+    alt: [
+      'Winston accounting dashboard with CHF, EUR and USD ledgers and status overview'
+    ],
     tech: ['Flutter Web', 'Dart', 'Firebase', 'OpenAI GPT-4o-mini', 'LinkedIn API', 'Cloud Functions'],
     features: [
       'Quotes, invoices, and business expense management',
@@ -268,6 +330,9 @@ const COLDSNAP_PROJECTS = [
     ],
     links: [],
     fr: {
+      alt: [
+        'Tableau de bord comptable Winston avec registres en CHF, EUR et USD et vue des statuts'
+      ],
       type: 'App web',
       shortDescription: 'Le majordome administratif : comptabilité, contrats, facturation et LinkedIn assisté par IA dans un seul tableau de bord',
       description: 'Winston est une plateforme d\'administration interne qui gère tout le back-office d\'un studio multi-sociétés : devis, factures, notes de frais et contrats de bout en bout, avec génération et export PDF. Elle intègre aussi un pipeline de contenu LinkedIn assisté par IA qui rédige et publie des posts professionnels à partir d\'articles d\'actualité (GPT-4o-mini). Le support multi-sociétés permet de piloter toutes les entités du studio depuis un seul tableau de bord.',
@@ -295,6 +360,11 @@ const COLDSNAP_PROJECTS = [
       '/assets/projects/Vidanim/vidanim%20(1).jpg',
       '/assets/projects/Vidanim/vidanim%20(2).jpg'
     ],
+    // Descriptions for screen readers and search, one per media item, same order.
+    alt: [
+      'Vidanim activity list: each card shows a photo, a title and a short description',
+      'Activity sheet \'Keep talking and nobody explodes\' with duration, materials, description and gallery'
+    ],
     tech: ['Flutter', 'Dart', 'Android', 'Web'],
     features: [
       'Create and archive kids activity ideas',
@@ -308,6 +378,10 @@ const COLDSNAP_PROJECTS = [
       { label: 'Google Play', href: 'https://play.google.com/store/apps/details?id=com.coldsnap.vidanim', icon: 'fa-android', style: 'play-store' }
     ],
     fr: {
+      alt: [
+        'Liste d\'activités Vidanim : chaque fiche montre une photo, un titre et une courte description',
+        'Fiche d\'activité « Keep talking and nobody explodes » avec durée, matériel, description et galerie'
+      ],
       type: 'App mobile/web',
       shortDescription: 'Bibliothèque d\'activités pour enseignants et animateurs : documenter, estimer et partager',
       description: 'Vidanim aide les enseignants et animateurs à garder une trace des activités qu\'ils créent pour les enfants. Chaque fiche peut contenir des photos, le matériel nécessaire et le temps de préparation, pour réutiliser facilement les bonnes idées et préparer les prochaines séances. Les activités se partagent entre utilisateurs pour construire ensemble une base de connaissances.',
@@ -342,6 +416,14 @@ const COLDSNAP_PROJECTS = [
       '/assets/projects/arcade/arcade-1.png',
       '/assets/projects/arcade/arcade-2.png'
     ],
+    // Descriptions for screen readers and search, one per media item, same order.
+    alt: [
+      'David contre les zombies, level 5: the player collects blue gems in the Re-Play festival hall while zombies approach',
+      'David contre les zombies on the beach level, chased by a horde of zombies',
+      'Game over screen: time, level and number of zombies killed',
+      'ColdSnap Arcade home page with the David contre les zombies game card',
+      'Game page in the ColdSnap Arcade: the playable game next to the leaderboard'
+    ],
     tech: ['C', 'Z80', 'SDCC', 'EmulatorJS', 'Cloudflare Workers', 'Cloudflare D1'],
     features: [
       'Runs the real ROM in the browser, the same file as on the console',
@@ -350,6 +432,13 @@ const COLDSNAP_PROJECTS = [
       'Master System and Super Nintendo score reading tested, more consoles to come'
     ],
     fr: {
+      alt: [
+        'David contre les zombies, niveau 5 : le joueur ramasse des gemmes bleues dans le hall du festival Re-Play pendant que les zombies approchent',
+        'David contre les zombies sur le niveau de la plage, poursuivi par une horde de zombies',
+        'Écran de fin de partie : temps, niveau et nombre de zombies tués',
+        'Accueil de l\'arcade ColdSnap avec la carte du jeu David contre les zombies',
+        'Page de jeu de l\'arcade ColdSnap : le jeu jouable à côté du classement'
+      ],
       type: 'Arcade rétro',
       shortDescription: 'Des jeux écrits pour de vraies consoles rétro, jouables dans le navigateur, avec un classement commun',
       description: "De vrais jeux pour anciennes consoles, jouables depuis n'importe quel navigateur, avec un seul classement. Le premier, David contre les zombies, est un jeu de survie écrit en C pour la Sega Master System. Il tourne sur la console d'origine depuis une cartouche flash, et ici depuis exactement la même ROM.",
@@ -381,6 +470,18 @@ const COLDSNAP_PROJECTS = [
       '/assets/projects/pygmak/pygmak-8.jpg',
       '/assets/projects/pygmak/pygmak-9.jpg'
     ],
+    // Descriptions for screen readers and search, one per media item, same order.
+    alt: [
+      'Pygmak gameplay: laser beams from a boat break falling crates above green hills',
+      'A parachute bomb drops among crates while the boat fires',
+      'Level up: pick one of three upgrade cards',
+      'Golden chest reward with three rare upgrade cards',
+      'Crates of every size falling toward the boat',
+      '\'Gun jammed!\' warning during a run',
+      'Main menu with the laser class, best score and Play button',
+      'Class and skins screen: cannon, laser and firework weapons',
+      'Damage recap at the end of a run, split by weapon'
+    ],
     tech: ['Unity 6', 'C#', 'URP', 'UI Toolkit', 'Feel', 'LevelPlay Ads', 'Android'],
     features: [
       'Steer the flagship; the gun aims itself',
@@ -394,6 +495,17 @@ const COLDSNAP_PROJECTS = [
       { label: 'Google Play', href: 'https://play.google.com/store/apps/details?id=com.coldsnap.pygmak', icon: 'fa-android', style: 'play-store' }
     ],
     fr: {
+      alt: [
+        'Partie de Pygmak : des rayons laser tirés d\'un bateau brisent des caisses au-dessus de collines vertes',
+        'Une bombe en parachute tombe parmi les caisses pendant que le bateau tire',
+        'Montée de niveau : choisir une carte d\'amélioration parmi trois',
+        'Coffre doré avec trois cartes d\'amélioration rares',
+        'Des caisses de toutes tailles tombent vers le bateau',
+        'Alerte « Gun jammed! » pendant une partie',
+        'Menu principal avec la classe laser, le meilleur score et le bouton Jouer',
+        'Écran des classes et skins : canon, laser et feu d\'artifice',
+        'Bilan des dégâts en fin de partie, réparti par arme'
+      ],
       type: 'Jeu mobile',
       shortDescription: 'Arcade façon survivors sur l\'eau : pilotez un navire, pulvérisez des hordes de caisses, construisez votre run carte par carte',
       description: 'Pygmak est un jeu d\'arcade façon survivors sur l\'eau. Les caisses pleuvent par hordes, le canon du navire vise tout seul, et le joueur pilote le long de la ligne d\'eau pour esquiver ce qui tombe et ramasser les étoiles d\'XP qui flottent là où les caisses se sont brisées. Chaque niveau distribue une main de trois cartes prise d\'un tap : feu, gel, électricité, tir dispersé, point faible et des dizaines d\'autres, avec des évolutions débloquées dans les coffres. Trois classes d\'armes (canon, laser, feu d\'artifice), un convoi de canonnières qui suit le navire, des élites, des boss classés toutes les deux minutes et demie et une caisse finale à 15:00, puis un mode infini. Les caisses corrompues se divisent, explosent, lâchent des mines ou descendent en parachute. Un cycle jour/nuit et des saisons défilent, un atelier et des skins persistent entre les parties, et un récapitulatif des dégâts clôt chaque run. Construit sur une physique 2D réaliste, pour que chaque tir, rebond et éclaboussure ait du poids.',
@@ -423,6 +535,13 @@ const COLDSNAP_PROJECTS = [
       '/assets/projects/seba/seba-en-3.jpg',
       '/assets/projects/seba/seba-en-4.jpg'
     ],
+    // Descriptions for screen readers and search, one per media item, same order.
+    alt: [
+      'Unopened Seba card pack: five creatures in every pack',
+      'Creature card Uwan, a Japanese yokai painting with its story',
+      'Bestiary page \'Gods of Greece\' with the first cards found',
+      'Home screen: a free pack is ready every hour, with collection counters'
+    ],
     tech: ['Flutter', 'Firebase', 'Cloud Functions', 'FCM', 'In-app purchases'],
     features: [
       'A free pack every hour, two kept in store, and a push when they are ready',
@@ -438,6 +557,12 @@ const COLDSNAP_PROJECTS = [
       { label: 'Privacy Policy', labelFr: 'Confidentialité', href: '/apps/seba/privacy/', icon: 'fa-shield', secondary: true }
     ],
     fr: {
+      alt: [
+        'Paquet de cartes Seba fermé : cinq créatures par paquet',
+        'Carte de la créature Zahhak, une miniature persane ancienne avec son histoire',
+        'Page du bestiaire « Moyen-Orient et Égypte » avec les premières cartes trouvées',
+        'Écran d\'accueil : un paquet gratuit chaque heure, avec les compteurs de collection'
+      ],
       type: 'Jeu de cartes',
       shortDescription: 'Collectionne plus de 900 créatures et dieux mythiques, presque tous sur de vraies œuvres',
       description: 'Seba est un jeu de cartes des créatures de tous les mythes du monde : dragons, kappa, oiseaux de feu, serpents de mer et dieux des panthéons anciens. Ouvre un paquet gratuit, décolle cinq autocollants et remplis ton bestiaire. Presque chaque carte montre une œuvre du domaine public venue de Wikimedia Commons, du Met, du Cleveland Museum of Art ou de l\'Art Institute of Chicago, créditée sur la carte avec la tradition de la créature et une courte description. La rareté a du sens : les légendaires sont les créatures que le monde entier connaît, les rares ne sont racontées que dans quelques langues. Le nom vient d\'Albertus Seba, apothicaire d\'Amsterdam du XVIIIe siècle dont le livre de curiosités plaçait de vrais animaux à côté de dragons et d\'une hydre à sept têtes.',
@@ -474,6 +599,13 @@ const COLDSNAP_PROJECTS = [
       '/assets/projects/badalone/badalone-en-3.jpg',
       '/assets/projects/badalone/badalone-en-4.jpg'
     ],
+    // Descriptions for screen readers and search, one per media item, same order.
+    alt: [
+      'Patent card \'Coherent LADAR using intra-pixel quadrature detection\' with its original drawing',
+      'Unopened Badalone pack of nine patents, pull the strip to open',
+      'Nine new patent cards revealed from one pack',
+      'Codex of collected patents with search and filters'
+    ],
     tech: ['Flutter', 'Firebase', 'Cloud Functions', 'Patent data', 'FCM'],
     features: [
       'Nine random patents per pack, drawn live from 12 million+ inventions',
@@ -488,6 +620,12 @@ const COLDSNAP_PROJECTS = [
       { label: 'Google Play', href: 'https://play.google.com/store/apps/details?id=com.coldsnap.badalone', icon: 'fa-android', style: 'play-store' }
     ],
     fr: {
+      alt: [
+        'Carte brevet « Coherent LADAR using intra-pixel quadrature detection » avec son dessin d\'origine',
+        'Paquet Badalone de neuf brevets, tirer la bande pour l\'ouvrir',
+        'Neuf nouvelles cartes brevets révélées dans un paquet',
+        'Codex des brevets collectés avec recherche et filtres'
+      ],
       type: 'Jeu de cartes',
       shortDescription: 'Ouvre des paquets de vrais brevets, souvent absurdes, tirés de 12 millions d\'inventions',
       description: 'Chaque paquet de Badalone contient neuf vrais brevets tirés au hasard de toutes les archives américaines : plus de douze millions d\'inventions, de 1836 à la semaine dernière. Une méthode pour se balancer sur une balançoire. Un chapeau avec parapluie intégré. L\'ampoule électrique. Chaque carte montre le dessin d\'origine redessiné en plan blanc sur noir, un indice d\'absurdité et le résumé en mots simples au dos, et ouvre le document original en un geste. La rareté se gagne par l\'influence : plus d\'inventions se sont appuyées sur un brevet, plus sa carte est rare. Le nom vient d\'Il Badalone, la barge fluviale de Brunelleschi, objet du tout premier brevet (Florence, 1421). Sans publicité, sans achat.',
@@ -523,6 +661,16 @@ const COLDSNAP_PROJECTS = [
       '/assets/projects/maya/maya-en-5.jpg',
       '/assets/projects/maya/maya-en-6.jpg'
     ],
+    // Descriptions for screen readers and search, one per media item, same order.
+    alt: [
+      'Maya trailer: \'What if your town could talk to you?\'',
+      'Town news home screen with highlights, town hall shortcuts and open polls',
+      'Event page with date, place and full description',
+      'Report a problem: pick a category, add a photo and place a pin on the map',
+      'Notification settings: choose which alerts and news to receive',
+      'The Hive: pollen, level and badges earned at local shops',
+      'Map of local shops near you with a shop card'
+    ],
     tech: ['Flutter', 'Firebase', 'Cloud Functions', 'Next.js', 'FCM', 'Google Maps'],
     features: [
       'News and events imported from the town\'s website',
@@ -541,6 +689,14 @@ const COLDSNAP_PROJECTS = [
       { label: 'Privacy Policy', labelFr: 'Confidentialité', href: 'https://maya.coldsnap.fr/confidentialite', icon: 'fa-shield', secondary: true }
     ],
     fr: {
+      alt: [
+        'Accueil des actualités de la commune avec la une, les raccourcis mairie et les sondages en cours',
+        'Page d\'un événement avec date, lieu et description complète',
+        'Signaler un problème : choisir une catégorie, ajouter une photo et placer un repère sur la carte',
+        'Réglages des notifications : choisir les alertes et actualités reçues',
+        'La Ruche : pollen, niveau et badges gagnés chez les commerçants',
+        'Carte des commerces de proximité avec la fiche d\'un commerce'
+      ],
       type: 'App communale',
       shortDescription: 'La mairie dans la poche de chaque habitant : actus, alertes, sondages, signalements et commerces',
       description: 'Maya est une application conçue pour les communes. Les habitants y retrouvent les actualités et l\'agenda de leur ville, les alertes urgentes, les sondages et les infos pratiques, et ne reçoivent que les notifications qu\'ils ont choisies. Ils peuvent signaler un problème avec une photo et un repère sur la carte, puis suivre son traitement. Les actualités et l\'agenda sont importés du site de la commune, et les agents gèrent le reste depuis un espace mairie sur le web. Chaque commune n\'ajoute que les modules dont elle a besoin : vigilances Météo-France et Vigicrues automatiques, rappels de collecte des déchets, lieux de la ville sur la carte, et commerce local avec la Ruche, un programme de fidélité par QR code. Gratuit pour les habitants et les commerçants, sans publicité ni traceur, données hébergées en France. Première commune : Mouans-Sartoux.',
@@ -581,6 +737,13 @@ const COLDSNAP_PROJECTS = [
       '/assets/projects/sandlog/sandlog-3.jpg?v=20261030',
       '/assets/projects/sandlog/sandlog-4.jpg?v=20261030'
     ],
+    // Descriptions for screen readers and search, one per media item, same order.
+    alt: [
+      'Sandlog capture screen: a microphone button to record a dream by voice',
+      'Recording in progress with spoken words floating around the stop button',
+      'Dream journal listing dated dreams with titles and summaries',
+      'Settings: language, stop after silence, auto-start and Google Drive backup'
+    ],
     tech: ['Flutter', 'Dart', 'Google Drive API', 'Voice Recording', 'Silence Detection'],
     features: [
       'Instant recording on app open, no buttons needed',
@@ -593,6 +756,12 @@ const COLDSNAP_PROJECTS = [
       { label: 'Privacy Policy', labelFr: 'Confidentialité', href: '/apps/generic/privacy/', icon: 'fa-shield', secondary: true }
     ],
     fr: {
+      alt: [
+        'Écran de capture Sandlog : un bouton micro pour enregistrer un rêve à la voix',
+        'Enregistrement en cours, les mots prononcés flottent autour du bouton stop',
+        'Journal des rêves : rêves datés avec titres et résumés',
+        'Réglages : langue, arrêt après silence, démarrage auto et sauvegarde Google Drive'
+      ],
       type: 'App mobile',
       shortDescription: 'Journal de rêves vocal : ouvrez l\'app, parlez, votre rêve est enregistré',
       description: 'Un journal de rêves sans friction, pensé pour capturer un rêve dès le réveil. Ouvrez l\'app et parlez : Sandlog s\'arrête automatiquement quand le silence revient et enregistre votre rêve. Les enregistrements peuvent être exportés vers Google Drive.',
@@ -618,6 +787,12 @@ const COLDSNAP_PROJECTS = [
       '/assets/projects/badger/badger-2.jpg',
       '/assets/projects/badger/badger-3.jpg'
     ],
+    // Descriptions for screen readers and search, one per media item, same order.
+    alt: [
+      'Badger profile screen with contact card settings and cloud sync',
+      'Digital business card ready to share, with phone, email and website',
+      'Share screen: show or scan a QR code, NFC and contact file'
+    ],
     tech: ['Flutter', 'Dart', 'NFC', 'Firebase', 'QR Code', 'Material Design 3'],
     features: [
       'NFC contact sharing (NDEF format)',
@@ -632,6 +807,11 @@ const COLDSNAP_PROJECTS = [
       { label: 'Privacy Policy', labelFr: 'Confidentialité', href: '/apps/generic/privacy/', icon: 'fa-shield', secondary: true }
     ],
     fr: {
+      alt: [
+        'Écran profil de Badger avec réglages de la carte de contact et synchronisation',
+        'Carte de visite numérique prête à partager, avec téléphone, e-mail et site web',
+        'Écran de partage : afficher ou scanner un QR code, NFC et fichier contact'
+      ],
       type: 'App mobile',
       shortDescription: 'Carte de visite numérique NFC : partagez vos coordonnées en rapprochant deux téléphones',
       description: 'Le remplaçant moderne de la carte de visite papier. Badger partage vos coordonnées instantanément en rapprochant deux téléphones (NFC), ou par QR code en secours. Créez de belles cartes numériques, exportez-les en VCF et retrouvez tous vos contacts au même endroit.',
@@ -660,6 +840,13 @@ const COLDSNAP_PROJECTS = [
       '/assets/projects/colismarket/colismarket-3.jpg',
       '/assets/projects/colismarket/colismarket-4.jpg'
     ],
+    // Descriptions for screen readers and search, one per media item, same order.
+    alt: [
+      'ColisMarket home: choose customer or courier, with today\'s counters',
+      'Scanning a parcel label, analysis in progress',
+      'Parcel pickup form pre-filled by OCR: tracking number, sender, recipient and weight',
+      'Customer signature pad to confirm the parcel handover'
+    ],
     tech: ['Flutter', 'Dart', 'Google ML Kit', 'OCR', 'Android'],
     features: [
       'ML Kit OCR for parcel label scanning',
@@ -672,6 +859,12 @@ const COLDSNAP_PROJECTS = [
       { label: 'Privacy Policy', labelFr: 'Confidentialité', href: '/apps/generic/privacy/', icon: 'fa-shield', secondary: true }
     ],
     fr: {
+      alt: [
+        'Accueil ColisMarket : choisir client ou livreur, avec les compteurs du jour',
+        'Scan de l\'étiquette d\'un colis, analyse en cours',
+        'Formulaire de retrait pré-rempli par OCR : numéro de suivi, expéditeur, destinataire et poids',
+        'Zone de signature du client pour confirmer la remise du colis'
+      ],
       type: 'App mobile',
       shortDescription: 'Gestion de points relais avec lecture OCR des étiquettes pour le suivi des colis',
       description: 'Une app mobile pour gérer les points relais de retrait et de livraison de colis. L\'OCR ML Kit lit et extrait les informations directement depuis les étiquettes, ce qui accélère la prise en charge des colis pour les opérateurs.',
@@ -697,6 +890,11 @@ const COLDSNAP_PROJECTS = [
       '/assets/projects/patoune/patoune-1.jpg',
       '/assets/projects/patoune/patoune-2.jpg'
     ],
+    // Descriptions for screen readers and search, one per media item, same order.
+    alt: [
+      'Patoune: a cat drawing with buttons on each claw to mark which ones were trimmed',
+      'Claw care guide with four tips and a diagram of where to cut'
+    ],
     tech: ['Flutter', 'Dart', 'SharedPreferences', 'SVG', 'i18n'],
     features: [
       'Visual paw diagram for per-claw tracking',
@@ -711,6 +909,10 @@ const COLDSNAP_PROJECTS = [
       { label: 'Privacy Policy', labelFr: 'Confidentialité', href: '/apps/patoune/privacy/', icon: 'fa-shield', secondary: true }
     ],
     fr: {
+      alt: [
+        'Patoune : un dessin de chat avec un bouton sur chaque griffe pour noter celles coupées',
+        'Guide de soin des griffes : quatre conseils et un schéma de l\'endroit où couper'
+      ],
       type: 'App mobile',
       shortDescription: 'Suivi de la coupe des griffes de votre chat, griffe par griffe',
       description: 'Une app attachante pour les propriétaires de chats qui rend l\'entretien des griffes simple et sans stress. Patoune propose un schéma de patte pour suivre chaque griffe coupée, des rappels colorés quand il est temps, et des conseils pour couper en toute sécurité.',
@@ -740,6 +942,10 @@ const COLDSNAP_PROJECTS = [
     media: [
       '/assets/projects/posti/posti-1.png'
     ],
+    // Descriptions for screen readers and search, one per media item, same order.
+    alt: [
+      'Posti to-do window with two open tasks and an archived list'
+    ],
     tech: ['Flutter', 'Dart', 'Windows', 'macOS'],
     features: [
       'System tray integration',
@@ -750,6 +956,9 @@ const COLDSNAP_PROJECTS = [
     ],
     links: [],
     fr: {
+      alt: [
+        'Fenêtre de tâches Posti avec deux tâches en cours et une liste archivée'
+      ],
       type: 'App de bureau',
       shortDescription: 'Todo et notes minimalistes, toujours au premier plan, dans la barre système',
       description: 'Une petite app de productivité qui vit dans la barre système. Posti reste au premier plan pour accéder instantanément à vos tâches et notes sans changer de contexte. Zéro friction : notez une idée en quelques secondes et reprenez le travail.',
@@ -775,6 +984,11 @@ const COLDSNAP_PROJECTS = [
       '/assets/projects/grapple-groove/grapple-groove-1.png',
       '/assets/projects/grapple-groove/grapple-groove-2.png'
     ],
+    // Descriptions for screen readers and search, one per media item, same order.
+    alt: [
+      'GrappleGroove first-person view on Tutorial Island, a red glove aiming at the grapple points',
+      'Level editor view of floating white platforms and trigger zones above water'
+    ],
     tech: ['Unity 6', 'C#', 'URP', 'Spring Physics', 'Android', 'PC'],
     features: [
       'Dual grappling hooks (rope and pole types)',
@@ -789,6 +1003,10 @@ const COLDSNAP_PROJECTS = [
       { label: 'Play', labelFr: 'Jouer', href: 'https://grapplegroove.web.app', icon: 'fa-play' }
     ],
     fr: {
+      alt: [
+        'GrappleGroove en vue subjective sur l\'île tutoriel, un gant rouge vise les points d\'accroche',
+        'Vue de l\'éditeur de niveau : plateformes blanches et zones de déclenchement au-dessus de l\'eau'
+      ],
       type: 'Jeu PC',
       shortDescription: 'Parkour à la première personne au grappin : balancez-vous, grimpez et décollez à travers des niveaux physiques',
       description: 'Un jeu de parkour nerveux à la première personne, construit autour de deux grappins et d\'une physique d\'élan. Le joueur combine grappins à corde et à perche, course sur les murs, sauts, glissades et plateformes à ressort pour traverser des niveaux de plus en plus créatifs. Inclut un éditeur de niveaux intégré, utilisé par une équipe de plusieurs level designers.',
@@ -817,6 +1035,12 @@ const COLDSNAP_PROJECTS = [
       '/assets/projects/sharekm/sharekm-2.png',
       '/assets/projects/sharekm/sharekm-3.png'
     ],
+    // Descriptions for screen readers and search, one per media item, same order.
+    alt: [
+      'ShareKM in dark mode: connected to a laptop, encryption, hotkey and performance settings',
+      'ShareKM in light mode with the same connection and security settings',
+      'Warning dialog before running ShareKM as administrator'
+    ],
     tech: ['C#', '.NET', 'WinForms', 'Win32 hooks', 'AES-GCM'],
     features: [
       'One hotkey to switch control between your PCs (rebindable with a Record button)',
@@ -833,6 +1057,11 @@ const COLDSNAP_PROJECTS = [
       { label: 'GitHub', href: 'https://github.com/Yukisando/ShareKM', icon: 'fa-github', secondary: true }
     ],
     fr: {
+      alt: [
+        'ShareKM en mode sombre : connecté à un portable, chiffrement, raccourci et réglages de performance',
+        'ShareKM en mode clair avec les mêmes réglages de connexion et de sécurité',
+        'Avertissement avant de lancer ShareKM en administrateur'
+      ],
       type: 'App Windows (barre système)',
       shortDescription: 'Partagez un clavier et une souris entre deux PC Windows, avec appairage chiffré et presse-papiers partagé',
       description: 'Une petite app Windows dans la barre système qui permet de piloter deux PC du même réseau avec un seul clavier et une seule souris, avec le texte du presse-papiers partagé dans les deux sens. Un raccourci clavier suffit pour passer d\'un PC à l\'autre. Elle trouve l\'autre PC toute seule, s\'appaire avec une phrase secrète et chiffre tout ce qu\'elle envoie (AES-256-GCM), et peut tourner en administrateur pour piloter les fenêtres élevées. Un seul exécutable autonome : sans installation, sans compte, sans PowerToys. Gratuit pour un usage non commercial, code source sur GitHub.',
@@ -862,6 +1091,12 @@ const COLDSNAP_PROJECTS = [
       '/assets/projects/waddonsync/waddonsync-2.png',
       '/assets/projects/waddonsync/waddonsync-3.png',
     ],
+    // Descriptions for screen readers and search, one per media item, same order.
+    alt: [
+      'WaddonSync backup created, with an offer to upload it to Google Drive',
+      'Manage backups: local and Google Drive copies of World of Warcraft settings',
+      'Backup options for World of Warcraft folders while a backup is being created'
+    ],
     tech: ['Flutter', 'Dart', 'Google Drive API', 'OAuth 2.0'],
     features: [
       'Backup and restore of WoW addon data',
@@ -875,6 +1110,11 @@ const COLDSNAP_PROJECTS = [
       { label: 'Privacy Policy', labelFr: 'Confidentialité', href: '/apps/waddonsync/privacy/', icon: 'fa-shield', secondary: true }
     ],
     fr: {
+      alt: [
+        'Sauvegarde WaddonSync créée, avec la proposition de l\'envoyer sur Google Drive',
+        'Gestion des sauvegardes : copies locales et Google Drive des réglages World of Warcraft',
+        'Options de sauvegarde des dossiers World of Warcraft pendant la création d\'une sauvegarde'
+      ],
       type: 'App de bureau',
       shortDescription: 'Sauvegarde automatique des données d\'addons World of Warcraft sur Google Drive',
       description: 'Un utilitaire de bureau qui sauvegarde en toute sécurité les données de vos addons World of Warcraft sur Google Drive. Ne perdez plus jamais vos réglages, raccourcis ou interfaces.',
@@ -898,6 +1138,10 @@ const COLDSNAP_PROJECTS = [
     media: [
       '/assets/projects/magic-arrow/magic-arrow-1.jpg',
     ],
+    // Descriptions for screen readers and search, one per media item, same order.
+    alt: [
+      'Magic Arrow in Minecraft: first-person view drawing a bow at night in a blocky forest'
+    ],
     tech: ['Java', 'Bukkit/Spigot API', 'Minecraft'],
     features: [
       'Context-sensitive bow abilities based on standing block',
@@ -909,6 +1153,9 @@ const COLDSNAP_PROJECTS = [
       { label: 'GitHub', href: 'https://github.com/Yukisando/MagicArrow', icon: 'fa-github' }
     ],
     fr: {
+      alt: [
+        'Magic Arrow dans Minecraft : vue subjective, arc bandé de nuit dans une forêt en blocs'
+      ],
       type: 'Plugin Minecraft',
       shortDescription: 'Plugin Minecraft qui donne à l\'arc des pouvoirs selon le bloc sous vos pieds',
       description: 'Un plugin Minecraft en Java, écrit de zéro, qui donne à l\'arc des super-pouvoirs contextuels. L\'effet dépend du bloc sous les pieds du joueur : sur la glace une flèche gelante, sur la TNT une flèche explosive, sur l\'herbe une flèche qui pose des blocs, etc. Une exploration ludique de l\'API Bukkit/Spigot.',
@@ -933,6 +1180,11 @@ const COLDSNAP_PROJECTS = [
       '/assets/projects/bolt/bolt-1.png',
       '/assets/projects/bolt/bolt-2.png'
     ],
+    // Descriptions for screen readers and search, one per media item, same order.
+    alt: [
+      'B.O.L.T options panel inside World of Warcraft with its modules and settings',
+      'Redesigned World of Warcraft game menu with expansion shortcuts added by B.O.L.T'
+    ],
     tech: ['Lua', 'World of Warcraft API', 'GitHub Actions', 'CI/CD'],
     features: [
       'Game Menu enhancements (Leave Group, Reload UI, Group Tools)',
@@ -949,6 +1201,10 @@ const COLDSNAP_PROJECTS = [
       { label: 'GitHub', href: 'https://github.com/Yukisando/B.O.L.T', icon: 'fa-github', secondary: true }
     ],
     fr: {
+      alt: [
+        'Panneau d\'options B.O.L.T dans World of Warcraft avec ses modules et réglages',
+        'Menu du jeu World of Warcraft revu, avec les raccourcis d\'extension ajoutés par B.O.L.T'
+      ],
       type: 'Addon WoW',
       shortDescription: 'Addon World of Warcraft modulaire : du confort de jeu sans toucher aux mécaniques',
       description: 'Brittle and Occasionally Lethal Tweaks. Un addon World of Warcraft modulaire qui apporte du confort de jeu sans modifier le gameplay : menu de jeu enrichi, contrôles de vol dynamique avancés, alertes de chat, mise en évidence des lanceurs de sorts à mana, suivi des instances sauvegardées, et plus. Activement maintenu, plus de 113 versions publiées.',
@@ -976,6 +1232,10 @@ const COLDSNAP_PROJECTS = [
     media: [
       '/assets/projects/coldsnap-utilities/utilities-1.png'
     ],
+    // Descriptions for screen readers and search, one per media item, same order.
+    alt: [
+      'ColdSnap Utilities in the Unity Package Manager, with its Tools menu and scene switcher'
+    ],
     tech: ['Unity', 'C#', 'UPM'],
     features: [
       'Unity Package Manager (UPM) compatible',
@@ -987,6 +1247,9 @@ const COLDSNAP_PROJECTS = [
       { label: 'GitHub', href: 'https://github.com/Yukisando/com.coldsnap.utilities', icon: 'fa-github' }
     ],
     fr: {
+      alt: [
+        'ColdSnap Utilities dans le Package Manager de Unity, avec son menu Tools et le sélecteur de scènes'
+      ],
       type: 'Package Unity',
       shortDescription: 'Package Unity C# d\'utilitaires partagés par tous les projets ColdSnap',
       description: 'Une bibliothèque open source pour le Unity Package Manager (UPM) qui regroupe les utilitaires, helpers et outils communs à tous les projets ColdSnap. Moins de code répétitif, plus de cohérence dans le pipeline Unity du studio.',

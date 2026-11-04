@@ -28,6 +28,7 @@ let totalSlides = 0;
 
 // Zoom state
 let zoomImages = [];
+const zoomAlts = new Map(); // original file -> description
 let currentZoomIndex = 0;
 
 function stopProjectModalMedia(reset = false) {
@@ -107,6 +108,7 @@ function openZoom(imageSrc) {
   const zoomModal = document.getElementById('zoomModal');
   const zoomImage = document.getElementById('zoomImage');
   zoomImage.src = imageSrc;
+  zoomImage.alt = zoomAlts.get(imageSrc) || '';
   zoomModal.classList.add('active');
   document.body.style.overflow = 'hidden';
 
@@ -130,12 +132,14 @@ function nextZoom() {
   if (zoomImages.length <= 1) return;
   currentZoomIndex = (currentZoomIndex + 1) % zoomImages.length;
   document.getElementById('zoomImage').src = zoomImages[currentZoomIndex];
+  document.getElementById('zoomImage').alt = zoomAlts.get(zoomImages[currentZoomIndex]) || '';
 }
 
 function prevZoom() {
   if (zoomImages.length <= 1) return;
   currentZoomIndex = (currentZoomIndex - 1 + zoomImages.length) % zoomImages.length;
   document.getElementById('zoomImage').src = zoomImages[currentZoomIndex];
+  document.getElementById('zoomImage').alt = zoomAlts.get(zoomImages[currentZoomIndex]) || '';
 }
 
 // Card ⇄ popup animation
@@ -512,12 +516,17 @@ const mediaVariant = (src, suffix) => src.replace(/\.[a-z0-9]+(\?.*)?$/i, (_, qu
 function projectMedia(project) {
   const media = i18n.field(project, 'media');
   const thumbnail = i18n.field(project, 'thumbnail');
+  const alts = i18n.field(project, 'alt') || [];
   if (media && media.length) {
-    return media.map(src => isVideo(src)
-      ? { video: true, src: mediaVariant(src, 'view.mp4'), full: src, view: mediaVariant(src, 'view.webp'), mini: mediaVariant(src, 'mini.webp') }
-      : { src, full: src, view: mediaVariant(src, 'view.webp'), mini: mediaVariant(src, 'mini.webp') });
+    return media.map((src, i) => {
+      const alt = alts[i] || project.title;
+      zoomAlts.set(src, alt);
+      return isVideo(src)
+        ? { video: true, alt, src: mediaVariant(src, 'view.mp4'), full: src, view: mediaVariant(src, 'view.webp'), mini: mediaVariant(src, 'mini.webp') }
+        : { alt, src, full: src, view: mediaVariant(src, 'view.webp'), mini: mediaVariant(src, 'mini.webp') };
+    });
   }
-  return thumbnail ? [{ src: thumbnail, full: thumbnail, view: thumbnail, mini: thumbnail }] : [];
+  return thumbnail ? [{ alt: project.title, src: thumbnail, full: thumbnail, view: thumbnail, mini: thumbnail }] : [];
 }
 
 function visibleProjects() {
@@ -672,7 +681,7 @@ function renderViewer() {
   const strip = viewerMedia.length > 1 ? `
     <div class="viewer__strip">
       ${viewerMedia.map((m, i) => `
-        <button type="button" class="viewer__thumb" data-media="${i}" aria-label="${i + 1} / ${viewerMedia.length}">
+        <button type="button" class="viewer__thumb" data-media="${i}" aria-label="${i + 1} / ${viewerMedia.length}: ${escapeAttr(m.alt)}">
           <img src="${escapeAttr(m.mini)}" data-fallback="${escapeAttr(m.full)}" alt="" loading="lazy" draggable="false">
           ${m.video ? '<svg class="icon" aria-hidden="true"><use href="/assets/icons.svg#play"/></svg>' : ''}
         </button>
@@ -833,11 +842,11 @@ function renderStage() {
   if (!item) {
     shot = `<div class="viewer__placeholder">${project.icon || '🎮'}</div>`;
   } else if (item.video) {
-    shot = `<video class="viewer__shot" src="${escapeAttr(item.src)}" data-fallback="${escapeAttr(item.full)}" poster="${escapeAttr(item.view)}" autoplay muted loop playsinline controls preload="metadata"></video>`;
+    shot = `<video class="viewer__shot" src="${escapeAttr(item.src)}" data-fallback="${escapeAttr(item.full)}" poster="${escapeAttr(item.view)}" aria-label="${escapeAttr(item.alt)}" autoplay muted loop playsinline controls preload="metadata"></video>`;
   } else {
     shot = `
       <button type="button" class="viewer__zoom" aria-label="${escapeAttr(i18n.t('viewer.zoom'))}">
-        <img class="viewer__shot" src="${escapeAttr(item.view)}" data-fallback="${escapeAttr(item.full)}" alt="${escapeAttr(project.title)}" draggable="false">
+        <img class="viewer__shot" src="${escapeAttr(item.view)}" data-fallback="${escapeAttr(item.full)}" alt="${escapeAttr(item.alt)}" draggable="false">
       </button>`;
   }
 
