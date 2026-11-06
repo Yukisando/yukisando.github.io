@@ -4,7 +4,10 @@
 //
 // It also:
 // - adds the security headers GitHub Pages cannot send (HSTS, CSP, nosniff...);
-// - caches versioned files (?v=...) for a year;
+// - sends first-time visitors to the page in their language (Accept-Language), and
+//   returning ones to the language they picked (coldsnap-lang cookie);
+// - keeps pages in Cloudflare's edge cache, versioned files (?v=...) for a year in
+//   browsers, images and fonts for 30 days;
 // - serves the shared legal pages (CGV, privacy) under coldsnap.fr/legal/;
 // - receives the contact form (POST /api/contact) and mails it through Brevo.
 
@@ -17,6 +20,15 @@ const LEGAL_PAGES = {
   '/legal/cgv/': '/apps/generic/cgv/',
   '/legal/confidentialite/': '/apps/generic/privacy/',
 };
+
+// Pages cached at the edge for 10 minutes, like GitHub Pages' own max-age.
+const EDGE_TTL = 600;
+// Images and fonts without ?v=: 30 days. Replace a file in place = bump its ?v= or rename it.
+const STATIC_MAX_AGE = 60 * 60 * 24 * 30;
+const STATIC_PATH = /^\/(assets|fonts)\/|^\/favicon\.ico$/;
+
+const LANG_COOKIE = 'coldsnap-lang';
+const BOT = /bot|crawl|spider|slurp|lighthouse|preview|facebookexternalhit|embedly|whatsapp|telegram|discord|curl|wget/i;
 
 const SECURITY_HEADERS = {
   'Strict-Transport-Security': 'max-age=31536000',
@@ -83,8 +95,15 @@ export default {
       return withSecurity(await fetchLegalPage(request, legalPath, url.search), LEGAL_CSP);
     }
 
+    const langRedirect = languageRedirect(request, url);
+    if (langRedirect) return langRedirect;
+
     const upstream = new URL(ORIGIN_PATH + url.pathname + url.search, ORIGIN);
-    const response = await fetch(upstream, { method: request.method, redirect: 'manual' });
+    const response = await fetch(upstream, {
+      method: request.method,
+      redirect: 'manual',
+      cf: { cacheEverything: true, cacheTtl: EDGE_TTL },
+    });
 
     // GitHub Pages redirects (e.g. adding a trailing slash) point at nathandecastro.com;
     // rewrite them so the visitor stays on coldsnap.fr.
@@ -111,10 +130,89 @@ export default {
     // Files referenced with a ?v= version change URL whenever they change.
     if (response.ok && url.searchParams.has('v')) {
       result.headers.set('Cache-Control', 'public, max-age=31536000, immutable');
+    } else if (response.ok && STATIC_PATH.test(url.pathname)) {
+      result.headers.set('Cache-Control', `public, max-age=${STATIC_MAX_AGE}, stale-while-revalidate=86400`);
+    } else if ((result.headers.get('Content-Type') || '').includes('text/html')) {
+      // Pages change with every push: browsers keep them 10 minutes, like GitHub Pages
+      // (Cloudflare's default browser TTL would make it 4 hours). The language redirect
+      // depends on the cookie, so a browser must not reuse a page cached under another choice.
+      result.headers.set('Cache-Control', `public, max-age=${EDGE_TTL}`);
+      result.headers.append('Vary', 'Cookie');
     }
     return result;
   },
 };
+
+// ── Language ─────────────────────────────────────────────────
+// Each page exists in French (/, /projets/<id>/) and English (/en/, /en/projects/<id>/).
+// Deciding here, before the page is sent, costs one short redirect instead of loading
+// the French page and then the English one. Search engines send no Accept-Language
+// and no cookie, so they always get the page they asked for and find its twin through
+// hreflang.
+function pageLang(path) {
+  if (path === '/' || path.startsWith('/projets/')) return 'fr';
+  if (path === '/en/' || path.startsWith('/en/projects/')) return 'en';
+  return null; // legal pages, files: one version only
+}
+
+function twinPath(path, lang) {
+  if (lang === 'en') return path === '/' ? '/en/' : path.replace(/^\/projets\//, '/en/projects/');
+  return path === '/en/' ? '/' : path.replace(/^\/en\/projects\//, '/projets/');
+}
+
+function readCookie(request, name) {
+  for (const part of (request.headers.get('Cookie') || '').split(';')) {
+    const [key, value] = part.trim().split('=');
+    if (key === name && (value === 'fr' || value === 'en')) return value;
+  }
+  return null;
+}
+
+// First language of Accept-Language (highest q): French if it is French, otherwise
+// English, the site's only other language. No header: no choice.
+function browserLang(request) {
+  const header = request.headers.get('Accept-Language');
+  if (!header) return null;
+  const best = header.split(',')
+    .map((part, i) => {
+      const [tag, ...params] = part.trim().toLowerCase().split(';');
+      const q = params.map(p => p.trim()).find(p => p.startsWith('q='));
+      return { tag, q: q ? Number(q.slice(2)) || 0 : 1, i };
+    })
+    .filter(l => l.tag && l.tag !== '*' && l.q > 0)
+    .sort((a, b) => b.q - a.q || a.i - b.i)[0];
+  if (!best) return null;
+  return best.tag.startsWith('fr') ? 'fr' : 'en';
+}
+
+const langCookie = lang => `${LANG_COOKIE}=${lang}; Path=/; Max-Age=31536000; SameSite=Lax; Secure`;
+
+function redirectTo(url, lang, setCookie) {
+  const headers = new Headers({ Location: url.toString(), 'Cache-Control': 'private, no-store', Vary: 'Accept-Language, Cookie' });
+  if (setCookie) headers.append('Set-Cookie', langCookie(lang));
+  return new Response(null, { status: 302, headers });
+}
+
+function languageRedirect(request, url) {
+  const page = pageLang(url.pathname);
+  if (!page || request.method !== 'GET') return null;
+
+  // ?lang=fr|en (links from the apps, the arcade): remember it and show that page.
+  const asked = url.searchParams.get('lang');
+  if (asked === 'fr' || asked === 'en') {
+    const target = new URL(url);
+    target.searchParams.delete('lang');
+    target.pathname = twinPath(url.pathname, asked);
+    return redirectTo(target, asked, true);
+  }
+
+  if (BOT.test(request.headers.get('User-Agent') || '')) return null;
+  const want = readCookie(request, LANG_COOKIE) || browserLang(request);
+  if (!want || want === page) return null;
+  const target = new URL(url);
+  target.pathname = twinPath(url.pathname, want);
+  return redirectTo(target, want, false);
+}
 
 function withSecurity(response, csp) {
   const result = new Response(response.body, response);

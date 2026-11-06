@@ -529,6 +529,14 @@ h1, h2, h3 {
   gap: 10px;
 }
 
+/* The h1 holds the wordmark and the tagline; each span keeps its own type. */
+h1.hero__brand-text {
+  margin: 0;
+  font-size: inherit;
+  line-height: normal;
+  letter-spacing: normal;
+}
+
 .hero__name {
   font-family: var(--font-brand);
   font-size: clamp(2.6rem, 5vw, 4rem);

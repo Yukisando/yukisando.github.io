@@ -11,24 +11,17 @@
     if (/(^|\.)nathandecastro\.com$/.test(location.hostname)) {
       location.replace('https://coldsnap.fr' + (location.pathname.replace(/^\/coldsnap/, '') || '/') + location.search + location.hash);
     }
-    // One static page per language: / in French, /en/ in English. A saved choice (the FR/EN
-    // switch) or ?lang= wins; on a first visit the browser language decides. Crawlers stay put
-    // and find the other page through hreflang.
+    // One static page per language: / in French, /en/ in English. The worker on coldsnap.fr
+    // picks the page before it is sent (coldsnap-lang cookie, else Accept-Language).
+    // Choices saved before that cookie existed are moved into it here, once.
     (function () {
-      if (/bot|crawl|spider|slurp|lighthouse|preview/i.test(navigator.userAgent)) return;
-      var page = document.documentElement.lang;
-      var params = new URLSearchParams(location.search);
-      var want = params.get('lang'), saved;
+      var saved;
       try { saved = localStorage.getItem('coldsnap-lang'); } catch (e) {}
-      if (want === 'fr' || want === 'en') {
-        try { localStorage.setItem('coldsnap-lang', want); } catch (e) {}
-      } else {
-        want = saved || ((navigator.language || '').toLowerCase().indexOf('fr') === 0 ? 'fr' : 'en');
+      if ((saved !== 'fr' && saved !== 'en') || /(?:^|;\s*)coldsnap-lang=/.test(document.cookie)) return;
+      document.cookie = 'coldsnap-lang=' + saved + '; path=/; max-age=31536000; samesite=lax; secure';
+      if (saved !== document.documentElement.lang) {
+        location.replace((saved === 'en' ? '/en/projects/seba/' : '/projets/seba/') + location.search + location.hash);
       }
-      if (want === page || (want !== 'fr' && want !== 'en')) return;
-      params.delete('lang');
-      var query = params.toString();
-      location.replace((want === 'en' ? '/en/projects/seba/' : '/projets/seba/') + (query ? '?' + query : '') + location.hash);
     })();
   </script>
   <title>Seba — Jeu de cartes | ColdSnap</title>
@@ -56,7 +49,7 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png?v=20261028a" />
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=20261104a" />
   <link rel="preload" href="/fonts/Comfortaa-var.woff2" as="font" type="font/woff2" crossorigin>
-  <link href="/css/coldsnap.css?v=20261104k" rel="stylesheet">
+  <link href="/css/coldsnap.css?v=20261106a" rel="stylesheet">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -129,16 +122,16 @@
         <a href="/?project=coldsnap-arcade#work" data-arcade-link>Arcade</a>
         <a href="/#contact" class="cs-nav__cta" data-i18n="nav.cta">Démarrer un projet</a>
         <div class="lang-switch lang-switch--menu" role="group" data-i18n-attr="aria-label:lang.label" aria-label="Language">
-          <a href="/projets/seba/" hreflang="fr" lang="fr" data-lang="fr" aria-current="page">FR</a>
-          <a href="/en/projects/seba/" hreflang="en" lang="en" data-lang="en">EN</a>
+          <a href="/projets/seba/?lang=fr" hreflang="fr" lang="fr" data-lang="fr" aria-current="page">FR</a>
+          <a href="/en/projects/seba/?lang=en" hreflang="en" lang="en" data-lang="en">EN</a>
         </div>
       </nav>
 
       <div class="cs-nav__tools">
         <a href="/#contact" class="cs-nav__cta cs-nav__cta--bar" data-i18n="nav.cta">Démarrer un projet</a>
         <div class="lang-switch" role="group" data-i18n-attr="aria-label:lang.label" aria-label="Language">
-          <a href="/projets/seba/" hreflang="fr" lang="fr" data-lang="fr" aria-current="page">FR</a>
-          <a href="/en/projects/seba/" hreflang="en" lang="en" data-lang="en">EN</a>
+          <a href="/projets/seba/?lang=fr" hreflang="fr" lang="fr" data-lang="fr" aria-current="page">FR</a>
+          <a href="/en/projects/seba/?lang=en" hreflang="en" lang="en" data-lang="en">EN</a>
         </div>
         <button type="button" class="cs-nav__toggle" id="navToggle" aria-expanded="false" aria-controls="navLinks" data-i18n-attr="aria-label:nav.menu" aria-label="Menu">
           <span></span><span></span><span></span>
@@ -242,7 +235,7 @@
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
   <script src="/js/i18n-strings.js?v=20261104e"></script>
-  <script src="/js/i18n.js?v=20261104b"></script>
+  <script src="/js/i18n.js?v=20261106a"></script>
   <script src="/js/page.js?v=20261104a" defer></script>
   <script src="/js/secrets.js?v=20261104a" data-site="coldsnap" defer></script>
   <script src="/js/easter-eggs.js?v=20261104a" defer></script>

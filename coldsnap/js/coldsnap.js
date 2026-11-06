@@ -851,7 +851,7 @@ function renderStage() {
   }
 
   stage.innerHTML = `
-    ${item ? `<img class="viewer__backdrop" src="${escapeAttr(item.view)}" data-fallback="${escapeAttr(item.full)}" alt="" aria-hidden="true">` : ''}
+    ${item ? `<img class="viewer__backdrop" src="${escapeAttr(item.mini)}" data-fallback="${escapeAttr(item.view)}" alt="" aria-hidden="true">` : ''}
     ${shot}
     ${many ? `
       <button type="button" class="viewer__arrow prev" data-media-step="-1" aria-label="${escapeAttr(i18n.t('viewer.prevMedia'))}"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg#chevron-left"/></svg></button>
@@ -1157,7 +1157,7 @@ function initHeroCards() {
     };
 
     el.title = cardTitle(card);
-    el.style.cssText = `left:${card.x}px;top:${card.y}px;z-index:${card.zIndex};transform:rotate(${card.angle}deg) scale(${card.scale})`;
+    el.style.cssText = `left:0;top:0;z-index:${card.zIndex};transform:${cardTransform(card)}`;
     cards.push(card);
 
     // ── Drag + click ─────────────────────────────────────
@@ -1355,10 +1355,16 @@ function initHeroCards() {
     card.targetY = card.pointerY - grabOffset.y;
   }
 
+  // Cards move with transform only (left/top stay 0): no layout work per frame and no
+  // layout shift. A card at rest keeps its last transform string, so nothing is written.
+  function cardTransform(card) {
+    return `translate(${card.x}px, ${card.y}px) rotate(${card.angle}deg) scale(${card.scale})`;
+  }
   function renderCard(card) {
-    card.el.style.left = card.x + 'px';
-    card.el.style.top = card.y + 'px';
-    card.el.style.transform = `rotate(${card.angle}deg) scale(${card.scale})`;
+    const transform = cardTransform(card);
+    if (transform === card.renderedTransform) return;
+    card.renderedTransform = transform;
+    card.el.style.transform = transform;
   }
 
   function cardSpeed(card) {

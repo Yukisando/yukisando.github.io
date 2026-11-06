@@ -91,7 +91,7 @@ const COLDSNAP_PROJECTS = [
       'Multi-language content'
     ],
     links: [
-      { label: 'Learn More', labelFr: 'En savoir plus', href: 'https://www.valbilon.com/projects/cpps-exhibit', icon: 'fa-external-link' }
+      { label: 'See it on Valbilon', labelFr: 'Voir le projet sur Valbilon', href: 'https://www.valbilon.com/projects/cpps-exhibit', icon: 'fa-external-link' }
     ],
     fr: {
       alt: [

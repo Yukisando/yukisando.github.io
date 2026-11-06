@@ -13,24 +13,17 @@
     if (/(^|\.)nathandecastro\.com$/.test(location.hostname)) {
       location.replace('https://coldsnap.fr' + (location.pathname.replace(/^\/coldsnap/, '') || '/') + location.search + location.hash);
     }
-    // One static page per language: / in French, /en/ in English. A saved choice (the FR/EN
-    // switch) or ?lang= wins; on a first visit the browser language decides. Crawlers stay put
-    // and find the other page through hreflang.
+    // One static page per language: / in French, /en/ in English. The worker on coldsnap.fr
+    // picks the page before it is sent (coldsnap-lang cookie, else Accept-Language).
+    // Choices saved before that cookie existed are moved into it here, once.
     (function () {
-      if (/bot|crawl|spider|slurp|lighthouse|preview/i.test(navigator.userAgent)) return;
-      var page = document.documentElement.lang;
-      var params = new URLSearchParams(location.search);
-      var want = params.get('lang'), saved;
+      var saved;
       try { saved = localStorage.getItem('coldsnap-lang'); } catch (e) {}
-      if (want === 'fr' || want === 'en') {
-        try { localStorage.setItem('coldsnap-lang', want); } catch (e) {}
-      } else {
-        want = saved || ((navigator.language || '').toLowerCase().indexOf('fr') === 0 ? 'fr' : 'en');
+      if ((saved !== 'fr' && saved !== 'en') || /(?:^|;\s*)coldsnap-lang=/.test(document.cookie)) return;
+      document.cookie = 'coldsnap-lang=' + saved + '; path=/; max-age=31536000; samesite=lax; secure';
+      if (saved !== document.documentElement.lang) {
+        location.replace((saved === 'en' ? '{{path_en}}' : '{{path_fr}}') + location.search + location.hash);
       }
-      if (want === page || (want !== 'fr' && want !== 'en')) return;
-      params.delete('lang');
-      var query = params.toString();
-      location.replace((want === 'en' ? '{{path_en}}' : '{{path_fr}}') + (query ? '?' + query : '') + location.hash);
     })();
   </script>
   <!-- /partial:redirect -->
@@ -43,11 +36,14 @@
   <meta property="og:title" content="{{title}}">
   <meta property="og:description" content="{{og_description}}">
   <meta property="og:url" content="{{url}}">
-  <meta property="og:image" content="https://coldsnap.fr/assets/coldnsap_logo.png">
-  <meta name="twitter:card" content="summary">
+  <meta property="og:image" content="{{og_image}}">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="ColdSnap">
+  <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="{{title}}">
   <meta name="twitter:description" content="{{og_description}}">
-  <meta name="twitter:image" content="https://coldsnap.fr/assets/coldnsap_logo.png">
+  <meta name="twitter:image" content="{{og_image}}">
   <meta name="author" content="ColdSnap">
   <meta name="theme-color" content="#11131a">
   <title>{{title}}</title>
@@ -60,7 +56,7 @@
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=20261104a" />
   <link rel="preload" href="/fonts/Comfortaa-var.woff2" as="font" type="font/woff2" crossorigin>
 
-  <link href="/css/coldsnap.css?v=20261104k" rel="stylesheet">
+  <link href="/css/coldsnap.css?v=20261106a" rel="stylesheet">
 
   <!-- Structured Data -->
   <script type="application/ld+json">
@@ -128,16 +124,16 @@
         <a href="{{home}}?project=coldsnap-arcade#work" data-arcade-link>Arcade</a>
         <a href="{{home}}#contact" class="cs-nav__cta" data-i18n="nav.cta">Start a project</a>
         <div class="lang-switch lang-switch--menu" role="group" data-i18n-attr="aria-label:lang.label" aria-label="Language">
-          <a href="{{path_fr}}" hreflang="fr" lang="fr" data-lang="fr"{{current_fr}}>FR</a>
-          <a href="{{path_en}}" hreflang="en" lang="en" data-lang="en"{{current_en}}>EN</a>
+          <a href="{{path_fr}}?lang=fr" hreflang="fr" lang="fr" data-lang="fr"{{current_fr}}>FR</a>
+          <a href="{{path_en}}?lang=en" hreflang="en" lang="en" data-lang="en"{{current_en}}>EN</a>
         </div>
       </nav>
 
       <div class="cs-nav__tools">
         <a href="{{home}}#contact" class="cs-nav__cta cs-nav__cta--bar" data-i18n="nav.cta">Start a project</a>
         <div class="lang-switch" role="group" data-i18n-attr="aria-label:lang.label" aria-label="Language">
-          <a href="{{path_fr}}" hreflang="fr" lang="fr" data-lang="fr"{{current_fr}}>FR</a>
-          <a href="{{path_en}}" hreflang="en" lang="en" data-lang="en"{{current_en}}>EN</a>
+          <a href="{{path_fr}}?lang=fr" hreflang="fr" lang="fr" data-lang="fr"{{current_fr}}>FR</a>
+          <a href="{{path_en}}?lang=en" hreflang="en" lang="en" data-lang="en"{{current_en}}>EN</a>
         </div>
         <button type="button" class="cs-nav__toggle" id="navToggle" aria-expanded="false" aria-controls="navLinks" data-i18n-attr="aria-label:nav.menu" aria-label="Menu">
           <span></span><span></span><span></span>
@@ -157,10 +153,10 @@
       <div class="hero__panel">
         <div class="hero__brand">
           <img src="/assets/coldsnap-logo.webp" alt="" class="hero__logo" width="96" height="96">
-          <div class="hero__brand-text">
-            <h1 class="hero__name">ColdSnap</h1>
-            <p class="hero__sub"><span data-i18n="hero.sub">Gamification studio</span></p>
-          </div>
+          <h1 class="hero__brand-text">
+            <span class="hero__name">ColdSnap</span>
+            <span class="hero__sub"><span data-i18n="hero.sub">Gamification studio</span></span>
+          </h1>
         </div>
         <p class="hero__lead" data-i18n="hero.lead">Custom apps, games and interactive installations that make learning fun.</p>
         <p class="hero__audience" data-i18n="hero.audience">For museums, schools, local authorities and companies.</p>
@@ -199,41 +195,41 @@
     <section class="clients" data-i18n-attr="aria-label:clients.label" aria-label="Clients">
       <div class="clients__viewport">
         <ul class="clients__track">
-          <li><a href="https://www.cpps-vs.ch/home" target="_blank" rel="noopener" aria-label="CPPS"><img src="/assets/clients/cpps.webp" alt="" decoding="async"></a></li>
-          <li><a href="https://www.surgicalreality.com/" target="_blank" rel="noopener" aria-label="Surgical Reality"><img src="/assets/clients/surgical-reality.svg" alt="" decoding="async"><span>Surgical Reality</span></a></li>
-          <li><a href="https://www.maxev.fr/" target="_blank" rel="noopener" aria-label="Maxev"><img src="/assets/clients/maxev.svg?v=20261104a" alt="" decoding="async"></a></li>
-          <li><a href="https://spinlab.fr/" target="_blank" rel="noopener" aria-label="SpinLab"><img src="/assets/clients/spinlab.svg" alt="" decoding="async"></a></li>
-          <li><a href="https://www.replay-festival.com/" target="_blank" rel="noopener" aria-label="Re-Play festival"><img src="/assets/clients/replay.webp" alt="" decoding="async"></a></li>
+          <li><a href="https://www.cpps-vs.ch/home" target="_blank" rel="noopener" aria-label="CPPS"><img src="/assets/clients/cpps.webp" alt="" width="289" height="96" decoding="async"></a></li>
+          <li><a href="https://www.surgicalreality.com/" target="_blank" rel="noopener" aria-label="Surgical Reality"><img src="/assets/clients/surgical-reality.svg" alt="" width="65" height="64" decoding="async"><span>Surgical Reality</span></a></li>
+          <li><a href="https://www.maxev.fr/" target="_blank" rel="noopener" aria-label="Maxev"><img src="/assets/clients/maxev.svg?v=20261104a" alt="" width="2000" height="542" decoding="async"></a></li>
+          <li><a href="https://spinlab.fr/" target="_blank" rel="noopener" aria-label="SpinLab"><img src="/assets/clients/spinlab.svg" alt="" width="761" height="195" decoding="async"></a></li>
+          <li><a href="https://www.replay-festival.com/" target="_blank" rel="noopener" aria-label="Re-Play festival"><img src="/assets/clients/replay.webp" alt="" width="400" height="96" decoding="async"></a></li>
           <li><a href="https://www.valbilon.com/" target="_blank" rel="noopener" aria-label="Valbilon"><img class="clients__idle" src="/assets/clients/valbilon-mono.webp" alt="" width="258" height="60" decoding="async"><img class="clients__hover" src="/assets/clients/valbilon.webp" alt="" width="258" height="60" decoding="async"></a></li>
-          <li><a href="https://www.cpps-vs.ch/home" target="_blank" rel="noopener" aria-hidden="true" tabindex="-1"><img src="/assets/clients/cpps.webp" alt="" decoding="async"></a></li>
-          <li><a href="https://www.surgicalreality.com/" target="_blank" rel="noopener" aria-hidden="true" tabindex="-1"><img src="/assets/clients/surgical-reality.svg" alt="" decoding="async"><span>Surgical Reality</span></a></li>
-          <li><a href="https://www.maxev.fr/" target="_blank" rel="noopener" aria-hidden="true" tabindex="-1"><img src="/assets/clients/maxev.svg?v=20261104a" alt="" decoding="async"></a></li>
-          <li><a href="https://spinlab.fr/" target="_blank" rel="noopener" aria-hidden="true" tabindex="-1"><img src="/assets/clients/spinlab.svg" alt="" decoding="async"></a></li>
-          <li><a href="https://www.replay-festival.com/" target="_blank" rel="noopener" aria-hidden="true" tabindex="-1"><img src="/assets/clients/replay.webp" alt="" decoding="async"></a></li>
+          <li><a href="https://www.cpps-vs.ch/home" target="_blank" rel="noopener" aria-hidden="true" tabindex="-1"><img src="/assets/clients/cpps.webp" alt="" width="289" height="96" decoding="async"></a></li>
+          <li><a href="https://www.surgicalreality.com/" target="_blank" rel="noopener" aria-hidden="true" tabindex="-1"><img src="/assets/clients/surgical-reality.svg" alt="" width="65" height="64" decoding="async"><span>Surgical Reality</span></a></li>
+          <li><a href="https://www.maxev.fr/" target="_blank" rel="noopener" aria-hidden="true" tabindex="-1"><img src="/assets/clients/maxev.svg?v=20261104a" alt="" width="2000" height="542" decoding="async"></a></li>
+          <li><a href="https://spinlab.fr/" target="_blank" rel="noopener" aria-hidden="true" tabindex="-1"><img src="/assets/clients/spinlab.svg" alt="" width="761" height="195" decoding="async"></a></li>
+          <li><a href="https://www.replay-festival.com/" target="_blank" rel="noopener" aria-hidden="true" tabindex="-1"><img src="/assets/clients/replay.webp" alt="" width="400" height="96" decoding="async"></a></li>
           <li><a href="https://www.valbilon.com/" target="_blank" rel="noopener" aria-hidden="true" tabindex="-1"><img class="clients__idle" src="/assets/clients/valbilon-mono.webp" alt="" width="258" height="60" decoding="async"><img class="clients__hover" src="/assets/clients/valbilon.webp" alt="" width="258" height="60" decoding="async"></a></li>
-          <li><a href="https://www.cpps-vs.ch/home" target="_blank" rel="noopener" aria-hidden="true" tabindex="-1"><img src="/assets/clients/cpps.webp" alt="" decoding="async"></a></li>
-          <li><a href="https://www.surgicalreality.com/" target="_blank" rel="noopener" aria-hidden="true" tabindex="-1"><img src="/assets/clients/surgical-reality.svg" alt="" decoding="async"><span>Surgical Reality</span></a></li>
-          <li><a href="https://www.maxev.fr/" target="_blank" rel="noopener" aria-hidden="true" tabindex="-1"><img src="/assets/clients/maxev.svg?v=20261104a" alt="" decoding="async"></a></li>
-          <li><a href="https://spinlab.fr/" target="_blank" rel="noopener" aria-hidden="true" tabindex="-1"><img src="/assets/clients/spinlab.svg" alt="" decoding="async"></a></li>
-          <li><a href="https://www.replay-festival.com/" target="_blank" rel="noopener" aria-hidden="true" tabindex="-1"><img src="/assets/clients/replay.webp" alt="" decoding="async"></a></li>
+          <li><a href="https://www.cpps-vs.ch/home" target="_blank" rel="noopener" aria-hidden="true" tabindex="-1"><img src="/assets/clients/cpps.webp" alt="" width="289" height="96" decoding="async"></a></li>
+          <li><a href="https://www.surgicalreality.com/" target="_blank" rel="noopener" aria-hidden="true" tabindex="-1"><img src="/assets/clients/surgical-reality.svg" alt="" width="65" height="64" decoding="async"><span>Surgical Reality</span></a></li>
+          <li><a href="https://www.maxev.fr/" target="_blank" rel="noopener" aria-hidden="true" tabindex="-1"><img src="/assets/clients/maxev.svg?v=20261104a" alt="" width="2000" height="542" decoding="async"></a></li>
+          <li><a href="https://spinlab.fr/" target="_blank" rel="noopener" aria-hidden="true" tabindex="-1"><img src="/assets/clients/spinlab.svg" alt="" width="761" height="195" decoding="async"></a></li>
+          <li><a href="https://www.replay-festival.com/" target="_blank" rel="noopener" aria-hidden="true" tabindex="-1"><img src="/assets/clients/replay.webp" alt="" width="400" height="96" decoding="async"></a></li>
           <li><a href="https://www.valbilon.com/" target="_blank" rel="noopener" aria-hidden="true" tabindex="-1"><img class="clients__idle" src="/assets/clients/valbilon-mono.webp" alt="" width="258" height="60" decoding="async"><img class="clients__hover" src="/assets/clients/valbilon.webp" alt="" width="258" height="60" decoding="async"></a></li>
-          <li><a href="https://www.cpps-vs.ch/home" target="_blank" rel="noopener" aria-hidden="true" tabindex="-1"><img src="/assets/clients/cpps.webp" alt="" decoding="async"></a></li>
-          <li><a href="https://www.surgicalreality.com/" target="_blank" rel="noopener" aria-hidden="true" tabindex="-1"><img src="/assets/clients/surgical-reality.svg" alt="" decoding="async"><span>Surgical Reality</span></a></li>
-          <li><a href="https://www.maxev.fr/" target="_blank" rel="noopener" aria-hidden="true" tabindex="-1"><img src="/assets/clients/maxev.svg?v=20261104a" alt="" decoding="async"></a></li>
-          <li><a href="https://spinlab.fr/" target="_blank" rel="noopener" aria-hidden="true" tabindex="-1"><img src="/assets/clients/spinlab.svg" alt="" decoding="async"></a></li>
-          <li><a href="https://www.replay-festival.com/" target="_blank" rel="noopener" aria-hidden="true" tabindex="-1"><img src="/assets/clients/replay.webp" alt="" decoding="async"></a></li>
+          <li><a href="https://www.cpps-vs.ch/home" target="_blank" rel="noopener" aria-hidden="true" tabindex="-1"><img src="/assets/clients/cpps.webp" alt="" width="289" height="96" decoding="async"></a></li>
+          <li><a href="https://www.surgicalreality.com/" target="_blank" rel="noopener" aria-hidden="true" tabindex="-1"><img src="/assets/clients/surgical-reality.svg" alt="" width="65" height="64" decoding="async"><span>Surgical Reality</span></a></li>
+          <li><a href="https://www.maxev.fr/" target="_blank" rel="noopener" aria-hidden="true" tabindex="-1"><img src="/assets/clients/maxev.svg?v=20261104a" alt="" width="2000" height="542" decoding="async"></a></li>
+          <li><a href="https://spinlab.fr/" target="_blank" rel="noopener" aria-hidden="true" tabindex="-1"><img src="/assets/clients/spinlab.svg" alt="" width="761" height="195" decoding="async"></a></li>
+          <li><a href="https://www.replay-festival.com/" target="_blank" rel="noopener" aria-hidden="true" tabindex="-1"><img src="/assets/clients/replay.webp" alt="" width="400" height="96" decoding="async"></a></li>
           <li><a href="https://www.valbilon.com/" target="_blank" rel="noopener" aria-hidden="true" tabindex="-1"><img class="clients__idle" src="/assets/clients/valbilon-mono.webp" alt="" width="258" height="60" decoding="async"><img class="clients__hover" src="/assets/clients/valbilon.webp" alt="" width="258" height="60" decoding="async"></a></li>
-          <li><a href="https://www.cpps-vs.ch/home" target="_blank" rel="noopener" aria-hidden="true" tabindex="-1"><img src="/assets/clients/cpps.webp" alt="" decoding="async"></a></li>
-          <li><a href="https://www.surgicalreality.com/" target="_blank" rel="noopener" aria-hidden="true" tabindex="-1"><img src="/assets/clients/surgical-reality.svg" alt="" decoding="async"><span>Surgical Reality</span></a></li>
-          <li><a href="https://www.maxev.fr/" target="_blank" rel="noopener" aria-hidden="true" tabindex="-1"><img src="/assets/clients/maxev.svg?v=20261104a" alt="" decoding="async"></a></li>
-          <li><a href="https://spinlab.fr/" target="_blank" rel="noopener" aria-hidden="true" tabindex="-1"><img src="/assets/clients/spinlab.svg" alt="" decoding="async"></a></li>
-          <li><a href="https://www.replay-festival.com/" target="_blank" rel="noopener" aria-hidden="true" tabindex="-1"><img src="/assets/clients/replay.webp" alt="" decoding="async"></a></li>
+          <li><a href="https://www.cpps-vs.ch/home" target="_blank" rel="noopener" aria-hidden="true" tabindex="-1"><img src="/assets/clients/cpps.webp" alt="" width="289" height="96" decoding="async"></a></li>
+          <li><a href="https://www.surgicalreality.com/" target="_blank" rel="noopener" aria-hidden="true" tabindex="-1"><img src="/assets/clients/surgical-reality.svg" alt="" width="65" height="64" decoding="async"><span>Surgical Reality</span></a></li>
+          <li><a href="https://www.maxev.fr/" target="_blank" rel="noopener" aria-hidden="true" tabindex="-1"><img src="/assets/clients/maxev.svg?v=20261104a" alt="" width="2000" height="542" decoding="async"></a></li>
+          <li><a href="https://spinlab.fr/" target="_blank" rel="noopener" aria-hidden="true" tabindex="-1"><img src="/assets/clients/spinlab.svg" alt="" width="761" height="195" decoding="async"></a></li>
+          <li><a href="https://www.replay-festival.com/" target="_blank" rel="noopener" aria-hidden="true" tabindex="-1"><img src="/assets/clients/replay.webp" alt="" width="400" height="96" decoding="async"></a></li>
           <li><a href="https://www.valbilon.com/" target="_blank" rel="noopener" aria-hidden="true" tabindex="-1"><img class="clients__idle" src="/assets/clients/valbilon-mono.webp" alt="" width="258" height="60" decoding="async"><img class="clients__hover" src="/assets/clients/valbilon.webp" alt="" width="258" height="60" decoding="async"></a></li>
-          <li><a href="https://www.cpps-vs.ch/home" target="_blank" rel="noopener" aria-hidden="true" tabindex="-1"><img src="/assets/clients/cpps.webp" alt="" decoding="async"></a></li>
-          <li><a href="https://www.surgicalreality.com/" target="_blank" rel="noopener" aria-hidden="true" tabindex="-1"><img src="/assets/clients/surgical-reality.svg" alt="" decoding="async"><span>Surgical Reality</span></a></li>
-          <li><a href="https://www.maxev.fr/" target="_blank" rel="noopener" aria-hidden="true" tabindex="-1"><img src="/assets/clients/maxev.svg?v=20261104a" alt="" decoding="async"></a></li>
-          <li><a href="https://spinlab.fr/" target="_blank" rel="noopener" aria-hidden="true" tabindex="-1"><img src="/assets/clients/spinlab.svg" alt="" decoding="async"></a></li>
-          <li><a href="https://www.replay-festival.com/" target="_blank" rel="noopener" aria-hidden="true" tabindex="-1"><img src="/assets/clients/replay.webp" alt="" decoding="async"></a></li>
+          <li><a href="https://www.cpps-vs.ch/home" target="_blank" rel="noopener" aria-hidden="true" tabindex="-1"><img src="/assets/clients/cpps.webp" alt="" width="289" height="96" decoding="async"></a></li>
+          <li><a href="https://www.surgicalreality.com/" target="_blank" rel="noopener" aria-hidden="true" tabindex="-1"><img src="/assets/clients/surgical-reality.svg" alt="" width="65" height="64" decoding="async"><span>Surgical Reality</span></a></li>
+          <li><a href="https://www.maxev.fr/" target="_blank" rel="noopener" aria-hidden="true" tabindex="-1"><img src="/assets/clients/maxev.svg?v=20261104a" alt="" width="2000" height="542" decoding="async"></a></li>
+          <li><a href="https://spinlab.fr/" target="_blank" rel="noopener" aria-hidden="true" tabindex="-1"><img src="/assets/clients/spinlab.svg" alt="" width="761" height="195" decoding="async"></a></li>
+          <li><a href="https://www.replay-festival.com/" target="_blank" rel="noopener" aria-hidden="true" tabindex="-1"><img src="/assets/clients/replay.webp" alt="" width="400" height="96" decoding="async"></a></li>
           <li><a href="https://www.valbilon.com/" target="_blank" rel="noopener" aria-hidden="true" tabindex="-1"><img class="clients__idle" src="/assets/clients/valbilon-mono.webp" alt="" width="258" height="60" decoding="async"><img class="clients__hover" src="/assets/clients/valbilon.webp" alt="" width="258" height="60" decoding="async"></a></li>
         </ul>
       </div>
@@ -408,9 +404,9 @@
 
   <!-- i18n runs synchronously so translated text is in place before first paint -->
   <script src="/js/i18n-strings.js?v=20261104e"></script>
-  <script src="/js/i18n.js?v=20261104b"></script>
-  <script src="/data/projects.js?v=20261104b" defer></script>
-  <script src="/js/coldsnap.js?v=20261104d" defer></script>
+  <script src="/js/i18n.js?v=20261106a"></script>
+  <script src="/data/projects.js?v=20261106a" defer></script>
+  <script src="/js/coldsnap.js?v=20261106a" defer></script>
   <script src="/js/contact.js?v=20261104c" defer></script>
   <script src="/js/car-physics.js?v=20261028a" defer></script>
   <script src="/js/drive.js?v=20261104a" defer></script>

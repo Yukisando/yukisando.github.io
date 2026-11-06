@@ -179,11 +179,13 @@ function projectMedia(project, lang) {
 }
 
 const absolute = path => SITE_URL + path.split('?')[0];
+// 1200×630 share card for pages without a screenshot of their own.
+const ogImage = lang => `${SITE_URL}/assets/og-coldsnap${lang === 'en' ? '-en' : ''}.png`;
 const shareImage = (project, lang) => {
   const thumbnail = field(project, 'thumbnail', lang);
   if (thumbnail) return absolute(thumbnail);
   const first = projectMedia(project, lang)[0];
-  return first ? absolute(first.poster) : `${SITE_URL}/assets/coldnsap_logo.png`;
+  return first ? absolute(first.poster) : ogImage(lang);
 };
 
 // ≤155 characters, cut on a word.
@@ -347,7 +349,7 @@ ${PROJECTS.filter(p => p.category === category).map(p => {
     url,
     url_fr: SITE_URL + LANGS.fr.projects,
     url_en: SITE_URL + LANGS.en.projects,
-    image: `${SITE_URL}/assets/coldnsap_logo.png`,
+    image: ogImage(lang),
     crumbs: crumbs(trail),
     content,
     jsonld: jsonld([list, breadcrumbLd(trail)]),
@@ -381,6 +383,7 @@ for (const lang of ['fr', 'en']) {
     description: escapeAttr(HOME[lang].description),
     og_description: escapeAttr(HOME[lang].ogDescription),
     url: SITE_URL + LANGS[lang].home,
+    og_image: ogImage(lang),
     noscript_projects: noscript,
   });
   write(lang === 'fr' ? 'index.html' : 'en/index.html', html, lang);

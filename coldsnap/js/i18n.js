@@ -62,9 +62,11 @@
   }
 
   // Each language is its own static page (/ and /en/, /projets/<id>/ and /en/projects/<id>/);
-  // switching remembers the choice and loads the page's hreflang twin at the same spot.
+  // switching remembers the choice (cookie) and loads the page's hreflang twin at the same spot.
   function setLang(next) {
     next = next === 'fr' ? 'fr' : 'en';
+    // The worker on coldsnap.fr reads this cookie to send the visitor to their language.
+    document.cookie = `coldsnap-lang=${next}; path=/; max-age=31536000; samesite=lax${location.protocol === 'https:' ? '; secure' : ''}`;
     try { localStorage.setItem('coldsnap-lang', next); } catch (e) {}
     if (next === lang) return;
     const url = new URL(location.href);

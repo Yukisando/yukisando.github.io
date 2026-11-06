@@ -12,8 +12,17 @@ page (`/`) and the English page (`/en/`) share them. Shared site files use absol
 to coldsnap.fr. To preview locally, serve the folder as the root:
 `python -m http.server 8765 --directory coldsnap`.
 
-The worker also adds the security headers (HSTS, CSP, nosniff, Referrer-Policy),
-caches `?v=` files for a year, serves the shared CGV and privacy pages at
+The worker also picks the page language before the page is sent: a visitor with the
+`coldsnap-lang` cookie (set by the FR/EN switch or a `?lang=fr|en` link) gets that
+language, a first-time visitor gets French if their browser's first language is French
+and English otherwise. Crawlers (no `Accept-Language`, bot user agent) are never
+redirected and find the twin page through hreflang.
+
+It keeps pages in Cloudflare's edge cache for 10 minutes (browsers too), images and
+fonts under `/assets/` and `/fonts/` for 30 days in browsers (replace a file in place =
+bump its `?v=` or rename it), and `?v=` files for a year.
+
+It also adds the security headers (HSTS, CSP, nosniff, Referrer-Policy), serves the shared CGV and privacy pages at
 `/legal/cgv/` and `/legal/confidentialite/`, shows `coldsnap/404.html` for unknown
 pages, and handles the contact form at `POST /api/contact` (mailed through Brevo).
 
