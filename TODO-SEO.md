@@ -29,7 +29,7 @@ decision.
 
 The Domain property exists (2026-11-09 export: 4 indexed URLs, 64 impressions on the home).
 
-- [ ] *Sitemaps*: submit: `https://coldsnap.fr/sitemap.xml` and
+- [ ] *Sitemaps*: submit `https://coldsnap.fr/sitemap.xml` and
       `https://nathandecastro.com/sitemap.xml`.
 - [ ] URL Inspection > *Request indexing* on `https://coldsnap.fr/en/`,
       `https://coldsnap.fr/projets/` and `https://coldsnap.fr/en/projects/` (the 46 project
