@@ -36,12 +36,8 @@ The Domain property exists (2026-11-09 export: 4 indexed URLs, 64 impressions on
       pages are not indexed yet; the sitemap lists them).
 - [x] `seba-admin.coldsnap.fr`: removal requested (2026-11-09). The old subdomain no longer
       resolves and the portal now at `seba.coldsnap.fr/dashboard` is `noindex` since 2026-11-04.
-- [ ] Deploy the admin `noindex` committed on 2026-11-09 (Claude is not allowed to deploy to
-      production). Then push both repos.
-      `cd ~/Documents/Projects/Badalone && firebase deploy --only apphosting --project badalone`
-      `cd ~/Documents/Projects/Maya && firebase deploy --only apphosting --project maya-83d82`
-      Badalone: whole `/dashboard` portal. Maya: `/login`, `/dashboard`, `/api` only (the
-      public pages and the app stay indexable).
+- [x] Admin portals `noindex` live (2026-11-09): Seba, Badalone (`/dashboard`), Maya
+      (`dashboard.mayaville.fr`; mayaville.fr and the app stay indexable).
 - [ ] Exploreum's portal (`exploreum.valbilon.ch/dashboard`) has no `noindex` either: client
       domain, ask Valbilon before changing it.
 
