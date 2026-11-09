@@ -329,13 +329,13 @@ function openModal(projectRef, fromCard) {
         </div>`;
       } else {
         return `<div class="carousel-slide ${index === 0 ? 'active' : ''}">
-          <img src="${item}" alt="${escapeAttr(project.title)}" loading="lazy" onclick="openZoom('${escapeAttr(item)}')">
+          <img src="${item}" alt="${escapeAttr(project.title)}" loading="lazy" data-zoom="${escapeAttr(item)}">
         </div>`;
       }
     }).join('');
     
     const dots = media.map((_, index) => 
-      `<button class="carousel-dot ${index === 0 ? 'active' : ''}" onclick="goToSlide(${index})"></button>`
+      `<button class="carousel-dot ${index === 0 ? 'active' : ''}" data-slide="${index}"></button>`
     ).join('');
     
     galleryHTML = `
@@ -343,8 +343,8 @@ function openModal(projectRef, fromCard) {
         <div class="carousel-container">
           ${slides}
           ${media.length > 1 ? `
-            <button class="carousel-btn prev" onclick="prevSlide()"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg#chevron-left"/></svg></button>
-            <button class="carousel-btn next" onclick="nextSlide()"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg#chevron-right"/></svg></button>
+            <button class="carousel-btn prev"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg#chevron-left"/></svg></button>
+            <button class="carousel-btn next"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg#chevron-right"/></svg></button>
           ` : ''}
         </div>
         ${media.length > 1 ? `
@@ -945,6 +945,9 @@ function renderShelf() {
   grid.innerHTML = list.map((project, i) => (i === split && i > 0
     ? `<p class="shelf__divider"><span>${i18n.t('work.openSource')}</span></p>`
     : '') + createProjectCard(project, i)).join('');
+  // Stagger index for the entrance animation, set through the CSSOM (style="" in markup
+  // is blocked by the CSP).
+  grid.querySelectorAll('.project-card[data-i]').forEach(card => card.style.setProperty('--i', card.dataset.i));
   updateShelfFold();
 }
 
@@ -1675,7 +1678,7 @@ function createProjectCard(project, i) {
   const catIcon = CATEGORY_ICONS[project.category] || 'fa-folder';
 
   return `
-    <button type="button" class="project-card${active ? ' is-active' : ''}" data-project="${project.id}"${active ? ' aria-current="true"' : ''} style="--i: ${i}">
+    <button type="button" class="project-card${active ? ' is-active' : ''}" data-project="${project.id}"${active ? ' aria-current="true"' : ''} data-i="${i}">
       <span class="project-thumbnail">
         ${thumbnailContent}
         <span class="project-card__now">${i18n.t('work.showing')}</span>
@@ -1791,8 +1794,34 @@ function initReveal() {
   targets.forEach(el => observer.observe(el));
 }
 
+// Clicks on the project modal and the image zoom (no onclick="" attributes: the CSP blocks them).
+function bindOverlays() {
+  const modal = document.getElementById('projectModal');
+  if (modal) {
+    modal.addEventListener('click', closeModal); // closes only on the backdrop itself
+    modal.querySelector('.modal-close').addEventListener('click', () => closeModal());
+    document.getElementById('modalBody').addEventListener('click', event => {
+      const target = event.target.closest('[data-zoom], [data-slide], .carousel-btn');
+      if (!target) return;
+      if (target.dataset.zoom) openZoom(target.dataset.zoom);
+      else if (target.dataset.slide) goToSlide(Number(target.dataset.slide));
+      else if (target.classList.contains('prev')) prevSlide();
+      else nextSlide();
+    });
+  }
+  const zoom = document.getElementById('zoomModal');
+  if (zoom) {
+    zoom.addEventListener('click', event => {
+      if (event.target.closest('.zoom-nav-btn.prev')) prevZoom();
+      else if (event.target.closest('.zoom-nav-btn.next')) nextZoom();
+      else if (event.target.id !== 'zoomImage') closeZoom();
+    });
+  }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('year').textContent = new Date().getFullYear();
+  bindOverlays();
   initNav();
   renderFilters();
   renderWork();

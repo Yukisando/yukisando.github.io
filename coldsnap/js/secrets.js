@@ -253,9 +253,16 @@
     '<path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 3v5h5"/></svg>';
 
   function build() {
-    var style = document.createElement('style');
-    style.textContent = CSS;
-    document.head.appendChild(style);
+    // A constructed stylesheet, not a <style> element: coldsnap.fr's CSP forbids inline styles.
+    if (window.CSSStyleSheet && 'adoptedStyleSheets' in document && 'replaceSync' in CSSStyleSheet.prototype) {
+      var sheet = new CSSStyleSheet();
+      sheet.replaceSync(CSS);
+      document.adoptedStyleSheets = document.adoptedStyleSheets.concat(sheet);
+    } else {
+      var style = document.createElement('style');
+      style.textContent = CSS;
+      document.head.appendChild(style);
+    }
 
     box = document.createElement('div');
     box.className = 'secrets';

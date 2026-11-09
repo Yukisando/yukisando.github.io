@@ -7,25 +7,8 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- partial:redirect (shared with the project pages) -->
-  <script>
-    // ColdSnap lives at coldsnap.fr (proxied from here by tools/coldsnap-worker).
-    // Old nathandecastro.com/coldsnap/ links forward there.
-    if (/(^|\.)nathandecastro\.com$/.test(location.hostname)) {
-      location.replace('https://coldsnap.fr' + (location.pathname.replace(/^\/coldsnap/, '') || '/') + location.search + location.hash);
-    }
-    // One static page per language: / in French, /en/ in English. The worker on coldsnap.fr
-    // picks the page before it is sent (coldsnap-lang cookie, else Accept-Language).
-    // Choices saved before that cookie existed are moved into it here, once.
-    (function () {
-      var saved;
-      try { saved = localStorage.getItem('coldsnap-lang'); } catch (e) {}
-      if ((saved !== 'fr' && saved !== 'en') || /(?:^|;\s*)coldsnap-lang=/.test(document.cookie)) return;
-      document.cookie = 'coldsnap-lang=' + saved + '; path=/; max-age=31536000; samesite=lax; secure';
-      if (saved !== document.documentElement.lang) {
-        location.replace((saved === 'en' ? '{{path_en}}' : '{{path_fr}}') + location.search + location.hash);
-      }
-    })();
-  </script>
+  <!-- Relative path: on nathandecastro.com/coldsnap/ it must still load to forward visitors. -->
+  <script src="{{boot_src}}" data-page="twin"></script>
   <!-- /partial:redirect -->
   <meta name="description" content="{{description}}">
   <meta name="robots" content="index, follow, max-image-preview:large">
@@ -56,7 +39,7 @@
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=20261104a" />
   <link rel="preload" href="/fonts/Comfortaa-var.woff2" as="font" type="font/woff2" crossorigin>
 
-  <link href="/css/coldsnap.css?v=20261106a" rel="stylesheet">
+  <link href="/css/coldsnap.min.css?v={{css_version}}" rel="stylesheet">
 
   <!-- Structured Data -->
   <script type="application/ld+json">
@@ -382,20 +365,20 @@
   <!-- /partial:footer -->
 
   <!-- Project Modal -->
-  <div class="modal-overlay" id="projectModal" onclick="closeModal(event)">
-    <div class="modal-content" role="dialog" aria-modal="true" onclick="event.stopPropagation()">
-      <button class="modal-close" onclick="closeModal()" data-i18n-attr="aria-label:modal.close" aria-label="Close">&times;</button>
+  <div class="modal-overlay" id="projectModal">
+    <div class="modal-content" role="dialog" aria-modal="true">
+      <button class="modal-close" data-i18n-attr="aria-label:modal.close" aria-label="Close">&times;</button>
       <div id="modalBody"></div>
       <div id="modalFooter" class="modal-footer"></div>
     </div>
   </div>
 
   <!-- Image Zoom Modal -->
-  <div class="zoom-overlay" id="zoomModal" onclick="closeZoom()">
-    <button class="zoom-close" onclick="closeZoom()" aria-label="Close">&times;</button>
-    <button class="zoom-nav-btn prev" onclick="event.stopPropagation(); prevZoom()" aria-label="Previous"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg#chevron-left"/></svg></button>
-    <img id="zoomImage" src="" alt="" onclick="event.stopPropagation()">
-    <button class="zoom-nav-btn next" onclick="event.stopPropagation(); nextZoom()" aria-label="Next"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg#chevron-right"/></svg></button>
+  <div class="zoom-overlay" id="zoomModal">
+    <button class="zoom-close" aria-label="Close">&times;</button>
+    <button class="zoom-nav-btn prev" aria-label="Previous"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg#chevron-left"/></svg></button>
+    <img id="zoomImage" src="" alt="">
+    <button class="zoom-nav-btn next" aria-label="Next"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg#chevron-right"/></svg></button>
   </div>
 
   <!-- Toasts (easter eggs) -->
@@ -406,11 +389,11 @@
   <script src="/js/i18n-strings.js?v=20261104e"></script>
   <script src="/js/i18n.js?v=20261106a"></script>
   <script src="/data/projects.js?v=20261106a" defer></script>
-  <script src="/js/coldsnap.js?v=20261106a" defer></script>
+  <script src="/js/coldsnap.js?v=20261109a" defer></script>
   <script src="/js/contact.js?v=20261104c" defer></script>
   <script src="/js/car-physics.js?v=20261028a" defer></script>
   <script src="/js/drive.js?v=20261104a" defer></script>
-  <script src="/js/secrets.js?v=20261104a" data-site="coldsnap" defer></script>
+  <script src="/js/secrets.js?v=20261109a" data-site="coldsnap" defer></script>
   <script src="/js/easter-eggs.js?v=20261104a" defer></script>
   <script src="/js/arcade-coin.js?v=20261104b" defer></script>
 </body>

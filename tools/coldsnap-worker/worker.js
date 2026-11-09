@@ -37,12 +37,13 @@ const SECURITY_HEADERS = {
   'Permissions-Policy': 'camera=(), microphone=(), geolocation=(), payment=()',
 };
 
-// The pages use inline scripts and onclick handlers, hence 'unsafe-inline'.
-// Everything else is limited to this site.
+// No inline scripts, handlers or style attributes on coldsnap.fr pages: everything is in
+// files (js/boot.js runs first in <head>). Styles set from JavaScript go through the CSSOM
+// (element.style), which the CSP allows. Everything is limited to this site.
 const CSP = [
   "default-src 'self'",
-  "script-src 'self' 'unsafe-inline'",
-  "style-src 'self' 'unsafe-inline'",
+  "script-src 'self'",
+  "style-src 'self'",
   "img-src 'self' data: blob:",
   "media-src 'self' blob:",
   "font-src 'self'",
@@ -53,10 +54,11 @@ const CSP = [
   "object-src 'none'",
 ].join('; ');
 
-// The legal pages load their styles and scripts from nathandecastro.com.
+// The shared legal pages (CGV, privacy) come from nathandecastro.com, load their files from
+// there and use inline scripts and styles of their own.
 const LEGAL_CSP = CSP
-  .replace("script-src 'self'", `script-src 'self' ${ORIGIN}`)
-  .replace("style-src 'self'", `style-src 'self' ${ORIGIN}`)
+  .replace("script-src 'self'", `script-src 'self' 'unsafe-inline' ${ORIGIN}`)
+  .replace("style-src 'self'", `style-src 'self' 'unsafe-inline' ${ORIGIN}`)
   .replace("img-src 'self'", `img-src 'self' ${ORIGIN}`)
   .replace("font-src 'self'", `font-src 'self' ${ORIGIN}`);
 

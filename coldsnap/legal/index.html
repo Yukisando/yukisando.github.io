@@ -4,17 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <script>
-    if (/(^|\.)nathandecastro\.com$/.test(location.hostname)) {
-      location.replace('https://coldsnap.fr/legal/' + location.search + location.hash);
-    }
-    (function () {
-      var lang = new URLSearchParams(location.search).get('lang');
-      try { lang = lang || localStorage.getItem('coldsnap-lang'); } catch (e) {}
-      lang = lang || ((navigator.language || '').toLowerCase().indexOf('fr') === 0 ? 'fr' : 'en');
-      document.documentElement.lang = lang === 'fr' ? 'fr' : 'en';
-    })();
-  </script>
+  <script src="../js/boot.js?v=20261109a" data-page="legal"></script>
   <title>Mentions légales — ColdSnap</title>
   <meta name="description" content="Mentions légales du site coldsnap.fr : éditeur, hébergement, propriété intellectuelle. Legal notice for coldsnap.fr.">
   <meta name="robots" content="index, follow">
@@ -22,34 +12,17 @@
   <link rel="canonical" href="https://coldsnap.fr/legal/" />
   <link rel="icon" href="../favicon.ico?v=20261013" sizes="any" />
   <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32.png?v=20261013" />
-  <link href="../css/coldsnap.css?v=20261106a" rel="stylesheet">
-  <style>
-    html[lang="fr"] [lang="en"]:not(html),
-    html[lang="en"] [lang="fr"]:not(html) { display: none; }
-    .legal { max-width: 760px; margin: 0 auto; padding: calc(var(--nav-h) + 56px) 24px 40px; }
-    .legal h1 { font-size: clamp(2.2rem, 5vw, 3.2rem); margin-bottom: 10px; }
-    .legal .doc-meta { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 40px; }
-    .legal h2 { font-size: 1.35rem; margin: 40px 0 14px; }
-    .legal p, .legal li { color: var(--text-secondary); }
-    .legal dl { display: grid; grid-template-columns: max-content 1fr; gap: 8px 24px; padding: 22px 24px; border: 1px solid var(--border-color); border-radius: 18px; background: var(--bg-raised); }
-    .legal dt { color: var(--text-muted); font-size: 0.9rem; }
-    .legal dd { color: var(--text-primary); }
-    .legal a { color: var(--orange); }
-    .legal ul { padding-left: 20px; display: grid; gap: 6px; }
-    .legal-back { display: inline-flex; align-items: center; gap: 8px; margin-bottom: 28px; color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; }
-    .legal-back:hover { color: var(--orange); }
-    @media (max-width: 600px) { .legal dl { grid-template-columns: 1fr; } .legal dt { margin-top: 8px; } }
-  </style>
+  <link href="../css/coldsnap.min.css?v=8e09353ca6" rel="stylesheet">
 </head>
 
-<body>
+<body class="legal-page">
   <header class="cs-nav is-scrolled">
     <div class="cs-nav__inner">
       <a href="../" class="cs-nav__brand" aria-label="ColdSnap">
         <span class="cs-nav__logo-wrap"><img src="../assets/coldsnap-logo.webp" alt="" class="cs-nav__logo" width="40" height="40"></span>
         <span class="cs-nav__name">ColdSnap</span>
       </a>
-      <div class="cs-nav__tools" style="margin-left:auto">
+      <div class="cs-nav__tools">
         <div class="lang-switch" role="group" aria-label="Language">
           <button type="button" data-lang="fr">FR</button>
           <button type="button" data-lang="en">EN</button>
@@ -132,33 +105,14 @@
     </article>
   </main>
 
-  <footer class="cs-footer" style="margin-top:40px">
-    <div class="container cs-footer__bottom" style="margin-top:0;border-top:0;padding-top:0">
+  <footer class="cs-footer">
+    <div class="container cs-footer__bottom">
       <p>© <span id="year">2026</span> ColdSnap · Nathan de Castro Fernandes EI · SIRET 940 000 649 00019</p>
-      <p><a href="../" style="color:inherit">coldsnap.fr</a></p>
+      <p><a href="../">coldsnap.fr</a></p>
     </div>
   </footer>
 
-  <script>
-    (function () {
-      var titles = { fr: 'Mentions légales — ColdSnap', en: 'Legal notice — ColdSnap' };
-      function apply(lang) {
-        document.documentElement.lang = lang;
-        document.title = titles[lang];
-        document.querySelectorAll('[data-lang]').forEach(function (b) {
-          b.setAttribute('aria-pressed', String(b.dataset.lang === lang));
-        });
-      }
-      document.querySelectorAll('[data-lang]').forEach(function (b) {
-        b.addEventListener('click', function () {
-          try { localStorage.setItem('coldsnap-lang', b.dataset.lang); } catch (e) {}
-          apply(b.dataset.lang);
-        });
-      });
-      apply(document.documentElement.lang === 'fr' ? 'fr' : 'en');
-      document.getElementById('year').textContent = new Date().getFullYear();
-    })();
-  </script>
+  <script src="../js/legal.js?v=20261109a"></script>
 </body>
 
 </html>

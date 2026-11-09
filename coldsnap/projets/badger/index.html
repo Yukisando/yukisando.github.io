@@ -5,25 +5,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <script>
-    // ColdSnap lives at coldsnap.fr (proxied from here by tools/coldsnap-worker).
-    // Old nathandecastro.com/coldsnap/ links forward there.
-    if (/(^|\.)nathandecastro\.com$/.test(location.hostname)) {
-      location.replace('https://coldsnap.fr' + (location.pathname.replace(/^\/coldsnap/, '') || '/') + location.search + location.hash);
-    }
-    // One static page per language: / in French, /en/ in English. The worker on coldsnap.fr
-    // picks the page before it is sent (coldsnap-lang cookie, else Accept-Language).
-    // Choices saved before that cookie existed are moved into it here, once.
-    (function () {
-      var saved;
-      try { saved = localStorage.getItem('coldsnap-lang'); } catch (e) {}
-      if ((saved !== 'fr' && saved !== 'en') || /(?:^|;\s*)coldsnap-lang=/.test(document.cookie)) return;
-      document.cookie = 'coldsnap-lang=' + saved + '; path=/; max-age=31536000; samesite=lax; secure';
-      if (saved !== document.documentElement.lang) {
-        location.replace((saved === 'en' ? '/en/projects/badger/' : '/projets/badger/') + location.search + location.hash);
-      }
-    })();
-  </script>
+  <!-- Relative path: on nathandecastro.com/coldsnap/ it must still load to forward visitors. -->
+  <script src="../../js/boot.js?v=20261109a" data-page="twin"></script>
   <title>Badger — App mobile | ColdSnap</title>
   <meta name="description" content="Carte de visite numérique NFC : partagez vos coordonnées en rapprochant deux téléphones">
   <meta name="robots" content="index, follow, max-image-preview:large">
@@ -49,7 +32,7 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png?v=20261028a" />
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=20261104a" />
   <link rel="preload" href="/fonts/Comfortaa-var.woff2" as="font" type="font/woff2" crossorigin>
-  <link href="/css/coldsnap.css?v=20261106a" rel="stylesheet">
+  <link href="/css/coldsnap.min.css?v=8e09353ca6" rel="stylesheet">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -232,7 +215,7 @@
   <script src="/js/i18n-strings.js?v=20261104e"></script>
   <script src="/js/i18n.js?v=20261106a"></script>
   <script src="/js/page.js?v=20261104a" defer></script>
-  <script src="/js/secrets.js?v=20261104a" data-site="coldsnap" defer></script>
+  <script src="/js/secrets.js?v=20261109a" data-site="coldsnap" defer></script>
   <script src="/js/easter-eggs.js?v=20261104a" defer></script>
 </body>
 

@@ -4,43 +4,11 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex">
-  <script>
-    // Near-miss project addresses (/projects/maya, /projets/Maya, /en/projets/maya/) go to the
-    // real page; that page's own language redirect then picks FR or EN. Unknown ids stay here.
-    (function () {
-      var m = location.pathname.match(/^\/(en\/)?(projets?|projects?)\/([a-z0-9-]+)\/?$/i);
-      if (!m) return;
-      var target = (m[1] || /^projects?$/i.test(m[2]) ? '/en/projects/' : '/projets/') + m[3].toLowerCase() + '/';
-      if (target !== location.pathname) location.replace(target + location.search + location.hash);
-    })();
-    // One page for both languages: /en/... addresses, then the saved choice, then the browser decide.
-    (function () {
-      var lang = /^\/en(\/|$)/.test(location.pathname) ? 'en' : null;
-      try { lang = lang || localStorage.getItem('coldsnap-lang'); } catch (e) {}
-      lang = lang || ((navigator.language || '').toLowerCase().indexOf('fr') === 0 ? 'fr' : 'en');
-      document.documentElement.lang = lang === 'fr' ? 'fr' : 'en';
-    })();
-  </script>
+  <script src="/js/boot.js?v=20261109a" data-page="404"></script>
   <title>404 — ColdSnap</title>
   <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="preload" href="/fonts/Comfortaa-var.woff2" as="font" type="font/woff2" crossorigin>
-  <link href="/css/coldsnap.css?v=20261106a" rel="stylesheet">
-  <style>
-    .lost { min-height: 100vh; display: grid; place-content: center; justify-items: center; gap: 22px; padding: 32px 16px; text-align: center; }
-    .lost__home a { color: var(--orange); }
-
-    /* The arcade screen */
-    .arcade-screen { position: relative; overflow: hidden; width: min(100%, 480px); padding: 34px 24px 30px; border: 6px solid var(--bg-card); border-radius: 22px; background: #07080c; }
-    .arcade-screen::after { content: ''; position: absolute; inset: 0; pointer-events: none; background: repeating-linear-gradient(rgba(255, 255, 255, 0.04) 0 1px, transparent 1px 3px); }
-    .arcade-screen__over { font-weight: 700; font-size: clamp(1.4rem, 5vw, 2rem); letter-spacing: 0.24em; color: var(--coral); }
-    .arcade-screen__code { display: block; margin: 6px 0 10px; font-weight: 700; font-size: clamp(4rem, 18vw, 7rem); line-height: 1; letter-spacing: 0.06em; color: var(--orange); }
-    .arcade-screen__continue { font-weight: 700; letter-spacing: 0.18em; color: var(--ice); }
-    .arcade-screen__count { display: inline-block; min-width: 1.4em; color: var(--text-primary); animation: count-blink 1s steps(1) infinite; }
-    .arcade-screen.is-paused .arcade-screen__count { animation: none; }
-    @keyframes count-blink { 50% { opacity: 0.35; } }
-
-    .lost .coin-slot { justify-items: center; }
-  </style>
+  <link href="/css/coldsnap.min.css?v=8e09353ca6" rel="stylesheet">
 </head>
 <body>
   <main class="lost">
@@ -74,42 +42,8 @@
 
   <script src="/js/i18n-strings.js?v=20261104e"></script>
   <script src="/js/i18n.js?v=20261106a"></script>
-  <script>
-    // Game over: CONTINUE? counts down from 9. A coin in the slot (js/arcade-coin.js) goes home
-    // and counts as a secret; at 0 the screen shuts off and goes home anyway.
-    (function () {
-      var home = document.documentElement.lang === 'fr' ? '/' : '/en/';
-      document.getElementById('homeSlot').dataset.href = home;
-      document.getElementById('homeLink').href = home;
-      document.title = (document.documentElement.lang === 'fr' ? '404 — Page introuvable' : '404 — Page not found') + ' | ColdSnap';
-
-      var screen = document.getElementById('arcadeScreen');
-      var count = document.getElementById('continueCount');
-      var left = 9;
-      var timer = setInterval(function () {
-        left -= 1;
-        count.textContent = left;
-        if (left > 0) return;
-        clearInterval(timer);
-        // No surprise page change for people who asked for less motion: the link stays.
-        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-        var shutter = document.createElement('div');
-        shutter.className = 'crt-shutter';
-        document.body.appendChild(shutter);
-        setTimeout(function () { location.href = home; }, 420);
-      }, 1000);
-
-      // Touching the coin stops the clock: the player is taking the hint.
-      var stop = function () { clearInterval(timer); screen.classList.add('is-paused'); };
-      document.querySelector('.coin').addEventListener('pointerdown', stop);
-      document.querySelector('.coin').addEventListener('keydown', stop);
-      document.addEventListener('coldsnap:coin-inserted', function () {
-        stop();
-        if (window.Secrets) window.Secrets.award('continue');
-      });
-    })();
-  </script>
-  <script src="/js/secrets.js?v=20261104a" data-site="coldsnap" defer></script>
+  <script src="/js/lost.js?v=20261109a"></script>
+  <script src="/js/secrets.js?v=20261109a" data-site="coldsnap" defer></script>
   <script src="/js/easter-eggs.js?v=20261104a" defer></script>
   <script src="/js/arcade-coin.js?v=20261104b" defer></script>
 </body>
