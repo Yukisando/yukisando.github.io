@@ -3,7 +3,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://coldsnap.fr/</loc>
-    <lastmod>2026-11-06</lastmod>
+    <lastmod>2026-11-09</lastmod>
     <priority>1.0</priority>
     <xhtml:link rel="alternate" hreflang="fr" href="https://coldsnap.fr/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://coldsnap.fr/en/"/>
@@ -11,7 +11,7 @@
   </url>
   <url>
     <loc>https://coldsnap.fr/en/</loc>
-    <lastmod>2026-11-06</lastmod>
+    <lastmod>2026-11-09</lastmod>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="fr" href="https://coldsnap.fr/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://coldsnap.fr/en/"/>
@@ -19,7 +19,7 @@
   </url>
   <url>
     <loc>https://coldsnap.fr/projets/</loc>
-    <lastmod>2026-11-06</lastmod>
+    <lastmod>2026-11-09</lastmod>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="fr" href="https://coldsnap.fr/projets/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://coldsnap.fr/en/projects/"/>
@@ -27,7 +27,7 @@
   </url>
   <url>
     <loc>https://coldsnap.fr/en/projects/</loc>
-    <lastmod>2026-11-06</lastmod>
+    <lastmod>2026-11-09</lastmod>
     <priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="fr" href="https://coldsnap.fr/projets/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://coldsnap.fr/en/projects/"/>
@@ -35,7 +35,7 @@
   </url>
   <url>
     <loc>https://coldsnap.fr/projets/cpps-exhibit/</loc>
-    <lastmod>2026-11-06</lastmod>
+    <lastmod>2026-11-09</lastmod>
     <priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="fr" href="https://coldsnap.fr/projets/cpps-exhibit/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://coldsnap.fr/en/projects/cpps-exhibit/"/>
@@ -43,7 +43,7 @@
   </url>
   <url>
     <loc>https://coldsnap.fr/en/projects/cpps-exhibit/</loc>
-    <lastmod>2026-11-06</lastmod>
+    <lastmod>2026-11-09</lastmod>
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="fr" href="https://coldsnap.fr/projets/cpps-exhibit/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://coldsnap.fr/en/projects/cpps-exhibit/"/>
@@ -51,7 +51,7 @@
   </url>
   <url>
     <loc>https://coldsnap.fr/projets/sdana-installation/</loc>
-    <lastmod>2026-11-06</lastmod>
+    <lastmod>2026-11-09</lastmod>
     <priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="fr" href="https://coldsnap.fr/projets/sdana-installation/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://coldsnap.fr/en/projects/sdana-installation/"/>
@@ -59,7 +59,7 @@
   </url>
   <url>
     <loc>https://coldsnap.fr/en/projects/sdana-installation/</loc>
-    <lastmod>2026-11-06</lastmod>
+    <lastmod>2026-11-09</lastmod>
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="fr" href="https://coldsnap.fr/projets/sdana-installation/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://coldsnap.fr/en/projects/sdana-installation/"/>
@@ -67,7 +67,7 @@
   </url>
   <url>
     <loc>https://coldsnap.fr/projets/spinlab/</loc>
-    <lastmod>2026-11-06</lastmod>
+    <lastmod>2026-11-09</lastmod>
     <priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="fr" href="https://coldsnap.fr/projets/spinlab/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://coldsnap.fr/en/projects/spinlab/"/>
@@ -75,7 +75,7 @@
   </url>
   <url>
     <loc>https://coldsnap.fr/en/projects/spinlab/</loc>
-    <lastmod>2026-11-06</lastmod>
+    <lastmod>2026-11-09</lastmod>
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="fr" href="https://coldsnap.fr/projets/spinlab/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://coldsnap.fr/en/projects/spinlab/"/>
@@ -83,7 +83,7 @@
   </url>
   <url>
     <loc>https://coldsnap.fr/projets/exploreum/</loc>
-    <lastmod>2026-11-06</lastmod>
+    <lastmod>2026-11-09</lastmod>
     <priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="fr" href="https://coldsnap.fr/projets/exploreum/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://coldsnap.fr/en/projects/exploreum/"/>
@@ -91,7 +91,7 @@
   </url>
   <url>
     <loc>https://coldsnap.fr/en/projects/exploreum/</loc>
-    <lastmod>2026-11-06</lastmod>
+    <lastmod>2026-11-09</lastmod>
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="fr" href="https://coldsnap.fr/projets/exploreum/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://coldsnap.fr/en/projects/exploreum/"/>
@@ -99,7 +99,7 @@
   </url>
   <url>
     <loc>https://coldsnap.fr/projets/winston/</loc>
-    <lastmod>2026-11-06</lastmod>
+    <lastmod>2026-11-09</lastmod>
     <priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="fr" href="https://coldsnap.fr/projets/winston/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://coldsnap.fr/en/projects/winston/"/>
@@ -107,7 +107,7 @@
   </url>
   <url>
     <loc>https://coldsnap.fr/en/projects/winston/</loc>
-    <lastmod>2026-11-06</lastmod>
+    <lastmod>2026-11-09</lastmod>
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="fr" href="https://coldsnap.fr/projets/winston/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://coldsnap.fr/en/projects/winston/"/>
@@ -115,7 +115,7 @@
   </url>
   <url>
     <loc>https://coldsnap.fr/projets/vidanim/</loc>
-    <lastmod>2026-11-06</lastmod>
+    <lastmod>2026-11-09</lastmod>
     <priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="fr" href="https://coldsnap.fr/projets/vidanim/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://coldsnap.fr/en/projects/vidanim/"/>
@@ -123,7 +123,7 @@
   </url>
   <url>
     <loc>https://coldsnap.fr/en/projects/vidanim/</loc>
-    <lastmod>2026-11-06</lastmod>
+    <lastmod>2026-11-09</lastmod>
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="fr" href="https://coldsnap.fr/projets/vidanim/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://coldsnap.fr/en/projects/vidanim/"/>
@@ -131,7 +131,7 @@
   </url>
   <url>
     <loc>https://coldsnap.fr/projets/coldsnap-arcade/</loc>
-    <lastmod>2026-11-06</lastmod>
+    <lastmod>2026-11-09</lastmod>
     <priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="fr" href="https://coldsnap.fr/projets/coldsnap-arcade/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://coldsnap.fr/en/projects/coldsnap-arcade/"/>
@@ -139,7 +139,7 @@
   </url>
   <url>
     <loc>https://coldsnap.fr/en/projects/coldsnap-arcade/</loc>
-    <lastmod>2026-11-06</lastmod>
+    <lastmod>2026-11-09</lastmod>
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="fr" href="https://coldsnap.fr/projets/coldsnap-arcade/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://coldsnap.fr/en/projects/coldsnap-arcade/"/>
@@ -147,7 +147,7 @@
   </url>
   <url>
     <loc>https://coldsnap.fr/projets/pygmak/</loc>
-    <lastmod>2026-11-06</lastmod>
+    <lastmod>2026-11-09</lastmod>
     <priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="fr" href="https://coldsnap.fr/projets/pygmak/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://coldsnap.fr/en/projects/pygmak/"/>
@@ -155,7 +155,7 @@
   </url>
   <url>
     <loc>https://coldsnap.fr/en/projects/pygmak/</loc>
-    <lastmod>2026-11-06</lastmod>
+    <lastmod>2026-11-09</lastmod>
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="fr" href="https://coldsnap.fr/projets/pygmak/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://coldsnap.fr/en/projects/pygmak/"/>
@@ -163,7 +163,7 @@
   </url>
   <url>
     <loc>https://coldsnap.fr/projets/seba/</loc>
-    <lastmod>2026-11-06</lastmod>
+    <lastmod>2026-11-09</lastmod>
     <priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="fr" href="https://coldsnap.fr/projets/seba/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://coldsnap.fr/en/projects/seba/"/>
@@ -171,7 +171,7 @@
   </url>
   <url>
     <loc>https://coldsnap.fr/en/projects/seba/</loc>
-    <lastmod>2026-11-06</lastmod>
+    <lastmod>2026-11-09</lastmod>
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="fr" href="https://coldsnap.fr/projets/seba/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://coldsnap.fr/en/projects/seba/"/>
@@ -179,7 +179,7 @@
   </url>
   <url>
     <loc>https://coldsnap.fr/projets/badalone/</loc>
-    <lastmod>2026-11-06</lastmod>
+    <lastmod>2026-11-09</lastmod>
     <priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="fr" href="https://coldsnap.fr/projets/badalone/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://coldsnap.fr/en/projects/badalone/"/>
@@ -187,7 +187,7 @@
   </url>
   <url>
     <loc>https://coldsnap.fr/en/projects/badalone/</loc>
-    <lastmod>2026-11-06</lastmod>
+    <lastmod>2026-11-09</lastmod>
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="fr" href="https://coldsnap.fr/projets/badalone/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://coldsnap.fr/en/projects/badalone/"/>
@@ -195,7 +195,7 @@
   </url>
   <url>
     <loc>https://coldsnap.fr/projets/maya/</loc>
-    <lastmod>2026-11-06</lastmod>
+    <lastmod>2026-11-09</lastmod>
     <priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="fr" href="https://coldsnap.fr/projets/maya/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://coldsnap.fr/en/projects/maya/"/>
@@ -203,7 +203,7 @@
   </url>
   <url>
     <loc>https://coldsnap.fr/en/projects/maya/</loc>
-    <lastmod>2026-11-06</lastmod>
+    <lastmod>2026-11-09</lastmod>
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="fr" href="https://coldsnap.fr/projets/maya/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://coldsnap.fr/en/projects/maya/"/>
@@ -211,7 +211,7 @@
   </url>
   <url>
     <loc>https://coldsnap.fr/projets/sandlog/</loc>
-    <lastmod>2026-11-06</lastmod>
+    <lastmod>2026-11-09</lastmod>
     <priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="fr" href="https://coldsnap.fr/projets/sandlog/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://coldsnap.fr/en/projects/sandlog/"/>
@@ -219,7 +219,7 @@
   </url>
   <url>
     <loc>https://coldsnap.fr/en/projects/sandlog/</loc>
-    <lastmod>2026-11-06</lastmod>
+    <lastmod>2026-11-09</lastmod>
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="fr" href="https://coldsnap.fr/projets/sandlog/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://coldsnap.fr/en/projects/sandlog/"/>
@@ -227,7 +227,7 @@
   </url>
   <url>
     <loc>https://coldsnap.fr/projets/badger/</loc>
-    <lastmod>2026-11-06</lastmod>
+    <lastmod>2026-11-09</lastmod>
     <priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="fr" href="https://coldsnap.fr/projets/badger/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://coldsnap.fr/en/projects/badger/"/>
@@ -235,7 +235,7 @@
   </url>
   <url>
     <loc>https://coldsnap.fr/en/projects/badger/</loc>
-    <lastmod>2026-11-06</lastmod>
+    <lastmod>2026-11-09</lastmod>
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="fr" href="https://coldsnap.fr/projets/badger/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://coldsnap.fr/en/projects/badger/"/>
@@ -243,7 +243,7 @@
   </url>
   <url>
     <loc>https://coldsnap.fr/projets/colismarket/</loc>
-    <lastmod>2026-11-06</lastmod>
+    <lastmod>2026-11-09</lastmod>
     <priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="fr" href="https://coldsnap.fr/projets/colismarket/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://coldsnap.fr/en/projects/colismarket/"/>
@@ -251,7 +251,7 @@
   </url>
   <url>
     <loc>https://coldsnap.fr/en/projects/colismarket/</loc>
-    <lastmod>2026-11-06</lastmod>
+    <lastmod>2026-11-09</lastmod>
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="fr" href="https://coldsnap.fr/projets/colismarket/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://coldsnap.fr/en/projects/colismarket/"/>
@@ -259,7 +259,7 @@
   </url>
   <url>
     <loc>https://coldsnap.fr/projets/patoune/</loc>
-    <lastmod>2026-11-06</lastmod>
+    <lastmod>2026-11-09</lastmod>
     <priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="fr" href="https://coldsnap.fr/projets/patoune/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://coldsnap.fr/en/projects/patoune/"/>
@@ -267,7 +267,7 @@
   </url>
   <url>
     <loc>https://coldsnap.fr/en/projects/patoune/</loc>
-    <lastmod>2026-11-06</lastmod>
+    <lastmod>2026-11-09</lastmod>
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="fr" href="https://coldsnap.fr/projets/patoune/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://coldsnap.fr/en/projects/patoune/"/>
@@ -275,7 +275,7 @@
   </url>
   <url>
     <loc>https://coldsnap.fr/projets/posti/</loc>
-    <lastmod>2026-11-06</lastmod>
+    <lastmod>2026-11-09</lastmod>
     <priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="fr" href="https://coldsnap.fr/projets/posti/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://coldsnap.fr/en/projects/posti/"/>
@@ -283,7 +283,7 @@
   </url>
   <url>
     <loc>https://coldsnap.fr/en/projects/posti/</loc>
-    <lastmod>2026-11-06</lastmod>
+    <lastmod>2026-11-09</lastmod>
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="fr" href="https://coldsnap.fr/projets/posti/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://coldsnap.fr/en/projects/posti/"/>
@@ -291,7 +291,7 @@
   </url>
   <url>
     <loc>https://coldsnap.fr/projets/grapple-groove/</loc>
-    <lastmod>2026-11-06</lastmod>
+    <lastmod>2026-11-09</lastmod>
     <priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="fr" href="https://coldsnap.fr/projets/grapple-groove/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://coldsnap.fr/en/projects/grapple-groove/"/>
@@ -299,7 +299,7 @@
   </url>
   <url>
     <loc>https://coldsnap.fr/en/projects/grapple-groove/</loc>
-    <lastmod>2026-11-06</lastmod>
+    <lastmod>2026-11-09</lastmod>
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="fr" href="https://coldsnap.fr/projets/grapple-groove/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://coldsnap.fr/en/projects/grapple-groove/"/>
@@ -307,7 +307,7 @@
   </url>
   <url>
     <loc>https://coldsnap.fr/projets/sharekm/</loc>
-    <lastmod>2026-11-06</lastmod>
+    <lastmod>2026-11-09</lastmod>
     <priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="fr" href="https://coldsnap.fr/projets/sharekm/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://coldsnap.fr/en/projects/sharekm/"/>
@@ -315,7 +315,7 @@
   </url>
   <url>
     <loc>https://coldsnap.fr/en/projects/sharekm/</loc>
-    <lastmod>2026-11-06</lastmod>
+    <lastmod>2026-11-09</lastmod>
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="fr" href="https://coldsnap.fr/projets/sharekm/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://coldsnap.fr/en/projects/sharekm/"/>
@@ -323,7 +323,7 @@
   </url>
   <url>
     <loc>https://coldsnap.fr/projets/waddonsync/</loc>
-    <lastmod>2026-11-06</lastmod>
+    <lastmod>2026-11-09</lastmod>
     <priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="fr" href="https://coldsnap.fr/projets/waddonsync/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://coldsnap.fr/en/projects/waddonsync/"/>
@@ -331,7 +331,7 @@
   </url>
   <url>
     <loc>https://coldsnap.fr/en/projects/waddonsync/</loc>
-    <lastmod>2026-11-06</lastmod>
+    <lastmod>2026-11-09</lastmod>
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="fr" href="https://coldsnap.fr/projets/waddonsync/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://coldsnap.fr/en/projects/waddonsync/"/>
@@ -339,7 +339,7 @@
   </url>
   <url>
     <loc>https://coldsnap.fr/projets/magic-arrow/</loc>
-    <lastmod>2026-11-06</lastmod>
+    <lastmod>2026-11-09</lastmod>
     <priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="fr" href="https://coldsnap.fr/projets/magic-arrow/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://coldsnap.fr/en/projects/magic-arrow/"/>
@@ -347,7 +347,7 @@
   </url>
   <url>
     <loc>https://coldsnap.fr/en/projects/magic-arrow/</loc>
-    <lastmod>2026-11-06</lastmod>
+    <lastmod>2026-11-09</lastmod>
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="fr" href="https://coldsnap.fr/projets/magic-arrow/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://coldsnap.fr/en/projects/magic-arrow/"/>
@@ -355,7 +355,7 @@
   </url>
   <url>
     <loc>https://coldsnap.fr/projets/bolt/</loc>
-    <lastmod>2026-11-06</lastmod>
+    <lastmod>2026-11-09</lastmod>
     <priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="fr" href="https://coldsnap.fr/projets/bolt/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://coldsnap.fr/en/projects/bolt/"/>
@@ -363,7 +363,7 @@
   </url>
   <url>
     <loc>https://coldsnap.fr/en/projects/bolt/</loc>
-    <lastmod>2026-11-06</lastmod>
+    <lastmod>2026-11-09</lastmod>
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="fr" href="https://coldsnap.fr/projets/bolt/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://coldsnap.fr/en/projects/bolt/"/>
@@ -371,7 +371,7 @@
   </url>
   <url>
     <loc>https://coldsnap.fr/projets/coldsnap-utilities/</loc>
-    <lastmod>2026-11-06</lastmod>
+    <lastmod>2026-11-09</lastmod>
     <priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="fr" href="https://coldsnap.fr/projets/coldsnap-utilities/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://coldsnap.fr/en/projects/coldsnap-utilities/"/>
@@ -379,25 +379,10 @@
   </url>
   <url>
     <loc>https://coldsnap.fr/en/projects/coldsnap-utilities/</loc>
-    <lastmod>2026-11-06</lastmod>
+    <lastmod>2026-11-09</lastmod>
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="fr" href="https://coldsnap.fr/projets/coldsnap-utilities/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://coldsnap.fr/en/projects/coldsnap-utilities/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://coldsnap.fr/projets/coldsnap-utilities/"/>
-  </url>
-  <url>
-    <loc>https://coldsnap.fr/legal/</loc>
-    <lastmod>2026-11-04</lastmod>
-    <priority>0.3</priority>
-  </url>
-  <url>
-    <loc>https://coldsnap.fr/legal/cgv/</loc>
-    <lastmod>2026-11-04</lastmod>
-    <priority>0.2</priority>
-  </url>
-  <url>
-    <loc>https://coldsnap.fr/legal/confidentialite/</loc>
-    <lastmod>2026-11-04</lastmod>
-    <priority>0.2</priority>
   </url>
 </urlset>

@@ -452,7 +452,8 @@ const pair = (fr, en, lastmod, priority) => ['fr', 'en'].map(lang => `  <url>
     <xhtml:link rel="alternate" hreflang="en" href="${SITE_URL}${en}"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="${SITE_URL}${fr}"/>
   </url>`).join('\n');
-const LEGAL = [['/legal/', '0.3'], ['/legal/cgv/', '0.2'], ['/legal/confidentialite/', '0.2']];
+// Legal pages are noindex (reachable, kept out of search results), so not in the sitemap.
+const LEGAL = [];
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <!-- ${BANNER} -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">

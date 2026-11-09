@@ -1,4 +1,8 @@
 User-agent: *
 Allow: /
+# Build sources and tooling, not pages.
+Disallow: /tools/
+Disallow: /less/
+Disallow: /newtab-extension/
 
 Sitemap: https://nathandecastro.com/sitemap.xml

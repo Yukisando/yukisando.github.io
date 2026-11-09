@@ -97,6 +97,19 @@ export default {
       return withSecurity(await fetchLegalPage(request, legalPath, url.search), LEGAL_CSP);
     }
 
+    // Near-miss project addresses (/projects/, /projet/maya, /en/projets/maya) get a 301 to
+    // the real page: English words or /en/ go to /en/projects/, French ones to /projets/.
+    const alias = url.pathname.match(/^\/(en\/)?(projets?|projects?)(?:\/(.*))?$/i);
+    if (alias) {
+      const english = Boolean(alias[1]) || /^projects?$/i.test(alias[2]);
+      const rest = (alias[3] || '').replace(/\/+$/, '').toLowerCase();
+      const target = (english ? '/en/projects/' : '/projets/') + (rest ? rest + '/' : '');
+      if (target !== url.pathname) {
+        url.pathname = target;
+        return Response.redirect(url.toString(), 301);
+      }
+    }
+
     const langRedirect = languageRedirect(request, url);
     if (langRedirect) return langRedirect;
 
