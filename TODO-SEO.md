@@ -43,14 +43,6 @@ The Domain property exists (2026-11-09 export: 4 indexed URLs, 64 impressions on
       addresses: `http://` or `www.` variants, `?lang=` links, `nathandecastro.com/coldsnap/`,
       `nathandecastro.com/Portfolio/`. Those are meant to stay out of the index.
 
-## Cloudflare token
-
-- [ ] Cache purge still refused on 2026-11-09 with both tokens in the vault
-      (`CLOUDFLARE_API_TOKEN`, `CF_DNS_API_TOKEN`): "Authentication error". Check that the
-      *Zone / Cache Purge* permission is on one of those two tokens, for zone `coldsnap.fr`
-      (not a new token). A new token: put it in `~/.claude-skills/.env` and push the vault.
-      Without it, a push shows up within 10 minutes.
-
 ## Google Business Profile
 
 - [ ] French profile in review (2026-11-09). Once live: website `https://coldsnap.fr/`, same
