@@ -498,21 +498,17 @@ const COLDSNAP_PROJECTS = [
     shortDescription: 'Games written for real retro consoles, playable in the browser, with a shared leaderboard',
     description: 'Real games for old consoles, playable from any browser and competing on one leaderboard. The first one, David contre les zombies, is a survival game written in C for the Sega Master System. It runs on the original console from a flash cartridge, and here from the very same ROM.',
     icon: '🕹️',
-    thumbnail: '/assets/projects/arcade/arcade-1-thumb.webp',
+    thumbnail: '/assets/projects/arcade/arcade-3-thumb.webp',
     media: [
       '/assets/projects/arcade/arcade-3.png',
       '/assets/projects/arcade/arcade-5.png',
-      '/assets/projects/arcade/arcade-4.png',
-      '/assets/projects/arcade/arcade-1.png',
-      '/assets/projects/arcade/arcade-2.png'
+      '/assets/projects/arcade/arcade-4.png'
     ],
     // Descriptions for screen readers and search, one per media item, same order.
     alt: [
       'David contre les zombies, level 5: the player collects blue gems in the Re-Play festival hall while zombies approach',
       'David contre les zombies on the beach level, chased by a horde of zombies',
-      'Game over screen: time, level and number of zombies killed',
-      'ColdSnap Arcade home page with the David contre les zombies game card',
-      'Game page in the ColdSnap Arcade: the playable game next to the leaderboard'
+      'Game over screen: time, level and number of zombies killed'
     ],
     tech: ['C', 'Z80', 'SDCC', 'EmulatorJS', 'Cloudflare Workers', 'Cloudflare D1'],
     features: [
@@ -525,9 +521,7 @@ const COLDSNAP_PROJECTS = [
       alt: [
         'David contre les zombies, niveau 5 : le joueur ramasse des gemmes bleues dans le hall du festival Re-Play pendant que les zombies approchent',
         'David contre les zombies sur le niveau de la plage, poursuivi par une horde de zombies',
-        'Écran de fin de partie : temps, niveau et nombre de zombies tués',
-        'Accueil de l\'arcade ColdSnap avec la carte du jeu David contre les zombies',
-        'Page de jeu de l\'arcade ColdSnap : le jeu jouable à côté du classement'
+        'Écran de fin de partie : temps, niveau et nombre de zombies tués'
       ],
       type: 'Arcade rétro',
       shortDescription: 'Des jeux écrits pour de vraies consoles rétro, jouables dans le navigateur, avec un classement commun',

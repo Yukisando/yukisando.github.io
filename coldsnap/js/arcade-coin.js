@@ -1,12 +1,13 @@
 /**
  * ColdSnap - The arcade's coin slot
  *
- * A project with `coinSlot` in data/projects.js shows a coin and a slot in the viewer.
+ * A project with `coinSlot` in data/projects.js shows a coin and a slot in the viewer,
+ * and in the popup its hero card opens.
  * Drag the coin into the slot, or click it or press Enter on it to let it fly there by itself.
  * The coin glides over, turns edge-on to the slit and drops in, then the screen shuts off like
  * an old TV and the arcade opens.
  *
- * The viewer re-renders its markup, so everything hangs off listeners on the document.
+ * The viewer and the popup re-render their markup, so everything hangs off listeners on the document.
  */
 (function () {
   const i18n = window.CS_I18N;
@@ -176,6 +177,11 @@
     inserting = false;
     document.querySelectorAll('.crt-shutter').forEach(el => el.remove());
     if (typeof renderViewer === 'function') renderViewer();
+    // The hero card popup may still be open with the coin already swallowed: put a fresh one back.
+    const modalSlot = document.querySelector('#modalFooter .coin-slot');
+    if (modalSlot && typeof coinSlotHTML === 'function') {
+      modalSlot.outerHTML = coinSlotHTML({ coinSlot: modalSlot.dataset.href });
+    }
   });
 
   document.addEventListener('pointerdown', e => {

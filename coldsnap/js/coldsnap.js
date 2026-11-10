@@ -299,6 +299,29 @@ function playCardClose(card) {
   return Promise.all(cardAnimations.map(animation => animation.finished));
 }
 
+// The arcade's coin and slot (js/arcade-coin.js), shown in the viewer and in the hero cards' popup.
+function coinSlotHTML(project) {
+  if (!project.coinSlot) return '';
+  return `
+    <div class="coin-slot" data-href="${escapeAttr(project.coinSlot)}">
+      <div class="coin-slot__row">
+        <button type="button" class="coin" aria-label="${escapeAttr(i18n.t('coin.label'))}">
+          <span class="coin__body">
+            <i></i><i></i><i></i><i></i><i></i>
+            <span class="coin__face"><img src="/assets/arcade/coin-effigy.png" alt="" draggable="false"></span>
+            <span class="coin__face coin__face--back"><svg class="coin__one" viewBox="0 0 7 9" aria-hidden="true"><path d="M3 0h2v7h2v2H0V7h2V3H1V2h1V1h1z"/></svg></span>
+          </span>
+        </button>
+        <span class="coin-slot__path" aria-hidden="true"><i></i><i></i><i></i></span>
+        <div class="coin-slot__plate">
+          <span class="coin-slot__led">${i18n.t('coin.insert')}</span>
+          <span class="coin-slot__hole"></span>
+        </div>
+      </div>
+      <p class="coin-slot__hint">${i18n.t('coin.hint')}</p>
+    </div>`;
+}
+
 // Modal functions
 // `projectRef` is a project id, or a project object (the easter-egg wizard card isn't in the data).
 function openModal(projectRef, fromCard) {
@@ -413,8 +436,9 @@ function openModal(projectRef, fromCard) {
   `;
 
   if (modalFooter) {
-    modalFooter.innerHTML = linksHTML;
-    modalFooter.classList.toggle('is-empty', !linksHTML);
+    const footerHTML = coinSlotHTML(project) + linksHTML;
+    modalFooter.innerHTML = footerHTML;
+    modalFooter.classList.toggle('is-empty', !footerHTML);
   }
   
   modal.classList.add('active');
@@ -758,24 +782,7 @@ function renderViewer() {
         <button type="button" class="viewer__toggle" data-toggle aria-expanded="${viewerExpanded}" aria-controls="viewerExtra">
           ${i18n.t(viewerExpanded ? 'viewer.less' : 'viewer.more')} ${icon(viewerExpanded ? 'chevron-up' : 'chevron-down')}
         </button>` : ''}
-      ${project.coinSlot ? `
-        <div class="coin-slot" data-href="${escapeAttr(project.coinSlot)}">
-          <div class="coin-slot__row">
-            <button type="button" class="coin" aria-label="${escapeAttr(i18n.t('coin.label'))}">
-              <span class="coin__body">
-                <i></i><i></i><i></i><i></i><i></i>
-                <span class="coin__face"><img src="/assets/arcade/coin-effigy.png" alt="" draggable="false"></span>
-                <span class="coin__face coin__face--back"><svg class="coin__one" viewBox="0 0 7 9" aria-hidden="true"><path d="M3 0h2v7h2v2H0V7h2V3H1V2h1V1h1z"/></svg></span>
-              </span>
-            </button>
-            <span class="coin-slot__path" aria-hidden="true"><i></i><i></i><i></i></span>
-            <div class="coin-slot__plate">
-              <span class="coin-slot__led">${i18n.t('coin.insert')}</span>
-              <span class="coin-slot__hole"></span>
-            </div>
-          </div>
-          <p class="coin-slot__hint">${i18n.t('coin.hint')}</p>
-        </div>` : ''}
+      ${coinSlotHTML(project)}
       ${links ? `<div class="viewer__links">${links}</div>` : ''}
     </div>
   `;
