@@ -5,7 +5,7 @@ name: Deploy coldsnap.fr
 # Needs the repo secret CLOUDFLARE_API_TOKEN (Settings > Secrets and variables > Actions).
 on:
   push:
-    branches: [master, claude/coldsnap-static-assets] # TEMP: the branch deploys the test worker
+    branches: [master]
     paths:
       - 'coldsnap/**'
       - 'tools/coldsnap-worker/**'
@@ -45,7 +45,7 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID: 2432ed0eb778dd30751496c60dfbe0e0
           WRANGLER_SEND_METRICS: 'false'
         run: |
-          if [ "${{ inputs.env }}" = "next" ] || [ "${{ github.ref_name }}" != "master" ]; then
+          if [ "${{ inputs.env }}" = "next" ]; then
             npx --yes wrangler@4 deploy --env next
           else
             npx --yes wrangler@4 deploy
