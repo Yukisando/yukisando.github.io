@@ -1347,12 +1347,14 @@ const COLDSNAP_PROJECTS = [
     shortDescription: 'Open-source Unity package: one-window builds for every platform, TestFlight upload, scene quick open and editor helpers',
     description: 'The Unity package behind every ColdSnap game and kiosk. Platform Builder builds Windows, macOS, Android (APK and App Bundle), WebGL and iOS from one window with saved scene lists, and sends iOS builds to TestFlight from a Windows PC through a macOS runner. Around it: scene quick open, a commit-and-push window, a one-click update check, pivot tools, dark title bars on Windows, a fullscreen WebGL kiosk template and a few runtime helpers. Installs from Git in the Package Manager; versions bump themselves from commit titles.',
     icon: '🛠️',
-    thumbnail: '/assets/projects/coldsnap-utilities/utilities-1-thumb.webp',
+    thumbnail: '/assets/projects/coldsnap-utilities/utilities-1-thumb.webp?v=20261110',
     media: [
+      '/assets/projects/coldsnap-utilities/utilities-2.png',
       '/assets/projects/coldsnap-utilities/utilities-1.png'
     ],
     // Descriptions for screen readers and search, one per media item, same order.
     alt: [
+      'Platform Builder window: target platform, build options, app name and the scene list in build order',
       'ColdSnap Utilities in the Unity Package Manager, with its Tools menu and scene switcher'
     ],
     tech: ['Unity', 'C#', 'UPM'],
@@ -1369,6 +1371,7 @@ const COLDSNAP_PROJECTS = [
     ],
     fr: {
       alt: [
+        'Fenêtre Platform Builder : plateforme cible, options de build, nom de l\'app et liste des scènes dans l\'ordre du build',
         'ColdSnap Utilities dans le Package Manager de Unity, avec son menu Tools et le sélecteur de scènes'
       ],
       type: 'Package Unity',
