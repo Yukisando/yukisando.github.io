@@ -14,6 +14,7 @@
   var script = document.currentScript;
   var page = script && script.dataset.page;
   var root = document.documentElement;
+  root.classList.add('js'); // CSS can tell scripts will run (homepage nav brand waits for the scroll)
 
   // Old nathandecastro.com/coldsnap/ links forward to coldsnap.fr.
   if (/(^|\.)nathandecastro\.com$/.test(location.hostname)) {

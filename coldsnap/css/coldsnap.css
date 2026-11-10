@@ -266,6 +266,27 @@ h1, h2, h3 {
   transform: scale(1) rotate(90deg);
 }
 
+/* Homepage: the hero already shows the logo and the name, so the nav brand waits until the
+   hero logo scrolls under the nav (coldsnap.js adds .has-brand), then spins and wipes in.
+   Without JavaScript (no .js on <html>) it stays visible. */
+.js .page-home .cs-nav__brand { transition: opacity 0.3s ease, visibility 0s; }
+.js .page-home .cs-nav__logo { transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); }
+.js .page-home .cs-nav__name { transition: clip-path 0.5s var(--ease-out) 0.12s, transform 0.5s var(--ease-out) 0.12s; }
+.js .page-home .cs-nav:not(.has-brand) .cs-nav__brand { opacity: 0; visibility: hidden; pointer-events: none; transition: opacity 0.2s ease, visibility 0s 0.2s; }
+.js .page-home .cs-nav:not(.has-brand) .cs-nav__logo { transform: translateY(16px) rotate(-180deg) scale(0.3); }
+.js .page-home .cs-nav:not(.has-brand) .cs-nav__name { clip-path: inset(0 100% 0 0); transform: translateX(-12px); }
+.js .page-home .cs-nav.has-brand .cs-nav__name { clip-path: inset(0 -10px 0 0); }
+.js .page-home .cs-nav.has-brand .cs-nav__sparkle { animation: brand-sparkle 0.9s ease 0.4s 1; }
+@keyframes brand-sparkle {
+  0%, 100% { opacity: 0; transform: scale(0.4) rotate(0deg); }
+  50% { opacity: 1; transform: scale(1.2) rotate(90deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .js .page-home .cs-nav__logo, .js .page-home .cs-nav__name { transition: none; }
+  .js .page-home .cs-nav:not(.has-brand) .cs-nav__logo, .js .page-home .cs-nav:not(.has-brand) .cs-nav__name { transform: none; clip-path: none; }
+  .js .page-home .cs-nav.has-brand .cs-nav__sparkle { animation: none; }
+}
+
 .cs-nav__name {
   font-family: var(--font-brand);
   font-weight: 700;
@@ -3670,8 +3691,9 @@ html[lang="en"] .legal-page [lang="fr"]:not([data-lang]) { display: none; }
   width: 56px;
   height: 56px;
   border-radius: 50%;
-  border: 2px solid var(--orange);
-  background: var(--bg-card);
+  /* Soft feathered edge instead of a hard circle */
+  -webkit-mask-image: radial-gradient(closest-side, #000 72%, transparent 100%);
+  mask-image: radial-gradient(closest-side, #000 72%, transparent 100%);
   transition: transform 0.2s var(--ease-out);
   animation: helper-wiggle 0.9s ease-in-out 4s 1;
 }
