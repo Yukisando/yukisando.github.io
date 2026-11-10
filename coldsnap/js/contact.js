@@ -24,6 +24,19 @@
   });
   if (location.hash === '#contact') openForm();
 
+  // "Need a hand?" project picker: its script only loads on the first click (no cost at page load).
+  const launcher = document.getElementById('helperLaunch');
+  if (launcher) launcher.addEventListener('click', () => {
+    if (window.CS_HELPER) return window.CS_HELPER.toggle();
+    if (launcher.getAttribute('aria-busy')) return;
+    launcher.setAttribute('aria-busy', 'true');
+    const script = document.createElement('script');
+    script.src = '/js/request-helper.js?v=20261110a';
+    script.onload = () => { launcher.removeAttribute('aria-busy'); window.CS_HELPER.toggle(); };
+    script.onerror = () => { launcher.removeAttribute('aria-busy'); location.hash = 'contact'; openForm(); };
+    document.head.appendChild(script);
+  });
+
   function show(key) {
     status.textContent = i18n.t('form.' + key);
     status.dataset.state = key === 'expired' ? 'invalid' : key;
