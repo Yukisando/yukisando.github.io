@@ -50,36 +50,36 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://coldsnap.fr/projets/cpps-exhibit/"/>
   </url>
   <url>
-    <loc>https://coldsnap.fr/projets/sdana-installation/</loc>
+    <loc>https://coldsnap.fr/projets/exploreum/</loc>
     <lastmod>2026-11-10</lastmod>
     <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://coldsnap.fr/projets/sdana-installation/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://coldsnap.fr/en/projects/sdana-installation/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://coldsnap.fr/projets/sdana-installation/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://coldsnap.fr/projets/exploreum/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://coldsnap.fr/en/projects/exploreum/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://coldsnap.fr/projets/exploreum/"/>
   </url>
   <url>
-    <loc>https://coldsnap.fr/en/projects/sdana-installation/</loc>
+    <loc>https://coldsnap.fr/en/projects/exploreum/</loc>
     <lastmod>2026-11-10</lastmod>
     <priority>0.6</priority>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://coldsnap.fr/projets/sdana-installation/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://coldsnap.fr/en/projects/sdana-installation/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://coldsnap.fr/projets/sdana-installation/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://coldsnap.fr/projets/exploreum/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://coldsnap.fr/en/projects/exploreum/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://coldsnap.fr/projets/exploreum/"/>
   </url>
   <url>
-    <loc>https://coldsnap.fr/projets/helpdetective/</loc>
+    <loc>https://coldsnap.fr/projets/maya/</loc>
     <lastmod>2026-11-10</lastmod>
     <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://coldsnap.fr/projets/helpdetective/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://coldsnap.fr/en/projects/helpdetective/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://coldsnap.fr/projets/helpdetective/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://coldsnap.fr/projets/maya/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://coldsnap.fr/en/projects/maya/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://coldsnap.fr/projets/maya/"/>
   </url>
   <url>
-    <loc>https://coldsnap.fr/en/projects/helpdetective/</loc>
+    <loc>https://coldsnap.fr/en/projects/maya/</loc>
     <lastmod>2026-11-10</lastmod>
     <priority>0.6</priority>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://coldsnap.fr/projets/helpdetective/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://coldsnap.fr/en/projects/helpdetective/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://coldsnap.fr/projets/helpdetective/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://coldsnap.fr/projets/maya/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://coldsnap.fr/en/projects/maya/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://coldsnap.fr/projets/maya/"/>
   </url>
   <url>
     <loc>https://coldsnap.fr/projets/spinlab/</loc>
@@ -98,20 +98,20 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://coldsnap.fr/projets/spinlab/"/>
   </url>
   <url>
-    <loc>https://coldsnap.fr/projets/exploreum/</loc>
+    <loc>https://coldsnap.fr/projets/sdana-installation/</loc>
     <lastmod>2026-11-10</lastmod>
     <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://coldsnap.fr/projets/exploreum/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://coldsnap.fr/en/projects/exploreum/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://coldsnap.fr/projets/exploreum/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://coldsnap.fr/projets/sdana-installation/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://coldsnap.fr/en/projects/sdana-installation/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://coldsnap.fr/projets/sdana-installation/"/>
   </url>
   <url>
-    <loc>https://coldsnap.fr/en/projects/exploreum/</loc>
+    <loc>https://coldsnap.fr/en/projects/sdana-installation/</loc>
     <lastmod>2026-11-10</lastmod>
     <priority>0.6</priority>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://coldsnap.fr/projets/exploreum/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://coldsnap.fr/en/projects/exploreum/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://coldsnap.fr/projets/exploreum/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://coldsnap.fr/projets/sdana-installation/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://coldsnap.fr/en/projects/sdana-installation/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://coldsnap.fr/projets/sdana-installation/"/>
   </url>
   <url>
     <loc>https://coldsnap.fr/projets/winston/</loc>
@@ -210,20 +210,20 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://coldsnap.fr/projets/badalone/"/>
   </url>
   <url>
-    <loc>https://coldsnap.fr/projets/maya/</loc>
+    <loc>https://coldsnap.fr/projets/helpdetective/</loc>
     <lastmod>2026-11-10</lastmod>
     <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://coldsnap.fr/projets/maya/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://coldsnap.fr/en/projects/maya/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://coldsnap.fr/projets/maya/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://coldsnap.fr/projets/helpdetective/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://coldsnap.fr/en/projects/helpdetective/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://coldsnap.fr/projets/helpdetective/"/>
   </url>
   <url>
-    <loc>https://coldsnap.fr/en/projects/maya/</loc>
+    <loc>https://coldsnap.fr/en/projects/helpdetective/</loc>
     <lastmod>2026-11-10</lastmod>
     <priority>0.6</priority>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://coldsnap.fr/projets/maya/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://coldsnap.fr/en/projects/maya/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://coldsnap.fr/projets/maya/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://coldsnap.fr/projets/helpdetective/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://coldsnap.fr/en/projects/helpdetective/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://coldsnap.fr/projets/helpdetective/"/>
   </url>
   <url>
     <loc>https://coldsnap.fr/projets/propos/</loc>

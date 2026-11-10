@@ -60,7 +60,7 @@ const COLDSNAP_PROJECTS = [
     title: 'CPPS Earthquake Museum',
     featured: true,
     shortDescription: 'Exhibit framework, touchscreen mini-games and an escape game for a public earthquake training centre',
-    description: 'The complete technology stack of a public earthquake training centre and museum in Switzerland: an integrated exhibit framework across 3 spaces and 27 interactive stations, designed with seismology experts and university professors. 30+ touchscreen mini-games and a fleet of 30 wall-mounted tablets, each running its own kiosked app over a secured local network, centrally configured and remotely updated. Around it: Escape With Wallis, an hour-long escape game guiding visitors through the exhibit, and a reservation and payment platform for state, private and educational clients with automated invoicing and reporting. The centre is also home to Europe\'s largest earthquake simulator.',
+    description: 'A public earthquake training centre in Switzerland where visitors learn, by playing, what an earthquake is and how to react. The technology behind it: 27 interactive stations across 3 spaces with 30+ touchscreen mini-games, designed with seismologists and university professors; a fleet of 30 kiosk tablets updated remotely; Escape With Wallis, an hour-long escape game through the exhibit; and the reservation and payment platform for schools, companies and public services. The centre also houses Europe\'s largest earthquake simulator.',
     icon: '🏛️',
     thumbnail: '/assets/projects/cpps/cpps-1-thumb.webp',
     media: [
@@ -105,7 +105,7 @@ const COLDSNAP_PROJECTS = [
       ],
       type: 'Installation muséale',
       shortDescription: 'Parcours d\'exposition, mini-jeux tactiles et escape game pour un centre public de formation aux séismes',
-      description: 'Toute la technologie d\'un centre public de formation et de prévention des séismes en Suisse : un parcours d\'exposition interactif sur 3 espaces et 27 stations, conçu avec des sismologues et des professeurs d\'université. Plus de 30 mini-jeux tactiles et une flotte de 30 tablettes murales, chacune en mode kiosque sur un réseau local sécurisé, configurées et mises à jour à distance. Autour : Escape With Wallis, un escape game d\'une heure qui guide les visiteurs à travers l\'exposition, et une plateforme de réservation et de paiement pour clients publics, privés et scolaires, avec facturation et reporting automatisés. Le centre abrite aussi le plus grand simulateur de séisme d\'Europe.',
+      description: 'Un centre public de formation aux séismes, en Suisse, où l\'on apprend en jouant ce qu\'est un séisme et comment réagir. Toute la technologie derrière : 27 stations interactives sur 3 espaces avec plus de 30 mini-jeux tactiles, conçues avec des sismologues et des professeurs d\'université ; une flotte de 30 tablettes en mode kiosque mises à jour à distance ; Escape With Wallis, un escape game d\'une heure à travers l\'exposition ; et la plateforme de réservation et de paiement pour écoles, entreprises et services publics. Le centre abrite aussi le plus grand simulateur de séisme d\'Europe.',
       features: [
         'Plus de 30 mini-jeux tactiles sur 3 espaces et 27 stations',
         'Flotte de 30 tablettes murales en kiosque, pilotées et mises à jour à distance',
@@ -117,175 +117,13 @@ const COLDSNAP_PROJECTS = [
     }
   },
   {
-    id: 'sdana-installation',
-    category: 'Interactive Installations',
-    fit: ['kiosk', 'museum', 'public', 'school'],
-    type: 'Touchscreen Installation',
-    title: 'SDANA Natural Hazards Installation',
-    shortDescription: 'Large-format educational touchscreen teaching visitors about natural hazards in Valais',
-    description: 'An interactive installation created for SDANA, the Service des dangers naturels du Valais. Designed for a massive touchscreen at the SDANA facility, the experience helps visitors understand major natural hazards, their mechanisms, and the right behaviours to adopt through multilingual educational scenes and guided visual exploration.',
-    thumbnail: '/assets/projects/sdana/sdana-1-thumb.webp',
-    media: [
-      '/assets/projects/sdana/sdana-1.png',
-      '/assets/projects/sdana/sdana-2.png',
-      '/assets/projects/sdana/sdana-3.png'
-    ],
-    // Descriptions for screen readers and search, one per media item, same order.
-    alt: [
-      'Home screen of the Natural Hazards touchscreen: illustrated panels of avalanches, floods, storms and rockfall',
-      'Storm definition screen: a short explanation next to a photo of a storm cloud over fields',
-      'Storm mechanism screen in German: the maturing phase of a cumulonimbus with a step slider'
-    ],
-    tech: ['Interactive Installation', 'Large Touchscreen', 'Multi-language UX'],
-    features: [
-      'Built for a large public touchscreen display',
-      'Covers multiple natural hazards and risk scenarios',
-      'Explains hazard mechanisms with guided visual content',
-      'Behaviour and safety guidance for visitors',
-      'Multi-language navigation and content'
-    ],
-    links: [],
-    fr: {
-      alt: [
-        'Écran d\'accueil de la borne Dangers naturels : panneaux illustrés d\'avalanches, crues, orages et chutes de pierres',
-        'Écran « Orage, définition » : une courte explication à côté d\'une photo de nuage d\'orage sur des champs',
-        'Écran sur le mécanisme de l\'orage en allemand : phase de maturité d\'un cumulonimbus avec curseur d\'étapes'
-      ],
-      type: 'Installation tactile',
-      shortDescription: 'Grand écran tactile pédagogique sur les dangers naturels en Valais',
-      description: 'Une installation interactive créée pour le SDANA, le Service des dangers naturels du Valais. Pensée pour un très grand écran tactile dans les locaux du SDANA, l\'expérience aide les visiteurs à comprendre les principaux dangers naturels, leurs mécanismes et les bons comportements à adopter, à travers des scènes pédagogiques multilingues et une exploration visuelle guidée.',
-      features: [
-        'Conçue pour un grand écran tactile public',
-        'Couvre plusieurs dangers naturels et scénarios de risque',
-        'Explique les mécanismes avec des contenus visuels guidés',
-        'Conseils de comportement et de sécurité',
-        'Navigation et contenus multilingues'
-      ]
-    }
-  },
-  {
-    id: 'helpdetective',
-    category: 'Interactive Installations',
-    fit: ['game', 'school', 'public', 'company'],
-    type: 'VR Training',
-    title: 'HelpDetective',
-    shortDescription: 'Standalone VR on Meta Quest: step into a care job through 360° video, answer questions and spot the dangers',
-    description: 'HelpDetective puts people inside the daily life of care jobs that are little known or undervalued, such as childcare, to make them want to work there. It runs on Meta Quest 2 and 3 headsets, fully offline. A 360° video plays around the player and stops at set moments for a question; between questions, a flashlight is used to spot the dangers hidden in the room. The thumbstick moves smoothly forward and back through time. Scenarios are plain files, and a workshop inside the headset lets trainers create and edit them without a new build. It replaces older web-based 360° tools the client found slow and dated.',
-    icon: '🥽',
-    thumbnail: '/assets/projects/helpdetective/helpdetective-1-thumb.webp',
-    media: [
-      '/assets/projects/helpdetective/helpdetective-1.jpg',
-      '/assets/projects/helpdetective/helpdetective-2.jpg'
-    ],
-    // Descriptions for screen readers and search, one per media item, same order.
-    alt: [
-      'A question panel floating in a 360° video of a living room: what is the adult doing while the child talks?',
-      'HelpDetective menu in the headset with the \'Le salon\' scenario card and the workshop button'
-    ],
-    tech: ['Unity 6', 'OpenXR', 'Meta Quest', 'UI Toolkit', '360° video'],
-    features: [
-      '360° video that pauses for multiple-choice questions',
-      'Flashlight hunt for hidden dangers in each scene',
-      'Smooth scrubbing through time with the thumbstick',
-      'In-headset workshop to create and edit scenarios',
-      'Fully offline on Quest 2 and Quest 3',
-      'Explanations after a wrong answer, then a retry'
-    ],
-    links: [],
-    fr: {
-      alt: [
-        'Un panneau de question flotte dans une vidéo 360° d\'un salon : que fait l\'adulte pendant que l\'enfant lui parle ?',
-        'Menu de HelpDetective dans le casque avec la carte du scénario « Le salon » et le bouton Atelier'
-      ],
-      type: 'Formation en VR',
-      shortDescription: 'VR autonome sur Meta Quest : se glisser dans un métier du soin en vidéo 360°, répondre aux questions et repérer les dangers',
-      description: 'HelpDetective plonge dans le quotidien de métiers du soin méconnus ou peu valorisés, comme la petite enfance, pour donner envie d\'y travailler. Il tourne sur casques Meta Quest 2 et 3, entièrement hors ligne. Une vidéo 360° se joue autour du joueur et s\'arrête à des moments choisis pour poser une question ; entre deux questions, une lampe torche sert à repérer les dangers cachés dans la pièce. Le stick fait avancer et reculer le temps en douceur. Les scénarios sont de simples fichiers, et un atelier dans le casque permet aux formateurs de les créer et de les modifier sans nouvelle version de l\'app. Il remplace d\'anciens outils 360° sur le web que le client trouvait lents et datés.',
-      features: [
-        'Vidéo 360° qui s\'arrête pour des questions à choix multiples',
-        'Chasse aux dangers cachés à la lampe torche',
-        'Avance et retour fluides dans le temps au stick',
-        'Atelier dans le casque pour créer et modifier les scénarios',
-        'Entièrement hors ligne sur Quest 2 et Quest 3',
-        'Explication après une mauvaise réponse, puis nouvel essai'
-      ]
-    }
-  },
-
-  // ============================================
-  // FLUTTER APPS
-  // ============================================
-  {
-    id: 'spinlab',
-    category: 'Flutter Apps',
-    fit: ['app', 'web', 'company'],
-    type: 'Mobile App',
-    title: 'SpinLab',
-    shortDescription: 'Platform connecting tennis players with certified coaches for booking lessons',
-    description: 'A comprehensive platform that connects tennis players with certified coaches. Features include geolocated coach discovery, instant booking, secure payment processing, and training progress tracking. Built with Flutter for seamless cross-platform experience.',
-    icon: '🎾',
-    thumbnail: '/assets/projects/spinlab/spinlab-1-thumb.webp?v=20261029',
-    media: [
-      '/assets/projects/spinlab/spinlab-1.jpeg?v=20261029',
-      '/assets/projects/spinlab/spinlab-2.jpeg?v=20261029',
-      '/assets/projects/spinlab/spinlab-3.jpeg?v=20261029',
-      '/assets/projects/spinlab/spinlab-4.jpeg?v=20261029',
-      '/assets/projects/spinlab/spinlab-5.jpeg?v=20261029',
-      '/assets/projects/spinlab/spinlab-6.jpeg?v=20261029'
-    ],
-    // Descriptions for screen readers and search, one per media item, same order.
-    alt: [
-      'SpinLab coach list with photos, sports, hourly rates and distance',
-      'Map of Paris with coach photos as pins',
-      'Coach profile with speciality, rate per hour and biography',
-      'Booking screen: available days, a calendar and time slots',
-      'Booking confirmation dialog with the total and cancellation terms before payment',
-      'Coach view of upcoming paid bookings with dates, times and a revoke button'
-    ],
-    tech: ['Flutter', 'Dart', 'Firebase', 'Stripe', 'Google Maps'],
-    features: [
-      'Geolocated coach discovery',
-      'Real-time booking system',
-      'Secure payment via Stripe',
-      'Training progress tracking',
-      'In-app messaging',
-      'Review and rating system'
-    ],
-    links: [
-      { label: 'Google Play', href: 'https://play.google.com/store/apps/details?id=com.coldsnap.spinlab', icon: 'fa-android', style: 'play-store' },
-      { label: 'App Store', href: 'https://apps.apple.com/fr/app/spinlab/id6758303721', icon: 'fa-apple', style: 'app-store' },
-      { label: 'Visit Website', labelFr: 'Site web', href: 'https://spinlab.fr', icon: 'fa-globe', secondary: true },
-      { label: 'Privacy Policy', labelFr: 'Confidentialité', href: 'https://spinlab.fr/politique-de-confidentialite/', icon: 'fa-shield', secondary: true }
-    ],
-    fr: {
-      alt: [
-        'Liste des coachs SpinLab avec photos, sports, tarifs horaires et distance',
-        'Carte de Paris avec les photos des coachs en repères',
-        'Profil d\'un coach : spécialité, tarif horaire et biographie',
-        'Écran de réservation : jours disponibles, calendrier et créneaux horaires',
-        'Fenêtre de confirmation de réservation avec le total et les conditions d\'annulation avant paiement',
-        'Vue coach des réservations payées à venir, avec dates, heures et bouton d\'annulation'
-      ],
-      type: 'App mobile',
-      shortDescription: 'Plateforme qui met en relation joueurs de tennis et coachs certifiés pour réserver des cours',
-      description: 'Une plateforme complète qui met en relation joueurs de tennis et coachs certifiés : recherche de coachs géolocalisée, réservation instantanée, paiement sécurisé et suivi de progression. Développée en Flutter pour une expérience fluide sur toutes les plateformes.',
-      features: [
-        'Recherche de coachs géolocalisée',
-        'Réservation en temps réel',
-        'Paiement sécurisé via Stripe',
-        'Suivi de progression',
-        'Messagerie intégrée',
-        'Avis et notes'
-      ]
-    }
-  },
-  {
     id: 'exploreum',
     category: 'Flutter Apps',
     fit: ['app', 'game', 'museum', 'public'],
     type: 'Edutainment App',
     title: 'Exploreum',
     shortDescription: 'Museums, towns and walks turned into interactive stories to play on your phone',
-    description: 'Exploreum turns a museum visit, a walk through town or an outdoor site into a story you play on your phone. Each experience strings together illustrated pages and games: quizzes, estimates, ranking and sorting challenges, picture puzzles and map challenges. Guided walks show their stops on a map, so visitors always know where to go next. Some experiences play anywhere; others unlock on site with a QR code on a sign. No account needed to start, no ads, in French, English and German. Partner museums and venues get their own page, and run their scenarios, events and printed codes from a web back office.',
+    description: 'Exploreum turns a museum visit, a walk through town or an outdoor site into a story to play on a phone. Each experience mixes illustrated pages with quizzes, estimates, sorting challenges and map games; guided walks always show the next stop, and some experiences unlock on site with a QR code. No account, no ads, in French, English and German. Partner museums and venues run their own scenarios and events from a web back office.',
     icon: '🧭',
     thumbnail: '/assets/projects/exploreum/exploreum-en-1-thumb.webp',
     media: [
@@ -331,7 +169,7 @@ const COLDSNAP_PROJECTS = [
       ],
       type: 'App ludo-éducative',
       shortDescription: 'Musées, villes et balades deviennent des histoires interactives à jouer sur son téléphone',
-      description: 'Exploreum transforme la visite d\'un musée, une balade en ville ou un site en plein air en une histoire à jouer sur son téléphone. Chaque expérience enchaîne des pages illustrées et des jeux : quiz, estimations, défis de classement et de tri, puzzles d\'images et défis sur carte. Les balades guidées affichent leurs étapes sur une carte : on sait toujours où aller ensuite. Certaines expériences se jouent partout, d\'autres se débloquent sur place grâce au QR code d\'un panneau. Sans compte pour commencer, sans publicité, en français, anglais et allemand. Les musées et lieux partenaires ont leur propre page et gèrent leurs scénarios, événements et codes imprimés depuis un espace web.',
+      description: 'Exploreum transforme la visite d\'un musée, une balade en ville ou un site en plein air en une histoire à jouer sur son téléphone. Chaque expérience mêle pages illustrées, quiz, estimations, défis de tri et jeux sur carte ; les balades guidées montrent toujours la prochaine étape, et certaines expériences se débloquent sur place avec un QR code. Sans compte, sans publicité, en français, anglais et allemand. Les musées et lieux partenaires gèrent leurs scénarios et événements depuis un espace web.',
       thumbnail: '/assets/projects/exploreum/exploreum-fr-1-thumb.webp',
       media: [
         '/assets/projects/exploreum/exploreum-fr-1.jpg',
@@ -354,13 +192,210 @@ const COLDSNAP_PROJECTS = [
     }
   },
   {
+    id: 'maya',
+    category: 'Flutter Apps',
+    fit: ['app', 'public'],
+    type: 'Town App',
+    title: 'Maya',
+    shortDescription: 'The town hall in every resident\'s pocket: news, alerts, polls, problem reports and local shops',
+    description: 'Maya lets a town hall reach every resident on their phone: news, events, urgent alerts and polls in one app, with only the notifications each person picks. Residents report a problem with a photo and a pin, then follow it until it is fixed. News comes from the town\'s existing website, staff handle the rest from a web back office, and each town adds only the modules it needs: Météo-France and Vigicrues warnings, waste collection reminders, a QR code loyalty game for local shops. Free for residents and shops, no ads, no trackers, data hosted in France. First town: Mouans-Sartoux.',
+    icon: '🐝',
+    thumbnail: '/assets/projects/maya/maya-en-1-thumb.webp',
+    media: [
+      '/assets/projects/maya/maya-trailer-en.mp4',
+      '/assets/projects/maya/maya-en-1.jpg',
+      '/assets/projects/maya/maya-en-2.jpg',
+      '/assets/projects/maya/maya-en-3.jpg',
+      '/assets/projects/maya/maya-en-4.jpg',
+      '/assets/projects/maya/maya-en-5.jpg',
+      '/assets/projects/maya/maya-en-6.jpg'
+    ],
+    // Descriptions for screen readers and search, one per media item, same order.
+    alt: [
+      'Maya trailer: \'What if your town could talk to you?\'',
+      'Town news home screen with highlights, town hall shortcuts and open polls',
+      'Event page with date, place and full description',
+      'Report a problem: pick a category, add a photo and place a pin on the map',
+      'Notification settings: choose which alerts and news to receive',
+      'The Hive: pollen, level and badges earned at local shops',
+      'Map of local shops near you with a shop card'
+    ],
+    tech: ['Flutter', 'Firebase', 'Cloud Functions', 'Next.js', 'FCM', 'Google Maps'],
+    features: [
+      'News and events imported from the town\'s website',
+      'Push notifications by topic, picked by each resident',
+      'Urgent alerts, with Météo-France and Vigicrues warnings relayed automatically',
+      'Anonymous polls: one vote per account, results after voting',
+      'Problem reports with photo and location, tracked until resolved',
+      'Waste collection days with a reminder the night before',
+      'Map of local shops; the Hive rewards visits with pollen and badges via QR code',
+      'Web back office for town hall staff, scheduled posts',
+      'iPhone, Android and web; data hosted in France, GDPR compliant'
+    ],
+    links: [
+      { label: 'Google Play', href: 'https://play.google.com/store/apps/details?id=com.coldsnap.maya', icon: 'fa-android', style: 'play-store' },
+      { label: 'App Store', href: 'https://apps.apple.com/fr/app/id6820991824', icon: 'fa-apple', style: 'app-store', soon: true },
+      { label: 'Try the App', labelFr: 'Essayer l\'app', href: 'https://app.mayaville.fr/', icon: 'fa-mobile' },
+      { label: 'Visit Website', labelFr: 'Site web', href: 'https://mayaville.fr/', icon: 'fa-globe', secondary: true },
+      { label: 'Privacy Policy', labelFr: 'Confidentialité', href: 'https://mayaville.fr/confidentialite', icon: 'fa-shield', secondary: true }
+    ],
+    fr: {
+      alt: [
+        'Accueil des actualités de la commune avec la une, les raccourcis mairie et les sondages en cours',
+        'Page d\'un événement avec date, lieu et description complète',
+        'Signaler un problème : choisir une catégorie, ajouter une photo et placer un repère sur la carte',
+        'Réglages des notifications : choisir les alertes et actualités reçues',
+        'La Ruche : pollen, niveau et badges gagnés chez les commerçants',
+        'Carte des commerces de proximité avec la fiche d\'un commerce'
+      ],
+      type: 'App communale',
+      shortDescription: 'La mairie dans la poche de chaque habitant : actus, alertes, sondages, signalements et commerces',
+      description: 'Maya permet à une mairie de joindre chaque habitant sur son téléphone : actualités, agenda, alertes urgentes et sondages dans une seule app, avec seulement les notifications que chacun choisit. Les habitants signalent un problème avec une photo et un repère, puis suivent son traitement. Les actualités viennent du site de la commune, les agents gèrent le reste depuis un espace web, et chaque commune n\'ajoute que les modules utiles : vigilances Météo-France et Vigicrues, rappels de collecte des déchets, jeu de fidélité par QR code pour les commerces. Gratuit pour les habitants et les commerçants, sans publicité ni traceur, données hébergées en France. Première commune : Mouans-Sartoux.',
+      thumbnail: '/assets/projects/maya/maya-fr-1-thumb.webp',
+      media: [
+        '/assets/projects/maya/maya-fr-1.jpg',
+        '/assets/projects/maya/maya-fr-2.jpg',
+        '/assets/projects/maya/maya-fr-3.jpg',
+        '/assets/projects/maya/maya-fr-4.jpg',
+        '/assets/projects/maya/maya-fr-5.jpg',
+        '/assets/projects/maya/maya-fr-6.jpg'
+      ],
+      features: [
+        'Actualités et agenda importés du site de la commune',
+        'Notifications par thème, choisies par chaque habitant',
+        'Alertes urgentes, vigilances Météo-France et Vigicrues relayées automatiquement',
+        'Sondages anonymes : un vote par compte, résultats après le vote',
+        'Signalements avec photo et position, suivis jusqu\'à la résolution',
+        'Jours de collecte des déchets, avec un rappel la veille',
+        'Carte des commerces ; la Ruche récompense les visites en pollen et badges par QR code',
+        'Espace mairie sur le web pour les agents, envois programmés',
+        'iPhone, Android et web ; données hébergées en France, conforme au RGPD'
+      ]
+    }
+  },
+
+  // ============================================
+  // FLUTTER APPS
+  // ============================================
+  {
+    id: 'spinlab',
+    category: 'Flutter Apps',
+    fit: ['app', 'web', 'company'],
+    type: 'Mobile App',
+    title: 'SpinLab',
+    shortDescription: 'Platform connecting tennis players with certified coaches for booking lessons',
+    description: 'SpinLab lets tennis players find a certified coach nearby and book a lesson in a few taps. Coaches show up on a map with their rate and speciality; players pick a slot and pay in the app, and coaches see every paid booking in one list.',
+    icon: '🎾',
+    thumbnail: '/assets/projects/spinlab/spinlab-1-thumb.webp?v=20261029',
+    media: [
+      '/assets/projects/spinlab/spinlab-1.jpeg?v=20261029',
+      '/assets/projects/spinlab/spinlab-2.jpeg?v=20261029',
+      '/assets/projects/spinlab/spinlab-3.jpeg?v=20261029',
+      '/assets/projects/spinlab/spinlab-4.jpeg?v=20261029',
+      '/assets/projects/spinlab/spinlab-5.jpeg?v=20261029',
+      '/assets/projects/spinlab/spinlab-6.jpeg?v=20261029'
+    ],
+    // Descriptions for screen readers and search, one per media item, same order.
+    alt: [
+      'SpinLab coach list with photos, sports, hourly rates and distance',
+      'Map of Paris with coach photos as pins',
+      'Coach profile with speciality, rate per hour and biography',
+      'Booking screen: available days, a calendar and time slots',
+      'Booking confirmation dialog with the total and cancellation terms before payment',
+      'Coach view of upcoming paid bookings with dates, times and a revoke button'
+    ],
+    tech: ['Flutter', 'Dart', 'Firebase', 'Stripe', 'Google Maps'],
+    features: [
+      'Geolocated coach discovery',
+      'Real-time booking system',
+      'Secure payment via Stripe',
+      'Training progress tracking',
+      'In-app messaging',
+      'Review and rating system'
+    ],
+    links: [
+      { label: 'Google Play', href: 'https://play.google.com/store/apps/details?id=com.coldsnap.spinlab', icon: 'fa-android', style: 'play-store' },
+      { label: 'App Store', href: 'https://apps.apple.com/fr/app/spinlab/id6758303721', icon: 'fa-apple', style: 'app-store' },
+      { label: 'Visit Website', labelFr: 'Site web', href: 'https://spinlab.fr', icon: 'fa-globe', secondary: true },
+      { label: 'Privacy Policy', labelFr: 'Confidentialité', href: 'https://spinlab.fr/politique-de-confidentialite/', icon: 'fa-shield', secondary: true }
+    ],
+    fr: {
+      alt: [
+        'Liste des coachs SpinLab avec photos, sports, tarifs horaires et distance',
+        'Carte de Paris avec les photos des coachs en repères',
+        'Profil d\'un coach : spécialité, tarif horaire et biographie',
+        'Écran de réservation : jours disponibles, calendrier et créneaux horaires',
+        'Fenêtre de confirmation de réservation avec le total et les conditions d\'annulation avant paiement',
+        'Vue coach des réservations payées à venir, avec dates, heures et bouton d\'annulation'
+      ],
+      type: 'App mobile',
+      shortDescription: 'Plateforme qui met en relation joueurs de tennis et coachs certifiés pour réserver des cours',
+      description: 'SpinLab permet aux joueurs de tennis de trouver un coach certifié près de chez eux et de réserver un cours en quelques gestes. Les coachs apparaissent sur une carte avec leur tarif et leur spécialité ; le joueur choisit un créneau et paie dans l\'app, et le coach retrouve toutes ses réservations payées dans une seule liste.',
+      features: [
+        'Recherche de coachs géolocalisée',
+        'Réservation en temps réel',
+        'Paiement sécurisé via Stripe',
+        'Suivi de progression',
+        'Messagerie intégrée',
+        'Avis et notes'
+      ]
+    }
+  },
+  {
+    id: 'sdana-installation',
+    category: 'Interactive Installations',
+    fit: ['kiosk', 'museum', 'public', 'school'],
+    type: 'Touchscreen Installation',
+    title: 'SDANA Natural Hazards Installation',
+    shortDescription: 'Large-format educational touchscreen teaching visitors about natural hazards in Valais',
+    description: 'Helps visitors of the Valais natural hazards service (SDANA) understand avalanches, floods, storms and rockfall, and know how to react when one happens. On a very large touchscreen at the SDANA offices, each hazard unfolds in illustrated scenes, in several languages: what it is, how it forms, what to do.',
+    thumbnail: '/assets/projects/sdana/sdana-1-thumb.webp',
+    media: [
+      '/assets/projects/sdana/sdana-1.png',
+      '/assets/projects/sdana/sdana-2.png',
+      '/assets/projects/sdana/sdana-3.png'
+    ],
+    // Descriptions for screen readers and search, one per media item, same order.
+    alt: [
+      'Home screen of the Natural Hazards touchscreen: illustrated panels of avalanches, floods, storms and rockfall',
+      'Storm definition screen: a short explanation next to a photo of a storm cloud over fields',
+      'Storm mechanism screen in German: the maturing phase of a cumulonimbus with a step slider'
+    ],
+    tech: ['Interactive Installation', 'Large Touchscreen', 'Multi-language UX'],
+    features: [
+      'Built for a large public touchscreen display',
+      'Covers multiple natural hazards and risk scenarios',
+      'Explains hazard mechanisms with guided visual content',
+      'Behaviour and safety guidance for visitors',
+      'Multi-language navigation and content'
+    ],
+    links: [],
+    fr: {
+      alt: [
+        'Écran d\'accueil de la borne Dangers naturels : panneaux illustrés d\'avalanches, crues, orages et chutes de pierres',
+        'Écran « Orage, définition » : une courte explication à côté d\'une photo de nuage d\'orage sur des champs',
+        'Écran sur le mécanisme de l\'orage en allemand : phase de maturité d\'un cumulonimbus avec curseur d\'étapes'
+      ],
+      type: 'Installation tactile',
+      shortDescription: 'Grand écran tactile pédagogique sur les dangers naturels en Valais',
+      description: 'Aide les visiteurs du Service des dangers naturels du Valais (SDANA) à comprendre avalanches, crues, orages et chutes de pierres, et à savoir comment réagir. Sur un très grand écran tactile dans les locaux du SDANA, chaque danger se découvre en scènes illustrées et en plusieurs langues : ce que c\'est, comment il se forme, que faire.',
+      features: [
+        'Conçue pour un grand écran tactile public',
+        'Couvre plusieurs dangers naturels et scénarios de risque',
+        'Explique les mécanismes avec des contenus visuels guidés',
+        'Conseils de comportement et de sécurité',
+        'Navigation et contenus multilingues'
+      ]
+    }
+  },
+  {
     id: 'winston',
     category: 'Flutter Apps',
     fit: ['web', 'company'],
     type: 'Web App',
     title: 'Winston',
     shortDescription: 'Company-wide admin butler: accounting, contracts, invoicing and AI-powered LinkedIn management in one dashboard',
-    description: 'Winston is an internal company-wide admin platform built to run the full back-office of a multi-company studio. It handles quotes, invoices, business expenses, and contracts end-to-end, with PDF generation and export throughout. On top of that, it features an AI-powered LinkedIn content pipeline that automatically generates and publishes professional posts from news articles using GPT-4o-mini. Multi-company support means the same dashboard manages all entities under the studio umbrella.',
+    description: 'Winston runs the paperwork of a group of companies from one dashboard, so quotes, invoices, expenses and contracts stop living in separate tools. Every document is generated and exported as PDF, and a built-in content tool turns news articles into LinkedIn posts with GPT-4o-mini and publishes them.',
     icon: '🤖',
     thumbnail: '/assets/projects/winston/winston-1-thumb.webp?v=20261110',
     media: [
@@ -388,7 +423,7 @@ const COLDSNAP_PROJECTS = [
       ],
       type: 'App web',
       shortDescription: 'Le majordome administratif : comptabilité, contrats, facturation et LinkedIn assisté par IA dans un seul tableau de bord',
-      description: 'Winston est une plateforme d\'administration interne qui gère tout le back-office d\'un studio multi-sociétés : devis, factures, notes de frais et contrats de bout en bout, avec génération et export PDF. Elle intègre aussi un pipeline de contenu LinkedIn assisté par IA qui rédige et publie des posts professionnels à partir d\'articles d\'actualité (GPT-4o-mini). Le support multi-sociétés permet de piloter toutes les entités du studio depuis un seul tableau de bord.',
+      description: 'Winston gère la paperasse d\'un groupe de sociétés depuis un seul tableau de bord : devis, factures, notes de frais et contrats ne sont plus éparpillés entre plusieurs outils. Chaque document est généré et exporté en PDF, et un outil de contenu intégré transforme des articles d\'actualité en posts LinkedIn avec GPT-4o-mini, puis les publie.',
       features: [
         'Gestion des devis, factures et notes de frais',
         'Création et suivi des contrats',
@@ -512,7 +547,7 @@ const COLDSNAP_PROJECTS = [
     type: 'Mobile Game',
     title: 'Pygmak',
     shortDescription: 'Survivors-style arcade on the water: steer a flagship, blast crate hordes, build a run one card at a time',
-    description: 'Pygmak is a survivors-style arcade game on the water. Crates rain down in hordes, the flagship\'s gun aims itself, and the player steers along the waterline to dodge what falls and collect the XP stars that float where crates broke. Every level deals a three-card hand taken with one tap: burn, freeze, electrify, scatter, weak point and dozens more, with evolutions unlocked from treasure chests. Three weapon classes (cannon, laser, firework), a gunboat convoy that follows the flagship, elites, ranked bosses every two and a half minutes and a final crate at 15:00, then an endless mode. Corrupted crates split, explode, drop mines or drift down on parachutes. A day/night cycle and seasons roll past, a workshop and skins persist between runs, and a damage recap closes every run. Built on realistic 2D physics so every shot, bounce and splash lands.',
+    description: 'Pygmak is a survivors-style arcade game on the water where the player only steers: crates rain down in hordes, the flagship\'s gun aims itself, and every level up deals three cards to pick from (burn, freeze, electrify and dozens more), so each run builds differently. Three weapon classes, bosses every two and a half minutes, a final crate at 15:00, then endless mode. Built on realistic 2D physics so every shot, bounce and splash lands.',
     icon: '🎯',
     thumbnail: '/assets/projects/pygmak/pygmak-1-thumb.webp',
     media: [
@@ -564,7 +599,7 @@ const COLDSNAP_PROJECTS = [
       ],
       type: 'Jeu mobile',
       shortDescription: 'Arcade façon survivors sur l\'eau : pilotez un navire, pulvérisez des hordes de caisses, construisez votre run carte par carte',
-      description: 'Pygmak est un jeu d\'arcade façon survivors sur l\'eau. Les caisses pleuvent par hordes, le canon du navire vise tout seul, et le joueur pilote le long de la ligne d\'eau pour esquiver ce qui tombe et ramasser les étoiles d\'XP qui flottent là où les caisses se sont brisées. Chaque niveau distribue une main de trois cartes prise d\'un tap : feu, gel, électricité, tir dispersé, point faible et des dizaines d\'autres, avec des évolutions débloquées dans les coffres. Trois classes d\'armes (canon, laser, feu d\'artifice), un convoi de canonnières qui suit le navire, des élites, des boss classés toutes les deux minutes et demie et une caisse finale à 15:00, puis un mode infini. Les caisses corrompues se divisent, explosent, lâchent des mines ou descendent en parachute. Un cycle jour/nuit et des saisons défilent, un atelier et des skins persistent entre les parties, et un récapitulatif des dégâts clôt chaque run. Construit sur une physique 2D réaliste, pour que chaque tir, rebond et éclaboussure ait du poids.',
+      description: 'Pygmak est un jeu d\'arcade façon survivors sur l\'eau où le joueur ne fait que piloter : les caisses pleuvent par hordes, le canon du navire vise tout seul, et chaque niveau gagné distribue trois cartes à choisir (feu, gel, électricité et des dizaines d\'autres), pour que chaque partie se construise autrement. Trois classes d\'armes, un boss toutes les deux minutes et demie, une caisse finale à 15:00, puis un mode infini. Construit sur une physique 2D réaliste, pour que chaque tir, rebond et éclaboussure ait du poids.',
       features: [
         'Pilotez le navire ; le canon vise tout seul',
         'Trois classes d\'armes : canon, laser, feu d\'artifice',
@@ -702,84 +737,49 @@ const COLDSNAP_PROJECTS = [
   // FLUTTER APPS (continued)
   // ============================================
   {
-    id: 'maya',
-    category: 'Flutter Apps',
-    fit: ['app', 'public'],
-    type: 'Town App',
-    title: 'Maya',
-    shortDescription: 'The town hall in every resident\'s pocket: news, alerts, polls, problem reports and local shops',
-    description: 'Maya is an app built for towns. Residents get their town\'s news and events, urgent alerts, polls and practical information in one place, and only the notifications they choose. They can report a problem with a photo and a pin on the map, then follow it until it\'s fixed. News and events are imported from the town\'s existing website, and town hall staff run the rest from a web back office. Towns add only the modules they need: automatic Météo-France and Vigicrues warnings, waste collection reminders, places on the map, and local shops with a QR code loyalty game, the Hive. Free for residents and shops, no ads, no trackers, data hosted in France. First town: Mouans-Sartoux.',
-    icon: '🐝',
-    thumbnail: '/assets/projects/maya/maya-en-1-thumb.webp',
+    id: 'helpdetective',
+    category: 'Interactive Installations',
+    fit: ['game', 'school', 'public', 'company'],
+    type: 'VR Training',
+    title: 'HelpDetective',
+    shortDescription: 'Standalone VR on Meta Quest: step into a care job through 360° video, answer questions and spot the dangers',
+    description: 'Makes people want to work in care jobs that are little known or undervalued, such as childcare, by letting them live a moment of the job in VR. In a 360° scene filmed in a real home, the player answers questions about what is happening and hunts for hidden dangers with a flashlight. Runs offline on Meta Quest 2 and 3, and trainers write new scenarios inside the headset, with no new build.',
+    icon: '🥽',
+    thumbnail: '/assets/projects/helpdetective/helpdetective-1-thumb.webp',
     media: [
-      '/assets/projects/maya/maya-trailer-en.mp4',
-      '/assets/projects/maya/maya-en-1.jpg',
-      '/assets/projects/maya/maya-en-2.jpg',
-      '/assets/projects/maya/maya-en-3.jpg',
-      '/assets/projects/maya/maya-en-4.jpg',
-      '/assets/projects/maya/maya-en-5.jpg',
-      '/assets/projects/maya/maya-en-6.jpg'
+      '/assets/projects/helpdetective/helpdetective-1.jpg',
+      '/assets/projects/helpdetective/helpdetective-2.jpg'
     ],
     // Descriptions for screen readers and search, one per media item, same order.
     alt: [
-      'Maya trailer: \'What if your town could talk to you?\'',
-      'Town news home screen with highlights, town hall shortcuts and open polls',
-      'Event page with date, place and full description',
-      'Report a problem: pick a category, add a photo and place a pin on the map',
-      'Notification settings: choose which alerts and news to receive',
-      'The Hive: pollen, level and badges earned at local shops',
-      'Map of local shops near you with a shop card'
+      'A question panel floating in a 360° video of a living room: what is the adult doing while the child talks?',
+      'HelpDetective menu in the headset with the \'Le salon\' scenario card and the workshop button'
     ],
-    tech: ['Flutter', 'Firebase', 'Cloud Functions', 'Next.js', 'FCM', 'Google Maps'],
+    tech: ['Unity 6', 'OpenXR', 'Meta Quest', 'UI Toolkit', '360° video'],
     features: [
-      'News and events imported from the town\'s website',
-      'Push notifications by topic, picked by each resident',
-      'Urgent alerts, with Météo-France and Vigicrues warnings relayed automatically',
-      'Anonymous polls: one vote per account, results after voting',
-      'Problem reports with photo and location, tracked until resolved',
-      'Waste collection days with a reminder the night before',
-      'Map of local shops; the Hive rewards visits with pollen and badges via QR code',
-      'Web back office for town hall staff, scheduled posts',
-      'iPhone, Android and web; data hosted in France, GDPR compliant'
+      '360° video that pauses for multiple-choice questions',
+      'Flashlight hunt for hidden dangers in each scene',
+      'Smooth scrubbing through time with the thumbstick',
+      'In-headset workshop to create and edit scenarios',
+      'Fully offline on Quest 2 and Quest 3',
+      'Explanations after a wrong answer, then a retry'
     ],
-    links: [
-      { label: 'Google Play', href: 'https://play.google.com/store/apps/details?id=com.coldsnap.maya', icon: 'fa-android', style: 'play-store' },
-      { label: 'App Store', href: 'https://apps.apple.com/fr/app/id6820991824', icon: 'fa-apple', style: 'app-store', soon: true },
-      { label: 'Try the App', labelFr: 'Essayer l\'app', href: 'https://app.mayaville.fr/', icon: 'fa-mobile' },
-      { label: 'Visit Website', labelFr: 'Site web', href: 'https://mayaville.fr/', icon: 'fa-globe', secondary: true },
-      { label: 'Privacy Policy', labelFr: 'Confidentialité', href: 'https://mayaville.fr/confidentialite', icon: 'fa-shield', secondary: true }
-    ],
+    links: [],
     fr: {
       alt: [
-        'Accueil des actualités de la commune avec la une, les raccourcis mairie et les sondages en cours',
-        'Page d\'un événement avec date, lieu et description complète',
-        'Signaler un problème : choisir une catégorie, ajouter une photo et placer un repère sur la carte',
-        'Réglages des notifications : choisir les alertes et actualités reçues',
-        'La Ruche : pollen, niveau et badges gagnés chez les commerçants',
-        'Carte des commerces de proximité avec la fiche d\'un commerce'
+        'Un panneau de question flotte dans une vidéo 360° d\'un salon : que fait l\'adulte pendant que l\'enfant lui parle ?',
+        'Menu de HelpDetective dans le casque avec la carte du scénario « Le salon » et le bouton Atelier'
       ],
-      type: 'App communale',
-      shortDescription: 'La mairie dans la poche de chaque habitant : actus, alertes, sondages, signalements et commerces',
-      description: 'Maya est une application conçue pour les communes. Les habitants y retrouvent les actualités et l\'agenda de leur ville, les alertes urgentes, les sondages et les infos pratiques, et ne reçoivent que les notifications qu\'ils ont choisies. Ils peuvent signaler un problème avec une photo et un repère sur la carte, puis suivre son traitement. Les actualités et l\'agenda sont importés du site de la commune, et les agents gèrent le reste depuis un espace mairie sur le web. Chaque commune n\'ajoute que les modules dont elle a besoin : vigilances Météo-France et Vigicrues automatiques, rappels de collecte des déchets, lieux de la ville sur la carte, et commerce local avec la Ruche, un programme de fidélité par QR code. Gratuit pour les habitants et les commerçants, sans publicité ni traceur, données hébergées en France. Première commune : Mouans-Sartoux.',
-      thumbnail: '/assets/projects/maya/maya-fr-1-thumb.webp',
-      media: [
-        '/assets/projects/maya/maya-fr-1.jpg',
-        '/assets/projects/maya/maya-fr-2.jpg',
-        '/assets/projects/maya/maya-fr-3.jpg',
-        '/assets/projects/maya/maya-fr-4.jpg',
-        '/assets/projects/maya/maya-fr-5.jpg',
-        '/assets/projects/maya/maya-fr-6.jpg'
-      ],
+      type: 'Formation en VR',
+      shortDescription: 'VR autonome sur Meta Quest : se glisser dans un métier du soin en vidéo 360°, répondre aux questions et repérer les dangers',
+      description: 'Donner envie de travailler dans des métiers du soin méconnus ou peu valorisés, comme la petite enfance, en en faisant vivre un moment en VR. Dans une scène 360° filmée dans un vrai logement, le joueur répond à des questions sur ce qui se passe et cherche les dangers cachés à la lampe torche. Fonctionne hors ligne sur Meta Quest 2 et 3, et les formateurs écrivent de nouveaux scénarios directement dans le casque, sans nouvelle version de l\'app.',
       features: [
-        'Actualités et agenda importés du site de la commune',
-        'Notifications par thème, choisies par chaque habitant',
-        'Alertes urgentes, vigilances Météo-France et Vigicrues relayées automatiquement',
-        'Sondages anonymes : un vote par compte, résultats après le vote',
-        'Signalements avec photo et position, suivis jusqu\'à la résolution',
-        'Jours de collecte des déchets, avec un rappel la veille',
-        'Carte des commerces ; la Ruche récompense les visites en pollen et badges par QR code',
-        'Espace mairie sur le web pour les agents, envois programmés',
-        'iPhone, Android et web ; données hébergées en France, conforme au RGPD'
+        'Vidéo 360° qui s\'arrête pour des questions à choix multiples',
+        'Chasse aux dangers cachés à la lampe torche',
+        'Avance et retour fluides dans le temps au stick',
+        'Atelier dans le casque pour créer et modifier les scénarios',
+        'Entièrement hors ligne sur Quest 2 et Quest 3',
+        'Explication après une mauvaise réponse, puis nouvel essai'
       ]
     }
   },
@@ -790,7 +790,7 @@ const COLDSNAP_PROJECTS = [
     type: 'Film & TV Tool',
     title: 'PropOS',
     shortDescription: 'Fake phone screens for film and TV sets, triggered live from a control room and mirrored in real time',
-    description: 'PropOS plays the screens actors hold on set. A prop phone, tablet or browser joins a session with a short code and shows a believable device: lock and home screens with a scripted clock and battery, incoming and active calls, live text conversations with typing indicators, hacker terminals. From a web control room, the crew loads a scene, fires each beat with a GO button, blacks out or dims a device in one tap and resets everything between takes. Every prop device is mirrored live in the control room using the same widgets, so what the crew sees is exactly what the camera sees. Nothing advances on a timer: the operator paces every take. In development.',
+    description: 'PropOS makes the phones and screens actors hold on set do exactly what the scene needs, on cue, take after take. A prop device joins with a short code and shows a believable phone: lock screen with a scripted clock, incoming calls, live texts with typing, hacker terminals. The crew fires each beat from a web control room and sees every device mirrored live, exactly as the camera does. In development.',
     icon: '🎬',
     thumbnail: '/assets/projects/propos/propos-1-thumb.webp',
     media: [
@@ -822,7 +822,7 @@ const COLDSNAP_PROJECTS = [
       ],
       type: 'Outil cinéma et TV',
       shortDescription: 'Faux écrans de téléphone pour les tournages, déclenchés en direct depuis une régie et affichés en miroir',
-      description: 'PropOS fait jouer les écrans que les comédiens tiennent sur le plateau. Un téléphone, une tablette ou un navigateur rejoint une session avec un code court et affiche un appareil crédible : écran verrouillé et d\'accueil avec heure et batterie scénarisées, appels entrants et en cours, conversations SMS en direct avec indicateur de saisie, terminaux de hacker. Depuis une régie web, l\'équipe charge une scène, déclenche chaque moment avec un bouton GO, éteint ou baisse la luminosité d\'un appareil en un geste et remet tout à zéro entre les prises. Chaque appareil est affiché en miroir dans la régie avec les mêmes composants, donc l\'équipe voit exactement ce que voit la caméra. Rien n\'avance tout seul : l\'opérateur rythme chaque prise. En développement.',
+      description: 'PropOS fait faire aux téléphones et écrans tenus par les comédiens exactement ce que la scène demande, au bon moment, prise après prise. Un appareil rejoint la session avec un code court et affiche un téléphone crédible : écran verrouillé à l\'heure scénarisée, appels entrants, SMS en direct avec saisie, terminaux de hacker. L\'équipe déclenche chaque moment depuis une régie web et voit chaque appareil en miroir, exactement comme la caméra. En développement.',
       features: [
         'Modèles téléphone, appel, messagerie et terminal',
         'Appairage par code à 6 caractères, sans compte',
@@ -945,7 +945,7 @@ const COLDSNAP_PROJECTS = [
     type: 'Mobile App',
     title: 'ColisMarket',
     shortDescription: 'Parcel relay point management app with OCR scanning for package tracking',
-    description: 'A mobile app for managing package pickup and delivery relay points. Features ML Kit-powered OCR to scan and extract parcel information directly from labels, streamlining the package intake process for relay operators.',
+    description: 'ColisMarket speeds up parcel intake at relay points: the operator photographs the label and the app reads the parcel details by itself (ML Kit OCR), then records the handover with the customer\'s signature.',
     icon: '📦',
     thumbnail: '/assets/projects/colismarket/colismarket-1-thumb.webp',
     media: [
@@ -981,7 +981,7 @@ const COLDSNAP_PROJECTS = [
       ],
       type: 'App mobile',
       shortDescription: 'Gestion de points relais avec lecture OCR des étiquettes pour le suivi des colis',
-      description: 'Une app mobile pour gérer les points relais de retrait et de livraison de colis. L\'OCR ML Kit lit et extrait les informations directement depuis les étiquettes, ce qui accélère la prise en charge des colis pour les opérateurs.',
+      description: 'ColisMarket accélère la prise en charge des colis en point relais : l\'opérateur photographie l\'étiquette, l\'app en lit les informations toute seule (OCR ML Kit), puis enregistre la remise avec la signature du client.',
       features: [
         'Lecture OCR des étiquettes avec ML Kit',
         'Prise en charge et suivi des colis',
@@ -1292,7 +1292,7 @@ const COLDSNAP_PROJECTS = [
     type: 'WoW Addon',
     title: 'B.O.L.T',
     shortDescription: 'Modular World of Warcraft addon that restyles Blizzard\'s own UI and adds small quality-of-life tweaks, for Midnight and WoW: Forever',
-    description: 'Brittle and Occasionally Lethal Tweaks. A World of Warcraft addon made of small modules you switch on one by one. The Interface modules restyle Blizzard\'s own frames with Blizzard\'s own art: portrait-less unit frames, a square minimap with one button bar, fade-until-needed bars and frames, nameplates that flag mana users and interruptible casts, a ranged attack timer. Everything is set from Edit Mode, saved per Edit Mode layout and shared by all your characters. Runs on Midnight and on WoW: Forever, where it switches to Forever\'s bronze art and hides modules built on modern-only systems.',
+    description: 'B.O.L.T (Brittle and Occasionally Lethal Tweaks) makes the World of Warcraft interface cleaner without replacing it: small modules restyle Blizzard\'s own frames with Blizzard\'s own art. Portrait-less unit frames, a square minimap with one button bar, bars that fade until needed, nameplates that flag mana users and interruptible casts. Each module is switched on on its own and set from Edit Mode, on Midnight and on WoW: Forever.',
     icon: '⚔️',
     thumbnail: '/assets/projects/bolt/bolt-1-thumb.webp',
     media: [
@@ -1326,7 +1326,7 @@ const COLDSNAP_PROJECTS = [
       ],
       type: 'Addon WoW',
       shortDescription: 'Addon World of Warcraft modulaire qui redessine l\'interface de Blizzard avec ses propres graphismes, pour Midnight et WoW: Forever',
-      description: 'Brittle and Occasionally Lethal Tweaks. Un addon World of Warcraft fait de petits modules qu\'on active un par un. Les modules Interface redessinent les cadres de Blizzard avec les graphismes de Blizzard : cadres d\'unité sans portrait, minimap carrée avec une seule barre de boutons, barres et cadres qui s\'effacent jusqu\'à ce qu\'on en ait besoin, barres de nom qui signalent les lanceurs de sorts et les sorts interruptibles, minuteur de tir à distance. Tout se règle dans le mode Édition, est enregistré par disposition et partagé par tous vos personnages. Fonctionne sur Midnight et sur WoW: Forever, où il passe aux graphismes bronze de Forever et masque les modules qui reposent sur des systèmes modernes.',
+      description: 'B.O.L.T (Brittle and Occasionally Lethal Tweaks) rend l\'interface de World of Warcraft plus nette sans la remplacer : de petits modules redessinent les cadres de Blizzard avec les graphismes de Blizzard. Cadres d\'unité sans portrait, minimap carrée avec une seule barre de boutons, barres qui s\'effacent jusqu\'au besoin, barres de nom qui signalent les lanceurs à mana et les sorts interruptibles. Chaque module s\'active seul et se règle dans le mode Édition, sur Midnight et sur WoW: Forever.',
       features: [
         'Menu de jeu enrichi (quitter le groupe, recharger l\'UI, outils de groupe)',
         'Cadres d\'unité et barres d\'incantation sans portrait, graphismes Blizzard',
