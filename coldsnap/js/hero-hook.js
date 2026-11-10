@@ -38,7 +38,10 @@
   const TYPE_MS = 55, ERASE_MS = 25, HOLD_MS = 2200, GAP_MS = 350, FIRST_DELAY_MS = 700;
   let index = 0, length = 0, erasing = false;
 
+  // A cold snap (js/easter-eggs.js puts .is-frozen on <body>) stops the typing mid-word;
+  // it carries on from there once the page thaws.
   function step() {
+    if (document.body.classList.contains('is-frozen')) return schedule(100);
     const word = words[index];
     if (!erasing) {
       length++;

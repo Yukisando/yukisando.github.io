@@ -1727,11 +1727,20 @@ function initNav() {
   window.addEventListener('scroll', onScroll, { passive: true });
 
   // Homepage: the nav logo and name appear once the hero logo has scrolled under the nav.
+  // A few pixels of slack each way: on phones the address bar sliding away moves the page by
+  // a hair, which flipped the state twice in a row and replayed the spin-in.
   const heroLogo = document.querySelector('.page-home .hero__logo');
-  if (heroLogo && 'IntersectionObserver' in window) {
-    new IntersectionObserver(([entry]) => nav.classList.toggle('has-brand', !entry.isIntersecting), {
-      rootMargin: `-${nav.offsetHeight}px 0px 0px 0px`,
-    }).observe(heroLogo);
+  if (heroLogo) {
+    const SLACK = 6;
+    const syncBrand = () => {
+      const bottom = heroLogo.getBoundingClientRect().bottom, line = nav.offsetHeight;
+      const shown = nav.classList.contains('has-brand');
+      if (!shown && bottom < line - SLACK) nav.classList.add('has-brand');
+      else if (shown && bottom > line + SLACK) nav.classList.remove('has-brand');
+    };
+    syncBrand();
+    window.addEventListener('scroll', syncBrand, { passive: true });
+    window.addEventListener('resize', syncBrand);
   } else {
     nav.classList.add('has-brand');
   }
