@@ -735,19 +735,23 @@ const COLDSNAP_PROJECTS = [
     category: 'Interactive Installations',
     fit: ['game', 'school', 'public', 'company'],
     type: 'VR Training',
-    title: 'HelpDetective',
+    title: 'Petites Attentions',
     shortDescription: 'Standalone VR on Meta Quest: step into a care job through 360° video, answer questions and spot the dangers',
     description: 'Makes people want to work in care jobs that are little known or undervalued, such as childcare, by letting them live a moment of the job in VR. In a 360° scene filmed in a real home, the player answers questions about what is happening and hunts for hidden dangers with a flashlight. Runs offline on Meta Quest 2 and 3, and trainers write new scenarios inside the headset, with no new build.',
     icon: '🥽',
-    thumbnail: '/assets/projects/helpdetective/helpdetective-1-thumb.webp',
+    thumbnail: '/assets/projects/helpdetective/petites-attentions-1-thumb.webp',
     media: [
-      '/assets/projects/helpdetective/helpdetective-1.jpg',
-      '/assets/projects/helpdetective/helpdetective-2.jpg'
+      '/assets/projects/helpdetective/petites-attentions-1.jpg',
+      '/assets/projects/helpdetective/petites-attentions-2.jpg',
+      '/assets/projects/helpdetective/petites-attentions-3.jpg',
+      '/assets/projects/helpdetective/petites-attentions-4.jpg'
     ],
     // Descriptions for screen readers and search, one per media item, same order.
     alt: [
-      'A question panel floating in a 360° video of a living room: what is the adult doing while the child talks?',
-      'HelpDetective menu in the headset with the \'Le salon\' scenario card and the workshop button'
+      'A frosted question card floating over a 360° video of a living room: what is the adult doing while the child talks?',
+      'The right answer turns green and an explanation appears, with a Continue button',
+      'End screen: 2/2 right first time, 2 of 3 dangers spotted, the dangers found and what to do next',
+      'Petites Attentions menu on a pastel sky with drifting lights, the \'Le salon\' scenario card and the workshop button'
     ],
     tech: ['Unity 6', 'OpenXR', 'Meta Quest', 'UI Toolkit', '360° video'],
     features: [
@@ -761,8 +765,10 @@ const COLDSNAP_PROJECTS = [
     links: [],
     fr: {
       alt: [
-        'Un panneau de question flotte dans une vidéo 360° d\'un salon : que fait l\'adulte pendant que l\'enfant lui parle ?',
-        'Menu de HelpDetective dans le casque avec la carte du scénario « Le salon » et le bouton Atelier'
+        'Une carte de question givrée flotte devant une vidéo 360° d\'un salon : que fait l\'adulte pendant que l\'enfant lui parle ?',
+        'La bonne réponse passe au vert et une explication s\'affiche, avec un bouton Continuer',
+        'Écran de fin : 2/2 bonnes réponses du premier coup, 2 dangers repérés sur 3, la liste des dangers trouvés et la suite',
+        'Menu de Petites Attentions sur un ciel pastel avec des lumières qui dérivent, la carte du scénario « Le salon » et le bouton Atelier'
       ],
       type: 'Formation en VR',
       shortDescription: 'VR autonome sur Meta Quest : se glisser dans un métier du soin en vidéo 360°, répondre aux questions et repérer les dangers',
