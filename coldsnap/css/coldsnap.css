@@ -254,8 +254,12 @@ h1, h2, h3 {
   transition: transform 0.4s var(--ease-out);
 }
 
-.cs-nav__brand:hover .cs-nav__logo {
-  transform: rotate(-8deg) scale(1.06);
+/* Hover effects only where a real pointer hovers: on phones a tap leaves :hover stuck, which
+   took over the homepage spin-in halfway and left the logo tilted. */
+@media (hover: hover) and (pointer: fine) {
+  .cs-nav__brand:hover .cs-nav__logo {
+    transform: rotate(-8deg) scale(1.06);
+  }
 }
 
 /* The logo's sparkles come alive on hover */
@@ -271,9 +275,11 @@ h1, h2, h3 {
   text-shadow: 0 0 10px rgba(255, 220, 140, 0.9);
 }
 
-.cs-nav__brand:hover .cs-nav__sparkle {
-  opacity: 1;
-  transform: scale(1) rotate(90deg);
+@media (hover: hover) and (pointer: fine) {
+  .cs-nav__brand:hover .cs-nav__sparkle {
+    opacity: 1;
+    transform: scale(1) rotate(90deg);
+  }
 }
 
 /* Homepage: the hero already shows the logo and the name, so the nav brand waits until the
@@ -633,6 +639,11 @@ h1.hero__brand-text {
 /* Solid while typing, blinks only while a phrase is held */
 .hero__hook-line:not(.is-holding) .hero__caret {
   animation: none;
+}
+
+/* Cold snap (js/easter-eggs.js): the caret freezes with the rest of the page. */
+body.is-frozen .hero__caret {
+  animation-play-state: paused;
 }
 
 .hero__hook-line.is-still .hero__caret {
