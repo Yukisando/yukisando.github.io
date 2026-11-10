@@ -10,6 +10,7 @@
  * {
  *   id: 'unique-id',                    // Required: Unique identifier (no spaces, use hyphens)
  *   category: 'Category Name',          // Required: one of the CATEGORIES below (drives the Work filters)
+ *   fit: ['app', 'museum'],             // Optional: project-picker matching (js/request-helper.js): what (kiosk, game, app, web), who (museum, school, public, company)
  *   type: 'Game' | 'App' | 'Website',   // Required: Short type label shown on cards
  *   title: 'Project Title',             // Required: Display title
  *   shortDescription: 'Brief desc...',  // Optional: Short text for card (max ~100 chars)
@@ -54,6 +55,7 @@ const COLDSNAP_PROJECTS = [
   {
     id: 'cpps-exhibit',
     category: 'Interactive Installations',
+    fit: ['kiosk', 'game', 'museum', 'school', 'public'],
     type: 'Museum Installation',
     title: 'CPPS Earthquake Museum',
     featured: true,
@@ -117,6 +119,7 @@ const COLDSNAP_PROJECTS = [
   {
     id: 'sdana-installation',
     category: 'Interactive Installations',
+    fit: ['kiosk', 'museum', 'public', 'school'],
     type: 'Touchscreen Installation',
     title: 'SDANA Natural Hazards Installation',
     shortDescription: 'Large-format educational touchscreen teaching visitors about natural hazards in Valais',
@@ -167,6 +170,7 @@ const COLDSNAP_PROJECTS = [
   {
     id: 'spinlab',
     category: 'Flutter Apps',
+    fit: ['app', 'web', 'company'],
     type: 'Mobile App',
     title: 'SpinLab',
     shortDescription: 'Platform connecting tennis players with certified coaches for booking lessons',
@@ -230,6 +234,7 @@ const COLDSNAP_PROJECTS = [
   {
     id: 'exploreum',
     category: 'Flutter Apps',
+    fit: ['app', 'game', 'museum', 'public'],
     type: 'Edutainment App',
     title: 'Exploreum',
     shortDescription: 'Museums, towns and walks turned into interactive stories to play on your phone',
@@ -304,6 +309,7 @@ const COLDSNAP_PROJECTS = [
   {
     id: 'winston',
     category: 'Flutter Apps',
+    fit: ['web', 'company'],
     type: 'Web App',
     title: 'Winston',
     shortDescription: 'Company-wide admin butler: accounting, contracts, invoicing and AI-powered LinkedIn management in one dashboard',
@@ -351,6 +357,7 @@ const COLDSNAP_PROJECTS = [
   {
     id: 'vidanim',
     category: 'Flutter Apps',
+    fit: ['app', 'web', 'school'],
     type: 'Mobile/Web App',
     title: 'Vidanim',
     shortDescription: 'Activity library for teachers and animators to document, estimate, and share creative work',
@@ -402,6 +409,7 @@ const COLDSNAP_PROJECTS = [
   {
     id: 'coldsnap-arcade',
     category: 'Games',
+    fit: ['game', 'web'],
     type: 'Retro Arcade',
     title: 'ColdSnap Arcade',
     coinSlot: 'https://arcade.coldsnap.fr/',
@@ -453,6 +461,7 @@ const COLDSNAP_PROJECTS = [
   {
     id: 'pygmak',
     category: 'Games',
+    fit: ['game'],
     type: 'Mobile Game',
     title: 'Pygmak',
     shortDescription: 'Survivors-style arcade on the water: steer a flagship, blast crate hordes, build a run one card at a time',
@@ -523,6 +532,7 @@ const COLDSNAP_PROJECTS = [
   {
     id: 'seba',
     category: 'Games',
+    fit: ['game', 'app'],
     type: 'Card Game',
     title: 'Seba',
     shortDescription: 'Collect over 900 mythical creatures and gods, nearly all shown on historic artworks',
@@ -587,6 +597,7 @@ const COLDSNAP_PROJECTS = [
   {
     id: 'badalone',
     category: 'Games',
+    fit: ['game', 'app'],
     type: 'Card Game',
     title: 'Badalone',
     shortDescription: 'Open packs of real, ridiculous patents drawn from 12 million inventions',
@@ -646,6 +657,7 @@ const COLDSNAP_PROJECTS = [
   {
     id: 'maya',
     category: 'Flutter Apps',
+    fit: ['app', 'public'],
     type: 'Town App',
     title: 'Maya',
     shortDescription: 'The town hall in every resident\'s pocket: news, alerts, polls, problem reports and local shops',
@@ -725,6 +737,7 @@ const COLDSNAP_PROJECTS = [
   {
     id: 'sandlog',
     category: 'Flutter Apps',
+    fit: ['app'],
     type: 'Mobile App',
     title: 'Sandlog',
     shortDescription: 'Voice dream journal: open the app, speak, and your dream is saved automatically',
@@ -776,6 +789,7 @@ const COLDSNAP_PROJECTS = [
   {
     id: 'badger',
     category: 'Flutter Apps',
+    fit: ['app', 'company'],
     type: 'Mobile App',
     title: 'Badger',
     shortDescription: 'NFC-powered digital business card, share contacts by tapping phones',
@@ -828,6 +842,7 @@ const COLDSNAP_PROJECTS = [
   {
     id: 'colismarket',
     category: 'Flutter Apps',
+    fit: ['app', 'company'],
     type: 'Mobile App',
     title: 'ColisMarket',
     shortDescription: 'Parcel relay point management app with OCR scanning for package tracking',
@@ -880,6 +895,7 @@ const COLDSNAP_PROJECTS = [
   {
     id: 'patoune',
     category: 'Flutter Apps',
+    fit: ['app'],
     type: 'Mobile App',
     title: 'Patoune',
     shortDescription: 'Cat claw trimming tracker to visualize and schedule your cat\'s nail maintenance',
@@ -933,6 +949,7 @@ const COLDSNAP_PROJECTS = [
   {
     id: 'posti',
     category: 'Flutter Apps',
+    fit: ['app'],
     type: 'Desktop App',
     title: 'Posti',
     shortDescription: 'Minimalist always-on-top system tray todo and notes app for desktop',
@@ -974,6 +991,7 @@ const COLDSNAP_PROJECTS = [
   {
     id: 'grapple-groove',
     category: 'Games',
+    fit: ['game'],
     type: 'PC Game',
     title: 'GrappleGroove',
     shortDescription: 'First-person grappling hook parkour game: swing, climb and launch through physics-driven levels',

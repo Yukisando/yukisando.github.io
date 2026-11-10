@@ -1708,6 +1708,16 @@ function initNav() {
   onScroll();
   window.addEventListener('scroll', onScroll, { passive: true });
 
+  // Homepage: the nav logo and name appear once the hero logo has scrolled under the nav.
+  const heroLogo = document.querySelector('.page-home .hero__logo');
+  if (heroLogo && 'IntersectionObserver' in window) {
+    new IntersectionObserver(([entry]) => nav.classList.toggle('has-brand', !entry.isIntersecting), {
+      rootMargin: `-${nav.offsetHeight}px 0px 0px 0px`,
+    }).observe(heroLogo);
+  } else {
+    nav.classList.add('has-brand');
+  }
+
   // The logo goes back to the top by hand: following #top (the fixed nav) let some
   // browsers jump to the project viewer instead, which broke the five-tap cold snap.
   document.querySelector('.cs-nav__brand').addEventListener('click', e => {
