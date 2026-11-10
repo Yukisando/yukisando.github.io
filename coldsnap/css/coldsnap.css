@@ -3824,9 +3824,11 @@ html[lang="en"] .legal-page [lang="fr"]:not([data-lang]) { display: none; }
   60% { transform: rotate(-6deg); }
   80% { transform: rotate(3deg); }
 }
-/* A small quest-giver's question mark over the wizard's head. */
+/* A small quest-giver's question mark over the wizard's head. It hovers on its own,
+   straight up and down and out of step with the wizard, so the two don't move as one. */
 .helper-launch__quest {
   position: absolute;
+  z-index: 1;
   left: 50%;
   bottom: calc(100% - 2px);
   width: 11px;
@@ -3835,6 +3837,12 @@ html[lang="en"] .legal-page [lang="fr"]:not([data-lang]) { display: none; }
   overflow: visible;
   filter: drop-shadow(0 0 3px rgba(255, 196, 0, 0.55));
   transition: opacity 0.2s ease, transform 0.2s var(--ease-out);
+  animation: helper-quest-bob 2.9s ease-in-out 1.9s infinite;
+}
+/* `translate`, not `transform`: the hover fade-out keeps using `transform`. */
+@keyframes helper-quest-bob {
+  0%, 100% { translate: 0 0; }
+  50% { translate: 0 -3px; }
 }
 .helper-launch:hover .helper-launch__bubble,
 .helper-launch:focus-visible .helper-launch__bubble {
@@ -3981,5 +3989,6 @@ html[lang="en"] .legal-page [lang="fr"]:not([data-lang]) { display: none; }
   .helper-launch, .helper-launch__avatar, .helper-launch__quest,
   .helper-launch__bubble, .helper-launch__wizard, .helper-launch:hover .helper-launch__bubble, .helper-launch:hover .helper-launch__wizard { transform: none; animation: none; }
   .helper-launch:hover .helper-launch__quest, .helper-launch:focus-visible .helper-launch__quest { transform: none; }
+  .helper-launch__quest { translate: none; }
   .helper__typing { animation: none; }
 }
