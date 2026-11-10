@@ -1,4 +1,4 @@
-// Hero typewriter: the phrase after "We make" / "On rend" types, erases and cycles through
+// Hero typewriter: the phrase between "We make" and "fun." ("On rend" … "ludiques.") types, erases and cycles through
 // the |-separated list in #heroHookWords (text comes from the page, so FR and EN pages each
 // carry their own list). Screen readers read the static .sr-only sentence instead.
 // With reduced motion, the first phrase is shown and nothing moves.

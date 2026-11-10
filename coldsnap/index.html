@@ -141,12 +141,12 @@
             <span class="hero__sub"><span data-i18n="hero.sub">Studio de gamification</span></span>
           </h1>
         </div>
-        <!-- Typewriter line (js/hero-hook.js): the phrase after "We make" types, erases and
-             cycles through hero.hookWords. Screen readers and no-JS visitors get hero.hookAll. -->
+        <!-- Typewriter line (js/hero-hook.js): the phrase between "We make" and "fun." types, erases
+             and cycles through hero.hookWords. Screen readers and no-JS visitors get hero.hookAll. -->
         <p class="hero__hook">
-          <span class="sr-only" data-i18n="hero.hookAll">On rend ludiques les expositions, la formation, la visite d'une ville, la prévention des risques et les cours de sciences.</span>
-          <span class="hero__hook-line" aria-hidden="true"><span data-i18n="hero.hookLead">On rend</span> <span class="hero__typed" id="heroTyped"></span><span class="hero__caret"></span></span>
-          <span hidden id="heroHookWords" data-i18n="hero.hookWords">vos expositions ludiques.|la formation ludique.|la visite d'une ville ludique.|la prévention des risques ludique.|les cours de sciences ludiques.</span>
+          <span class="sr-only" data-i18n="hero.hookAll">On rend ludiques vos expositions, vos formations, vos visites de ville, vos actions de prévention et vos cours de sciences.</span>
+          <span class="hero__hook-line" aria-hidden="true"><span data-i18n="hero.hookLead">On rend</span> <span class="hero__typed" id="heroTyped"></span><span class="hero__caret"></span> <span data-i18n="hero.hookTail">ludiques.</span></span>
+          <span hidden id="heroHookWords" data-i18n="hero.hookWords">vos expositions|vos formations|vos visites de ville|vos actions de prévention|vos cours de sciences</span>
         </p>
         <p class="hero__lead" data-i18n="hero.lead">Applications, jeux et installations interactives sur mesure pour les musées, les écoles, les collectivités et les entreprises.</p>
       </div>
@@ -418,11 +418,11 @@
 
 
   <!-- i18n runs synchronously so translated text is in place before first paint -->
-  <script src="/js/i18n-strings.js?v=20261110d"></script>
+  <script src="/js/i18n-strings.js?v=20261110e"></script>
   <script src="/js/i18n.js?v=20261106a"></script>
   <script src="/data/projects.js?v=20261110b" defer></script>
   <script src="/js/coldsnap.js?v=20261110d" defer></script>
-  <script src="/js/hero-hook.js?v=20261110b" defer></script>
+  <script src="/js/hero-hook.js?v=20261110c" defer></script>
   <script src="/js/contact.js?v=20261110b" defer></script>
   <script src="/js/car-physics.js?v=20261028a" defer></script>
   <script src="/js/drive.js?v=20261104a" defer></script>

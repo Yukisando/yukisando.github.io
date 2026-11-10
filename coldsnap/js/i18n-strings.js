@@ -18,8 +18,9 @@
 
     'hero.lead': 'Applications, jeux et installations interactives sur mesure pour les musées, les écoles, les collectivités et les entreprises.',
     'hero.hookLead': 'On rend',
-    'hero.hookWords': 'vos expositions ludiques.|la formation ludique.|la visite d\'une ville ludique.|la prévention des risques ludique.|les cours de sciences ludiques.',
-    'hero.hookAll': 'On rend ludiques les expositions, la formation, la visite d\'une ville, la prévention des risques et les cours de sciences.',
+    'hero.hookWords': 'vos expositions|vos formations|vos visites de ville|vos actions de prévention|vos cours de sciences',
+    'hero.hookTail': 'ludiques.',
+    'hero.hookAll': 'On rend ludiques vos expositions, vos formations, vos visites de ville, vos actions de prévention et vos cours de sciences.',
     'hero.sub': 'Studio de gamification',
     'hero.cta': 'Démarrer un projet',
     'hero.secondary': 'Voir nos réalisations',
