@@ -1719,7 +1719,7 @@ function initNav() {
   }
 
   // The logo goes back to the top by hand: following #top (the fixed nav) let some
-  // browsers jump to the project viewer instead, which broke the five-tap cold snap.
+  // browsers jump to the project viewer instead.
   document.querySelector('.cs-nav__brand').addEventListener('click', e => {
     e.preventDefault();
     if (window.scrollY > 0) window.scrollTo({ top: 0, behavior: prefersReducedMotion() ? 'auto' : 'smooth' });

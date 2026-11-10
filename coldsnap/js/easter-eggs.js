@@ -3,7 +3,8 @@
  *
  * 1. Console greeting for curious developers.
  * 2. Konami code (↑↑↓↓←→←→BA): every hero card flips and gets flung, with sparkles.
- * 3. Type "snap", or click the nav logo 5 times quickly (frost builds with each click): a cold snap freezes the page (and the cards).
+ * 3. Type "snap", or click the hero logo 5 times quickly (frost builds with each click): a cold snap freezes the page (and the cards).
+ *    The hero logo, not the nav one: the nav logo scrolls to the top, where the homepage hides it.
  * 4. Turn any hero card over by hand: the first, easy secret that starts the hunt.
  * 5. Reveal every card on the table: a secret wizard card drops into the deck.
  *    Clicking it turns it into a car (js/drive.js).
@@ -131,8 +132,8 @@
     }
   });
 
-  // Each quick logo click frosts the screen a little more; the fifth freezes it.
-  const logo = document.querySelector('.cs-nav__brand');
+  // Each quick hero-logo click frosts the screen a little more; the fifth freezes it.
+  const logo = document.querySelector('.hero__logo');
   const CLICKS_TO_FREEZE = 5;
   let logoClicks = [];
   let chillTimer = null;

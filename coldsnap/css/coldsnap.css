@@ -541,6 +541,9 @@ h1, h2, h3 {
   width: clamp(64px, 6vw, 84px);
   height: auto;
   filter: drop-shadow(0 10px 26px rgba(0, 0, 0, 0.5));
+  cursor: pointer; /* five quick clicks: cold snap (js/easter-eggs.js) */
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .hero__brand-text {
@@ -2875,7 +2878,7 @@ body.is-chilling:not(.is-frozen)::after {
   transition: opacity 0.25s ease;
 }
 
-.cs-nav__brand.is-shivering .cs-nav__logo {
+.hero__logo.is-shivering {
   animation: shiver 0.3s ease;
 }
 
@@ -3670,21 +3673,29 @@ html[lang="en"] .legal-page [lang="fr"]:not([data-lang]) { display: none; }
   text-align: left;
   cursor: pointer;
 }
-/* Speech bubble with a tail pointing at the wizard */
+/* Cloudy speech bubble: its fill is a blurred layer behind the text, so the edges fade out
+   softly like the wizard's (no border). */
 .helper-launch__bubble {
   position: relative;
+  isolation: isolate;
   display: grid;
   gap: 2px;
   margin-bottom: 34px;
-  padding: 10px 14px;
-  border-radius: 16px 16px 4px 16px;
-  border: 1px solid var(--orange);
-  background: var(--bg-card);
+  padding: 12px 18px;
   font-size: 0.88rem;
   font-weight: 700;
   transform: rotate(-2deg);
   transform-origin: bottom right;
   transition: transform 0.2s var(--ease-out), opacity 0.2s ease;
+}
+.helper-launch__bubble::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: 22px 22px 8px 22px;
+  background: var(--bg-card-hover);
+  filter: blur(6px);
 }
 .helper-launch__sub { font-size: 0.78rem; font-weight: 400; color: var(--text-secondary); }
 .helper-launch__wizard {
@@ -3820,7 +3831,7 @@ html[lang="en"] .legal-page [lang="fr"]:not([data-lang]) { display: none; }
 .helper__link:hover { color: var(--text-primary); }
 @media (max-width: 600px) {
   .helper-launch { right: 12px; bottom: 12px; }
-  .helper-launch__bubble { margin-bottom: 30px; padding: 8px 12px; font-size: 0.82rem; }
+  .helper-launch__bubble { margin-bottom: 30px; padding: 10px 15px; font-size: 0.82rem; }
   .helper-launch__sub { display: none; }
   .helper-launch__wizard { width: 48px; height: 48px; }
   .helper { right: 8px; left: 8px; bottom: 72px; width: auto; max-height: calc(100vh - var(--nav-h) - 80px); }
