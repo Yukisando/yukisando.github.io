@@ -606,13 +606,15 @@ h1.hero__brand-text {
   }
 }
 
-/* Typewriter line under the brand (js/hero-hook.js). Height is reserved by the script. */
+/* Hook line under the brand (js/hero-hook.js): the middle phrase freezes, shatters and
+   the next one thaws in. Height is reserved by the script. */
 .hero__hook {
   margin: 0 auto 14px;
   max-width: 520px;
 }
 
 .hero__hook-line {
+  position: relative;
   display: block;
   font-family: var(--font-brand);
   font-size: clamp(1.25rem, 2.6vw, 1.6rem);
@@ -621,37 +623,60 @@ h1.hero__brand-text {
   color: var(--text-primary);
 }
 
-.hero__typed {
-  color: var(--orange);
-}
-
-.hero__caret {
+/* Its colour is a wide gradient clipped to the text: orange on one side, ice on the other.
+   Sliding the gradient across makes frost creep over the words, and melt off again. */
+.hero__phrase {
   display: inline-block;
-  width: 3px;
-  height: 1.05em;
-  margin-left: 2px;
-  vertical-align: -0.12em;
-  border-radius: 2px;
-  background: var(--orange);
-  animation: hero-caret 1s steps(1) infinite;
+  vertical-align: bottom;
+  white-space: nowrap;
+  color: transparent;
+  background-image: linear-gradient(100deg, #f4fcff 0%, var(--ice) 30%, #a9def0 42%, #ffe1bd 49%, var(--orange) 57%, var(--orange) 100%);
+  background-size: 280% 100%;
+  background-position: 100% 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  transition:
+    background-position 0.7s ease-in,
+    filter 0.5s ease,
+    opacity 0.35s ease,
+    transform 0.45s var(--ease-out),
+    width 0.38s var(--ease-out);
 }
 
-/* Solid while typing, blinks only while a phrase is held */
-.hero__hook-line:not(.is-holding) .hero__caret {
-  animation: none;
+.hero__phrase.is-frozen {
+  background-position: 0 0;
+  filter: drop-shadow(0 0 6px rgba(150, 215, 240, 0.55));
 }
 
-/* Cold snap (js/easter-eggs.js): the caret freezes with the rest of the page. */
-body.is-frozen .hero__caret {
-  animation-play-state: paused;
+/* The next phrase arrives iced over and out of focus, */
+.hero__phrase.is-entering {
+  opacity: 0;
+  filter: blur(5px) drop-shadow(0 0 6px rgba(150, 215, 240, 0.55));
+  transform: translateY(-5px) scale(0.97);
+  transition: none;
 }
 
-.hero__hook-line.is-still .hero__caret {
-  display: none;
+/* then the frost melts off, a little slower than it came. */
+.hero__phrase.is-thawing {
+  transition:
+    background-position 0.95s cubic-bezier(0.3, 0, 0.2, 1),
+    filter 0.6s ease,
+    opacity 0.35s ease,
+    transform 0.45s var(--ease-out),
+    width 0.38s var(--ease-out);
 }
 
-@keyframes hero-caret {
-  50% { opacity: 0; }
+/* Cracked: each letter is a shard of ice with its own colour. */
+.hero__phrase.is-shattering {
+  background-image: none;
+  filter: none;
+}
+
+.hero__shard {
+  display: inline-block;
+  white-space: pre;
+  color: var(--ice);
+  text-shadow: 0 0 6px rgba(150, 215, 240, 0.6);
 }
 
 .sr-only {

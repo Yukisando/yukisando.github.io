@@ -39,7 +39,7 @@
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=20261104a" />
   <link rel="preload" href="/fonts/Comfortaa-var.woff2" as="font" type="font/woff2" crossorigin>
 
-  <link href="/css/coldsnap.min.css?v=d272ab9ba8" rel="stylesheet">
+  <link href="/css/coldsnap.min.css?v=bded768ba0" rel="stylesheet">
 
   <!-- Structured Data -->
   <script type="application/ld+json">
@@ -141,11 +141,11 @@
             <span class="hero__sub"><span data-i18n="hero.sub">Studio de gamification</span></span>
           </h1>
         </div>
-        <!-- Typewriter line (js/hero-hook.js): the phrase between "We make" and "fun." types, erases
-             and cycles through hero.hookWords. Screen readers and no-JS visitors get hero.hookAll. -->
+        <!-- Hook line (js/hero-hook.js): the phrase between "We make" and "fun." freezes, shatters and
+             the next one in hero.hookWords thaws in. Screen readers and no-JS visitors get hero.hookAll. -->
         <p class="hero__hook">
           <span class="sr-only" data-i18n="hero.hookAll">On rend ludiques vos expositions, vos formations, vos visites de ville, vos actions de prévention et vos cours de sciences.</span>
-          <span class="hero__hook-line" aria-hidden="true"><span data-i18n="hero.hookLead">On rend</span> <span class="hero__typed" id="heroTyped"></span><span class="hero__caret"></span> <span data-i18n="hero.hookTail">ludiques.</span></span>
+          <span class="hero__hook-line" aria-hidden="true"><span data-i18n="hero.hookLead">On rend</span> <span class="hero__phrase" id="heroPhrase"></span> <span data-i18n="hero.hookTail">ludiques.</span></span>
           <span hidden id="heroHookWords" data-i18n="hero.hookWords">vos expositions|vos formations|vos visites de ville|vos actions de prévention|vos cours de sciences</span>
         </p>
         <p class="hero__lead" data-i18n="hero.lead">Applications, jeux et installations interactives sur mesure pour les musées, les écoles, les collectivités et les entreprises.</p>
@@ -422,7 +422,7 @@
   <script src="/js/i18n.js?v=20261106a"></script>
   <script src="/data/projects.js?v=20261110c" defer></script>
   <script src="/js/coldsnap.js?v=20261110d" defer></script>
-  <script src="/js/hero-hook.js?v=20261110c" defer></script>
+  <script src="/js/hero-hook.js?v=20261110d" defer></script>
   <script src="/js/contact.js?v=20261110b" defer></script>
   <script src="/js/car-physics.js?v=20261028a" defer></script>
   <script src="/js/drive.js?v=20261104a" defer></script>
