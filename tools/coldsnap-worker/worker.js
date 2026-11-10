@@ -9,7 +9,8 @@
 // - keeps pages in Cloudflare's edge cache, versioned files (?v=...) for a year in
 //   browsers, images and fonts for 30 days;
 // - serves the shared legal pages (CGV, privacy) under coldsnap.fr/legal/;
-// - receives the contact form (POST /api/contact) and mails it through Brevo.
+// - receives the contact form (POST /api/contact) and mails it through Brevo, after
+//   checking the signed timestamp it writes into each page's form (FORM_SECRET).
 
 const CANONICAL_HOST = 'coldsnap.fr';
 const ORIGIN = 'https://nathandecastro.com';
@@ -141,7 +142,7 @@ export default {
       }
     }
 
-    const result = withSecurity(response, CSP);
+    const result = withSecurity(await signForm(response, env), CSP);
     // Files referenced with a ?v= version change URL whenever they change.
     if (response.ok && url.searchParams.has('v')) {
       result.headers.set('Cache-Control', 'public, max-age=31536000, immutable');
@@ -271,13 +272,14 @@ async function handleContact(request, env, url) {
   const lang = url.searchParams.get('lang') === 'en' ? 'en' : 'fr';
   const reply = (status) => {
     if (wantsJson) {
-      const code = { sent: 200, invalid: 400 }[status] || 503;
+      const code = { sent: 200, invalid: 400, expired: 400 }[status] || 503;
       return Response.json({ status }, { status: code });
     }
     return Response.redirect(`https://${CANONICAL_HOST}${lang === 'en' ? '/en/' : '/'}?contact=${status}#contact`, 303);
   };
 
-  // Only accept posts from this site.
+  // Only accept posts from this site. Browsers send Origin with every POST, fetch or
+  // plain form; scripts posting straight here often do not.
   const origin = request.headers.get('Origin');
   if (origin && origin !== `https://${CANONICAL_HOST}`) return reply('invalid');
 
@@ -291,10 +293,14 @@ async function handleContact(request, env, url) {
     return reply('invalid');
   }
 
-  // Bots: the hidden "website" field is filled, or the form came back in under 3 seconds.
-  // They get a normal "sent" answer so they do not retry.
-  const started = Number(data.started) || 0;
-  if (data.website || (started && Date.now() - started < 3000)) return reply('sent');
+  // Bots get a normal "sent" answer so they do not retry: no Origin header, the hidden
+  // "website" field filled, no valid "started" time (see signForm), or the form sent back
+  // less than 3 seconds after the page was served.
+  const started = await readStarted(data.started, env);
+  const age = Date.now() - started;
+  if (!origin || data.website || !started || age < 3000) return reply('sent');
+  // A page left open for more than a day: ask the visitor to reload it.
+  if (age > FORM_MAX_AGE) return reply('expired');
 
   const field = (name) => String(data[name] || '').trim().slice(0, LIMITS[name]);
   const form = {
@@ -312,6 +318,10 @@ async function handleContact(request, env, url) {
   }
   if (!env.BREVO_API_KEY) return reply('unavailable');
 
+  // Links are how phishing comes in through contact forms: flag the subject and list the
+  // domains, so they can be checked before anything is clicked.
+  const domains = linkDomains(Object.values(form).join(' '));
+
   const lines = [
     `Nom : ${form.name}`,
     `E-mail : ${form.email}`,
@@ -321,6 +331,7 @@ async function handleContact(request, env, url) {
     form.phone ? `Téléphone : ${form.phone}` : null,
     form.slots ? `Créneaux pour un appel : ${form.slots}` : null,
     `Page : ${lang === 'en' ? 'anglaise' : 'française'}`,
+    domains.length ? `Liens vers : ${domains.join(', ')} (à vérifier avant de cliquer)` : null,
     '',
     form.message,
   ].filter(line => line !== null);
@@ -333,9 +344,62 @@ async function handleContact(request, env, url) {
       sender: { name: 'Site ColdSnap', email: to },
       to: [{ email: to }],
       replyTo: { email: form.email, name: form.name },
-      subject: `Nouveau projet : ${form.name}${form.org ? ' (' + form.org + ')' : ''}`,
+      subject: `${domains.length ? '[lien] ' : ''}Nouveau projet : ${form.name}${form.org ? ' (' + form.org + ')' : ''}`,
       textContent: lines.join('\n'),
     }),
   });
   return reply(sent.ok ? 'sent' : 'unavailable');
+}
+
+// ── Form timestamp ───────────────────────────────────────────
+// Each page served gets the time it was served, signed with FORM_SECRET, in its hidden
+// "started" field: "<ms>.<signature>". Only someone who loaded a page can post, the
+// 3-second check counts from a time the visitor cannot choose, and it works without
+// JavaScript. Without FORM_SECRET the field is left to contact.js (plain Date.now()).
+
+const FORM_MAX_AGE = 24 * 60 * 60 * 1000;
+const encoder = new TextEncoder();
+
+async function formKey(env) {
+  if (!env.FORM_SECRET) return null;
+  return crypto.subtle.importKey('raw', encoder.encode(env.FORM_SECRET), { name: 'HMAC', hash: 'SHA-256' }, false, ['sign', 'verify']);
+}
+
+const toHex = buffer => [...new Uint8Array(buffer)].map(b => b.toString(16).padStart(2, '0')).join('');
+
+async function signForm(response, env) {
+  if (!(response.headers.get('Content-Type') || '').includes('text/html')) return response;
+  const key = await formKey(env);
+  if (!key) return response;
+  const time = String(Date.now());
+  const token = `${time}.${toHex(await crypto.subtle.sign('HMAC', key, encoder.encode(time)))}`;
+  return new HTMLRewriter()
+    .on('input[name="started"]', { element(el) { el.setAttribute('value', token); } })
+    .transform(response);
+}
+
+// The time the form was served, or 0 when the value is missing, forged or in the future.
+async function readStarted(value, env) {
+  const text = String(value || '');
+  const key = await formKey(env);
+  let time;
+  if (key) {
+    const match = text.match(/^(\d{13})\.([0-9a-f]{64})$/);
+    if (!match) return 0;
+    const signature = new Uint8Array(match[2].match(/../g).map(h => parseInt(h, 16)));
+    if (!(await crypto.subtle.verify('HMAC', key, signature, encoder.encode(match[1])))) return 0;
+    time = Number(match[1]);
+  } else {
+    time = /^\d{13}$/.test(text) ? Number(text) : 0;
+  }
+  return time && time <= Date.now() + 60 * 1000 ? time : 0;
+}
+
+// Domains of the links in a text (http(s)://... or www....), without duplicates.
+function linkDomains(text) {
+  const found = new Set();
+  for (const [, host] of text.matchAll(/(?:https?:\/\/|\bwww\.)([^\s/?#:<>"']+)/gi)) {
+    found.add(host.toLowerCase().replace(/^www\./, '').replace(/[.,;)]+$/, ''));
+  }
+  return [...found];
 }

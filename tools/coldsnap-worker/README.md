@@ -34,8 +34,20 @@ Edit, Account / Account Settings: Read, Zone / DNS: Edit on coldsnap.fr) and
 
     npx wrangler@3 deploy
     npx wrangler@3 secret put BREVO_API_KEY    # once, and when the key changes
+    npx wrangler@3 secret put FORM_SECRET      # once: any long random string, e.g. `openssl rand -hex 32`
 
-`CONTACT_TO` (in `wrangler.toml`) must be a sender verified in Brevo. Deploy the
+`CONTACT_TO` (in `wrangler.toml`) must be a sender verified in Brevo.
+
+### Contact form spam
+
+The worker writes the time each page is served, signed with `FORM_SECRET`, into the
+form's hidden `started` field. A post is dropped (with a normal "sent" answer, so bots
+do not retry) when it has no `Origin` header, fills the hidden `website` field, has no
+valid signed time, or comes back less than 3 seconds after the page was served. A page
+open for more than a day gets "reload the page". Messages with links still arrive, with
+`[lien]` in the subject and the linked domains listed: check them before clicking.
+Without `FORM_SECRET` the form still works, using the time set by `contact.js`, but
+visitors without JavaScript are dropped. Deploy the
 worker before pushing pages that link to `/legal/cgv/` or post to `/api/contact`.
 
 ## Setup
@@ -58,4 +70,4 @@ worker before pushing pages that link to `/legal/cgv/` or post to `/api/contact`
 6. Check `https://coldsnap.fr/`, then push this repo so nathandecastro.com/coldsnap/
    starts forwarding to it.
 
-To update the worker without wrangler, paste `worker.js` in the dashboard editor and add the `BREVO_API_KEY` secret under Settings > Variables.
+To update the worker without wrangler, paste `worker.js` in the dashboard editor and add the `BREVO_API_KEY` and `FORM_SECRET` secrets under Settings > Variables.
