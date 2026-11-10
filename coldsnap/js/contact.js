@@ -13,7 +13,8 @@
   const slotsBox = document.getElementById('contactSlots');
   const MAX_SLOTS = 3;
 
-  form.elements.started.value = String(Date.now());
+  // The worker writes a signed "served at" time here; without it, the time the page loaded.
+  if (!form.elements.started.value) form.elements.started.value = String(Date.now());
 
   // "Start a project" opens the form: after the jump to #contact the cursor waits in the first field.
   const openForm = () => form.elements.name.focus({ preventScroll: true });
@@ -25,7 +26,7 @@
 
   function show(key) {
     status.textContent = i18n.t('form.' + key);
-    status.dataset.state = key;
+    status.dataset.state = key === 'expired' ? 'invalid' : key;
   }
 
   // Phone call: the phone number and a few half-days over the next working week.
@@ -91,7 +92,7 @@
 
   // Coming back from a plain (no-JavaScript) post.
   const returned = new URLSearchParams(location.search).get('contact');
-  if (['sent', 'invalid', 'unavailable'].includes(returned)) {
+  if (['sent', 'invalid', 'expired', 'unavailable'].includes(returned)) {
     show(returned);
     if (returned === 'sent') form.classList.add('is-sent');
   }
