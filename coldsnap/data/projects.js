@@ -1347,15 +1347,21 @@ const COLDSNAP_PROJECTS = [
     shortDescription: 'Open-source Unity package: one-window builds for every platform, TestFlight upload, scene quick open and editor helpers',
     description: 'The Unity package behind every ColdSnap game and kiosk. Platform Builder builds Windows, macOS, Android (APK and App Bundle), WebGL and iOS from one window with saved scene lists, and sends iOS builds to TestFlight from a Windows PC through a macOS runner. Around it: scene quick open, a commit-and-push window, a one-click update check, pivot tools, dark title bars on Windows, a fullscreen WebGL kiosk template and a few runtime helpers. Installs from Git in the Package Manager; versions bump themselves from commit titles.',
     icon: '🛠️',
-    thumbnail: '/assets/projects/coldsnap-utilities/utilities-1-thumb.webp?v=20261110',
+    thumbnail: '/assets/projects/coldsnap-utilities/utilities-1-thumb.webp?v=20261110c',
     media: [
+      '/assets/projects/coldsnap-utilities/utilities-hero.jpg',
       '/assets/projects/coldsnap-utilities/utilities-2.png',
-      '/assets/projects/coldsnap-utilities/utilities-1.png'
+      '/assets/projects/coldsnap-utilities/utilities-3.png',
+      '/assets/projects/coldsnap-utilities/utilities-4.png',
+      '/assets/projects/coldsnap-utilities/utilities-5.jpg'
     ],
     // Descriptions for screen readers and search, one per media item, same order.
     alt: [
+      'Collage of the ColdSnap Utilities windows in the Unity editor: Scene Quick Open, Git, Platform Builder',
       'Platform Builder window: target platform, build options, app name and the scene list in build order',
-      'ColdSnap Utilities in the Unity Package Manager, with its Tools menu and scene switcher'
+      'Scene Quick Open: every scene in the project with Open and add-to-scene buttons',
+      'Git window: branch, pending changes, commit message, Commit All + Push, Pull and a log',
+      'The Unity editor in dark mode, with ColdSnap\'s dark title bar and menu bar on Windows'
     ],
     tech: ['Unity', 'C#', 'UPM'],
     features: [
@@ -1371,8 +1377,11 @@ const COLDSNAP_PROJECTS = [
     ],
     fr: {
       alt: [
+        'Collage des fenêtres ColdSnap Utilities dans l\'éditeur Unity : Scene Quick Open, Git, Platform Builder',
         'Fenêtre Platform Builder : plateforme cible, options de build, nom de l\'app et liste des scènes dans l\'ordre du build',
-        'ColdSnap Utilities dans le Package Manager de Unity, avec son menu Tools et le sélecteur de scènes'
+        'Scene Quick Open : toutes les scènes du projet avec boutons Ouvrir et Ajouter',
+        'Fenêtre Git : branche, changements en attente, message de commit, Commit All + Push, Pull et journal',
+        'L\'éditeur Unity en mode sombre, avec la barre de titre et la barre de menus sombres de ColdSnap sous Windows'
       ],
       type: 'Package Unity',
       shortDescription: 'Package Unity open source : builds de toutes les plateformes depuis une fenêtre, envoi TestFlight, ouverture rapide des scènes',
