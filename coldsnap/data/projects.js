@@ -315,9 +315,9 @@ const COLDSNAP_PROJECTS = [
     shortDescription: 'Company-wide admin butler: accounting, contracts, invoicing and AI-powered LinkedIn management in one dashboard',
     description: 'Winston is an internal company-wide admin platform built to run the full back-office of a multi-company studio. It handles quotes, invoices, business expenses, and contracts end-to-end, with PDF generation and export throughout. On top of that, it features an AI-powered LinkedIn content pipeline that automatically generates and publishes professional posts from news articles using GPT-4o-mini. Multi-company support means the same dashboard manages all entities under the studio umbrella.',
     icon: '🤖',
-    thumbnail: '/assets/projects/winston/winston-1-thumb.webp',
+    thumbnail: '/assets/projects/winston/winston-1-thumb.webp?v=20261110',
     media: [
-      '/assets/projects/winston/winston-1.png'
+      '/assets/projects/winston/winston-1.png?v=20261110'
     ],
     // Descriptions for screen readers and search, one per media item, same order.
     alt: [
@@ -696,9 +696,11 @@ const COLDSNAP_PROJECTS = [
       'iPhone, Android and web; data hosted in France, GDPR compliant'
     ],
     links: [
-      { label: 'Visit Website', labelFr: 'Site web', href: 'https://maya.coldsnap.fr/', icon: 'fa-globe' },
-      { label: 'Try the App', labelFr: 'Essayer l\'app', href: 'https://maya-app.coldsnap.fr/', icon: 'fa-mobile' },
-      { label: 'Privacy Policy', labelFr: 'Confidentialité', href: 'https://maya.coldsnap.fr/confidentialite', icon: 'fa-shield', secondary: true }
+      { label: 'Google Play', href: 'https://play.google.com/store/apps/details?id=com.coldsnap.maya', icon: 'fa-android', style: 'play-store' },
+      { label: 'App Store', href: 'https://apps.apple.com/fr/app/id6820991824', icon: 'fa-apple', style: 'app-store', soon: true },
+      { label: 'Try the App', labelFr: 'Essayer l\'app', href: 'https://app.mayaville.fr/', icon: 'fa-mobile' },
+      { label: 'Visit Website', labelFr: 'Site web', href: 'https://mayaville.fr/', icon: 'fa-globe', secondary: true },
+      { label: 'Privacy Policy', labelFr: 'Confidentialité', href: 'https://mayaville.fr/confidentialite', icon: 'fa-shield', secondary: true }
     ],
     fr: {
       alt: [
@@ -798,7 +800,7 @@ const COLDSNAP_PROJECTS = [
     thumbnail: '/assets/projects/badger/badger-1-thumb.webp',
     media: [
       '/assets/projects/badger/badger-1.jpg',
-      '/assets/projects/badger/badger-2.jpg',
+      '/assets/projects/badger/badger-2.jpg?v=20261110',
       '/assets/projects/badger/badger-3.jpg'
     ],
     // Descriptions for screen readers and search, one per media item, same order.
@@ -971,7 +973,9 @@ const COLDSNAP_PROJECTS = [
       'Persistent background process',
       'Minimal, distraction-free UI'
     ],
-    links: [],
+    links: [
+      { label: 'GitHub', href: 'https://github.com/Yukisando/Posti', icon: 'fa-github' }
+    ],
     fr: {
       alt: [
         'Fenêtre de tâches Posti avec deux tâches en cours et une liste archivée'
@@ -1042,7 +1046,7 @@ const COLDSNAP_PROJECTS = [
   {
     id: 'sharekm',
     category: 'Open Source',
-    type: 'Windows Tray App',
+    type: 'Windows App',
     title: 'ShareKM',
     shortDescription: 'Share one keyboard and mouse between two Windows PCs, with encrypted pairing and shared clipboard',
     description: 'A tiny Windows tray app that lets one keyboard and mouse control two PCs on the same network, with clipboard text shared both ways. One hotkey switches which PC you are on. It finds the other PC by itself, pairs with a passphrase and encrypts everything it sends (AES-256-GCM), and can optionally run as administrator to control elevated windows. A single self-contained exe: no install, no account, no PowerToys. Free for non-commercial use, with the source on GitHub.',
@@ -1080,7 +1084,7 @@ const COLDSNAP_PROJECTS = [
         'ShareKM en mode clair avec les mêmes réglages de connexion et de sécurité',
         'Avertissement avant de lancer ShareKM en administrateur'
       ],
-      type: 'App Windows (barre système)',
+      type: 'App Windows',
       shortDescription: 'Partagez un clavier et une souris entre deux PC Windows, avec appairage chiffré et presse-papiers partagé',
       description: 'Une petite app Windows dans la barre système qui permet de piloter deux PC du même réseau avec un seul clavier et une seule souris, avec le texte du presse-papiers partagé dans les deux sens. Un raccourci clavier suffit pour passer d\'un PC à l\'autre. Elle trouve l\'autre PC toute seule, s\'appaire avec une phrase secrète et chiffre tout ce qu\'elle envoie (AES-256-GCM), et peut tourner en administrateur pour piloter les fenêtres élevées. Un seul exécutable autonome : sans installation, sans compte, sans PowerToys. Gratuit pour un usage non commercial, code source sur GitHub.',
       features: [
@@ -1190,8 +1194,8 @@ const COLDSNAP_PROJECTS = [
     category: 'Open Source',
     type: 'WoW Addon',
     title: 'B.O.L.T',
-    shortDescription: 'Modular World of Warcraft addon with quality-of-life improvements that don\'t change core mechanics',
-    description: 'Brittle and Occasionally Lethal Tweaks. A modular World of Warcraft addon delivering quality-of-life improvements without altering core gameplay. Features game menu enhancements, advanced skyriding controls, chat notifications, nameplate mana-user highlighting, saved instance tracking, and more. Actively maintained with 113+ versioned releases.',
+    shortDescription: 'Modular World of Warcraft addon that restyles Blizzard\'s own UI and adds small quality-of-life tweaks, for Midnight and WoW: Forever',
+    description: 'Brittle and Occasionally Lethal Tweaks. A World of Warcraft addon made of small modules you switch on one by one. The Interface modules restyle Blizzard\'s own frames with Blizzard\'s own art: portrait-less unit frames, a square minimap with one button bar, fade-until-needed bars and frames, nameplates that flag mana users and interruptible casts, a ranged attack timer. Everything is set from Edit Mode, saved per Edit Mode layout and shared by all your characters. Runs on Midnight and on WoW: Forever, where it switches to Forever\'s bronze art and hides modules built on modern-only systems.',
     icon: '⚔️',
     thumbnail: '/assets/projects/bolt/bolt-1-thumb.webp',
     media: [
@@ -1206,13 +1210,13 @@ const COLDSNAP_PROJECTS = [
     tech: ['Lua', 'World of Warcraft API', 'GitHub Actions', 'CI/CD'],
     features: [
       'Game Menu enhancements (Leave Group, Reload UI, Group Tools)',
-      'Mouse-activated skyriding flight controls',
-      'Configurable chat channel sound alerts',
-      'Nameplate mana-user colour highlighting',
-      'Saved instances lockout overview',
-      'Party frames centered growth fix',
-      'Per-module enable/disable configuration',
-      '113+ versioned releases via CI/CD'
+      'Portrait-less unit frames and cast bars in Blizzard\'s own art',
+      'Square minimap with one button bar and an addon button drawer',
+      'Auto-hide for action bars, frames, buffs and the quest tracker',
+      'Nameplates: mana users, interrupt cue, range hint',
+      'Options inside Edit Mode, saved per layout',
+      'Midnight and WoW: Forever from one addon',
+      '140+ releases shipped by CI/CD'
     ],
     links: [
       { label: 'CurseForge', href: 'https://www.curseforge.com/wow/addons/bolt', icon: 'fa-download', style: 'curseforge' },
@@ -1224,17 +1228,17 @@ const COLDSNAP_PROJECTS = [
         'Menu du jeu World of Warcraft revu, avec les raccourcis d\'extension ajoutés par B.O.L.T'
       ],
       type: 'Addon WoW',
-      shortDescription: 'Addon World of Warcraft modulaire : du confort de jeu sans toucher aux mécaniques',
-      description: 'Brittle and Occasionally Lethal Tweaks. Un addon World of Warcraft modulaire qui apporte du confort de jeu sans modifier le gameplay : menu de jeu enrichi, contrôles de vol dynamique avancés, alertes de chat, mise en évidence des lanceurs de sorts à mana, suivi des instances sauvegardées, et plus. Activement maintenu, plus de 113 versions publiées.',
+      shortDescription: 'Addon World of Warcraft modulaire qui redessine l\'interface de Blizzard avec ses propres graphismes, pour Midnight et WoW: Forever',
+      description: 'Brittle and Occasionally Lethal Tweaks. Un addon World of Warcraft fait de petits modules qu\'on active un par un. Les modules Interface redessinent les cadres de Blizzard avec les graphismes de Blizzard : cadres d\'unité sans portrait, minimap carrée avec une seule barre de boutons, barres et cadres qui s\'effacent jusqu\'à ce qu\'on en ait besoin, barres de nom qui signalent les lanceurs de sorts et les sorts interruptibles, minuteur de tir à distance. Tout se règle dans le mode Édition, est enregistré par disposition et partagé par tous vos personnages. Fonctionne sur Midnight et sur WoW: Forever, où il passe aux graphismes bronze de Forever et masque les modules qui reposent sur des systèmes modernes.',
       features: [
         'Menu de jeu enrichi (quitter le groupe, recharger l\'UI, outils de groupe)',
-        'Contrôles de vol dynamique à la souris',
-        'Alertes sonores par canal de chat',
-        'Couleur des barres de nom pour les classes à mana',
-        'Vue d\'ensemble des instances verrouillées',
-        'Correctif de croissance centrée des cadres de groupe',
-        'Activation/désactivation par module',
-        'Plus de 113 versions publiées via CI/CD'
+        'Cadres d\'unité et barres d\'incantation sans portrait, graphismes Blizzard',
+        'Minimap carrée, une seule barre de boutons et un tiroir pour les boutons d\'addons',
+        'Barres d\'action, cadres, buffs et suivi de quêtes masqués jusqu\'au besoin',
+        'Barres de nom : lanceurs à mana, sorts interruptibles, portée',
+        'Options dans le mode Édition, enregistrées par disposition',
+        'Midnight et WoW: Forever avec un seul addon',
+        'Plus de 140 versions publiées via CI/CD'
       ]
     }
   },
@@ -1243,8 +1247,8 @@ const COLDSNAP_PROJECTS = [
     category: 'Open Source',
     type: 'Unity Package',
     title: 'ColdSnap Utilities',
-    shortDescription: 'Reusable Unity C# utility package shared across all ColdSnap projects',
-    description: 'An open-source Unity Package Manager (UPM) library providing shared utilities, helpers, and tools used across all ColdSnap projects. Reduces boilerplate and ensures consistency throughout the studio\'s internal Unity development pipeline.',
+    shortDescription: 'Open-source Unity package: one-window builds for every platform, TestFlight upload, scene quick open and editor helpers',
+    description: 'The Unity package behind every ColdSnap game and kiosk. Platform Builder builds Windows, macOS, Android (APK and App Bundle), WebGL and iOS from one window with saved scene lists, and sends iOS builds to TestFlight from a Windows PC through a macOS runner. Around it: scene quick open, a commit-and-push window, a one-click update check, pivot tools, dark title bars on Windows, a fullscreen WebGL kiosk template and a few runtime helpers. Installs from Git in the Package Manager; versions bump themselves from commit titles.',
     icon: '🛠️',
     thumbnail: '/assets/projects/coldsnap-utilities/utilities-1-thumb.webp',
     media: [
@@ -1256,10 +1260,12 @@ const COLDSNAP_PROJECTS = [
     ],
     tech: ['Unity', 'C#', 'UPM'],
     features: [
-      'Unity Package Manager (UPM) compatible',
-      'Reusable C# utility scripts',
-      'Shared across all ColdSnap Unity projects',
-      'Actively maintained'
+      'Platform Builder: Windows, macOS, Android, WebGL and iOS from one window',
+      'Send to TestFlight from Windows (signed on a macOS runner)',
+      'Scene quick open, Git commit-and-push window, update check',
+      'Pivot tools, Auto Group, teleport player to the Scene camera',
+      'WebGL kiosk template and kiosk setup scripts',
+      'Automatic semantic versioning from commit titles'
     ],
     links: [
       { label: 'GitHub', href: 'https://github.com/Yukisando/com.coldsnap.utilities', icon: 'fa-github' }
@@ -1269,13 +1275,15 @@ const COLDSNAP_PROJECTS = [
         'ColdSnap Utilities dans le Package Manager de Unity, avec son menu Tools et le sélecteur de scènes'
       ],
       type: 'Package Unity',
-      shortDescription: 'Package Unity C# d\'utilitaires partagés par tous les projets ColdSnap',
-      description: 'Une bibliothèque open source pour le Unity Package Manager (UPM) qui regroupe les utilitaires, helpers et outils communs à tous les projets ColdSnap. Moins de code répétitif, plus de cohérence dans le pipeline Unity du studio.',
+      shortDescription: 'Package Unity open source : builds de toutes les plateformes depuis une fenêtre, envoi TestFlight, ouverture rapide des scènes',
+      description: 'Le package Unity derrière chaque jeu et borne ColdSnap. Platform Builder compile pour Windows, macOS, Android (APK et App Bundle), WebGL et iOS depuis une seule fenêtre avec des listes de scènes enregistrées, et envoie les builds iOS sur TestFlight depuis un PC Windows via un runner macOS. Autour : ouverture rapide des scènes, fenêtre de commit et push, vérification des mises à jour en un clic, outils de pivot, barres de titre sombres sous Windows, modèle WebGL plein écran pour bornes et quelques aides runtime. S\'installe depuis Git dans le Package Manager ; les versions montent toutes seules d\'après les titres de commit.',
       features: [
-        'Compatible Unity Package Manager (UPM)',
-        'Scripts utilitaires C# réutilisables',
-        'Partagé par tous les projets Unity ColdSnap',
-        'Activement maintenu'
+        'Platform Builder : Windows, macOS, Android, WebGL et iOS depuis une fenêtre',
+        'Envoi sur TestFlight depuis Windows (signé sur un runner macOS)',
+        'Ouverture rapide des scènes, fenêtre Git commit et push, mises à jour',
+        'Outils de pivot, Auto Group, téléportation du joueur vers la caméra',
+        'Modèle WebGL pour bornes et scripts d\'installation kiosque',
+        'Versionnage sémantique automatique d\'après les commits'
       ]
     }
   },

@@ -274,6 +274,8 @@ function projectPage(project, lang) {
   const links = (project.links || []).map(link => {
     const external = !link.href.startsWith('mailto:');
     const label = lang === 'fr' && link.labelFr ? link.labelFr : link.label;
+    if (link.soon) return `
+          <span class="modal-link ${link.style || ''} soon" aria-disabled="true">${link.icon ? icon(link.icon) + ' ' : ''}${escapeText(label)} <small class="soon-tag">${lang === 'fr' ? 'bientôt' : 'soon'}</small></span>`;
     return `
           <a href="${escapeAttr(resolveHref(link.href))}" class="modal-link ${link.style || (link.secondary ? 'secondary' : '')}"${external ? ' target="_blank" rel="noopener"' : ''}>${link.icon ? icon(link.icon) + ' ' : ''}${escapeText(label)}</a>`;
   }).join('');

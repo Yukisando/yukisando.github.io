@@ -31,7 +31,7 @@
     if (launcher.getAttribute('aria-busy')) return;
     launcher.setAttribute('aria-busy', 'true');
     const script = document.createElement('script');
-    script.src = '/js/request-helper.js?v=20261110a';
+    script.src = '/js/request-helper.js?v=20261110b';
     script.onload = () => { launcher.removeAttribute('aria-busy'); window.CS_HELPER.toggle(); };
     script.onerror = () => { launcher.removeAttribute('aria-busy'); location.hash = 'contact'; openForm(); };
     document.head.appendChild(script);

@@ -17,7 +17,7 @@
     fr: {
       title: 'Votre projet',
       close: 'Fermer',
-      hello: 'Bonjour ! Quatre questions rapides et nous vous montrons des projets proches du vôtre.',
+      hello: 'Bonjour ! 4 questions rapides pour bien démarrer votre projet.',
       skip: 'Passer',
       next: 'Continuer',
       notePlaceholder: 'Quelques mots sur votre idée (facultatif)',
@@ -33,7 +33,7 @@
     en: {
       title: 'Your project',
       close: 'Close',
-      hello: 'Hello! Four quick questions and we will show you projects close to yours.',
+      hello: 'Hello! 4 quick questions to help you get started.',
       skip: 'Skip',
       next: 'Continue',
       notePlaceholder: 'A few words about your idea (optional)',

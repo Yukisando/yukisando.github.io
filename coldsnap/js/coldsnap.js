@@ -370,6 +370,15 @@ function openModal(projectRef, fromCard) {
     linksHTML = `
       <div class="modal-links">
         ${project.links.map(link => {
+    if (link.soon) {
+      return `
+      <span class="modal-link ${link.style || ''} soon" aria-disabled="true">
+        ${link.icon ? `${icon(link.icon)}` : ''}
+        ${i18n.lang === 'fr' && link.labelFr ? link.labelFr : link.label}
+        <small class="soon-tag">${i18n.lang === 'fr' ? 'bientôt' : 'soon'}</small>
+      </span>
+    `;
+    }
           const external = !link.href.startsWith('mailto:');
           return `
           <a href="${escapeAttr(resolveHref(link.href))}" class="modal-link ${link.style ? link.style : (link.secondary ? 'secondary' : '')}"${external ? ' target="_blank" rel="noopener"' : ''}>
@@ -697,6 +706,15 @@ function renderViewer() {
 
   const features = field('features');
   const links = (project.links || []).map(link => {
+    if (link.soon) {
+      return `
+      <span class="modal-link ${link.style || ''} soon" aria-disabled="true">
+        ${link.icon ? `${icon(link.icon)}` : ''}
+        ${i18n.lang === 'fr' && link.labelFr ? link.labelFr : link.label}
+        <small class="soon-tag">${i18n.lang === 'fr' ? 'bientôt' : 'soon'}</small>
+      </span>
+    `;
+    }
     const external = !link.href.startsWith('mailto:');
     return `
       <a href="${escapeAttr(resolveHref(link.href))}" class="modal-link ${link.style ? link.style : (link.secondary ? 'secondary' : '')}"${external ? ' target="_blank" rel="noopener"' : ''}>

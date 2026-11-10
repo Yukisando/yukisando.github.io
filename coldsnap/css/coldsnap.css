@@ -2471,6 +2471,21 @@ video.viewer__shot {
   transform: translateY(-2px);
 }
 
+.modal-link.soon {
+  filter: grayscale(1);
+  opacity: 0.5;
+  cursor: default;
+}
+
+.modal-link.soon:hover {
+  transform: none;
+}
+
+.modal-link .soon-tag {
+  font-size: 0.75em;
+  font-weight: 400;
+}
+
 .modal-link.curseforge {
   background: #f16436;
   color: var(--on-orange);
@@ -3731,18 +3746,26 @@ html[lang="en"] .legal-page [lang="fr"]:not([data-lang]) { display: none; }
   flex-direction: column;
   width: min(380px, calc(100vw - 32px));
   max-height: min(600px, calc(100vh - var(--nav-h) - 100px));
+  isolation: isolate;
+}
+/* Same cloudy edge as the launcher bubble, lighter so the window stays clearly defined. */
+.helper::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
   border-radius: var(--radius);
-  border: 1px solid var(--border-strong);
   background: var(--bg-raised);
-  box-shadow: var(--shadow);
-  overflow: hidden;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.05), var(--shadow);
+  filter: blur(3px);
 }
 .helper[hidden] { display: none; }
 .helper__head {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 14px 16px 12px 20px;
+  margin: 0 12px; /* the dashed line stops short of the soft edges */
+  padding: 14px 4px 12px 8px;
   border-bottom: 1px dashed var(--border-strong);
 }
 .helper__title { font-size: 1rem; }
