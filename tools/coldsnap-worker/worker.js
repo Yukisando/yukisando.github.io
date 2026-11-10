@@ -373,9 +373,13 @@ async function signForm(response, env) {
   if (!key) return response;
   const time = String(Date.now());
   const token = `${time}.${toHex(await crypto.subtle.sign('HMAC', key, encoder.encode(time)))}`;
+  // Each copy differs, so no ETag / Last-Modified: a 304 would keep an old, expired time.
+  const unsigned = new Response(response.body, response);
+  unsigned.headers.delete('ETag');
+  unsigned.headers.delete('Last-Modified');
   return new HTMLRewriter()
     .on('input[name="started"]', { element(el) { el.setAttribute('value', token); } })
-    .transform(response);
+    .transform(unsigned);
 }
 
 // The time the form was served, or 0 when the value is missing, forged or in the future.

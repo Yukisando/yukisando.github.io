@@ -47,8 +47,12 @@ valid signed time, or comes back less than 3 seconds after the page was served. 
 open for more than a day gets "reload the page". Messages with links still arrive, with
 `[lien]` in the subject and the linked domains listed: check them before clicking.
 Without `FORM_SECRET` the form still works, using the time set by `contact.js`, but
-visitors without JavaScript are dropped. Deploy the
-worker before pushing pages that link to `/legal/cgv/` or post to `/api/contact`.
+visitors without JavaScript are dropped. Pages served with a signed time drop their
+`ETag` and `Last-Modified`, so a browser never keeps an old time through a 304.
+
+Deploy the worker before pushing pages that link to `/legal/cgv/` or post to `/api/contact`.
+Exception: push pages first when `contact.js` changes how it fills `started` (an older
+`contact.js` overwrites the signed time, and those posts are dropped).
 
 ## Setup
 
