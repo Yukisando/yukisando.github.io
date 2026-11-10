@@ -61,14 +61,24 @@
   box-sizing: border-box;
 }
 
-* {
-  scrollbar-color: var(--orange) var(--bg-darker);
-  scrollbar-width: thin;
+/* Handle only, no arrow buttons. Chromium (Edge, Chrome) draws arrows whenever the standard
+   scrollbar-color is set, so it gets the ::-webkit-scrollbar styles instead; Firefox, which
+   has no arrows, keeps the standard properties. */
+@supports not selector(::-webkit-scrollbar) {
+  * {
+    scrollbar-color: var(--orange) var(--bg-darker);
+    scrollbar-width: thin;
+  }
 }
 
 *::-webkit-scrollbar {
   width: 0.5em;
+  height: 0.5em;
   background-color: var(--bg-darker);
+}
+
+*::-webkit-scrollbar-button {
+  display: none;
 }
 
 *::-webkit-scrollbar-thumb {
