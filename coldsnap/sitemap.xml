@@ -66,6 +66,22 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://coldsnap.fr/projets/sdana-installation/"/>
   </url>
   <url>
+    <loc>https://coldsnap.fr/projets/helpdetective/</loc>
+    <lastmod>2026-11-10</lastmod>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://coldsnap.fr/projets/helpdetective/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://coldsnap.fr/en/projects/helpdetective/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://coldsnap.fr/projets/helpdetective/"/>
+  </url>
+  <url>
+    <loc>https://coldsnap.fr/en/projects/helpdetective/</loc>
+    <lastmod>2026-11-10</lastmod>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://coldsnap.fr/projets/helpdetective/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://coldsnap.fr/en/projects/helpdetective/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://coldsnap.fr/projets/helpdetective/"/>
+  </url>
+  <url>
     <loc>https://coldsnap.fr/projets/spinlab/</loc>
     <lastmod>2026-11-10</lastmod>
     <priority>0.7</priority>
@@ -208,6 +224,22 @@
     <xhtml:link rel="alternate" hreflang="fr" href="https://coldsnap.fr/projets/maya/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://coldsnap.fr/en/projects/maya/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://coldsnap.fr/projets/maya/"/>
+  </url>
+  <url>
+    <loc>https://coldsnap.fr/projets/propos/</loc>
+    <lastmod>2026-11-10</lastmod>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://coldsnap.fr/projets/propos/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://coldsnap.fr/en/projects/propos/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://coldsnap.fr/projets/propos/"/>
+  </url>
+  <url>
+    <loc>https://coldsnap.fr/en/projects/propos/</loc>
+    <lastmod>2026-11-10</lastmod>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://coldsnap.fr/projets/propos/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://coldsnap.fr/en/projects/propos/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://coldsnap.fr/projets/propos/"/>
   </url>
   <url>
     <loc>https://coldsnap.fr/projets/sandlog/</loc>

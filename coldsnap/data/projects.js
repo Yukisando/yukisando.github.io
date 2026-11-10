@@ -163,6 +163,53 @@ const COLDSNAP_PROJECTS = [
       ]
     }
   },
+  {
+    id: 'helpdetective',
+    category: 'Interactive Installations',
+    fit: ['game', 'school', 'public', 'company'],
+    type: 'VR Training',
+    title: 'HelpDetective',
+    shortDescription: 'Standalone VR on Meta Quest: step into a care job through 360° video, answer questions and spot the dangers',
+    description: 'HelpDetective puts people inside the daily life of care jobs that are little known or undervalued, such as childcare, to make them want to work there. It runs on Meta Quest 2 and 3 headsets, fully offline. A 360° video plays around the player and stops at set moments for a question; between questions, a flashlight is used to spot the dangers hidden in the room. The thumbstick moves smoothly forward and back through time. Scenarios are plain files, and a workshop inside the headset lets trainers create and edit them without a new build. It replaces older web-based 360° tools the client found slow and dated.',
+    icon: '🥽',
+    thumbnail: '/assets/projects/helpdetective/helpdetective-1-thumb.webp',
+    media: [
+      '/assets/projects/helpdetective/helpdetective-1.jpg',
+      '/assets/projects/helpdetective/helpdetective-2.jpg'
+    ],
+    // Descriptions for screen readers and search, one per media item, same order.
+    alt: [
+      'A question panel floating in a 360° video of a living room: what is the adult doing while the child talks?',
+      'HelpDetective menu in the headset with the \'Le salon\' scenario card and the workshop button'
+    ],
+    tech: ['Unity 6', 'OpenXR', 'Meta Quest', 'UI Toolkit', '360° video'],
+    features: [
+      '360° video that pauses for multiple-choice questions',
+      'Flashlight hunt for hidden dangers in each scene',
+      'Smooth scrubbing through time with the thumbstick',
+      'In-headset workshop to create and edit scenarios',
+      'Fully offline on Quest 2 and Quest 3',
+      'Explanations after a wrong answer, then a retry'
+    ],
+    links: [],
+    fr: {
+      alt: [
+        'Un panneau de question flotte dans une vidéo 360° d\'un salon : que fait l\'adulte pendant que l\'enfant lui parle ?',
+        'Menu de HelpDetective dans le casque avec la carte du scénario « Le salon » et le bouton Atelier'
+      ],
+      type: 'Formation en VR',
+      shortDescription: 'VR autonome sur Meta Quest : se glisser dans un métier du soin en vidéo 360°, répondre aux questions et repérer les dangers',
+      description: 'HelpDetective plonge dans le quotidien de métiers du soin méconnus ou peu valorisés, comme la petite enfance, pour donner envie d\'y travailler. Il tourne sur casques Meta Quest 2 et 3, entièrement hors ligne. Une vidéo 360° se joue autour du joueur et s\'arrête à des moments choisis pour poser une question ; entre deux questions, une lampe torche sert à repérer les dangers cachés dans la pièce. Le stick fait avancer et reculer le temps en douceur. Les scénarios sont de simples fichiers, et un atelier dans le casque permet aux formateurs de les créer et de les modifier sans nouvelle version de l\'app. Il remplace d\'anciens outils 360° sur le web que le client trouvait lents et datés.',
+      features: [
+        'Vidéo 360° qui s\'arrête pour des questions à choix multiples',
+        'Chasse aux dangers cachés à la lampe torche',
+        'Avance et retour fluides dans le temps au stick',
+        'Atelier dans le casque pour créer et modifier les scénarios',
+        'Entièrement hors ligne sur Quest 2 et Quest 3',
+        'Explication après une mauvaise réponse, puis nouvel essai'
+      ]
+    }
+  },
 
   // ============================================
   // FLUTTER APPS
@@ -737,6 +784,56 @@ const COLDSNAP_PROJECTS = [
     }
   },
   {
+    id: 'propos',
+    category: 'Flutter Apps',
+    fit: ['app', 'web', 'company'],
+    type: 'Film & TV Tool',
+    title: 'PropOS',
+    shortDescription: 'Fake phone screens for film and TV sets, triggered live from a control room and mirrored in real time',
+    description: 'PropOS plays the screens actors hold on set. A prop phone, tablet or browser joins a session with a short code and shows a believable device: lock and home screens with a scripted clock and battery, incoming and active calls, live text conversations with typing indicators, hacker terminals. From a web control room, the crew loads a scene, fires each beat with a GO button, blacks out or dims a device in one tap and resets everything between takes. Every prop device is mirrored live in the control room using the same widgets, so what the crew sees is exactly what the camera sees. Nothing advances on a timer: the operator paces every take. In development.',
+    icon: '🎬',
+    thumbnail: '/assets/projects/propos/propos-1-thumb.webp',
+    media: [
+      '/assets/projects/propos/propos-1.jpg',
+      '/assets/projects/propos/propos-2.jpg',
+      '/assets/projects/propos/propos-3.jpg'
+    ],
+    // Descriptions for screen readers and search, one per media item, same order.
+    alt: [
+      'Prop phone showing an incoming call from \'Mom\' with Decline and Accept buttons',
+      'Prop messaging screen: a text from Alex, \'Don\'t come home. They\'re watching the house.\'',
+      'Prop lock screen with a scripted clock at 21:47 and a fake carrier name'
+    ],
+    tech: ['Flutter', 'Next.js', 'Firebase Realtime Database', 'Firestore', 'Android', 'iOS', 'Web'],
+    features: [
+      'Phone shell, calls, messaging and terminal templates',
+      'Devices pair with a 6-character code, no accounts',
+      'GO cue list, blackout and remote brightness',
+      'Truthful live mirror of every prop device',
+      'Scripted status bar: clock, battery, carrier',
+      'Event log of every cue and actor tap'
+    ],
+    links: [],
+    fr: {
+      alt: [
+        'Téléphone accessoire affichant un appel entrant de « Mom » avec les boutons Refuser et Accepter',
+        'Écran de messagerie accessoire : un SMS d\'Alex, « Don\'t come home. They\'re watching the house. »',
+        'Écran verrouillé accessoire avec une heure scénarisée à 21:47 et un faux opérateur'
+      ],
+      type: 'Outil cinéma et TV',
+      shortDescription: 'Faux écrans de téléphone pour les tournages, déclenchés en direct depuis une régie et affichés en miroir',
+      description: 'PropOS fait jouer les écrans que les comédiens tiennent sur le plateau. Un téléphone, une tablette ou un navigateur rejoint une session avec un code court et affiche un appareil crédible : écran verrouillé et d\'accueil avec heure et batterie scénarisées, appels entrants et en cours, conversations SMS en direct avec indicateur de saisie, terminaux de hacker. Depuis une régie web, l\'équipe charge une scène, déclenche chaque moment avec un bouton GO, éteint ou baisse la luminosité d\'un appareil en un geste et remet tout à zéro entre les prises. Chaque appareil est affiché en miroir dans la régie avec les mêmes composants, donc l\'équipe voit exactement ce que voit la caméra. Rien n\'avance tout seul : l\'opérateur rythme chaque prise. En développement.',
+      features: [
+        'Modèles téléphone, appel, messagerie et terminal',
+        'Appairage par code à 6 caractères, sans compte',
+        'Liste de cues avec bouton GO, noir et luminosité à distance',
+        'Miroir fidèle et en direct de chaque appareil',
+        'Barre d\'état scénarisée : heure, batterie, opérateur',
+        'Journal de chaque cue et de chaque geste du comédien'
+      ]
+    }
+  },
+  {
     id: 'sandlog',
     category: 'Flutter Apps',
     fit: ['app'],
@@ -998,48 +1095,48 @@ const COLDSNAP_PROJECTS = [
     fit: ['game'],
     type: 'PC Game',
     title: 'GrappleGroove',
-    shortDescription: 'First-person grappling hook parkour game: swing, climb and launch through physics-driven levels',
-    description: 'A fast-paced first-person parkour game built around dual grappling hooks and momentum physics. Players combine rope and pole grapples with wall-running, vaulting, sliding and dynamic spring platforms to blast through increasingly creative levels. Includes a built-in level editor used during development by a multi-person team.',
+    shortDescription: 'First-person grappling hook game in a giant playroom, with a campaign, a level editor and community levels',
+    description: 'A first-person platformer built around two grappling hooks and momentum: swing, reel in and let go at the right moment to fly across a giant toy-filled playroom. The campaign walks through hand-designed levels that each teach one idea. The same level editor used to build them ships in the game: place pieces, test from the camera, set a par time by playing, then publish the level for everyone. Speedrun leaderboards race your best ghost, co-op sessions join by code, and the music is generated live from a toybox of mallets and bells. Built for Steam, with a browser version to try now.',
     icon: '🪝',
-    thumbnail: '/assets/projects/grapple-groove/grapple-groove-1-thumb.webp',
+    thumbnail: '/assets/projects/grapple-groove/grapple-groove-1-thumb.webp?v=20261110',
     media: [
-      '/assets/projects/grapple-groove/grapple-groove-1.png',
-      '/assets/projects/grapple-groove/grapple-groove-2.png'
+      '/assets/projects/grapple-groove/grapple-groove-3.jpg',
+      '/assets/projects/grapple-groove/grapple-groove-4.jpg'
     ],
     // Descriptions for screen readers and search, one per media item, same order.
     alt: [
-      'GrappleGroove first-person view on Tutorial Island, a red glove aiming at the grapple points',
-      'Level editor view of floating white platforms and trigger zones above water'
+      'First-person view in a giant playroom: blue and red gloves, a pool and a yellow platform ahead, bookshelves and bunting behind',
+      'The in-game level editor: Move, Scale and Rotate tools, Test buttons and a green track over water with grapple lines'
     ],
-    tech: ['Unity 6', 'C#', 'URP', 'Spring Physics', 'Android', 'PC'],
+    tech: ['Unity 6', 'C#', 'URP', 'UI Toolkit', 'Netcode for GameObjects', 'Firebase', 'WebGL'],
     features: [
-      'Dual grappling hooks (rope and pole types)',
-      'Full parkour system: wall-run, vault, slide, sprint',
-      'Momentum-based spring platforms and physics objects',
-      'Throwable and grabbable interactive objects',
-      'Checkpoint and respawn system',
-      'In-engine level editor',
-      'Multi-designer level set'
+      'Two grappling hooks driven by momentum physics',
+      'Campaign of hand-designed levels',
+      'In-game level editor with instant test runs',
+      'Publish and play community levels',
+      'Speedrun leaderboards with your best ghost',
+      'Online co-op sessions joined by code',
+      'Procedural toybox music'
     ],
     links: [
-      { label: 'Play', labelFr: 'Jouer', href: 'https://grapplegroove.web.app', icon: 'fa-play' }
+      { label: 'Play in the browser', labelFr: 'Jouer dans le navigateur', href: 'https://gg.coldsnap.fr/', icon: 'fa-play' }
     ],
     fr: {
       alt: [
-        'GrappleGroove en vue subjective sur l\'île tutoriel, un gant rouge vise les points d\'accroche',
-        'Vue de l\'éditeur de niveau : plateformes blanches et zones de déclenchement au-dessus de l\'eau'
+        'Vue subjective dans une salle de jeux géante : gants bleu et rouge, une piscine et une plateforme jaune devant, étagères et guirlandes derrière',
+        'L\'éditeur de niveaux du jeu : outils Déplacer, Échelle et Rotation, boutons de test et une piste verte au-dessus de l\'eau avec des lignes de grappin'
       ],
       type: 'Jeu PC',
-      shortDescription: 'Parkour à la première personne au grappin : balancez-vous, grimpez et décollez à travers des niveaux physiques',
-      description: 'Un jeu de parkour nerveux à la première personne, construit autour de deux grappins et d\'une physique d\'élan. Le joueur combine grappins à corde et à perche, course sur les murs, sauts, glissades et plateformes à ressort pour traverser des niveaux de plus en plus créatifs. Inclut un éditeur de niveaux intégré, utilisé par une équipe de plusieurs level designers.',
+      shortDescription: 'Jeu de grappin à la première personne dans une salle de jeux géante, avec campagne, éditeur de niveaux et niveaux de la communauté',
+      description: 'Un jeu de plateforme à la première personne construit autour de deux grappins et de l\'élan : se balancer, enrouler, lâcher au bon moment pour traverser une salle de jeux géante remplie de jouets. La campagne enchaîne des niveaux conçus à la main, chacun autour d\'une idée. L\'éditeur qui a servi à les construire est dans le jeu : poser des pièces, tester depuis la caméra, fixer un temps de référence en jouant, puis publier le niveau pour tout le monde. Classements de speedrun contre son meilleur fantôme, parties en coopération rejointes par code, et une musique générée en direct à partir d\'une boîte à jouets de marimbas et de clochettes. Pensé pour Steam, avec une version navigateur à essayer dès maintenant.',
       features: [
-        'Deux grappins (corde et perche)',
-        'Parkour complet : course murale, saut, glissade, sprint',
-        'Plateformes à ressort et objets physiques',
-        'Objets interactifs à attraper et lancer',
-        'Checkpoints et réapparition',
-        'Éditeur de niveaux intégré',
-        'Niveaux créés par plusieurs designers'
+        'Deux grappins et une physique d\'élan',
+        'Campagne de niveaux conçus à la main',
+        'Éditeur de niveaux intégré avec test immédiat',
+        'Publier et jouer les niveaux de la communauté',
+        'Classements de speedrun avec son meilleur fantôme',
+        'Coopération en ligne rejointe par code',
+        'Musique générée façon boîte à jouets'
       ]
     }
   },
