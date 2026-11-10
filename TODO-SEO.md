@@ -64,8 +64,8 @@ follow` since 2026-11-09 and out of both sitemaps: they stay reachable for the s
 
 ## Optional: real 301 for nathandecastro.com/coldsnap/
 
-GitHub Pages can't send server redirects, so `nathandecastro.com/coldsnap/` forwards
-visitors with JavaScript (plus a canonical tag). A 301 is a stronger signal, but it
-needs nathandecastro.com's DNS on Cloudflare, plus a worker change so the worker's
-own fetches of `/coldsnap/` aren't redirected too. Ask Claude to set it up if you
-move the DNS.
+GitHub Pages can't send server redirects, so `nathandecastro.com/coldsnap/...` forwards
+visitors with stub pages (`_coldsnap_redirects/`: canonical tag, meta refresh, JavaScript)
+and, for any other `/coldsnap/` path, the root `404.html`. A 301 is a stronger signal, but
+it needs nathandecastro.com's DNS on Cloudflare (a redirect rule would then do it; the
+coldsnap.fr worker no longer fetches anything under `/coldsnap/`).

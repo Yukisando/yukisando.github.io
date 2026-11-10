@@ -1,0 +1,22 @@
+# GitHub Pages (legacy branch build, Jekyll) settings for nathandecastro.com.
+#
+# coldsnap/ is coldsnap.fr: it is deployed to Cloudflare by .github/workflows/deploy-coldsnap.yml
+# and is not part of this site. Old nathandecastro.com/coldsnap/... links forward to
+# coldsnap.fr through the stub pages in _coldsnap_redirects/ and, for any other path, 404.html.
+# Note: Jekyll matches these as name prefixes at any depth ("coldsnap" also hides
+# _layouts/coldsnap-*.html, "less" hides vendor/font-awesome/less): name new files accordingly.
+exclude:
+  - coldsnap
+  - tools
+  - less
+  - node_modules
+  - gulpfile.js
+  - package.json
+  - pinegrow.json
+  - TODO-SEO.md
+  - .vscode
+
+# One stub per old /coldsnap/ page, published at its old address (permalink in each file).
+collections:
+  coldsnap_redirects:
+    output: true

@@ -23,9 +23,10 @@
  * Include once per page:  <script src="js/secrets.js" data-site="home" defer>
  * then award from an egg: window.Secrets.award('konami')
  *
- * The same file is served at /js/secrets.js and /coldsnap/js/secrets.js
- * (coldsnap.fr is a worker in front of /coldsnap/, it cannot reach the root).
- * Edit one, copy to the other.
+ * Two copies of the same file: js/secrets.js (nathandecastro.com/js/secrets.js) and
+ * coldsnap/js/secrets.js (coldsnap.fr/js/secrets.js, deployed to Cloudflare with the
+ * coldsnap/ folder). Edit one, copy to the other. path '/coldsnap/' below only matters
+ * for local previews of the whole repo; on the web the two sites are told apart by host.
  */
 (function () {
   'use strict';

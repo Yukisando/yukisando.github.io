@@ -1,0 +1,22 @@
+# Headers for the files Cloudflare serves without running the worker (tools/coldsnap-worker:
+# /assets/, /fonts/, /css/, /js/, /data/, /vendor/). Pages get theirs from worker.js.
+/*
+  Strict-Transport-Security: max-age=31536000
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=()
+
+# Images and fonts: 30 days. Replace a file in place = bump its ?v= or rename it.
+/assets/*
+  Cache-Control: public, max-age=2592000, stale-while-revalidate=86400
+/fonts/*
+  Cache-Control: public, max-age=2592000, stale-while-revalidate=86400
+
+# CSS, JS and data are only ever linked with a ?v= version (tools/coldsnap-build.mjs),
+# which changes whenever the file does: keep them a year.
+/css/*
+  Cache-Control: public, max-age=31536000, immutable
+/js/*
+  Cache-Control: public, max-age=31536000, immutable
+/data/*
+  Cache-Control: public, max-age=31536000, immutable

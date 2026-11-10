@@ -1,6 +1,8 @@
-# Deploy: npx wrangler@3 deploy  (from this folder; needs CLOUDFLARE_API_TOKEN with
-# Workers Scripts: Edit, and CLOUDFLARE_ACCOUNT_ID). The Brevo key is a secret:
-#   npx wrangler@3 secret put BREVO_API_KEY
+# Deploy: npx wrangler@4 deploy  (from this folder; needs CLOUDFLARE_API_TOKEN and
+# CLOUDFLARE_ACCOUNT_ID). Pushes to master that touch coldsnap/ or this folder deploy
+# automatically (.github/workflows/deploy-coldsnap.yml). Secrets, set once:
+#   npx wrangler@4 secret put BREVO_API_KEY
+#   npx wrangler@4 secret put FORM_SECRET
 name = "coldsnap"
 main = "worker.js"
 compatibility_date = "2025-02-24"
@@ -10,5 +12,36 @@ routes = [
   { pattern = "www.coldsnap.fr", custom_domain = true },
 ]
 
+# The site's files: the repo's coldsnap/ folder. Files under these folders are served
+# straight from Cloudflare (no worker run, no worker quota; headers in coldsnap/_headers).
+# Everything else runs the worker first: pages (language redirect, CSP, signed contact
+# form), /api/contact, /legal/, redirects and the 404 page.
+[assets]
+directory = "../../coldsnap"
+binding = "ASSETS"
+html_handling = "none"
+not_found_handling = "none"
+run_worker_first = [
+  "/*",
+  "!/assets/*",
+  "!/fonts/*",
+  "!/css/*",
+  "!/js/*",
+  "!/data/*",
+  "!/vendor/*",
+]
+
 [vars]
 CONTACT_TO = "contact@coldsnap.fr"
+
+# Test copy at https://coldsnap-next.coldsnap-pro.workers.dev (npx wrangler@4 deploy --env next).
+# Its www/http redirect sends visitors to coldsnap.fr, so test with https:// and the
+# CANONICAL_HOST override below.
+[env.next]
+name = "coldsnap-next"
+workers_dev = true
+routes = []
+
+[env.next.vars]
+CONTACT_TO = "contact@coldsnap.fr"
+CANONICAL_HOST = "coldsnap-next.coldsnap-pro.workers.dev"

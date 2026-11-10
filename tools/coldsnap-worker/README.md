@@ -1,42 +1,72 @@
 # coldsnap.fr worker
 
-`worker.js` is a Cloudflare Worker that serves `https://nathandecastro.com/coldsnap/`
-at `https://coldsnap.fr/`. The ColdSnap page stays in this repo (`coldsnap/`); the
-worker maps `coldsnap.fr/<path>` to `nathandecastro.com/coldsnap/<path>` and
-redirects `www.coldsnap.fr` and `http://` to `https://coldsnap.fr`.
+`worker.js` is the Cloudflare Worker behind `https://coldsnap.fr/`. The site's files are the
+repo's `coldsnap/` folder, uploaded with the worker as
+[Workers Static Assets](https://developers.cloudflare.com/workers/static-assets/)
+(`[assets]` in `wrangler.toml`, binding `ASSETS`). Nothing is fetched from GitHub Pages any
+more, except the shared legal pages (below). `www.coldsnap.fr` and `http://` redirect to
+`https://coldsnap.fr`.
 
 Files in `coldsnap/` reference each other with root paths (`/css/coldsnap.css`,
 `/assets/...`): at coldsnap.fr the root is the `coldsnap/` folder, and both the French
 page (`/`) and the English page (`/en/`) share them. Shared site files use absolute
-`https://nathandecastro.com/...` URLs. On nathandecastro.com the page forwards visitors
-to coldsnap.fr. To preview locally, serve the folder as the root:
+`https://nathandecastro.com/...` URLs. To preview locally, serve the folder as the root:
 `python -m http.server 8765 --directory coldsnap`.
 
-The worker also picks the page language before the page is sent: a visitor with the
-`coldsnap-lang` cookie (set by the FR/EN switch or a `?lang=fr|en` link) gets that
-language, a first-time visitor gets French if their browser's first language is French
-and English otherwise. Crawlers (no `Accept-Language`, bot user agent) are never
-redirected and find the twin page through hreflang.
+## What runs the worker
 
-It keeps pages in Cloudflare's edge cache for 10 minutes (browsers too), images and
-fonts under `/assets/` and `/fonts/` for 30 days in browsers (replace a file in place =
-bump its `?v=` or rename it), and `?v=` files for a year.
+Files under `/assets/`, `/fonts/`, `/css/`, `/js/`, `/data/` and `/vendor/` are served by
+Cloudflare straight from the uploaded files, without running the worker (free and
+unlimited; `run_worker_first` in `wrangler.toml`). Their headers come from
+`coldsnap/_headers`: the security headers, images and fonts for 30 days in browsers
+(replace a file in place = bump its `?v=` or rename it), and CSS, JS and data for a year
+(`immutable`), because pages only ever link them with a `?v=` version. Change one of those
+files = bump its `?v=` (the build does it for the CSS).
 
-It also adds the security headers (HSTS, CSP, nosniff, Referrer-Policy), serves the shared CGV and privacy pages at
-`/legal/cgv/` and `/legal/confidentialite/`, shows `coldsnap/404.html` for unknown
-pages, and handles the contact form at `POST /api/contact` (mailed through Brevo).
+Every other request runs the worker first (free plan: 100k a day): pages, `/api/contact`,
+`/legal/`, `robots.txt`, `sitemap.xml`, redirects and unknown addresses. For pages it:
+
+- picks the language before the page is sent: a visitor with the `coldsnap-lang` cookie
+  (set by the FR/EN switch or a `?lang=fr|en` link) gets that language, a first-time
+  visitor gets French if their browser's first language is French and English otherwise.
+  Crawlers (no `Accept-Language`, bot user agent) are never redirected and find the twin
+  page through hreflang;
+- maps `/dir/` to `dir/index.html` and answers `/dir` with a 301 to `/dir/`, as GitHub
+  Pages did (`html_handling = "none"`, so `/404.html` and the Google verification file keep
+  their exact addresses); `/index.html` gets a 301 to `/`;
+- sends 301s for near-miss project addresses (`/projects/maya`, `/en/projets/maya`);
+- adds the security headers and the CSP, the Cloudflare Web Analytics beacon, and the
+  signed time in the contact form (below);
+- sends pages with `Cache-Control: public, max-age=0, must-revalidate` and no edge cache,
+  so a deploy shows at once;
+- shows `coldsnap/404.html` (status 404) for unknown pages.
+
+It also serves the shared CGV and privacy pages at `/legal/cgv/` and
+`/legal/confidentialite/`, fetched from nathandecastro.com `/apps/generic/...` (GitHub
+Pages), and handles the contact form at `POST /api/contact` (mailed through Brevo).
 
 ## Deploy
 
-From this folder, with `CLOUDFLARE_API_TOKEN` (permissions: Account / Workers Scripts:
-Edit, Account / Account Settings: Read, Zone / DNS: Edit on coldsnap.fr) and
-`CLOUDFLARE_ACCOUNT_ID` set:
+Pushing to `master` deploys: `.github/workflows/deploy-coldsnap.yml` runs
+`npx wrangler@4 deploy` here whenever `coldsnap/` or this folder changes (it can also be run
+by hand from the Actions tab). It needs the repo secret `CLOUDFLARE_API_TOKEN` (Settings >
+Secrets and variables > Actions; permissions: Account / Workers Scripts: Edit, Account /
+Account Settings: Read, Zone / DNS: Edit on coldsnap.fr). The worker's secrets stay on
+Cloudflare across deploys.
 
-    npx wrangler@3 deploy
-    npx wrangler@3 secret put BREVO_API_KEY    # once, and when the key changes
-    npx wrangler@3 secret put FORM_SECRET      # once: any long random string, e.g. `openssl rand -hex 32`
+By hand, from this folder, with `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` set:
 
-`CONTACT_TO` (in `wrangler.toml`) must be a sender verified in Brevo.
+    npx wrangler@4 deploy                       # coldsnap.fr
+    npx wrangler@4 deploy --env next            # test copy: https://coldsnap-next.coldsnap-pro.workers.dev
+    npx wrangler@4 secret put BREVO_API_KEY     # once, and when the key changes
+    npx wrangler@4 secret put FORM_SECRET       # once: any long random string, e.g. `openssl rand -hex 32`
+
+`CONTACT_TO` (in `wrangler.toml`) must be a sender verified in Brevo. The test copy
+(`[env.next]`) has its own secrets; without `BREVO_API_KEY` its form answers "unavailable"
+instead of mailing.
+
+Roll back: `npx wrangler@4 rollback` (previous version, files included), or the dashboard:
+*Workers & Pages* > `coldsnap` > *Deployments* > pick a version > *Deploy*.
 
 ### Contact form spam
 
@@ -50,9 +80,8 @@ Without `FORM_SECRET` the form still works, using the time set by `contact.js`, 
 visitors without JavaScript are dropped. Pages served with a signed time drop their
 `ETag` and `Last-Modified`, so a browser never keeps an old time through a 304.
 
-Deploy the worker before pushing pages that link to `/legal/cgv/` or post to `/api/contact`.
-Exception: push pages first when `contact.js` changes how it fills `started` (an older
-`contact.js` overwrites the signed time, and those posts are dropped).
+Pages and worker now deploy together, so a change to `contact.js` and to the worker can go
+in the same push.
 
 ## Setup
 
@@ -71,7 +100,10 @@ Exception: push pages first when `contact.js` changes how it fills `started` (an
 5. **Email** (if one.com does not host it): *Email* > *Email Routing* > enable,
    add a route `contact@coldsnap.fr` to your inbox and confirm the verification
    email. Cloudflare adds the `MX`/SPF records.
-6. Check `https://coldsnap.fr/`, then push this repo so nathandecastro.com/coldsnap/
-   starts forwarding to it.
+6. Deploy with wrangler (above): the site's files are uploaded with the worker, so the
+   dashboard editor alone cannot deploy it. Then add the `CLOUDFLARE_API_TOKEN` repo secret
+   so pushes deploy.
 
-To update the worker without wrangler, paste `worker.js` in the dashboard editor and add the `BREVO_API_KEY` and `FORM_SECRET` secrets under Settings > Variables.
+Old `nathandecastro.com/coldsnap/...` links: `coldsnap/` is excluded from the GitHub Pages
+site (`_config.yml`); the stub pages in `_coldsnap_redirects/` and the root `404.html`
+forward them to the same path on coldsnap.fr.

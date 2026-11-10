@@ -1,0 +1,52 @@
+name: Deploy coldsnap.fr
+
+# coldsnap.fr is the Cloudflare Worker in tools/coldsnap-worker, which serves the coldsnap/
+# folder as Workers Static Assets. Any push to master that changes either one deploys it.
+# Needs the repo secret CLOUDFLARE_API_TOKEN (Settings > Secrets and variables > Actions).
+on:
+  push:
+    branches: [master, claude/coldsnap-static-assets] # TEMP: the branch deploys the test worker
+    paths:
+      - 'coldsnap/**'
+      - 'tools/coldsnap-worker/**'
+      - '.github/workflows/deploy-coldsnap.yml'
+  workflow_dispatch:
+    inputs:
+      env:
+        description: 'production (coldsnap.fr) or next (coldsnap-next test worker on workers.dev)'
+        type: choice
+        options: [production, next]
+        default: production
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-coldsnap-${{ inputs.env || 'production' }}
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      # The worker's secrets (BREVO_API_KEY, FORM_SECRET) stay on Cloudflare: deploy keeps them.
+      - name: Deploy worker and site files
+        working-directory: tools/coldsnap-worker
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: 2432ed0eb778dd30751496c60dfbe0e0
+          WRANGLER_SEND_METRICS: 'false'
+        run: |
+          if [ "${{ inputs.env }}" = "next" ] || [ "${{ github.ref_name }}" != "master" ]; then
+            npx --yes wrangler@4 deploy --env next
+          else
+            npx --yes wrangler@4 deploy
+          fi

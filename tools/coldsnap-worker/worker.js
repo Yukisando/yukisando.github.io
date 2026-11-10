@@ -1,21 +1,23 @@
-// Cloudflare Worker that serves https://nathandecastro.com/coldsnap/ at https://coldsnap.fr/.
-// coldsnap.fr/<path> is fetched from nathandecastro.com/coldsnap/<path>, so the
-// ColdSnap page keeps living in this repo. See README.md for deployment.
+// Cloudflare Worker that serves https://coldsnap.fr/. The site's files are the repo's
+// coldsnap/ folder, deployed with the worker as Workers Static Assets (binding ASSETS,
+// see wrangler.toml). Files under /assets/, /fonts/, /css/, /js/, /data/ and /vendor/ are served by
+// Cloudflare without running this code (cache headers: coldsnap/_headers); everything
+// else (pages, /api/, /legal/, redirects) comes through here. See README.md.
 //
-// It also:
-// - adds the security headers GitHub Pages cannot send (HSTS, CSP, nosniff...);
+// It:
+// - adds the security headers (HSTS, CSP, nosniff...);
 // - sends first-time visitors to the page in their language (Accept-Language), and
 //   returning ones to the language they picked (coldsnap-lang cookie);
-// - keeps pages in Cloudflare's edge cache, versioned files (?v=...) for a year in
-//   browsers, images and fonts for 30 days;
+// - maps /dir/ to /dir/index.html and /dir to a 301 /dir/, like GitHub Pages did;
 // - adds Cloudflare Web Analytics to every page (cookieless visit counts);
 // - serves the shared legal pages (CGV, privacy) under coldsnap.fr/legal/;
 // - receives the contact form (POST /api/contact) and mails it through Brevo, after
 //   checking the signed timestamp it writes into each page's form (FORM_SECRET).
 
-const CANONICAL_HOST = 'coldsnap.fr';
+// The CANONICAL_HOST var overrides it on the test copy (wrangler.toml, env.next).
+let CANONICAL_HOST = 'coldsnap.fr';
+// The shared legal pages still live on nathandecastro.com (GitHub Pages).
 const ORIGIN = 'https://nathandecastro.com';
-const ORIGIN_PATH = '/coldsnap';
 
 // coldsnap.fr/legal/<name>/ shows the shared legal page from nathandecastro.com.
 const LEGAL_PAGES = {
@@ -23,8 +25,6 @@ const LEGAL_PAGES = {
   '/legal/confidentialite/': '/apps/generic/privacy/',
 };
 
-// Pages cached at the edge for 10 minutes, like GitHub Pages' own max-age.
-const EDGE_TTL = 600;
 // Images and fonts without ?v=: 30 days. Replace a file in place = bump its ?v= or rename it.
 const STATIC_MAX_AGE = 60 * 60 * 24 * 30;
 const STATIC_PATH = /^\/(assets|fonts)\/|^\/favicon\.ico$/;
@@ -68,6 +68,7 @@ const LEGAL_CSP = CSP
 
 export default {
   async fetch(request, env) {
+    if (env.CANONICAL_HOST) CANONICAL_HOST = env.CANONICAL_HOST;
     const url = new URL(request.url);
 
     // www.coldsnap.fr and plain http go to https://coldsnap.fr.
@@ -117,32 +118,22 @@ export default {
     const langRedirect = languageRedirect(request, url);
     if (langRedirect) return langRedirect;
 
-    const upstream = new URL(ORIGIN_PATH + url.pathname + url.search, ORIGIN);
-    const response = await fetch(upstream, {
-      method: request.method,
-      redirect: 'manual',
-      cf: { cacheEverything: true, cacheTtl: EDGE_TTL },
-    });
-
-    // GitHub Pages redirects (e.g. adding a trailing slash) point at nathandecastro.com;
-    // rewrite them so the visitor stays on coldsnap.fr.
-    const location = response.headers.get('Location');
-    if (location) {
-      const target = new URL(location, upstream);
-      if (target.origin === ORIGIN && target.pathname.startsWith(ORIGIN_PATH + '/')) {
-        const headers = new Headers(response.headers);
-        const path = target.pathname.slice(ORIGIN_PATH.length);
-        headers.set('Location', `https://${CANONICAL_HOST}${path}${target.search}${target.hash}`);
-        return withSecurity(new Response(response.body, { status: response.status, headers }), CSP);
+    // html_handling is "none" (wrangler.toml): a folder's page is its index.html, and a
+    // folder without its slash gets a 301 to it, as on GitHub Pages.
+    const isFolder = url.pathname.endsWith('/');
+    let response = await fetchAsset(env, request, url, isFolder ? url.pathname + 'index.html' : url.pathname);
+    if (response.status === 404 && !isFolder && !/\.[a-z0-9]+$/i.test(url.pathname)) {
+      const index = await fetchAsset(env, request, url, url.pathname + '/index.html');
+      if (index.ok) {
+        url.pathname += '/';
+        return withSecurity(Response.redirect(url.toString(), 301), CSP);
       }
     }
 
-    // Unknown pages get the ColdSnap 404 page instead of the GitHub Pages one.
+    // Unknown pages get the ColdSnap 404 page.
     if (response.status === 404 && (request.headers.get('Accept') || '').includes('text/html')) {
-      const page = await fetch(new URL(ORIGIN_PATH + '/404.html', ORIGIN));
-      if (page.ok) {
-        return withSecurity(new Response(page.body, { status: 404, headers: page.headers }), CSP);
-      }
+      const page = await fetchAsset(env, request, url, '/404.html');
+      if (page.ok) response = new Response(page.body, { status: 404, headers: page.headers });
     }
 
     const result = withSecurity(await signForm(response, env), CSP);
@@ -152,15 +143,26 @@ export default {
     } else if (response.ok && STATIC_PATH.test(url.pathname)) {
       result.headers.set('Cache-Control', `public, max-age=${STATIC_MAX_AGE}, stale-while-revalidate=86400`);
     } else if ((result.headers.get('Content-Type') || '').includes('text/html')) {
-      // Pages change with every push: browsers keep them 10 minutes, like GitHub Pages
-      // (Cloudflare's default browser TTL would make it 4 hours). The language redirect
-      // depends on the cookie, so a browser must not reuse a page cached under another choice.
-      result.headers.set('Cache-Control', `public, max-age=${EDGE_TTL}`);
+      // Pages are read from the deployed assets on every visit (no edge cache), so a
+      // deploy shows at once; browsers revalidate too. The language redirect depends on
+      // the cookie, so a browser must not reuse a page cached under another choice.
+      result.headers.set('Cache-Control', 'public, max-age=0, must-revalidate');
       result.headers.append('Vary', 'Cookie');
     }
     return result;
   },
 };
+
+// The deployed file at `path`. Pages get no conditional headers: each copy carries a
+// fresh signed form time (signForm), so a 304 must never keep an old one.
+function fetchAsset(env, request, url, path) {
+  const headers = new Headers(request.headers);
+  if (path.endsWith('.html')) {
+    headers.delete('If-None-Match');
+    headers.delete('If-Modified-Since');
+  }
+  return env.ASSETS.fetch(new Request(new URL(path + url.search, url), { method: request.method, headers }));
+}
 
 // ── Language ─────────────────────────────────────────────────
 // Each page exists in French (/, /projets/<id>/) and English (/en/, /en/projects/<id>/).
