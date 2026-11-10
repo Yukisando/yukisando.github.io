@@ -8,6 +8,7 @@
 //   returning ones to the language they picked (coldsnap-lang cookie);
 // - keeps pages in Cloudflare's edge cache, versioned files (?v=...) for a year in
 //   browsers, images and fonts for 30 days;
+// - adds Cloudflare Web Analytics to every page (cookieless visit counts);
 // - serves the shared legal pages (CGV, privacy) under coldsnap.fr/legal/;
 // - receives the contact form (POST /api/contact) and mails it through Brevo, after
 //   checking the signed timestamp it writes into each page's form (FORM_SECRET).
@@ -40,15 +41,17 @@ const SECURITY_HEADERS = {
 
 // No inline scripts, handlers or style attributes on coldsnap.fr pages: everything is in
 // files (js/boot.js runs first in <head>). Styles set from JavaScript go through the CSSOM
-// (element.style), which the CSP allows. Everything is limited to this site.
+// (element.style), which the CSP allows. Everything is limited to this site, except the
+// Cloudflare Web Analytics beacon (script from static.cloudflareinsights.com, reports to
+// cloudflareinsights.com).
 const CSP = [
   "default-src 'self'",
-  "script-src 'self'",
+  "script-src 'self' https://static.cloudflareinsights.com",
   "style-src 'self'",
   "img-src 'self' data: blob:",
   "media-src 'self' blob:",
   "font-src 'self'",
-  "connect-src 'self'",
+  "connect-src 'self' https://cloudflareinsights.com",
   "frame-ancestors 'self' https://*.coldsnap.fr",
   "base-uri 'self'",
   "form-action 'self'",
@@ -230,13 +233,19 @@ function languageRedirect(request, url) {
   return redirectTo(target, want, false);
 }
 
+// Cloudflare Web Analytics: no cookies, nothing stored on the visitor's device, so no
+// consent banner (legal page explains it). Snippet mode, not Cloudflare's auto-injection,
+// which skipped EU visitors and was blocked by the CSP anyway. The token is public.
+const ANALYTICS = `<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "416255ef04134c149c6f1eb71601832a"}'></script>`;
+
 function withSecurity(response, csp) {
   const result = new Response(response.body, response);
   for (const [name, value] of Object.entries(SECURITY_HEADERS)) result.headers.set(name, value);
-  if ((result.headers.get('Content-Type') || '').includes('text/html')) {
-    result.headers.set('Content-Security-Policy', csp);
-  }
-  return result;
+  if (!(result.headers.get('Content-Type') || '').includes('text/html')) return result;
+  result.headers.set('Content-Security-Policy', csp);
+  return new HTMLRewriter()
+    .on('body', { element(el) { el.append(ANALYTICS, { html: true }); } })
+    .transform(result);
 }
 
 // Root-relative links in the shared legal pages (/css/..., /apps/...) belong to
