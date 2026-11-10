@@ -93,7 +93,8 @@
     'contact.where': 'Basé à',
     'contact.whereValue': 'Mouans-Sartoux, France. Nous travaillons en France et en Suisse, en français ou en anglais.',
     'contact.terms': 'Conditions',
-    'helper.launch': 'Un coup de main ?',
+    'helper.launch': 'Un projet en tête ?',
+    'helper.launchSub': 'Je vous oriente',
     'contact.termsValue': 'Conditions générales de vente (CGV)',
 
     'project.home': 'Accueil',
