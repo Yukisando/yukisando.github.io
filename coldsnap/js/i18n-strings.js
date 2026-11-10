@@ -16,7 +16,10 @@
     'nav.cta': 'Démarrer un projet',
     'nav.menu': 'Menu',
 
-    'hero.lead': 'Applications, jeux et installations interactives sur mesure qui rendent l\'apprentissage ludique.',
+    'hero.lead': 'Applications, jeux et installations interactives sur mesure pour les musées, les écoles, les collectivités et les entreprises.',
+    'hero.hookLead': 'On rend',
+    'hero.hookWords': 'vos expositions ludiques.|la formation ludique.|la visite d\'une ville ludique.|la prévention des risques ludique.|les cours de sciences ludiques.',
+    'hero.hookAll': 'On rend ludiques les expositions, la formation, la visite d\'une ville, la prévention des risques et les cours de sciences.',
     'hero.sub': 'Studio de gamification',
     'hero.cta': 'Démarrer un projet',
     'hero.secondary': 'Voir nos réalisations',
@@ -58,8 +61,6 @@
     'approach.3.text': 'Vous testez, vous nous dites ce qui marche et ce qui ne marche pas, et nous ajustons jusqu\'à ce que ce soit juste.',
     'approach.4.title': 'Nous nous en occupons ensuite',
     'approach.4.text': 'Après la livraison, nous restons disponibles pour les corrections, les mises à jour et les nouvelles fonctionnalités.',
-
-    'hero.audience': 'Pour les musées, les écoles, les collectivités et les entreprises.',
     'clients.label': 'Ils ont travaillé avec nous',
     'contact.direct': 'Ou en direct',
     'form.reply': 'Répondez-moi par',

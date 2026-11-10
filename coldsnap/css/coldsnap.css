@@ -535,8 +535,9 @@ h1, h2, h3 {
 }
 
 .hero__panel a,
-.hero__panel button {
-  pointer-events: auto;
+.hero__panel button,
+.hero__panel .hero__logo {
+  pointer-events: auto;   /* the logo takes clicks for the cold snap egg (js/easter-eggs.js) */
 }
 
 .hero__brand {
@@ -599,10 +600,59 @@ h1.hero__brand-text {
   }
 }
 
-.hero__audience {
-  margin: -16px auto 24px;
-  font-size: 0.92rem;
-  color: var(--text-muted);
+/* Typewriter line under the brand (js/hero-hook.js). Height is reserved by the script. */
+.hero__hook {
+  margin: 0 auto 14px;
+  max-width: 520px;
+}
+
+.hero__hook-line {
+  display: block;
+  font-family: var(--font-brand);
+  font-size: clamp(1.25rem, 2.6vw, 1.6rem);
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--text-primary);
+}
+
+.hero__typed {
+  color: var(--orange);
+}
+
+.hero__caret {
+  display: inline-block;
+  width: 3px;
+  height: 1.05em;
+  margin-left: 2px;
+  vertical-align: -0.12em;
+  border-radius: 2px;
+  background: var(--orange);
+  animation: hero-caret 1s steps(1) infinite;
+}
+
+/* Solid while typing, blinks only while a phrase is held */
+.hero__hook-line:not(.is-holding) .hero__caret {
+  animation: none;
+}
+
+.hero__hook-line.is-still .hero__caret {
+  display: none;
+}
+
+@keyframes hero-caret {
+  50% { opacity: 0; }
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 .hero__lead {
