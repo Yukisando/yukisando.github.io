@@ -43,7 +43,7 @@
     resizeTimer = setTimeout(reserveHeight, 200);
   });
 
-  const HOLD_MS = 2600, FREEZE_MS = 700, SHATTER_MS = 560, RESIZE_MS = 380, THAW_MS = 950, FIRST_DELAY_MS = 900;
+  const HOLD_MS = 1600, FREEZE_MS = 700, SHATTER_MS = 560, RESIZE_MS = 380, THAW_MS = 950, FIRST_DELAY_MS = 900;
   const wait = ms => new Promise(done => setTimeout(done, ms));
   const pageFrozen = () => document.body.classList.contains('is-frozen');
 
