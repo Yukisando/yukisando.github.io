@@ -698,25 +698,15 @@ h1.hero__brand-text {
   color: var(--text-secondary);
 }
 
-/* Where we work: a quiet line under the lead, not part of the pitch. */
-.hero__lead:has(+ .hero__where) {
-  margin-bottom: 10px;
-}
-
+/* Where we work: a quiet line floating under the panel, not part of the pitch. */
 .hero__where {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  margin: 0 auto 28px;
+  position: relative;
+  z-index: 20;
+  margin: 18px auto 0;
   font-size: 0.8rem;
-  color: var(--text-muted, var(--text-secondary));
-  opacity: 0.8;
-}
-
-.hero__where .icon {
-  width: 13px;
-  height: 13px;
+  color: var(--text-muted);
+  text-align: center;
+  pointer-events: none;
 }
 
 /* ── Physics card table ─────────────────────────────────── */
