@@ -62,20 +62,20 @@ const COLDSNAP_PROJECTS = [
     shortDescription: 'Exhibit framework, touchscreen mini-games and an escape game for a public earthquake training centre',
     description: 'A public earthquake training centre in Switzerland where visitors learn, by playing, what an earthquake is and how to react. The technology behind it: 27 interactive stations across 3 spaces with 30+ touchscreen mini-games, designed with seismologists and university professors; a fleet of 30 kiosk tablets updated remotely; Escape With Wallis, an hour-long escape game through the exhibit; and the reservation and payment platform for schools, companies and public services. The centre also houses Europe\'s largest earthquake simulator.',
     icon: '🏛️',
-    thumbnail: '/assets/projects/cpps/cpps-1-thumb.webp',
+    thumbnail: '/assets/projects/cpps/cpps-4-thumb.webp',
     media: [
+      '/assets/projects/cpps/cpps-4.jpg',
       '/assets/projects/cpps/cpps-1.jpg',
       '/assets/projects/cpps/cpps-2.jpg',
       '/assets/projects/cpps/cpps-3.jpg',
-      '/assets/projects/cpps/cpps-4.jpg',
       '/assets/projects/cpps/cpps-5.jpg'
     ],
     // Descriptions for screen readers and search, one per media item, same order.
     alt: [
+      'Exhibition hall with wall screens, a long wooden table of interactive stations and a seismic cable installation',
       'Exhibit corner with a wall touchscreen, Swiss seismic map and rock samples on a wooden counter',
       'Touchscreen game \'The magnitude of an earthquake\': a magnitude slider compares the 1964 Alaska quake with Switzerland',
       'Touchscreen game \'How to locate an earthquake\': seismometers placed on a map of the Alps to find the epicentre',
-      'Exhibition hall with wall screens, a long wooden table of interactive stations and a seismic cable installation',
       'Exhibition space with an illuminated landscape diorama, a wall touchscreen and a wooden house model'
     ],
     stats: [
@@ -97,10 +97,10 @@ const COLDSNAP_PROJECTS = [
     ],
     fr: {
       alt: [
+        'Salle d\'exposition avec écrans muraux, longue table en bois de stations interactives et installation de câble sismique',
         'Coin d\'exposition avec écran tactile mural, carte sismique de la Suisse et échantillons de roche sur un comptoir en bois',
         'Jeu tactile « La magnitude d\'un séisme » : un curseur compare le séisme d\'Alaska de 1964 à la Suisse',
         'Jeu tactile « Localiser un séisme » : des sismomètres placés sur une carte des Alpes pour trouver l\'épicentre',
-        'Salle d\'exposition avec écrans muraux, longue table en bois de stations interactives et installation de câble sismique',
         'Espace d\'exposition avec diorama de paysage éclairé, écran tactile mural et maquette de maison en bois'
       ],
       type: 'Installation muséale',
