@@ -2633,9 +2633,12 @@ video.viewer__shot {
   left: 50%;
   bottom: 28px;
   z-index: 4000;
+  /* left: 50% alone caps a fixed box at half the screen, which squeezed the text on phones */
+  width: max-content;
   max-width: calc(100vw - 32px);
   padding: 12px 20px;
-  border-radius: 999px;
+  border-radius: 22px;
+  text-align: center;
   border: 1px solid var(--border-strong);
   background: rgba(12, 14, 19, 0.92);
   backdrop-filter: blur(10px);

@@ -633,7 +633,7 @@ function renderWork() {
       || COLDSNAP_PROJECTS[0];
     activeProjectId = start.id;
     if (start.id === asked) {
-      requestAnimationFrame(() => document.getElementById('work').scrollIntoView());
+      requestAnimationFrame(() => document.getElementById('work').scrollIntoView({ behavior: 'instant' }));
     }
   }
   renderViewer();
@@ -1759,6 +1759,22 @@ function initNav() {
     if (window.scrollY > 0) window.scrollTo({ top: 0, behavior: prefersReducedMotion() ? 'auto' : 'smooth' });
   });
 
+  // In-page links (#work, #approach, #contact, nav and footer) glide straight from where the
+  // visitor is. The native fragment jump with scroll-behavior: smooth went back to the top
+  // first in some browsers before scrolling down to the section.
+  document.addEventListener('click', e => {
+    if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    const a = e.target.closest('a[href*="#"]');
+    if (!a || a.target) return;
+    const url = new URL(a.href);
+    if (!url.hash || url.origin !== location.origin || url.pathname !== location.pathname || url.search !== location.search) return;
+    const target = document.getElementById(decodeURIComponent(url.hash.slice(1)));
+    if (!target) return;
+    e.preventDefault();
+    target.scrollIntoView({ behavior: prefersReducedMotion() ? 'auto' : 'smooth', block: 'start' });
+    if (location.hash !== url.hash) history.pushState(null, '', url.hash);
+  });
+
   const setOpen = open => {
     nav.classList.toggle('is-open', open);
     toggle.setAttribute('aria-expanded', String(open));
@@ -1873,6 +1889,11 @@ document.addEventListener('DOMContentLoaded', () => {
   initScrollHint();
   initCounters();
   initReveal();
+
+  // Arriving with #section (a nav link on a project page): land there at once, not a glide
+  // down from the top once the page has rendered.
+  const landing = location.hash && document.getElementById(decodeURIComponent(location.hash.slice(1)));
+  if (landing) requestAnimationFrame(() => landing.scrollIntoView({ behavior: 'instant', block: 'start' }));
 
   i18n.onChange(() => {
     renderFilters();
