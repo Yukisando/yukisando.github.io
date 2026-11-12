@@ -2989,6 +2989,25 @@ body.is-chilling:not(.is-frozen)::after {
   transition: opacity 0.25s ease;
 }
 
+/* Every 9s the hero logo gives a small wiggle to invite a tap. It stops for good once
+   clicked: .is-shivering stays on after the first click and replaces this animation. */
+.hero__logo {
+  animation: logo-nudge 9s ease-in-out 5s infinite;
+}
+
+@keyframes logo-nudge {
+  0%, 90%, 100% { transform: none; }
+  91.5% { transform: rotate(-9deg); }
+  93% { transform: rotate(8deg); }
+  94.5% { transform: rotate(-5deg); }
+  96% { transform: rotate(3deg); }
+  97.5% { transform: rotate(-1deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__logo { animation: none; }
+}
+
 .hero__logo.is-shivering {
   animation: shiver 0.3s ease;
 }

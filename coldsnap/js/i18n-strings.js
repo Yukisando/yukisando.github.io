@@ -18,9 +18,9 @@
 
     'hero.lead': 'Applications, jeux et installations interactives sur mesure pour les musées, les écoles, les collectivités et les entreprises.',
     'hero.hookLead': 'On rend',
-    'hero.hookWords': 'vos expositions|vos formations|vos recrutements|vos visites de ville|vos consignes|vos événements|vos leçons|vos séminaires',
+    'hero.hookWords': 'vos expositions|vos formations|vos recrutements|vos visites en ville|vos consignes|vos événements|vos leçons|vos séminaires',
     'hero.hookTail': 'ludiques.',
-    'hero.hookAll': 'On rend ludiques vos expositions, vos formations, vos recrutements, vos visites de ville, vos consignes, vos événements, vos leçons et vos séminaires.',
+    'hero.hookAll': 'On rend ludiques vos expositions, vos formations, vos recrutements, vos visites en ville, vos consignes, vos événements, vos leçons et vos séminaires.',
     'hero.sub': 'Studio de gamification',
     'hero.cta': 'Démarrer un projet',
     'hero.secondary': 'Voir nos réalisations',
