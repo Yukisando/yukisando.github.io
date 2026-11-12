@@ -149,6 +149,7 @@ const shared = (lang, pathFr, pathEn) => ({
   banner: BANNER,
   // js/boot.js, relative to the page so it also loads on nathandecastro.com/coldsnap/.
   boot_src: '../'.repeat((lang === 'fr' ? pathFr : pathEn).split('/').filter(Boolean).length) + `js/boot.js?v=${BOOT_VERSION}`,
+  media_sizes_version: MEDIA_SIZES_VERSION,
   lang,
   og_locale: LANGS[lang].ogLocale,
   og_locale_alt: LANGS[lang].ogLocaleAlt,
@@ -182,6 +183,36 @@ const sizeAttrs = src => {
   const size = webpSize(src);
   return size ? ` width="${size.w}" height="${size.h}"` : '';
 };
+
+// Half-size copies (tools/coldsnap-media.py) that phones pick through srcset.
+const small = src => variant(src, 'sm.webp');
+const srcsetAttr = (src, sizes) => {
+  const big = webpSize(src);
+  const sm = webpSize(small(src));
+  return big && sm ? ` srcset="${escapeAttr(small(src))} ${sm.w}w, ${escapeAttr(src)} ${big.w}w" sizes="${sizes}"` : '';
+};
+
+// Width and height of every viewer image and card thumbnail (and their -sm copies), for the
+// script-made viewer and project cards: js/coldsnap.js reads window.CS_MEDIA_SIZES.
+const mediaSizes = {};
+const addSize = src => {
+  const key = src.split('?')[0];
+  const size = webpSize(key);
+  if (size) mediaSizes[key] = [size.w, size.h];
+};
+for (const p of PROJECTS) {
+  for (const lang of ['en', 'fr']) {
+    const thumb = field(p, 'thumbnail', lang);
+    if (thumb) [thumb, small(thumb)].forEach(addSize);
+    for (const src of field(p, 'media', lang) || []) {
+      const view = variant(src, 'view.webp');
+      [view, small(view)].forEach(addSize);
+    }
+  }
+}
+const mediaSizesJs = `// ${BANNER}\nwindow.CS_MEDIA_SIZES = ${JSON.stringify(mediaSizes)};\n`;
+writeFileSync(join(site, 'data', 'media-sizes.js'), mediaSizesJs);
+const MEDIA_SIZES_VERSION = createHash('sha256').update(mediaSizesJs).digest('hex').slice(0, 10);
 
 // Landscape shots take two gallery columns, phone screenshots one.
 const shotClass = src => {
@@ -238,7 +269,8 @@ const APP_CATEGORY = {
   'Open Source': 'DeveloperApplication',
 };
 const resolveHref = href => (href.startsWith('/apps/') ? 'https://nathandecastro.com' + href : href);
-const ORGANIZATION = { '@type': 'Organization', name: 'ColdSnap', url: `${SITE_URL}/` };
+// Same id as the full Organization block on the homepage.
+const ORGANIZATION = { '@type': 'Organization', '@id': `${SITE_URL}/#organization`, name: 'ColdSnap', url: `${SITE_URL}/` };
 
 const crumbs = items => items.map(([label, href]) => href
   ? `          <li><a href="${href}">${escapeText(label)}</a></li>`
@@ -269,7 +301,7 @@ function projectPage(project, lang) {
         </figure>`
     : `
         <figure class="${shotClass(m.view)}">
-          <a href="${escapeAttr(m.full)}" target="_blank" rel="noopener"><img src="${escapeAttr(m.view)}" alt="${escapeAttr(m.alt)}"${sizeAttrs(m.view)}${i ? ' loading="lazy"' : ' fetchpriority="high"'} decoding="async"></a>
+          <a href="${escapeAttr(m.full)}" target="_blank" rel="noopener"><img src="${escapeAttr(m.view)}"${srcsetAttr(m.view, shotClass(m.view).includes('wide') ? '(max-width: 600px) 100vw, 560px' : '(max-width: 600px) 100vw, 280px')} alt="${escapeAttr(m.alt)}"${sizeAttrs(m.view)}${i ? ' loading="lazy"' : ' fetchpriority="high"'} decoding="async"></a>
         </figure>`).join('');
   const links = (project.links || []).map(link => {
     const external = !link.href.startsWith('mailto:');

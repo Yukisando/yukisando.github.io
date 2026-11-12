@@ -24,7 +24,6 @@
   let launchCard = null;
   let carEl, bodyEl, hudEl, promptEl, exitBtn;
   let car, input, handlers;
-  let targets = [];
   let near = null;
   let rafId = null;
   let lastTime = 0;
@@ -63,10 +62,6 @@
     document.body.append(carEl, promptEl, hudEl);
   }
 
-  function collectTargets() {
-    targets = [...document.querySelectorAll(TARGETS)].filter(el => !el.closest('.modal-overlay'));
-  }
-
   // ── Start / stop ────────────────────────────────────────
   function start(card) {
     if (active || !ready()) return;
@@ -78,7 +73,6 @@
     const sy = rect.top + rect.height / 2;
 
     buildUI();
-    collectTargets();
 
     car = window.CarPhysics.createCarState(sx, sy + window.scrollY, Math.PI / 2);
     input = window.CarPhysics.createInputState();
@@ -143,12 +137,15 @@
     return raw.replace(/\s+/g, ' ').trim().slice(0, 28);
   }
 
+  // Looked up every frame: filters and project cards are re-rendered while driving,
+  // so a list kept from the start would point at elements no longer on the page.
   function nearestTarget(sx, sy) {
     let best = null;
     let bestDist = INTERACT_RANGE;
-    for (const el of targets) {
+    for (const el of document.querySelectorAll(TARGETS)) {
+      if (el.closest('.modal-overlay')) continue;
       const r = el.getBoundingClientRect();
-      if (r.bottom < 0 || r.top > innerHeight) continue;
+      if (!r.width || r.bottom < 0 || r.top > innerHeight) continue;
       const dx = Math.max(r.left - sx, 0, sx - r.right);
       const dy = Math.max(r.top - sy, 0, sy - r.bottom);
       const dist = Math.hypot(dx, dy);

@@ -29,7 +29,7 @@
     'numbers.users': 'utilisateurs par an sur une plateforme de réservation et de paiement',
     'numbers.visitors': 'visiteurs de musée par an sur nos installations',
     'numbers.escape': 'sessions d\'escape game jouées',
-    'numbers.years': 'ans à livrer des logiciels en production',
+    'numbers.served': 'personnes déjà servies par nos logiciels',
 
     'work.title': 'Réalisations',
     'work.filterLabel': 'Filtrer les projets',

@@ -545,6 +545,32 @@ const isVideo = src => /\.(mp4|webm)(\?|$)/i.test(src);
 // A ?v= cache-buster on the original carries over to its copies.
 const mediaVariant = (src, suffix) => src.replace(/\.[a-z0-9]+(\?.*)?$/i, (_, query) => '-' + suffix + (query || ''));
 
+// Viewer stage and project card widths, for srcset: phones get the half-size -sm copies.
+const SHOT_SIZES = '(max-width: 760px) calc(100vw - 32px), 760px';
+const THUMB_SIZES = '(max-width: 760px) 50vw, 300px';
+
+// Size and srcset of an image, from data/media-sizes.js (written by tools/coldsnap-build.mjs).
+function imageSet(src, sizes) {
+  const table = window.CS_MEDIA_SIZES || {};
+  const big = table[src.split('?')[0]];
+  if (!big) return null;
+  const smallSrc = mediaVariant(src, 'sm.webp');
+  const small = table[smallSrc.split('?')[0]];
+  return {
+    width: big[0],
+    height: big[1],
+    srcset: small ? `${smallSrc} ${small[0]}w, ${src} ${big[0]}w` : '',
+    sizes
+  };
+}
+
+function imageAttrs(src, sizes) {
+  const set = imageSet(src, sizes);
+  if (!set) return '';
+  const srcset = set.srcset ? ` srcset="${escapeAttr(set.srcset)}" sizes="${set.sizes}"` : '';
+  return `${srcset} width="${set.width}" height="${set.height}"`;
+}
+
 // A project can swap in its own French screenshots (fr.media, fr.thumbnail).
 function projectMedia(project) {
   const media = i18n.field(project, 'media');
@@ -794,11 +820,17 @@ function renderViewer() {
 // so the pager shows them straight away.
 const preloaded = new Map();
 
-function preloadImage(src, fallback) {
+function preloadImage(src, fallback, sizes) {
   if (!src || preloaded.has(src)) return;
   const img = new Image();
   img.decoding = 'async';
   if (fallback && fallback !== src) img.onerror = () => preloadImage(fallback);
+  // Same srcset as the <img> that will show it, so the browser fetches the copy it will use.
+  const set = sizes && imageSet(src, sizes);
+  if (set && set.srcset) {
+    img.sizes = set.sizes;
+    img.srcset = set.srcset;
+  }
   img.src = src;
   preloaded.set(src, img);
 }
@@ -844,7 +876,7 @@ function preloadNeighbours(list, index) {
   const run = () => [1, -1].forEach(step => {
     const project = list[(index + step + list.length) % list.length];
     const media = projectMedia(project);
-    if (media[0]) preloadImage(media[0].view, media[0].full);
+    if (media[0]) preloadImage(media[0].view, media[0].full, SHOT_SIZES);
     media.forEach(m => preloadImage(m.mini, m.full));
   });
   if (window.requestIdleCallback) requestIdleCallback(run, { timeout: 1500 });
@@ -871,7 +903,7 @@ function renderStage() {
   } else {
     shot = `
       <button type="button" class="viewer__zoom" aria-label="${escapeAttr(i18n.t('viewer.zoom'))}">
-        <img class="viewer__shot" src="${escapeAttr(item.view)}" data-fallback="${escapeAttr(item.full)}" alt="${escapeAttr(item.alt)}" draggable="false">
+        <img class="viewer__shot" src="${escapeAttr(item.view)}"${imageAttrs(item.view, SHOT_SIZES)} data-fallback="${escapeAttr(item.full)}" alt="${escapeAttr(item.alt)}" draggable="false">
       </button>`;
   }
 
@@ -934,6 +966,7 @@ function initViewer() {
     if (el.dataset && el.dataset.fallback) {
       const next = el.dataset.fallback;
       delete el.dataset.fallback;
+      el.removeAttribute('srcset');
       el.src = next;
     }
   }, true);
@@ -1698,7 +1731,7 @@ function createProjectCard(project, i) {
   const active = project.id === activeProjectId;
   const thumbnail = field('thumbnail');
   const thumbnailContent = thumbnail
-    ? `<img src="${thumbnail}" alt="" loading="lazy" draggable="false">`
+    ? `<img src="${thumbnail}"${imageAttrs(thumbnail, THUMB_SIZES)} alt="" loading="lazy" draggable="false">`
     : `<span class="project-placeholder">${project.icon || '🎮'}</span>`;
   const catIcon = CATEGORY_ICONS[project.category] || 'fa-folder';
 
