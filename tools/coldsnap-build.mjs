@@ -63,7 +63,7 @@ try {
 writeFileSync(join(site, 'css', 'coldsnap.min.css'), cssMin);
 const CSS_VERSION = createHash('sha256').update(cssMin).digest('hex').slice(0, 10);
 // 404 and legal pages are written by hand; keep their stylesheet link on the same version.
-for (const page of ['404.html', 'legal/index.html']) {
+for (const page of ['404.html', 'legal/index.html', 'legal/cgv/index.html', 'legal/confidentialite/index.html']) {
   const file = join(site, page);
   const html = readFileSync(file, 'utf8');
   const next = html.replace(/coldsnap(\.min)?\.css\?v=\w+/g, `coldsnap.min.css?v=${CSS_VERSION}`);
@@ -77,8 +77,8 @@ const LANGS = {
 const HOME = {
   fr: { description: FR['meta.description'], ogDescription: FR['meta.ogDescription'] },
   en: {
-    description: 'Gamification studio in France and Switzerland: interactive museum installations, educational games and cross-platform apps.',
-    ogDescription: 'Interactive installations, educational games and cross-platform apps. France & Switzerland.',
+    description: 'Gamification studio on the French Riviera, working worldwide: interactive museum installations, educational games and cross-platform apps.',
+    ogDescription: 'Interactive installations, educational games and cross-platform apps. Based on the French Riviera, working worldwide.',
   },
 };
 // English for the strings the project pages use; French is in i18n-strings.js.
@@ -96,6 +96,8 @@ const EN = {
   'filter.Flutter Apps': 'Apps',
   'filter.Web Platforms': 'Web platforms',
   'filter.Open Source': 'Open source',
+  'project.related': 'Related projects',
+  'project.seeAll': 'All our {service}',
 };
 const say = (lang, key) => (lang === 'fr' && key in FR ? FR[key] : EN[key]);
 const field = (project, name, lang) =>
@@ -123,7 +125,7 @@ function translate(html) {
     }
     return tag;
   });
-  // legal pages on nathandecastro.com take ?lang=fr
+  // the legal pages pick their language from ?lang=fr
   html = html.replace(/(data-legal-href="([^"]+)"[^>]*?\shref=")[^"]*"/g, '$1$2?lang=fr"');
   return html;
 }
@@ -156,6 +158,7 @@ const shared = (lang, pathFr, pathEn) => ({
   path_fr: pathFr,
   path_en: pathEn,
   projects_index: LANGS[lang].projects,
+  ...Object.fromEntries(SERVICES.map(sv => [`svc_${sv.id.replace('-', '_')}`, sv.path[lang]])),
   current_fr: lang === 'fr' ? ' aria-current="page"' : '',
   current_en: lang === 'en' ? ' aria-current="page"' : '',
 });
@@ -279,8 +282,118 @@ const breadcrumbLd = items => ({
   '@type': 'BreadcrumbList',
   itemListElement: items.map(([name, href, url], i) => ({ '@type': 'ListItem', position: i + 1, name, item: url || SITE_URL + href })),
 });
+// ── Service pages ────────────────────────────────────────────
+// One page per kind of work, for people searching "interactive installation", "serious game"...
+// Each lists the matching projects (ids, in this order) under a short factual intro.
+const SERVICES = [
+  {
+    id: 'installations',
+    path: { fr: '/installations-interactives/', en: '/en/interactive-installations/' },
+    projects: ['cpps-exhibit', 'sdana-installation', 'helpdetective', 'exploreum'],
+    fr: {
+      name: 'installations interactives',
+      title: 'Installations interactives pour musées et lieux de visite',
+      intro: 'Bornes et grands écrans tactiles, mini-jeux, escape games et réalité virtuelle pour les musées, les centres de formation et les lieux de visite. Nos installations accueillent environ 30 000 visiteurs par an.',
+    },
+    en: {
+      name: 'interactive installations',
+      title: 'Interactive installations for museums and visitor sites',
+      intro: 'Touchscreen kiosks and large screens, mini-games, escape games and virtual reality for museums, training centres and visitor sites. Our installations welcome about 30,000 visitors a year.',
+    },
+  },
+  {
+    id: 'serious-games',
+    path: { fr: '/jeux-educatifs/', en: '/en/educational-games/' },
+    projects: ['cpps-exhibit', 'helpdetective', 'sdana-installation', 'exploreum', 'seba'],
+    fr: {
+      name: 'jeux éducatifs',
+      title: 'Jeux éducatifs et serious games',
+      intro: 'Des jeux qui font apprendre : quiz, défis, escape games, réalité virtuelle et cartes à collectionner, pour les musées, la formation professionnelle et le grand public.',
+    },
+    en: {
+      name: 'educational games',
+      title: 'Educational games and serious games',
+      intro: 'Games that teach: quizzes, challenges, escape games, virtual reality and collectible cards, for museums, professional training and the general public.',
+    },
+  },
+  {
+    id: 'mobile-apps',
+    path: { fr: '/applications-mobiles/', en: '/en/mobile-apps/' },
+    projects: ['exploreum', 'maya', 'spinlab', 'seba', 'badalone', 'pygmak', 'vidanim', 'propos', 'sandlog', 'badger', 'colismarket', 'patoune'],
+    fr: {
+      name: 'applications mobiles',
+      title: 'Applications mobiles iOS et Android',
+      intro: "Applications sur mesure pour iPhone et Android, développées avec Flutter : une seule base de code pour les deux plateformes, publiée sur l'App Store et Google Play, avec un espace d'administration web quand il en faut un.",
+    },
+    en: {
+      name: 'mobile apps',
+      title: 'iOS and Android mobile apps',
+      intro: 'Custom apps for iPhone and Android, built with Flutter: one codebase for both platforms, published on the App Store and Google Play, with a web admin space when one is needed.',
+    },
+  },
+  {
+    id: 'web-apps',
+    path: { fr: '/applications-web/', en: '/en/web-apps/' },
+    projects: ['winston', 'maya', 'exploreum', 'propos', 'coldsnap-arcade', 'vidanim'],
+    fr: {
+      name: 'applications web',
+      title: 'Applications et plateformes web',
+      intro: "Plateformes web, tableaux de bord et espaces d'administration : la partie web des applications que nous livrons, ou un outil web à part entière.",
+    },
+    en: {
+      name: 'web apps',
+      title: 'Web apps and platforms',
+      intro: 'Web platforms, dashboards and admin spaces: the web side of the apps we deliver, or a web tool in its own right.',
+    },
+  },
+];
+for (const service of SERVICES) {
+  for (const id of service.projects) {
+    if (!PROJECTS.some(p => p.id === id)) throw new Error(`Service ${service.id} lists unknown project ${id}`);
+  }
+}
+const servicesOf = project => SERVICES.filter(sv => sv.projects.includes(project.id));
+
+// A project in a list: thumbnail, title, type, one-line description.
+function projectItem(p, lang) {
+  const thumb = field(p, 'thumbnail', lang);
+  return `          <li>
+            <a href="${projectPath(lang, p.id)}">
+              ${thumb ? `<img src="${escapeAttr(thumb)}" alt=""${sizeAttrs(thumb)} loading="lazy" decoding="async">` : `<span class="sub-list__icon" aria-hidden="true">${p.icon || '✦'}</span>`}
+              <span><strong>${escapeText(p.title)}</strong> <em>${escapeText(field(p, 'type', lang) || '')}</em><span>${escapeText(field(p, 'shortDescription', lang) || '')}</span></span>
+            </a>
+          </li>`;
+}
+
+// Up to three projects that share a service with this one (else its category), in list order.
+function relatedProjects(project) {
+  const pool = servicesOf(project).flatMap(sv => sv.projects).map(id => PROJECTS.find(p => p.id === id));
+  const sameCategory = PROJECTS.filter(p => p.category === project.category);
+  const picked = [];
+  for (const p of [...pool, ...sameCategory]) {
+    if (p.id !== project.id && !picked.includes(p)) picked.push(p);
+    if (picked.length === 3) break;
+  }
+  return picked;
+}
+
 const jsonld = graph => JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }, null, 2)
   .replace(/</g, '\\u003c').replace(/^/gm, '  ');
+
+function related(project, lang) {
+  const list = relatedProjects(project);
+  if (!list.length) return '';
+  const seeAll = servicesOf(project).map(sv =>
+    `<a href="${sv.path[lang]}">${escapeText(say(lang, 'project.seeAll').replace('{service}', sv[lang].name))} ${icon('arrow-right')}</a>`).join(' ');
+  return `
+        <section class="sub-related" aria-labelledby="related-title">
+          <h2 id="related-title">${escapeText(say(lang, 'project.related'))}</h2>
+          <ul class="sub-list">
+${list.map(p => projectItem(p, lang)).join('\n')}
+          </ul>${seeAll ? `
+          <p class="sub-related__more">${seeAll}</p>` : ''}
+        </section>`;
+}
 
 function projectPage(project, lang) {
   const path = projectPath(lang, project.id);
@@ -333,6 +446,7 @@ ${features.map(f => `          <li>${escapeText(f)}</li>`).join('\n')}
         </div>` : ''}${links ? `
         <div class="modal-links sub-links">${links}
         </div>` : ''}
+${related(project, lang)}
         <p class="sub-actions">
           <a class="btn btn--ghost" href="${home}?project=${project.id}#work">${icon('arrow-left')} ${escapeText(say(lang, 'project.viewer'))}</a>
           <a class="btn btn--primary" href="${home}#contact">${escapeText(say(lang, 'nav.cta'))} ${icon('arrow-right')}</a>
@@ -378,15 +492,7 @@ function indexPage(lang) {
       <section class="sub-group" aria-labelledby="cat-${category.toLowerCase().replace(/\W+/g, '-')}">
         <h2 id="cat-${category.toLowerCase().replace(/\W+/g, '-')}">${icon(CATEGORY_ICONS[category] || 'folder')} ${escapeText(say(lang, 'filter.' + category))}</h2>
         <ul class="sub-list">
-${PROJECTS.filter(p => p.category === category).map(p => {
-    const thumb = field(p, 'thumbnail', lang);
-    return `          <li>
-            <a href="${projectPath(lang, p.id)}">
-              ${thumb ? `<img src="${escapeAttr(thumb)}" alt=""${sizeAttrs(thumb)} loading="lazy" decoding="async">` : `<span class="sub-list__icon" aria-hidden="true">${p.icon || '✦'}</span>`}
-              <span><strong>${escapeText(p.title)}</strong> <em>${escapeText(field(p, 'type', lang) || '')}</em><span>${escapeText(field(p, 'shortDescription', lang) || '')}</span></span>
-            </a>
-          </li>`;
-  }).join('\n')}
+${PROJECTS.filter(p => p.category === category).map(p => projectItem(p, lang)).join('\n')}
         </ul>
       </section>`).join('');
   const content = `
@@ -414,6 +520,52 @@ ${PROJECTS.filter(p => p.category === category).map(p => {
     content,
     jsonld: jsonld([list, breadcrumbLd(trail)]),
   }, LANGS.fr.projects, LANGS.en.projects) };
+}
+
+function servicePage(service, lang) {
+  const text = service[lang];
+  const path = service.path[lang];
+  const url = SITE_URL + path;
+  const projects = service.projects.map(id => PROJECTS.find(p => p.id === id));
+  const others = SERVICES.filter(sv => sv !== service).map(sv =>
+    `<a href="${sv.path[lang]}">${escapeText(sv[lang].title)}</a>`).join(' · ');
+  const content = `
+      <header class="sub-head">
+        <h1>${escapeText(text.title)}</h1>
+        <p class="sub-lead">${escapeText(text.intro)}</p>
+      </header>
+      <section class="sub-group">
+        <ul class="sub-list">
+${projects.map(p => projectItem(p, lang)).join('\n')}
+        </ul>
+      </section>
+      <p class="sub-related__more">${others}</p>
+      <p class="sub-actions">
+        <a class="btn btn--primary" href="${LANGS[lang].home}#contact">${escapeText(say(lang, 'nav.cta'))} ${icon('arrow-right')}</a>
+      </p>`;
+  const trail = [[say(lang, 'project.home'), LANGS[lang].home], [text.title, null, url]];
+  const page = {
+    '@type': 'CollectionPage',
+    '@id': url,
+    name: text.title,
+    description: text.intro,
+    url,
+    inLanguage: lang,
+    about: { '@type': 'Service', name: text.title, provider: ORGANIZATION, areaServed: { '@type': 'Place', name: 'Worldwide' } },
+    publisher: ORGANIZATION,
+    hasPart: projects.map(p => ({ '@type': 'CreativeWork', name: p.title, url: SITE_URL + projectPath(lang, p.id) })),
+  };
+  return { path, html: renderSub(lang, {
+    title: escapeAttr(`${text.title} | ColdSnap`),
+    description: escapeAttr(metaDescription(text.intro)),
+    url,
+    url_fr: SITE_URL + service.path.fr,
+    url_en: SITE_URL + service.path.en,
+    image: ogImage(lang),
+    crumbs: crumbs(trail),
+    content,
+    jsonld: jsonld([page, breadcrumbLd(trail)]),
+  }, service.path.fr, service.path.en) };
 }
 
 function renderSub(lang, vars, pathFr, pathEn) {
@@ -467,6 +619,14 @@ for (const lang of ['fr', 'en']) {
   }
 }
 
+// ── Service pages ──
+for (const lang of ['fr', 'en']) {
+  for (const service of SERVICES) {
+    const page = servicePage(service, lang);
+    write(page.path.slice(1) + 'index.html', page.html, lang);
+  }
+}
+
 // ── Sitemap ──────────────────────────────────────────────────
 const lastChange = (...files) => {
   try {
@@ -494,6 +654,7 @@ const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 ${[
   pair(LANGS.fr.home, LANGS.en.home, homeDate, ['1.0', '0.9']),
   pair(LANGS.fr.projects, LANGS.en.projects, projectsDate, ['0.8', '0.7']),
+  ...SERVICES.map(sv => pair(sv.path.fr, sv.path.en, lastChange('tools/coldsnap-build.mjs'), ['0.8', '0.7'])),
   ...PROJECTS.map(p => pair(projectPath('fr', p.id), projectPath('en', p.id), projectsDate, ['0.7', '0.6'])),
   ...LEGAL.map(([path, priority]) => `  <url>
     <loc>${SITE_URL}${path}</loc>
@@ -504,7 +665,7 @@ ${[
 </urlset>
 `;
 writeFileSync(join(site, 'sitemap.xml'), sitemap);
-written.push(`sitemap.xml  ${PROJECTS.length * 2 + 4 + LEGAL.length} URLs`);
+written.push(`sitemap.xml  ${(PROJECTS.length + SERVICES.length) * 2 + 4 + LEGAL.length} URLs`);
 
 console.log(`coldsnap/  ${written.length} files\n  ${written.filter((_, i) => i < 4 || i >= written.length - 1).join('\n  ')}\n  …`);
 if (missing.size) console.warn(`No French for: ${[...missing].join(', ')}`);

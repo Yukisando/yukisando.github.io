@@ -10,21 +10,11 @@
 //   returning ones to the language they picked (coldsnap-lang cookie);
 // - maps /dir/ to /dir/index.html and /dir to a 301 /dir/, like GitHub Pages did;
 // - adds Cloudflare Web Analytics to every page (cookieless visit counts);
-// - serves the shared legal pages (CGV, privacy) under coldsnap.fr/legal/;
 // - receives the contact form (POST /api/contact) and mails it through Brevo, after
 //   checking the signed timestamp it writes into each page's form (FORM_SECRET).
 
 // The CANONICAL_HOST var overrides it on the test copy (wrangler.toml, env.next).
 let CANONICAL_HOST = 'coldsnap.fr';
-// The shared legal pages still live on nathandecastro.com (GitHub Pages).
-const ORIGIN = 'https://nathandecastro.com';
-
-// coldsnap.fr/legal/<name>/ shows the shared legal page from nathandecastro.com.
-const LEGAL_PAGES = {
-  '/legal/cgv/': '/apps/generic/cgv/',
-  '/legal/confidentialite/': '/apps/generic/privacy/',
-};
-
 // Images and fonts without ?v=: 30 days. Replace a file in place = bump its ?v= or rename it.
 const STATIC_MAX_AGE = 60 * 60 * 24 * 30;
 const STATIC_PATH = /^\/(assets|fonts)\/|^\/favicon\.ico$/;
@@ -58,14 +48,6 @@ const CSP = [
   "object-src 'none'",
 ].join('; ');
 
-// The shared legal pages (CGV, privacy) come from nathandecastro.com, load their files from
-// there and use inline scripts and styles of their own.
-const LEGAL_CSP = CSP
-  .replace("script-src 'self'", `script-src 'self' 'unsafe-inline' ${ORIGIN}`)
-  .replace("style-src 'self'", `style-src 'self' 'unsafe-inline' ${ORIGIN}`)
-  .replace("img-src 'self'", `img-src 'self' ${ORIGIN}`)
-  .replace("font-src 'self'", `font-src 'self' ${ORIGIN}`);
-
 export default {
   async fetch(request, env) {
     if (env.CANONICAL_HOST) CANONICAL_HOST = env.CANONICAL_HOST;
@@ -91,15 +73,6 @@ export default {
 
     if (request.method !== 'GET' && request.method !== 'HEAD') {
       return new Response('Method Not Allowed', { status: 405, headers: { Allow: 'GET, HEAD' } });
-    }
-
-    const legalPath = LEGAL_PAGES[url.pathname] || LEGAL_PAGES[url.pathname + '/'];
-    if (legalPath) {
-      if (!url.pathname.endsWith('/')) {
-        url.pathname += '/';
-        return Response.redirect(url.toString(), 301);
-      }
-      return withSecurity(await fetchLegalPage(request, legalPath, url.search), LEGAL_CSP);
     }
 
     // Near-miss project addresses (/projects/, /projet/maya, /en/projets/maya) get a 301 to
@@ -165,20 +138,29 @@ function fetchAsset(env, request, url, path) {
 }
 
 // ── Language ─────────────────────────────────────────────────
-// Each page exists in French (/, /projets/<id>/) and English (/en/, /en/projects/<id>/).
+// Each page exists in French (/, /projets/<id>/, service pages) and English (/en/, /en/projects/<id>/, ...).
 // Deciding here, before the page is sent, costs one short redirect instead of loading
 // the French page and then the English one. Search engines send no Accept-Language
 // and no cookie, so they always get the page they asked for and find its twin through
 // hreflang.
+// Service pages (SERVICES in tools/coldsnap-build.mjs): French path -> English path.
+const SERVICE_TWINS = {
+  '/installations-interactives/': '/en/interactive-installations/',
+  '/jeux-educatifs/': '/en/educational-games/',
+  '/applications-mobiles/': '/en/mobile-apps/',
+  '/applications-web/': '/en/web-apps/',
+};
+const SERVICE_TWINS_EN = Object.fromEntries(Object.entries(SERVICE_TWINS).map(([fr, en]) => [en, fr]));
+
 function pageLang(path) {
-  if (path === '/' || path.startsWith('/projets/')) return 'fr';
-  if (path === '/en/' || path.startsWith('/en/projects/')) return 'en';
+  if (path === '/' || path.startsWith('/projets/') || SERVICE_TWINS[path]) return 'fr';
+  if (path === '/en/' || path.startsWith('/en/projects/') || SERVICE_TWINS_EN[path]) return 'en';
   return null; // legal pages, files: one version only
 }
 
 function twinPath(path, lang) {
-  if (lang === 'en') return path === '/' ? '/en/' : path.replace(/^\/projets\//, '/en/projects/');
-  return path === '/en/' ? '/' : path.replace(/^\/en\/projects\//, '/projets/');
+  if (lang === 'en') return SERVICE_TWINS[path] || (path === '/' ? '/en/' : path.replace(/^\/projets\//, '/en/projects/'));
+  return SERVICE_TWINS_EN[path] || (path === '/en/' ? '/' : path.replace(/^\/en\/projects\//, '/projets/'));
 }
 
 function readCookie(request, name) {
@@ -248,24 +230,6 @@ function withSecurity(response, csp) {
   return new HTMLRewriter()
     .on('body', { element(el) { el.append(ANALYTICS, { html: true }); } })
     .transform(result);
-}
-
-// Root-relative links in the shared legal pages (/css/..., /apps/...) belong to
-// nathandecastro.com, not to coldsnap.fr: make them absolute.
-async function fetchLegalPage(request, path, search) {
-  const response = await fetch(new URL(path + search, ORIGIN), { method: request.method });
-  const absolute = attr => ({
-    element(el) {
-      const value = el.getAttribute(attr);
-      if (value && value.startsWith('/') && !value.startsWith('//')) el.setAttribute(attr, ORIGIN + value);
-    },
-  });
-  return new HTMLRewriter()
-    .on('link[href]', absolute('href'))
-    .on('a[href]', absolute('href'))
-    .on('script[src]', absolute('src'))
-    .on('img[src]', absolute('src'))
-    .transform(response);
 }
 
 // ── Contact form ─────────────────────────────────────────────

@@ -698,6 +698,27 @@ h1.hero__brand-text {
   color: var(--text-secondary);
 }
 
+/* Where we work: a quiet line under the lead, not part of the pitch. */
+.hero__lead:has(+ .hero__where) {
+  margin-bottom: 10px;
+}
+
+.hero__where {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin: 0 auto 28px;
+  font-size: 0.8rem;
+  color: var(--text-muted, var(--text-secondary));
+  opacity: 0.8;
+}
+
+.hero__where .icon {
+  width: 13px;
+  height: 13px;
+}
+
 /* ── Physics card table ─────────────────────────────────── */
 .card-table {
   position: absolute;
@@ -2093,7 +2114,7 @@ video.viewer__shot {
 
 .cs-footer__grid {
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1fr;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
   gap: 28px;
 }
 
@@ -3663,6 +3684,29 @@ kbd {
 
 .sub-links {
   margin-top: 32px;
+}
+
+.sub-related {
+  margin-top: 40px;
+}
+
+.sub-related h2 {
+  margin-bottom: 14px;
+  font-size: 1.3rem;
+}
+
+.sub-related__more {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  margin-top: 16px;
+  font-weight: 700;
+}
+
+.sub-related__more a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .sub-actions {

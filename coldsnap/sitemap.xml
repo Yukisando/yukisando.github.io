@@ -34,6 +34,70 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://coldsnap.fr/projets/"/>
   </url>
   <url>
+    <loc>https://coldsnap.fr/installations-interactives/</loc>
+    <lastmod>2026-11-12</lastmod>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://coldsnap.fr/installations-interactives/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://coldsnap.fr/en/interactive-installations/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://coldsnap.fr/installations-interactives/"/>
+  </url>
+  <url>
+    <loc>https://coldsnap.fr/en/interactive-installations/</loc>
+    <lastmod>2026-11-12</lastmod>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://coldsnap.fr/installations-interactives/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://coldsnap.fr/en/interactive-installations/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://coldsnap.fr/installations-interactives/"/>
+  </url>
+  <url>
+    <loc>https://coldsnap.fr/jeux-educatifs/</loc>
+    <lastmod>2026-11-12</lastmod>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://coldsnap.fr/jeux-educatifs/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://coldsnap.fr/en/educational-games/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://coldsnap.fr/jeux-educatifs/"/>
+  </url>
+  <url>
+    <loc>https://coldsnap.fr/en/educational-games/</loc>
+    <lastmod>2026-11-12</lastmod>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://coldsnap.fr/jeux-educatifs/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://coldsnap.fr/en/educational-games/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://coldsnap.fr/jeux-educatifs/"/>
+  </url>
+  <url>
+    <loc>https://coldsnap.fr/applications-mobiles/</loc>
+    <lastmod>2026-11-12</lastmod>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://coldsnap.fr/applications-mobiles/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://coldsnap.fr/en/mobile-apps/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://coldsnap.fr/applications-mobiles/"/>
+  </url>
+  <url>
+    <loc>https://coldsnap.fr/en/mobile-apps/</loc>
+    <lastmod>2026-11-12</lastmod>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://coldsnap.fr/applications-mobiles/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://coldsnap.fr/en/mobile-apps/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://coldsnap.fr/applications-mobiles/"/>
+  </url>
+  <url>
+    <loc>https://coldsnap.fr/applications-web/</loc>
+    <lastmod>2026-11-12</lastmod>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://coldsnap.fr/applications-web/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://coldsnap.fr/en/web-apps/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://coldsnap.fr/applications-web/"/>
+  </url>
+  <url>
+    <loc>https://coldsnap.fr/en/web-apps/</loc>
+    <lastmod>2026-11-12</lastmod>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://coldsnap.fr/applications-web/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://coldsnap.fr/en/web-apps/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://coldsnap.fr/applications-web/"/>
+  </url>
+  <url>
     <loc>https://coldsnap.fr/projets/cpps-exhibit/</loc>
     <lastmod>2026-11-10</lastmod>
     <priority>0.7</priority>

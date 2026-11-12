@@ -41,9 +41,8 @@ Every other request runs the worker first (free plan: 100k a day): pages, `/api/
   so a deploy shows at once;
 - shows `coldsnap/404.html` (status 404) for unknown pages.
 
-It also serves the shared CGV and privacy pages at `/legal/cgv/` and
-`/legal/confidentialite/`, fetched from nathandecastro.com `/apps/generic/...` (GitHub
-Pages), and handles the contact form at `POST /api/contact` (mailed through Brevo).
+The legal pages (`/legal/`, `/legal/cgv/`, `/legal/confidentialite/`) are static files in
+`coldsnap/legal/`. It also handles the contact form at `POST /api/contact` (mailed through Brevo).
 
 ## Deploy
 

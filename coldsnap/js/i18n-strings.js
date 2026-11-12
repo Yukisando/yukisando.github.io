@@ -6,8 +6,8 @@
  */
 (function () {
   const FR = {
-    'meta.description': 'Studio de gamification en France et en Suisse : installations interactives pour musées, jeux éducatifs et applications multiplateformes sur mesure.',
-    'meta.ogDescription': 'Installations interactives, jeux éducatifs et applications multiplateformes. France et Suisse.',
+    'meta.description': 'Studio de gamification sur la Côte d\'Azur, actif dans le monde entier : installations interactives pour musées, jeux éducatifs et applications multiplateformes sur mesure.',
+    'meta.ogDescription': 'Installations interactives, jeux éducatifs et applications multiplateformes. Basés sur la Côte d\'Azur, nous travaillons partout dans le monde.',
     'skip': 'Aller au contenu',
     'lang.label': 'Langue',
 
@@ -21,6 +21,7 @@
     'hero.hookWords': 'vos expositions|vos formations|vos recrutements|vos visites en ville|vos consignes|vos événements|vos leçons|vos séminaires',
     'hero.hookTail': 'ludiques.',
     'hero.hookAll': 'On rend ludiques vos expositions, vos formations, vos recrutements, vos visites en ville, vos consignes, vos événements, vos leçons et vos séminaires.',
+    'hero.where': 'Basés sur la Côte d\'Azur, actifs dans le monde entier',
     'hero.sub': 'Studio de gamification',
     'hero.cta': 'Démarrer un projet',
     'hero.secondary': 'Voir nos réalisations',
@@ -93,7 +94,7 @@
     'contact.lead': 'Dites-nous ce que vous avez en tête. Nous revenons vers vous avec des questions, des idées et un devis clair.',
     'contact.subject': 'Nouveau projet',
     'contact.where': 'Basé à',
-    'contact.whereValue': 'Mouans-Sartoux, France. Nous travaillons en France et en Suisse, en français ou en anglais.',
+    'contact.whereValue': 'Mouans-Sartoux, sur la Côte d\'Azur. Nous travaillons partout dans le monde, en français ou en anglais.',
     'contact.terms': 'Conditions',
     'helper.launch': 'Un projet en tête ?',
     'helper.launchSub': 'Démarrons ensemble',
@@ -105,6 +106,13 @@
     'footer.projects': 'Tous les projets',
     '404.continue': 'CONTINUER ?',
     '404.home': 'Retour à l\'accueil',
+    'footer.services': 'Services',
+    'footer.svc.installations': 'Installations interactives',
+    'footer.svc.games': 'Jeux éducatifs',
+    'footer.svc.mobile': 'Applications mobiles',
+    'footer.svc.web': 'Applications web',
+    'project.related': 'Projets proches',
+    'project.seeAll': 'Toutes nos {service}',
     'footer.tagline': 'Rendre l\'apprentissage ludique grâce à la gamification.',
     'footer.contact': 'Contact',
     'footer.founder': 'Fondateur',
