@@ -627,6 +627,36 @@ for (const lang of ['fr', 'en']) {
   }
 }
 
+// ── llms.txt ─────────────────────────────────────────────────
+// Plain-text summary for AI assistants and agents (llmstxt.org): who ColdSnap is, what it
+// offers, and links to every service and project page. English, with the French pages linked.
+const llms = `# ColdSnap
+
+> ${HOME.en.description}
+
+ColdSnap is a gamification studio based in Mouans-Sartoux (French Riviera, France), working with clients worldwide in French or English. Clients are museums, science and training centres, schools, local authorities and companies. Legal entity: Nathan de Castro Fernandes EI, trading as ColdSnap, SIRET 940 000 649 00019, VAT FR14940000649.
+
+- Contact: contact@coldsnap.fr, +33 6 27 64 80 28, or the form at ${SITE_URL}/en/#contact
+- Site in French: ${SITE_URL}/ · in English: ${SITE_URL}/en/
+
+## Services
+
+${SERVICES.map(sv => `- [${sv.en.title}](${SITE_URL}${sv.path.en}): ${sv.en.intro}`).join('\n')}
+
+## Projects
+
+${PROJECTS.map(p => `- [${p.title}](${SITE_URL}${projectPath('en', p.id)}) (${p.type || p.category}): ${p.shortDescription || ''}`).join('\n')}
+
+## Optional
+
+- [All projects](${SITE_URL}${LANGS.en.projects})
+- [Legal notice](${SITE_URL}/legal/?lang=en)
+- [Terms of sale](${SITE_URL}/legal/cgv/?lang=en)
+- [Privacy policy](${SITE_URL}/legal/confidentialite/?lang=en)
+`;
+writeFileSync(join(site, 'llms.txt'), llms);
+written.push(`llms.txt  ${(Buffer.byteLength(llms) / 1024).toFixed(1)} KB`);
+
 // ── Sitemap ──────────────────────────────────────────────────
 const lastChange = (...files) => {
   try {

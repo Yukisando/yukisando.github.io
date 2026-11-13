@@ -1,0 +1,49 @@
+# ColdSnap
+
+> Gamification studio on the French Riviera, working worldwide: interactive museum installations, educational games and cross-platform apps.
+
+ColdSnap is a gamification studio based in Mouans-Sartoux (French Riviera, France), working with clients worldwide in French or English. Clients are museums, science and training centres, schools, local authorities and companies. Legal entity: Nathan de Castro Fernandes EI, trading as ColdSnap, SIRET 940 000 649 00019, VAT FR14940000649.
+
+- Contact: contact@coldsnap.fr, +33 6 27 64 80 28, or the form at https://coldsnap.fr/en/#contact
+- Site in French: https://coldsnap.fr/ · in English: https://coldsnap.fr/en/
+
+## Services
+
+- [Interactive installations for museums and visitor sites](https://coldsnap.fr/en/interactive-installations/): Touchscreen kiosks and large screens, mini-games, escape games and virtual reality for museums, training centres and visitor sites. Our installations welcome about 30,000 visitors a year.
+- [Educational games and serious games](https://coldsnap.fr/en/educational-games/): Games that teach: quizzes, challenges, escape games, virtual reality and collectible cards, for museums, professional training and the general public.
+- [iOS and Android mobile apps](https://coldsnap.fr/en/mobile-apps/): Custom apps for iPhone and Android, built with Flutter: one codebase for both platforms, published on the App Store and Google Play, with a web admin space when one is needed.
+- [Web apps and platforms](https://coldsnap.fr/en/web-apps/): Web platforms, dashboards and admin spaces: the web side of the apps we deliver, or a web tool in its own right.
+
+## Projects
+
+- [CPPS Earthquake Museum](https://coldsnap.fr/en/projects/cpps-exhibit/) (Museum Installation): Exhibit framework, touchscreen mini-games and an escape game for a public earthquake training centre
+- [Exploreum](https://coldsnap.fr/en/projects/exploreum/) (Edutainment App): Museums, towns and walks turned into interactive stories to play on your phone
+- [Maya](https://coldsnap.fr/en/projects/maya/) (Town App): The town hall in every resident's pocket: news, alerts, polls, problem reports and local shops
+- [SpinLab](https://coldsnap.fr/en/projects/spinlab/) (Mobile App): Platform connecting tennis players with certified coaches for booking lessons
+- [SDANA Natural Hazards Installation](https://coldsnap.fr/en/projects/sdana-installation/) (Touchscreen Installation): Large-format educational touchscreen teaching visitors about natural hazards in Valais
+- [Winston](https://coldsnap.fr/en/projects/winston/) (Web App): Company-wide admin butler: accounting, contracts, invoicing and AI-powered LinkedIn management in one dashboard
+- [Vidanim](https://coldsnap.fr/en/projects/vidanim/) (Mobile/Web App): Activity library for teachers and animators to document, estimate, and share creative work
+- [ColdSnap Arcade](https://coldsnap.fr/en/projects/coldsnap-arcade/) (Retro Arcade): Games written for real retro consoles, playable in the browser, with a shared leaderboard
+- [Pygmak](https://coldsnap.fr/en/projects/pygmak/) (Mobile Game): Survivors-style arcade on the water: steer a flagship, blast crate hordes, build a run one card at a time
+- [Seba](https://coldsnap.fr/en/projects/seba/) (Card Game): Collect over 900 mythical creatures and gods, nearly all shown on historic artworks
+- [Badalone](https://coldsnap.fr/en/projects/badalone/) (Card Game): Open packs of real, ridiculous patents drawn from 12 million inventions
+- [Petites Attentions](https://coldsnap.fr/en/projects/helpdetective/) (VR Training): Standalone VR on Meta Quest: step into a care job through 360° video, answer questions and spot the dangers
+- [PropOS](https://coldsnap.fr/en/projects/propos/) (Film & TV Tool): Fake phone screens for film and TV sets, triggered live from a control room and mirrored in real time
+- [Sandlog](https://coldsnap.fr/en/projects/sandlog/) (Mobile App): Voice dream journal: open the app, speak, and your dream is saved automatically
+- [Badger](https://coldsnap.fr/en/projects/badger/) (Mobile App): NFC-powered digital business card, share contacts by tapping phones
+- [ColisMarket](https://coldsnap.fr/en/projects/colismarket/) (Mobile App): Parcel relay point management app with OCR scanning for package tracking
+- [Patoune](https://coldsnap.fr/en/projects/patoune/) (Mobile App): Cat claw trimming tracker to visualize and schedule your cat's nail maintenance
+- [Posti](https://coldsnap.fr/en/projects/posti/) (Desktop App): Minimalist always-on-top system tray todo and notes app for desktop
+- [GrappleGroove](https://coldsnap.fr/en/projects/grapple-groove/) (PC Game): First-person grappling hook game in a giant playroom, with a campaign, a level editor and community levels
+- [ShareKM](https://coldsnap.fr/en/projects/sharekm/) (Windows App): Share one keyboard and mouse between two Windows PCs, with encrypted pairing and shared clipboard
+- [WaddonSync](https://coldsnap.fr/en/projects/waddonsync/) (Desktop App): Backup World of Warcraft addon data to Google Drive automatically
+- [Magic Arrow](https://coldsnap.fr/en/projects/magic-arrow/) (Minecraft Plugin): Minecraft plugin adding block-placing and elemental abilities to bows based on the block you stand on
+- [B.O.L.T](https://coldsnap.fr/en/projects/bolt/) (WoW Addon): Modular World of Warcraft addon that restyles Blizzard's own UI and adds small quality-of-life tweaks, for Midnight and WoW: Forever
+- [ColdSnap Utilities](https://coldsnap.fr/en/projects/coldsnap-utilities/) (Unity Package): Open-source Unity package: one-window builds for every platform, TestFlight upload, scene quick open and editor helpers
+
+## Optional
+
+- [All projects](https://coldsnap.fr/en/projects/)
+- [Legal notice](https://coldsnap.fr/legal/?lang=en)
+- [Terms of sale](https://coldsnap.fr/legal/cgv/?lang=en)
+- [Privacy policy](https://coldsnap.fr/legal/confidentialite/?lang=en)

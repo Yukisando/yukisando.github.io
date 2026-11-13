@@ -6,7 +6,7 @@
  */
 (function () {
   const FR = {
-    'meta.description': 'Studio de gamification sur la Côte d\'Azur, actif dans le monde entier : installations interactives pour musées, jeux éducatifs et applications multiplateformes sur mesure.',
+    'meta.description': 'Studio de gamification sur la Côte d\'Azur : installations interactives pour musées, jeux éducatifs et applications sur mesure, partout dans le monde.',
     'meta.ogDescription': 'Installations interactives, jeux éducatifs et applications multiplateformes. Basés sur la Côte d\'Azur, nous travaillons partout dans le monde.',
     'skip': 'Aller au contenu',
     'lang.label': 'Langue',
