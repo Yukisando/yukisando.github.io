@@ -63,7 +63,7 @@ try {
 writeFileSync(join(site, 'css', 'coldsnap.min.css'), cssMin);
 const CSS_VERSION = createHash('sha256').update(cssMin).digest('hex').slice(0, 10);
 // 404 and legal pages are written by hand; keep their stylesheet link on the same version.
-for (const page of ['404.html', 'legal/index.html', 'legal/cgv/index.html', 'legal/confidentialite/index.html']) {
+for (const page of ['404.html', 'legal/index.html', 'legal/cgv/index.html', 'legal/confidentialite/index.html', 'legal/charte/index.html']) {
   const file = join(site, page);
   const html = readFileSync(file, 'utf8');
   const next = html.replace(/coldsnap(\.min)?\.css\?v=\w+/g, `coldsnap.min.css?v=${CSS_VERSION}`);
