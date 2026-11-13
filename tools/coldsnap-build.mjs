@@ -347,10 +347,12 @@ const SERVICES = [
     },
   },
 ];
+// Projects marked hidden: true in projects.js are already filtered out; drop them here too, with a note.
 for (const service of SERVICES) {
   for (const id of service.projects) {
-    if (!PROJECTS.some(p => p.id === id)) throw new Error(`Service ${service.id} lists unknown project ${id}`);
+    if (!PROJECTS.some(p => p.id === id)) console.warn(`Service ${service.id}: project ${id} is hidden or unknown, left out`);
   }
+  service.projects = service.projects.filter(id => PROJECTS.some(p => p.id === id));
 }
 const servicesOf = project => SERVICES.filter(sv => sv.projects.includes(project.id));
 

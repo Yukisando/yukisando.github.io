@@ -27,7 +27,6 @@ ColdSnap is a gamification studio based in Mouans-Sartoux (French Riviera, Franc
 - [Pygmak](https://coldsnap.fr/en/projects/pygmak/) (Mobile Game): Survivors-style arcade on the water: steer a flagship, blast crate hordes, build a run one card at a time
 - [Seba](https://coldsnap.fr/en/projects/seba/) (Card Game): Collect over 900 mythical creatures and gods, nearly all shown on historic artworks
 - [Badalone](https://coldsnap.fr/en/projects/badalone/) (Card Game): Open packs of real, ridiculous patents drawn from 12 million inventions
-- [Petites Attentions](https://coldsnap.fr/en/projects/helpdetective/) (VR Training): Standalone VR on Meta Quest: step into a care job through 360° video, answer questions and spot the dangers
 - [PropOS](https://coldsnap.fr/en/projects/propos/) (Film & TV Tool): Fake phone screens for film and TV sets, triggered live from a control room and mirrored in real time
 - [Sandlog](https://coldsnap.fr/en/projects/sandlog/) (Mobile App): Voice dream journal: open the app, speak, and your dream is saved automatically
 - [Badger](https://coldsnap.fr/en/projects/badger/) (Mobile App): NFC-powered digital business card, share contacts by tapping phones

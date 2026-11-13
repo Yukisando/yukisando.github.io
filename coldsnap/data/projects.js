@@ -732,6 +732,7 @@ const COLDSNAP_PROJECTS = [
   // ============================================
   {
     id: 'helpdetective',
+    hidden: true, // off the site until the app is live (2026-11-13)
     category: 'Interactive Installations',
     fit: ['game', 'school', 'public', 'company'],
     type: 'VR Training',
@@ -1397,7 +1398,7 @@ const COLDSNAP_PROJECTS = [
     }
   },
 
-];
+].filter(p => !p.hidden); // hidden: true keeps a project here but off the site
 
 // Export for module systems (if needed)
 if (typeof module !== 'undefined' && module.exports) {
