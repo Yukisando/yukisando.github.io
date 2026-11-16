@@ -45,7 +45,7 @@
  * - 'Web Platforms' - Web applications and sites
  * - 'Open Source' - Public tools, libraries and plugins
  *
- * Links starting with /apps/ point at nathandecastro.com (privacy policies live there).
+ * Links are what a visitor wants to do next (play, download, try, visit); legal pages stay off them.
  */
 
 const COLDSNAP_PROJECTS = [
@@ -157,7 +157,6 @@ const COLDSNAP_PROJECTS = [
       { label: 'Try the App', labelFr: 'Essayer l\'app', href: 'https://exploreum.coldsnap.fr/', icon: 'fa-globe' },
       { label: 'Google Play', href: 'https://play.google.com/store/apps/details?id=com.coldsnap.exploreum', icon: 'fa-android', style: 'play-store' },
       { label: 'App Store', href: 'https://apps.apple.com/app/exploreum/id6822310253', icon: 'fa-apple', style: 'app-store' },
-      { label: 'Privacy Policy', labelFr: 'Confidentialité', href: 'https://exploreum.web.app/privacy', icon: 'fa-shield', secondary: true }
     ],
     fr: {
       alt: [
@@ -237,7 +236,6 @@ const COLDSNAP_PROJECTS = [
       { label: 'App Store', href: 'https://apps.apple.com/fr/app/id6820991824', icon: 'fa-apple', style: 'app-store', soon: true },
       { label: 'Try the App', labelFr: 'Essayer l\'app', href: 'https://app.mayaville.fr/', icon: 'fa-mobile' },
       { label: 'Visit Website', labelFr: 'Site web', href: 'https://mayaville.fr/', icon: 'fa-globe', secondary: true },
-      { label: 'Privacy Policy', labelFr: 'Confidentialité', href: 'https://mayaville.fr/confidentialite', icon: 'fa-shield', secondary: true }
     ],
     fr: {
       alt: [
@@ -317,7 +315,6 @@ const COLDSNAP_PROJECTS = [
       { label: 'Google Play', href: 'https://play.google.com/store/apps/details?id=com.coldsnap.spinlab', icon: 'fa-android', style: 'play-store' },
       { label: 'App Store', href: 'https://apps.apple.com/fr/app/spinlab/id6758303721', icon: 'fa-apple', style: 'app-store' },
       { label: 'Visit Website', labelFr: 'Site web', href: 'https://spinlab.fr', icon: 'fa-globe', secondary: true },
-      { label: 'Privacy Policy', labelFr: 'Confidentialité', href: 'https://spinlab.fr/politique-de-confidentialite/', icon: 'fa-shield', secondary: true }
     ],
     fr: {
       alt: [
@@ -640,7 +637,6 @@ const COLDSNAP_PROJECTS = [
     ],
     links: [
       { label: 'Google Play', href: 'https://play.google.com/store/apps/details?id=com.coldsnap.seba', icon: 'fa-android', style: 'play-store' },
-      { label: 'Privacy Policy', labelFr: 'Confidentialité', href: '/apps/seba/privacy/', icon: 'fa-shield', secondary: true }
     ],
     fr: {
       alt: [
@@ -866,7 +862,6 @@ const COLDSNAP_PROJECTS = [
     ],
     links: [
       { label: 'Google Play', href: 'https://play.google.com/store/apps/details?id=com.coldsnap.sandlog', icon: 'fa-android', style: 'play-store' },
-      { label: 'Privacy Policy', labelFr: 'Confidentialité', href: '/apps/generic/privacy/', icon: 'fa-shield', secondary: true }
     ],
     fr: {
       alt: [
@@ -918,7 +913,6 @@ const COLDSNAP_PROJECTS = [
     ],
     links: [
       { label: 'Google Play', href: 'https://play.google.com/store/apps/details?id=com.coldsnap.badger', icon: 'fa-android', style: 'play-store' },
-      { label: 'Privacy Policy', labelFr: 'Confidentialité', href: '/apps/generic/privacy/', icon: 'fa-shield', secondary: true }
     ],
     fr: {
       alt: [
@@ -971,7 +965,6 @@ const COLDSNAP_PROJECTS = [
       'Local persistent storage'
     ],
     links: [
-      { label: 'Privacy Policy', labelFr: 'Confidentialité', href: '/apps/generic/privacy/', icon: 'fa-shield', secondary: true }
     ],
     fr: {
       alt: [
@@ -1022,7 +1015,6 @@ const COLDSNAP_PROJECTS = [
     ],
     links: [
       { label: 'Google Play', href: 'https://play.google.com/store/apps/details?id=com.patoune.app.patoune', icon: 'fa-android', style: 'play-store' },
-      { label: 'Privacy Policy', labelFr: 'Confidentialité', href: '/apps/patoune/privacy/', icon: 'fa-shield', secondary: true }
     ],
     fr: {
       alt: [
@@ -1227,7 +1219,6 @@ const COLDSNAP_PROJECTS = [
     links: [
       { label: 'Download', labelFr: 'Télécharger', href: 'https://github.com/Yukisando/WaddonSync/releases', icon: 'fa-download' },
       { label: 'GitHub', href: 'https://github.com/Yukisando/WaddonSync', icon: 'fa-github', secondary: true },
-      { label: 'Privacy Policy', labelFr: 'Confidentialité', href: '/apps/waddonsync/privacy/', icon: 'fa-shield', secondary: true }
     ],
     fr: {
       alt: [

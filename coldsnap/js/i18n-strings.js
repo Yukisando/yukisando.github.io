@@ -45,6 +45,7 @@
     'viewer.zoom': 'Agrandir l\'image',
     'viewer.more': 'Plus de détails',
     'viewer.less': 'Moins de détails',
+    'viewer.related': 'Projets liés',
 
     'filter.all': 'Tout',
     'filter.Interactive Installations': 'Installations',
@@ -170,6 +171,7 @@
     'viewer.zoom': 'Enlarge image',
     'viewer.more': 'More details',
     'viewer.less': 'Fewer details',
+    'viewer.related': 'Related projects',
     'contact.subject': 'New project',
     'modal.close': 'Close',
     'modal.features': 'Features',

@@ -1530,6 +1530,89 @@ video.viewer__shot {
   font-size: 0.9rem;
 }
 
+/* Related projects: a quiet row at the foot of the viewer */
+.viewer__related {
+  padding-top: 16px;
+  border-top: 1px solid var(--border-color);
+}
+
+.viewer__related-title {
+  margin: 0 0 10px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+/* A list in the side column; a row once the viewer is a single column (900px query) */
+.viewer__related-list {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 8px;
+}
+
+.viewer__rel {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  padding: 6px 10px 6px 6px;
+  border: 1px solid var(--border-color);
+  border-radius: 14px;
+  background: var(--bg-card);
+  color: var(--text-primary);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.viewer__rel:hover,
+.viewer__rel:focus-visible {
+  background: var(--bg-card-hover);
+  border-color: var(--blue-muted);
+}
+
+.viewer__rel img,
+.viewer__rel-icon {
+  flex: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.viewer__rel-icon {
+  display: grid;
+  place-items: center;
+  background: var(--bg-raised);
+  font-size: 1.3rem;
+}
+
+.viewer__rel-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.viewer__rel-text strong,
+.viewer__rel-text em {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.viewer__rel-text strong {
+  font-size: 0.84rem;
+}
+
+.viewer__rel-text em {
+  font-style: normal;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+
 /* Shelf: every project as a card; folded, it fades out under the first row */
 .shelf {
   position: relative;
@@ -3453,6 +3536,10 @@ kbd {
 
   .viewer__body {
     padding: 26px 22px 28px;
+  }
+
+  .viewer__related-list {
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
   }
 
   .contact__card {

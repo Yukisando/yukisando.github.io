@@ -151,7 +151,7 @@ const shared = (lang, pathFr, pathEn) => ({
   banner: BANNER,
   // js/boot.js, relative to the page so it also loads on nathandecastro.com/coldsnap/.
   boot_src: '../'.repeat((lang === 'fr' ? pathFr : pathEn).split('/').filter(Boolean).length) + `js/boot.js?v=${BOOT_VERSION}`,
-  media_sizes_version: MEDIA_SIZES_VERSION,
+  viewer_data_version: VIEWER_DATA_VERSION,
   lang,
   og_locale: LANGS[lang].ogLocale,
   og_locale_alt: LANGS[lang].ogLocaleAlt,
@@ -196,7 +196,7 @@ const srcsetAttr = (src, sizes) => {
 };
 
 // Width and height of every viewer image and card thumbnail (and their -sm copies), for the
-// script-made viewer and project cards: js/coldsnap.js reads window.CS_MEDIA_SIZES.
+// script-made viewer and project cards: written to data/viewer-data.js further down.
 const mediaSizes = {};
 const addSize = src => {
   const key = src.split('?')[0];
@@ -213,9 +213,6 @@ for (const p of PROJECTS) {
     }
   }
 }
-const mediaSizesJs = `// ${BANNER}\nwindow.CS_MEDIA_SIZES = ${JSON.stringify(mediaSizes)};\n`;
-writeFileSync(join(site, 'data', 'media-sizes.js'), mediaSizesJs);
-const MEDIA_SIZES_VERSION = createHash('sha256').update(mediaSizesJs).digest('hex').slice(0, 10);
 
 // Landscape shots take two gallery columns, phone screenshots one.
 const shotClass = src => {
@@ -378,6 +375,15 @@ function relatedProjects(project) {
   }
   return picked;
 }
+
+// Data for the home page viewer (js/coldsnap.js): image sizes, and the same related projects
+// as the project pages, so the viewer and the pages always suggest the same ones.
+const viewerDataJs = `// ${BANNER}
+window.CS_MEDIA_SIZES = ${JSON.stringify(mediaSizes)};
+window.CS_RELATED = ${JSON.stringify(Object.fromEntries(PROJECTS.map(p => [p.id, relatedProjects(p).map(r => r.id)])))};
+`;
+writeFileSync(join(site, 'data', 'viewer-data.js'), viewerDataJs);
+const VIEWER_DATA_VERSION = createHash('sha256').update(viewerDataJs).digest('hex').slice(0, 10);
 
 const jsonld = graph => JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }, null, 2)
   .replace(/</g, '\\u003c').replace(/^/gm, '  ');

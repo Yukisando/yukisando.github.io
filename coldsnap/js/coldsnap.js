@@ -549,7 +549,7 @@ const mediaVariant = (src, suffix) => src.replace(/\.[a-z0-9]+(\?.*)?$/i, (_, qu
 const SHOT_SIZES = '(max-width: 760px) calc(100vw - 32px), 760px';
 const THUMB_SIZES = '(max-width: 760px) 50vw, 300px';
 
-// Size and srcset of an image, from data/media-sizes.js (written by tools/coldsnap-build.mjs).
+// Size and srcset of an image, from data/viewer-data.js (written by tools/coldsnap-build.mjs).
 function imageSet(src, sizes) {
   const table = window.CS_MEDIA_SIZES || {};
   const big = table[src.split('?')[0]];
@@ -774,6 +774,27 @@ function renderViewer() {
     `;
   }).join('');
 
+  // Related projects: the same ones as the project's own page (data/viewer-data.js).
+  const related = ((window.CS_RELATED || {})[project.id] || [])
+    .map(id => COLDSNAP_PROJECTS.find(p => p.id === id))
+    .filter(Boolean);
+  const relatedHTML = related.length ? `
+    <div class="viewer__related">
+      <h4 class="viewer__related-title">${i18n.t('viewer.related')}</h4>
+      <div class="viewer__related-list">
+        ${related.map(p => {
+          const thumb = i18n.field(p, 'thumbnail');
+          return `
+          <button type="button" class="viewer__rel" data-related="${escapeAttr(p.id)}">
+            ${thumb
+              ? `<img src="${escapeAttr(thumb)}"${imageAttrs(thumb, '56px')} alt="" loading="lazy" draggable="false">`
+              : `<span class="viewer__rel-icon" aria-hidden="true">${p.icon || '✦'}</span>`}
+            <span class="viewer__rel-text"><strong>${p.title}</strong><em>${i18n.field(p, 'type') || ''}</em></span>
+          </button>`;
+        }).join('')}
+      </div>
+    </div>` : '';
+
   // The summary shows a few lines; the full story, features and tech fold out on demand.
   const description = field('description') || field('shortDescription') || '';
   const extra = [
@@ -810,6 +831,7 @@ function renderViewer() {
         </button>` : ''}
       ${coinSlotHTML(project)}
       ${links ? `<div class="viewer__links">${links}</div>` : ''}
+      ${relatedHTML}
     </div>
   `;
   renderStage();
@@ -938,6 +960,17 @@ function stepProject(step) {
 }
 
 // One set of listeners on the viewer survives every re-render.
+// A related project may sit outside the current filter: show every project again first.
+function openRelated(id) {
+  if (!visibleProjects().some(p => p.id === id)) {
+    activeFilter = 'all';
+    renderFilters();
+    renderShelf();
+  }
+  showProject(id, { animate: true, scroll: true });
+  document.getElementById('projectViewer').focus({ preventScroll: true });
+}
+
 function initViewer() {
   const viewer = document.getElementById('projectViewer');
 
@@ -952,6 +985,7 @@ function initViewer() {
       target.innerHTML = `${i18n.t(viewerExpanded ? 'viewer.less' : 'viewer.more')} ${icon(viewerExpanded ? 'chevron-up' : 'chevron-down')}`;
     }
     else if (target.dataset.step) stepProject(Number(target.dataset.step));
+    else if (target.dataset.related) openRelated(target.dataset.related);
     else if (target.dataset.mediaStep) stepMedia(Number(target.dataset.mediaStep));
     else if (target.dataset.media) { viewerMediaIndex = Number(target.dataset.media); renderStage(); }
     else if (target.classList.contains('viewer__zoom')) {
