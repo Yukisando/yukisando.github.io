@@ -14,8 +14,8 @@ the same render rather than two that can drift apart.
 `/cv/` picks the language from `navigator.language` on a first visit and remembers the
 toggle after that, so all four files must keep their current filenames.
 
-Both copies of the HTML are identical except for how Comfortaa gets in: the published one
-links `../fonts/*.ttf` (small, and the browser caches it), while the one the PDF is printed
+Both copies of the HTML are identical except for how Cooldown Sans gets in: the published one
+links `../fonts/Cooldown-*.woff2` (small, and the browser caches it), while the one the PDF is printed
 from embeds the fonts as base64, because that pass renders from `file://` where a request
 for a sibling font file is blocked. That print copy lands in the gitignored
 `tools/cv/.build/`.
@@ -35,7 +35,7 @@ node tools/cv/build-cv.mjs fr     # just one
 ```
 
 No `npm install`. The script drives an installed Chrome or Edge in headless mode
-(`CHROME_PATH=/path/to/chrome` to override detection) and embeds Comfortaa from the
+(`CHROME_PATH=/path/to/chrome` to override detection) and embeds Cooldown Sans from the
 repo's own `fonts/`, so local and CI output match.
 
 **The PDFs are CI-owned.** A local build is for previewing; the bytes differ slightly
@@ -135,5 +135,8 @@ alternative — switching a language back is a one-line change, not a rewrite.
 
 ## Design notes
 
-- Comfortaa ships no italic. Accents use colour and weight instead of a synthesised
-  oblique, which looks broken on a rounded face.
+- Cooldown Sans ships no italic, and the three static print weights
+  (`fonts/Cooldown-{Regular,SemiBold,Bold}.woff2`, instanced from `fonts/Cooldown-var.woff2`
+  at XHGT 547, WOBL 0) have no wobble axis. Accents use colour and weight instead of a
+  synthesised oblique. Re-instance them with fontTools' `varLib.instancer` when the variable
+  font changes.

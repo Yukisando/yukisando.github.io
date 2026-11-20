@@ -1,9 +1,22 @@
+/* Cooldown Sans: Nathan's own typeface (github.com/Yukisando/cooldown-font).
+   Axes: wght 300-700, XHGT 470-600, WOBL 0-1 (letters tilt; used for emphasis
+   instead of italic). Features: ss03 = d and q with a rounded foot. */
 @font-face {
-  font-family: 'Comfortaa';
-  src: url('../fonts/Comfortaa-VariableFont_wght.ttf') format('truetype');
+  font-family: 'Cooldown Sans';
+  src: url('../fonts/Cooldown-var.woff2?v=20261120d') format('woff2');
   font-weight: 300 700;
   font-style: normal;
   font-display: swap;
+}
+
+p {
+  font-feature-settings: "ss03" 1;
+}
+
+/* No italic in Cooldown Sans: emphasis wobbles instead. */
+em, i, cite {
+  font-style: normal;
+  font-variation-settings: "WOBL" 0.35;
 }
 
 @keyframes site-page-fade-in {
@@ -79,7 +92,7 @@ html.site-route-leaving body > *:not(script):not(style) {
 }
 
 :root {
-  --site-font-sans: 'Comfortaa', 'Segoe UI', Arial, sans-serif;
+  --site-font-sans: 'Cooldown Sans', 'Segoe UI', Arial, sans-serif;
   --site-nav-bg: var(--site-nav-solid-bg, var(--bg-dark, #ffffff));
   --site-nav-bg-strong: var(--site-nav-solid-bg, var(--bg-dark, #ffffff));
   --site-nav-border: var(--site-nav-solid-border, var(--border-color, rgba(34, 34, 34, 0.05)));

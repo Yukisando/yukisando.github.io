@@ -11,7 +11,7 @@ on:
       - 'doc/cv_en.md'
       - 'doc/cv_fr.md'
       - 'tools/cv/build-cv.mjs'
-      - 'fonts/Comfortaa-VariableFont_wght.ttf'
+      - 'fonts/Cooldown-*.woff2'
       - '.github/workflows/build-cv.yml'
   workflow_dispatch:
 

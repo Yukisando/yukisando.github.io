@@ -10,7 +10,7 @@
  *
  * Zero npm dependencies on purpose: this drives a locally installed Chrome or
  * Edge in headless mode. The GitHub Actions runner already ships Chrome, so CI
- * needs no install step. The Comfortaa font is embedded from the repo's own
+ * needs no install step. The Cooldown Sans font is embedded from the repo's own
  * fonts/ directory, so local and CI builds render identically.
  *
  *   node tools/cv/build-cv.mjs            # build every language
@@ -80,7 +80,7 @@ const escapeHtml = (s) =>
 
 /**
  * French typography: no-break spaces before high punctuation and inside number
- * groups. Uses U+00A0 rather than the finer U+202F: Comfortaa has no glyph for
+ * groups. Uses U+00A0 rather than the finer U+202F: Cooldown Sans has no glyph for
  * U+202F and silently drops it, swallowing the space entirely.
  */
 const NBSP = String.fromCharCode(0xa0)
@@ -319,12 +319,13 @@ function parseCv(md, cfg) {
 /* ------------------------------------------------------------- the renderer */
 
 /**
- * Embeds only the three static weights the sheet uses. The variable font also
- * works, but Chrome cannot subset a variable face, so it embeds the whole thing
- * and the PDF balloons to ~530KB; static faces subset down to well under 100KB.
+ * Embeds only the three static weights the sheet uses (instances of
+ * fonts/Cooldown-var.woff2 at XHGT 547, WOBL 0). The variable font also works,
+ * but Chrome cannot subset a variable face, so it embeds the whole thing and
+ * the PDF balloons; static faces subset down to a few KB each.
  */
 /**
- * `fonts` picks how Comfortaa gets in:
+ * `fonts` picks how Cooldown Sans gets in:
  *   'embed' — base64 in the CSS. Required for the PDF pass, which renders from
  *             file://, where a request for a sibling font file is blocked.
  *   'link'  — plain URL, relative to doc/. Used for the published HTML, which
@@ -334,19 +335,19 @@ function parseCv(md, cfg) {
  */
 function fontFace(fonts) {
   const weights = [
-    [400, 'Comfortaa-Regular.ttf'],
-    [600, 'Comfortaa-SemiBold.ttf'],
-    [700, 'Comfortaa-Bold.ttf'],
+    [400, 'Cooldown-Regular.woff2'],
+    [600, 'Cooldown-SemiBold.woff2'],
+    [700, 'Cooldown-Bold.woff2'],
   ]
   return weights
     .map(([weight, file]) => {
       const src =
         fonts === 'embed'
-          ? `url(data:font/ttf;base64,${readFileSync(
+          ? `url(data:font/woff2;base64,${readFileSync(
               join(REPO, 'fonts', file)
             ).toString('base64')})`
           : `url(../fonts/${file})`
-      return `@font-face{font-family:'Comfortaa';src:${src} format('truetype');font-weight:${weight};font-style:normal;font-display:block}`
+      return `@font-face{font-family:'Cooldown Sans';src:${src} format('woff2');font-weight:${weight};font-style:normal;font-display:block}`
     })
     .join('')
 }
@@ -367,7 +368,8 @@ ${fontFace(fonts)}
 html { background: #fff; }
 html, body {
   margin: 0; padding: 0;
-  font-family: 'Comfortaa', 'Segoe UI', Arial, sans-serif;
+  font-family: 'Cooldown Sans', 'Segoe UI', Arial, sans-serif;
+  font-feature-settings: "ss03" 1;
   color: #24272b;
   font-size: ${pt(8.5)};
   line-height: 1.44;
@@ -414,8 +416,8 @@ ul.bullets li { margin-bottom: 1.9mm; color: #3a4148; }
 ul.bullets li:last-child { margin-bottom: 0; }
 ul.bullets li b { color: var(--ink); font-weight: 700; }
 
-/* Comfortaa ships no italic, so accents use colour and weight instead of a
-   synthesised oblique, which looks broken on a rounded face. */
+/* Cooldown Sans ships no italic, and the static print weights have no wobble
+   axis, so accents use colour and weight instead of a synthesised oblique. */
 .tech { color: var(--brandText); font-size: ${pt(7.6)}; }
 em { font-style: normal; color: var(--sub); }
 

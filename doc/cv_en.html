@@ -1,14 +1,15 @@
 <!doctype html>
 <html lang="en">
 <head><meta charset="utf-8"><meta name="robots" content="noindex, indexifembedded"><title>Nathan de Castro — CV</title><style>
-@font-face{font-family:'Comfortaa';src:url(../fonts/Comfortaa-Regular.ttf) format('truetype');font-weight:400;font-style:normal;font-display:block}@font-face{font-family:'Comfortaa';src:url(../fonts/Comfortaa-SemiBold.ttf) format('truetype');font-weight:600;font-style:normal;font-display:block}@font-face{font-family:'Comfortaa';src:url(../fonts/Comfortaa-Bold.ttf) format('truetype');font-weight:700;font-style:normal;font-display:block}
+@font-face{font-family:'Cooldown Sans';src:url(../fonts/Cooldown-Regular.woff2) format('woff2');font-weight:400;font-style:normal;font-display:block}@font-face{font-family:'Cooldown Sans';src:url(../fonts/Cooldown-SemiBold.woff2) format('woff2');font-weight:600;font-style:normal;font-display:block}@font-face{font-family:'Cooldown Sans';src:url(../fonts/Cooldown-Bold.woff2) format('woff2');font-weight:700;font-style:normal;font-display:block}
 @page { size: A4; margin: 0; }
 *, *::before, *::after { box-sizing: border-box; }
 
 html { background: #fff; }
 html, body {
   margin: 0; padding: 0;
-  font-family: 'Comfortaa', 'Segoe UI', Arial, sans-serif;
+  font-family: 'Cooldown Sans', 'Segoe UI', Arial, sans-serif;
+  font-feature-settings: "ss03" 1;
   color: #24272b;
   font-size: 8.67pt;
   line-height: 1.44;
@@ -55,8 +56,8 @@ ul.bullets li { margin-bottom: 1.9mm; color: #3a4148; }
 ul.bullets li:last-child { margin-bottom: 0; }
 ul.bullets li b { color: var(--ink); font-weight: 700; }
 
-/* Comfortaa ships no italic, so accents use colour and weight instead of a
-   synthesised oblique, which looks broken on a rounded face. */
+/* Cooldown Sans ships no italic, and the static print weights have no wobble
+   axis, so accents use colour and weight instead of a synthesised oblique. */
 .tech { color: var(--brandText); font-size: 7.75pt; }
 em { font-style: normal; color: var(--sub); }
 
