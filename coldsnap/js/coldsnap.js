@@ -547,7 +547,8 @@ const mediaVariant = (src, suffix) => src.replace(/\.[a-z0-9]+(\?.*)?$/i, (_, qu
 
 // Viewer stage and project card widths, for srcset: phones get the half-size -sm copies.
 const SHOT_SIZES = '(max-width: 760px) calc(100vw - 32px), 760px';
-const THUMB_SIZES = '(max-width: 760px) 50vw, 300px';
+// Phones: two columns, 20px page padding and a 12px gap. Wider: about 340px at most.
+const THUMB_SIZES = '(max-width: 760px) calc(50vw - 26px), 340px';
 
 // Size and srcset of an image, from data/viewer-data.js (written by tools/coldsnap-build.mjs).
 function imageSet(src, sizes) {

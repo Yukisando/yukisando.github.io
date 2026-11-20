@@ -2,7 +2,8 @@
  * First script of every coldsnap.fr page, loaded in <head> before the CSS. It lives in a file
  * (not inline) so the Content-Security-Policy can forbid inline scripts.
  *
- *   <script src="/js/boot.js?v=…" data-page="twin">   FR/EN page pair (/, /en/, /projets/<id>/…)
+ *   <script src="/js/boot.js?v=…" data-page="twin" async>   FR/EN page pair (/, /en/, /projets/<id>/…)
+ *     async: nothing on these pages waits for it, so it doesn't hold up the first paint.
  *   <script src="/js/boot.js?v=…" data-page="404">    one page for both languages
  *   <script src="/js/boot.js?v=…" data-page="legal">  one page for both languages
  *
@@ -14,7 +15,7 @@
   var script = document.currentScript;
   var page = script && script.dataset.page;
   var root = document.documentElement;
-  root.classList.add('js'); // CSS can tell scripts will run (homepage nav brand waits for the scroll)
+  root.classList.add('js');
 
   // Old nathandecastro.com/coldsnap/ links forward to coldsnap.fr.
   if (/(^|\.)nathandecastro\.com$/.test(location.hostname)) {
