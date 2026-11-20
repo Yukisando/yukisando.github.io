@@ -1,7 +1,8 @@
 /* ColdSnap CSS */
 
 /* Cooldown: ColdSnap's own typeface (github.com/Yukisando/cooldown-font).
-   Axes: wght 300-700, XHGT 470-600 (x-height, 547 default), WOBL 0-1 (letters tilt).
+   Axes: wght 300-700, XHGT 470-600 (x-height, 547 default), WOBL 0-1 (letters tilt; used
+   for emphasis instead of italic, see em below).
    Features: ss03 = d and q with a rounded foot (paragraphs), ss02 = sparkle dots. */
 @font-face {
   font-family: 'Cooldown';
@@ -134,9 +135,11 @@ p {
   font-feature-settings: "ss03" 1;
 }
 
-/* Subtitles: a light wobble, as if set by hand. */
-h2, h3 {
-  font-variation-settings: "WOBL" 0.3;
+/* Cooldown has no italic. Where text would be italic (em, i, cite), the letters wobble a
+   little instead: each one tilts its own way, which reads as emphasis without slanting. */
+em, i, cite {
+  font-style: normal;
+  font-variation-settings: "WOBL" 0.35;
 }
 
 h1, h2, h3 {
@@ -597,7 +600,7 @@ h1.hero__brand-text {
 .hero__name {
   font-family: var(--font-brand);
   font-size: clamp(2.6rem, 5vw, 4rem);
-  font-weight: 700;
+  font-weight: 700;  /* Cooldown's heaviest weight */
   line-height: 1;
   letter-spacing: -0.02em;
 }
@@ -1210,6 +1213,16 @@ h1.hero__brand-text {
   height: clamp(380px, 58vh, 500px);
   overflow: hidden;
   isolation: isolate;
+}
+
+/* A live playground page (project.playground) fills the stage. */
+.viewer__play {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: #11151d;
 }
 
 .viewer__backdrop {

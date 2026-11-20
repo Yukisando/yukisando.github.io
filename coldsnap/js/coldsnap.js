@@ -918,6 +918,15 @@ function renderStage() {
     return;
   }
 
+  // A project with a playground (e.g. the Cooldown font) shows that page live instead of screenshots.
+  if (project.playground) {
+    const src = `${project.playground}?lang=${i18n.lang === 'fr' ? 'fr' : 'en'}`;
+    if (!stage.querySelector('iframe') || stage.querySelector('iframe').getAttribute('src') !== src) {
+      stage.innerHTML = `<iframe class="viewer__play" src="${escapeAttr(src)}" title="${escapeAttr(project.title)}" loading="lazy"></iframe>`;
+    }
+    return;
+  }
+
   let shot;
   if (!item) {
     shot = `<div class="viewer__placeholder">${project.icon || '🎮'}</div>`;

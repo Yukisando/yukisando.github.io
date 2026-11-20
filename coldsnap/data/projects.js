@@ -1388,6 +1388,51 @@ const COLDSNAP_PROJECTS = [
       ]
     }
   },
+  {
+    id: 'cooldown',
+    category: 'Open Source',
+    type: 'Font',
+    title: 'Cooldown',
+    // The viewer shows this page live instead of the screenshot (coldsnap.js, renderStage).
+    playground: '/lab/cooldown/',
+    shortDescription: 'Our own typeface, made from Comfortaa to read more easily: tails on d and q, adjustable x-height, a slight wobble',
+    description: 'Cooldown is the typeface of this site. It starts from Comfortaa and changes what makes some readers stumble. In Comfortaa, d and q are b and p flipped over, which dyslexic readers can mix up; Cooldown can give them a rounded tail so each letter has its own shape, and letters sit a little further apart. The lowercase height adjusts for small text and kiosk screens. A wobble setting tilts each letter its own way, which this site uses instead of italics, and dots can turn into frost sparkles. It is a variable font under the SIL Open Font License, built with Python.',
+    icon: '❄',
+    thumbnail: '/assets/projects/cooldown/cooldown-1-thumb.webp?v=20261120a',
+    media: [
+      '/assets/projects/cooldown/cooldown-1.png'
+    ],
+    // Descriptions for screen readers and search, one per media item, same order.
+    alt: [
+      'The word Cooldown with a snowflake, the letters b d p q with tails on d and q, Aa with a taller lowercase, the word wobble with tilted letters, and weights from 300 to 700'
+    ],
+    tech: ['Variable font', 'OpenType', 'Python', 'fontTools'],
+    features: [
+      'Tails on d and q (stylistic set ss03): no more b/d/p/q mirrors',
+      'Adjustable lowercase height for small text and distant screens',
+      'Wobble axis: each letter tilts its own way, used instead of italics',
+      'Weights 300 to 700, sparkle dots (ss02) and a snowflake glyph',
+      'Free licence (SIL Open Font License), built from Comfortaa'
+    ],
+    links: [
+      { label: 'Try it', labelFr: 'Essayer', href: '/lab/cooldown/', icon: 'fa-play' }
+    ],
+    fr: {
+      alt: [
+        'Le mot Cooldown avec un flocon, les lettres b d p q avec des queues sur d et q, Aa avec des minuscules plus hautes, le mot wobble aux lettres penchées, et les graisses de 300 à 700'
+      ],
+      type: 'Police',
+      shortDescription: 'Notre propre police, faite à partir de Comfortaa pour se lire plus facilement : queues sur d et q, minuscules réglables, léger bancal',
+      description: "Cooldown est la police de ce site. Elle part de Comfortaa et change ce qui fait trébucher certains lecteurs. Dans Comfortaa, d et q sont b et p retournés, ce que les lecteurs dyslexiques peuvent confondre ; Cooldown peut leur ajouter une queue arrondie pour que chaque lettre ait sa propre forme, et les lettres sont un peu plus espacées. La hauteur des minuscules se règle pour les petits textes et les écrans de bornes. Un réglage « bancal » fait pencher chaque lettre à sa façon, ce que ce site utilise à la place de l'italique, et les points peuvent devenir des étoiles de givre. C'est une police variable sous licence SIL Open Font License, construite en Python.",
+      features: [
+        'Queues sur d et q (jeu stylistique ss03) : fini les miroirs b/d/p/q',
+        'Hauteur des minuscules réglable pour les petits textes et les écrans éloignés',
+        'Axe « bancal » : chaque lettre penche à sa façon, à la place de l’italique',
+        'Graisses de 300 à 700, points en étoile (ss02) et un flocon',
+        'Licence libre (SIL Open Font License), construite à partir de Comfortaa'
+      ]
+    }
+  },
 
 ].filter(p => !p.hidden); // hidden: true keeps a project here but off the site
 
