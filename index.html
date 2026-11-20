@@ -48,7 +48,7 @@
     <link rel="stylesheet" href="css/site-nav.css?v=20261120b" />
 
     <!-- Your custom CSS -->
-    <link rel="stylesheet" href="css/custom.css?v=20261120b" />
+    <link rel="stylesheet" href="css/custom.css?v=20261120c" />
     <link rel="stylesheet" href="css/drive-mode.css?v=20261120" />
   </head>
     <nav class="site-nav" data-site-nav data-site-nav-page="home" data-site-nav-mode="overlay"></nav>
@@ -189,6 +189,7 @@
           >
         </div>
         <figure class="about__portrait">
+          <div class="about__portrait-card" id="portraitCard">
           <img
             src="img/portrait-480.webp"
             srcset="img/portrait-480.webp 480w, img/portrait-960.webp 960w"
@@ -199,7 +200,28 @@
             loading="lazy"
             decoding="async"
           />
+          </div>
         </figure>
+        <script>
+          // Portrait tilts toward the pointer; the sheen follows it.
+          (function () {
+            var card = document.getElementById('portraitCard');
+            if (!card || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+            card.addEventListener('pointermove', function (e) {
+              if (e.pointerType !== 'mouse') return;
+              var r = card.getBoundingClientRect();
+              var x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
+              card.style.setProperty('--ry', (x - 0.5) * 16 + 'deg');
+              card.style.setProperty('--rx', (0.5 - y) * 16 + 'deg');
+              card.style.setProperty('--mx', x * 100 + '%');
+              card.style.setProperty('--my', y * 100 + '%');
+            });
+            card.addEventListener('pointerleave', function () {
+              card.style.setProperty('--ry', '0deg');
+              card.style.setProperty('--rx', '0deg');
+            });
+          })();
+        </script>
       </div>
 
       <script>
