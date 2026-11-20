@@ -176,7 +176,7 @@ document.addEventListener('DOMContentLoaded', function () {
       ? mixColors(pageBackground, { r: 0, g: 0, b: 0, a: 1 }, 0.18)
       : mixColors(pageBackground, { r: 255, g: 255, b: 255, a: 1 }, 0.08);
     const overlayText = isDarkSurface
-      ? { r: 255, g: 255, b: 255, a: 0.88 }
+      ? { r: 255, g: 255, b: 255, a: 1 }
       : { r: 24, g: 28, b: 34, a: 0.88 };
     const overlayBorder = isDarkSurface
       ? { r: 255, g: 255, b: 255, a: 0.16 }
@@ -587,6 +587,12 @@ document.addEventListener('DOMContentLoaded', function () {
     navs.forEach(applyNavPalette);
     navs.forEach(updateNavAffixState);
     navs.forEach(updateNavActiveState);
+  });
+
+  // Back/forward restores this page from the browser's cache exactly as it was
+  // left, i.e. mid exit-animation behind the dark route overlay. Clear it.
+  window.addEventListener('pageshow', function () {
+    document.documentElement.classList.remove('site-route-leaving');
   });
 
   window.addEventListener('hashchange', function () {

@@ -421,7 +421,7 @@ textarea {
 
 .site-nav--overlay:not(.is-affixed) .site-nav__link--secondary,
 .site-nav[data-site-nav-mode='overlay']:not(.is-affixed) .site-nav__link--secondary {
-  opacity: 0.45;
+  opacity: 0.72;
 }
 
 .site-nav--overlay:not(.is-affixed) .site-nav__link--cta,
@@ -567,5 +567,96 @@ textarea {
     display: inline-flex;
     align-items: center;
     justify-content: center;
+  }
+}
+
+/* ── More life, more contrast ────────────────────────────────── */
+
+/* Over the hero photo: a soft dark fade behind the bar and a text shadow,
+   so the links read on any picture. */
+.site-nav--overlay:not(.is-affixed)::before,
+.site-nav[data-site-nav-mode='overlay']:not(.is-affixed)::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 140%;
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(rgba(10, 11, 16, 0.6), rgba(10, 11, 16, 0));
+}
+
+.site-nav--overlay:not(.is-affixed) .site-nav__brand,
+.site-nav--overlay:not(.is-affixed) .site-nav__link:not(.site-nav__link--cta) {
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.55), 0 2px 12px rgba(0, 0, 0, 0.35);
+}
+
+/* Links drop in one after another when the page opens. */
+@keyframes site-nav-drop {
+  from { opacity: 0; transform: translateY(-14px) rotate(-4deg); }
+  to   { opacity: 1; transform: none; }
+}
+
+.site-nav__brand,
+.site-nav__links > a {
+  animation: site-nav-drop 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+}
+
+.site-nav__links > a:nth-child(1) { animation-delay: 0.08s; }
+.site-nav__links > a:nth-child(2) { animation-delay: 0.14s; }
+.site-nav__links > a:nth-child(3) { animation-delay: 0.2s; }
+.site-nav__links > a:nth-child(4) { animation-delay: 0.26s; }
+.site-nav__links > a:nth-child(5) { animation-delay: 0.32s; }
+.site-nav__links > a:nth-child(6) { animation-delay: 0.38s; }
+.site-nav__links > a:nth-child(7) { animation-delay: 0.44s; }
+
+/* Hover: the word hops and wobbles, the underline springs out. */
+.site-nav__brand,
+.site-nav__link {
+  transition:
+    color 0.35s ease,
+    opacity 0.35s ease,
+    transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+    font-variation-settings 0.35s ease,
+    background-color 0.25s ease;
+}
+
+.site-nav__brand:hover,
+.site-nav__brand:focus-visible,
+.site-nav__link:hover,
+.site-nav__link:focus-visible {
+  transform: translateY(-2px);
+  font-variation-settings: "WOBL" 1;
+}
+
+.site-nav__link::after {
+  transition:
+    transform 0.4s cubic-bezier(0.34, 1.8, 0.64, 1),
+    opacity 0.2s ease;
+}
+
+.site-nav__links .site-nav__link:hover::after,
+.site-nav__links .site-nav__link:focus-visible::after {
+  transform: scaleX(1);
+  opacity: 1;
+}
+
+@keyframes site-nav-wiggle {
+  0%, 100% { transform: rotate(0); }
+  25% { transform: rotate(-6deg) scale(1.06); }
+  60% { transform: rotate(5deg) scale(1.06); }
+}
+
+.site-nav__link--cta:hover,
+.site-nav__link--cta:focus-visible {
+  animation: site-nav-wiggle 0.45s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-nav__brand,
+  .site-nav__links > a,
+  .site-nav__link--cta:hover {
+    animation: none;
   }
 }
