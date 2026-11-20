@@ -2,7 +2,7 @@
    viewer (iframe). No inline styles or scripts: the site CSP forbids them. */
 @font-face {
   font-family: 'Cooldown Sans';
-  src: url('/fonts/Cooldown-var.woff2?v=20261120b') format('woff2');
+  src: url('/fonts/Cooldown-var.woff2?v=20261120c') format('woff2');
   font-weight: 300 700;
   font-display: block;
 }
@@ -155,7 +155,8 @@ html, body {
   word-break: break-all;
 }
 
-/* Inside the coldsnap.fr project viewer */
+/* Inside the coldsnap.fr project viewer: no background of its own, the viewer's shows through */
+.is-embed, .is-embed body { background: transparent; }
 .is-embed .lab { gap: 8px; padding: 12px 14px; min-height: 0; }
 .is-embed .lab__sample { font-size: clamp(2.2rem, 8vw, 3.6rem); }
 .is-embed .lab__controls { grid-template-columns: 1fr; gap: 8px; padding: 2px; }

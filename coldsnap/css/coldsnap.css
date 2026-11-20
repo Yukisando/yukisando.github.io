@@ -6,7 +6,7 @@
    Features: ss03 = d and q with a rounded foot (paragraphs), ss02 = sparkle dots. */
 @font-face {
   font-family: 'Cooldown Sans';
-  src: url('../fonts/Cooldown-var.woff2?v=20261120b') format('woff2');
+  src: url('../fonts/Cooldown-var.woff2?v=20261120c') format('woff2');
   font-weight: 300 700;
   font-style: normal;
   font-display: swap;
@@ -1205,6 +1205,9 @@ h1.hero__brand-text {
   flex-direction: column;
   min-width: 0;
   background: var(--bg-darker);
+  /* Rounded where it meets the empty part of the left column, so a stage with any
+     background (a screenshot, a live playground) never ends on a square corner. */
+  border-bottom-right-radius: 26px;
 }
 
 /* The shot is contained; a blurred copy of it fills the rest */
@@ -1215,6 +1218,9 @@ h1.hero__brand-text {
   isolation: isolate;
 }
 
+/* A live playground (project.playground) sits on the viewer's own colour, like the text pane. */
+.viewer.has-playground .viewer__media { background: transparent; }
+
 /* A live playground page (project.playground) fills the stage. */
 .viewer__play {
   position: absolute;
@@ -1222,7 +1228,7 @@ h1.hero__brand-text {
   width: 100%;
   height: 100%;
   border: 0;
-  background: #11151d;
+  background: transparent;
 }
 
 .viewer__backdrop {
@@ -1459,6 +1465,7 @@ video.viewer__shot {
 }
 
 .viewer__desc {
+  white-space: pre-line;  /* blank lines in a project description become paragraphs */
   color: var(--text-secondary);
   font-size: 0.97rem;
 }
@@ -3559,6 +3566,7 @@ kbd {
 
   .viewer__media {
     position: static;
+    border-bottom-right-radius: 0;
   }
 
   .viewer__stage {

@@ -1396,7 +1396,7 @@ const COLDSNAP_PROJECTS = [
     // The viewer shows this page live instead of the screenshot (coldsnap.js, renderStage).
     playground: '/lab/cooldown/',
     shortDescription: 'The typeface we built for all our projects, so that everyone can read them: dyslexic readers, people with low vision, children',
-    description: 'Cooldown Sans is the typeface we designed and use in every ColdSnap project, this site included. We make serious games, museum exhibits and learning tools, and the people who play them include children, dyslexic readers and people with low vision. Instead of picking a font and hoping, we built one for them. Dyslexia: d and q can end in a rounded tail, so they are never b and p turned around, and letters sit a little further apart. Low vision: the height of the lowercase letters adjusts, for small text and for kiosk screens read from a few steps away. For fun: each letter can tilt its own way, as if written by hand (on this site it replaces italics), and dots can turn into frost sparkles, because a game should look like one.',
+    description: 'We use Cooldown Sans by default in all our projects. We make serious games, museum exhibits and learning tools, and the people who play them include children, dyslexic readers and people with low vision, so we built a typeface for them.\n\nDyslexia: d and q can end in a rounded tail, so they are never b and p turned around, and letters sit a little further apart.\n\nLow vision: the height of the lowercase letters adjusts, for small text and for kiosk screens read from a few steps away.\n\nFor fun: each letter can tilt its own way, as if written by hand, and dots can turn into little snowflakes, because a game should look like one.',
     icon: '❄',
     thumbnail: '/assets/projects/cooldown/cooldown-1-thumb.webp?v=20261120b',
     media: [
@@ -1406,16 +1406,15 @@ const COLDSNAP_PROJECTS = [
     alt: [
       'The words Cooldown Sans with a snowflake, the letters b d p q with tails on d and q, Aa with taller lowercase letters, the word wobble with tilted letters, and weights from 300 to 700'
     ],
-    tech: ['Variable font', 'OpenType', 'Python', 'fontTools'],
     features: [
       'Tails on d and q (stylistic set ss03), so b, d, p and q never mirror each other',
       'Adjustable lowercase height for small text and screens read from a distance',
-      'Wobble axis: each letter tilts its own way, used instead of italics',
-      'Weights 300 to 700, sparkle dots (ss02) and a snowflake',
+      'Wobble axis: each letter tilts its own way, as if written by hand',
+      'Weights 300 to 700, snowflake dots (ss02) and a snowflake glyph',
       'Used on every ColdSnap game, app and exhibit'
     ],
     links: [
-      { label: 'Try it', labelFr: 'Essayer', href: '/lab/cooldown/', icon: 'fa-play' }
+      { label: 'GitHub', href: 'https://github.com/Yukisando/cooldown-font', icon: 'fa-github' }
     ],
     fr: {
       alt: [
@@ -1423,12 +1422,12 @@ const COLDSNAP_PROJECTS = [
       ],
       type: 'Police de caractères',
       shortDescription: 'La police que nous avons créée pour tous nos projets, pour que chacun puisse les lire : lecteurs dyslexiques, malvoyants, enfants',
-      description: "Cooldown Sans est la police que nous avons dessinée et que nous utilisons dans tous les projets ColdSnap, ce site compris. Nous faisons des serious games, des installations de musée et des outils pédagogiques, et parmi celles et ceux qui y jouent il y a des enfants, des lecteurs dyslexiques et des personnes malvoyantes. Plutôt que de choisir une police en espérant qu'elle convienne, nous en avons construit une pour eux. Dyslexie : d et q peuvent se terminer par une queue arrondie, pour ne jamais être un b ou un p retourné, et les lettres sont un peu plus espacées. Basse vision : la hauteur des minuscules se règle, pour les petits textes et les écrans de bornes lus à quelques pas. Pour jouer : chaque lettre peut pencher à sa façon, comme écrite à la main (sur ce site, elle remplace l'italique), et les points peuvent devenir des étoiles de givre, parce qu'un jeu doit en avoir l'air.",
+      description: "Nous utilisons Cooldown Sans par défaut dans tous nos projets. Nous faisons des serious games, des installations de musée et des outils pédagogiques, et parmi celles et ceux qui y jouent il y a des enfants, des lecteurs dyslexiques et des personnes malvoyantes : nous avons donc construit une police pour eux.\n\nDyslexie : d et q peuvent se terminer par une queue arrondie, pour ne jamais être un b ou un p retourné, et les lettres sont un peu plus espacées.\n\nBasse vision : la hauteur des minuscules se règle, pour les petits textes et les écrans de bornes lus à quelques pas.\n\nPour jouer : chaque lettre peut pencher à sa façon, comme écrite à la main, et les points peuvent devenir de petits flocons, parce qu'un jeu doit en avoir l'air.",
       features: [
         'Queues sur d et q (jeu stylistique ss03) : b, d, p et q ne se ressemblent plus en miroir',
         'Hauteur des minuscules réglable pour les petits textes et les écrans lus de loin',
-        'Axe « bancal » : chaque lettre penche à sa façon, à la place de l’italique',
-        'Graisses de 300 à 700, points en étoile (ss02) et un flocon',
+        'Axe « bancal » : chaque lettre penche à sa façon, comme écrite à la main',
+        'Graisses de 300 à 700, points en flocon (ss02) et un flocon',
         'Utilisée dans tous les jeux, apps et installations ColdSnap'
       ]
     }

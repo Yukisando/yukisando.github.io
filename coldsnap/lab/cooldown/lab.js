@@ -1,5 +1,5 @@
 // Cooldown Sans playground: sliders drive the font's axes, switches turn on its OpenType sets
-// (ss03 tails on d/q, ss02 sparkle dots), and three preset buttons show what it was built for.
+// (ss03 tails on d/q, ss02 snowflake dots), and three preset buttons show what it was built for.
 // The "why" text lives in the project description, not here. ?lang=en for English.
 //
 // Smoothness: sliders, presets and the intro demo only set a *target*. One animation loop eases
@@ -14,13 +14,13 @@
   const T = {
     fr: {
       weight: 'Graisse', xheight: 'Hauteur des minuscules', wobble: 'Bancal',
-      tail: 'Queues sur d et q', spark: 'Points en étoile',
+      tail: 'Queues sur d et q', spark: 'Points en flocon',
       sample: 'Cooldown Sans · bdpq ij !',
       presets: { dyslexia: ['Dyslexie', 'bdpq · qdbp'], vision: ['Basse vision', 'Salle 3 · 14 h 30'], fun: ['Pour jouer', 'Joyeux hiver ❄ · jeu, joie !'] }
     },
     en: {
       weight: 'Weight', xheight: 'Lowercase height', wobble: 'Wobble',
-      tail: 'Tails on d and q', spark: 'Sparkle dots',
+      tail: 'Tails on d and q', spark: 'Snowflake dots',
       sample: 'Cooldown Sans · bdpq ij !',
       presets: { dyslexia: ['Dyslexia', 'bdpq · qdbp'], vision: ['Low vision', 'Room 3 · 2:30 pm'], fun: ['For fun', 'Happy winter ❄ · join in!'] }
     }

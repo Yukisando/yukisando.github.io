@@ -805,6 +805,7 @@ function renderViewer() {
   const foldable = Boolean(extra) || description.length > 260;
 
   viewer.classList.toggle('is-foldable', foldable);
+  viewer.classList.toggle('has-playground', Boolean(project.playground));
   viewer.classList.toggle('is-expanded', viewerExpanded);
   viewer.setAttribute('aria-label', project.title);
   viewer.innerHTML = `
