@@ -2,7 +2,7 @@
    viewer (iframe). No inline styles or scripts: the site CSP forbids them. */
 @font-face {
   font-family: 'Cooldown Sans';
-  src: url('/fonts/Cooldown-var.woff2?v=20261120c') format('woff2');
+  src: url('/fonts/Cooldown-var.woff2?v=20261120d') format('woff2');
   font-weight: 300 700;
   font-display: block;
 }
