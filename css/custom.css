@@ -532,14 +532,25 @@
               padding: 64px 0 72px;
           }
 
+          /* Phones: the text's children join the grid so the portrait can sit
+             between the paragraphs and the Hadoken button. */
           .about {
               grid-template-columns: 1fr;
-              gap: 36px;
+              gap: 0;
+          }
+
+          .about__text {
+              display: contents;
           }
 
           .about__portrait {
-              order: -1;
-              width: 220px;
+              order: 1;
+              width: 240px;
+              margin: 12px auto 36px;
+          }
+
+          .about__cta {
+              order: 2;
           }
 
           .about__text .section-heading {
@@ -549,6 +560,7 @@
           .about__rule {
               margin-left: auto;
               margin-right: auto;
+              width: 50px;
           }
 
           .about__text p {
