@@ -39,7 +39,7 @@ ColdSnap is a gamification studio based in Mouans-Sartoux (French Riviera, Franc
 - [Magic Arrow](https://coldsnap.fr/en/projects/magic-arrow/) (Minecraft Plugin): Minecraft plugin adding block-placing and elemental abilities to bows based on the block you stand on
 - [B.O.L.T](https://coldsnap.fr/en/projects/bolt/) (WoW Addon): Modular World of Warcraft addon that restyles Blizzard's own UI and adds small quality-of-life tweaks, for Midnight and WoW: Forever
 - [ColdSnap Utilities](https://coldsnap.fr/en/projects/coldsnap-utilities/) (Unity Package): Open-source Unity package: one-window builds for every platform, TestFlight upload, scene quick open and editor helpers
-- [Cooldown](https://coldsnap.fr/en/projects/cooldown/) (Font): Our own typeface, made from Comfortaa to read more easily: tails on d and q, adjustable x-height, a slight wobble
+- [Cooldown Sans](https://coldsnap.fr/en/projects/cooldown/) (Typeface): The typeface we built for all our projects, so that everyone can read them: dyslexic readers, people with low vision, children
 
 ## Optional
 

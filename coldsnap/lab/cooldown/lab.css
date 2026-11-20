@@ -1,8 +1,8 @@
-/* Cooldown playground: shown alone at /lab/cooldown/ and inside the coldsnap.fr project
+/* Cooldown Sans playground: shown alone at /lab/cooldown/ and inside the coldsnap.fr project
    viewer (iframe). No inline styles or scripts: the site CSP forbids them. */
 @font-face {
-  font-family: 'Cooldown';
-  src: url('/fonts/Cooldown-var.woff2') format('woff2');
+  font-family: 'Cooldown Sans';
+  src: url('/fonts/Cooldown-var.woff2?v=20261120b') format('woff2');
   font-weight: 300 700;
   font-display: block;
 }
@@ -28,7 +28,7 @@ html, body {
   margin: 0;
   background: var(--bg);
   color: var(--text);
-  font-family: 'Cooldown', 'Segoe UI', system-ui, sans-serif;
+  font-family: 'Cooldown Sans', 'Segoe UI', system-ui, sans-serif;
 }
 
 .lab {
@@ -55,13 +55,13 @@ html, body {
 .lab__sample:focus { box-shadow: 0 0 0 2px var(--line); }
 .lab__pairs { color: var(--orange); }
 
-.lab__stories {
+.lab__presets {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
 }
 
-.lab__story-btn {
+.lab__preset {
   font: inherit;
   font-size: 0.86rem;
   font-weight: 600;
@@ -73,31 +73,19 @@ html, body {
   cursor: pointer;
 }
 
-.lab__story-btn:hover { border-color: var(--muted); }
+.lab__preset:hover { border-color: var(--muted); }
 
-.lab__story-btn[aria-selected="true"] {
+.lab__preset[aria-pressed="true"] {
   background: var(--orange);
   border-color: var(--orange);
   color: var(--on-orange);
 }
 
-.lab__story {
-  margin: 0;
-  min-height: 3.2em;
-  font-size: 0.95rem;
-  line-height: 1.5;
-  color: var(--muted);
-  font-feature-settings: "ss03" 1;
-}
-
 .lab__controls {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 10px 18px;
-  padding: 12px 14px;
-  background: var(--panel);
-  border: 1px solid var(--line);
-  border-radius: 14px;
+  gap: 10px 22px;
+  padding: 4px 2px;
 }
 
 .lab__slider {
@@ -170,27 +158,6 @@ html, body {
 /* The intro animation sets values every frame; no easing so it doesn't lag behind. */
 .is-demo .lab__sample { transition: none; }
 
-.lab__compare {
-  display: grid;
-  gap: 2px;
-}
-
-.lab__compare-label {
-  font-size: 0.75rem;
-  color: var(--muted);
-}
-
-/* No Comfortaa file is loaded: the comparison uses Cooldown with every change switched off,
-   which draws Comfortaa's own shapes (only spacing is a hair wider). */
-.lab__compare-text {
-  font-size: clamp(2.4rem, 9vw, 4.6rem);
-  line-height: 1.08;
-  color: var(--muted);
-  font-variation-settings: "wght" var(--wght), "XHGT" 547, "WOBL" 0;
-  font-feature-settings: normal;
-  word-break: break-word;
-}
-
 .lab__css {
   margin: auto 0 0;
   font: 0.72rem/1.5 ui-monospace, Consolas, monospace;
@@ -201,10 +168,8 @@ html, body {
 
 /* Inside the coldsnap.fr project viewer */
 .is-embed .lab { gap: 8px; padding: 12px 14px; min-height: 0; }
-.is-embed .lab__sample,
-.is-embed .lab__compare-text { font-size: clamp(2rem, 7vw, 3.1rem); }
-.is-embed .lab__story { font-size: 0.85rem; min-height: 0; }
-.is-embed .lab__controls { grid-template-columns: 1fr; gap: 6px; padding: 10px 12px; }
+.is-embed .lab__sample { font-size: clamp(2.2rem, 8vw, 3.6rem); }
+.is-embed .lab__controls { grid-template-columns: 1fr; gap: 8px; padding: 2px; }
 .is-embed .lab__slider { grid-template-columns: 9.5em 1fr 2.6em; }
 .is-embed .lab__slider input { grid-column: 2; grid-row: 1; }
 .is-embed .lab__css { display: none; }

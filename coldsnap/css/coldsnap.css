@@ -1,12 +1,12 @@
 /* ColdSnap CSS */
 
-/* Cooldown: ColdSnap's own typeface (github.com/Yukisando/cooldown-font).
+/* Cooldown Sans: ColdSnap's own typeface (github.com/Yukisando/cooldown-font).
    Axes: wght 300-700, XHGT 470-600 (x-height, 547 default), WOBL 0-1 (letters tilt; used
    for emphasis instead of italic, see em below).
    Features: ss03 = d and q with a rounded foot (paragraphs), ss02 = sparkle dots. */
 @font-face {
-  font-family: 'Cooldown';
-  src: url('../fonts/Cooldown-var.woff2') format('woff2');
+  font-family: 'Cooldown Sans';
+  src: url('../fonts/Cooldown-var.woff2?v=20261120b') format('woff2');
   font-weight: 300 700;
   font-style: normal;
   font-display: swap;
@@ -44,9 +44,9 @@
   --on-orange: #1a0e05;
 
   /* Type */
-  --font-display: 'Cooldown', 'Segoe UI', system-ui, sans-serif;
-  --font-brand: 'Cooldown', 'Segoe UI', system-ui, sans-serif;
-  --font-body: 'Cooldown', 'Segoe UI', system-ui, sans-serif;
+  --font-display: 'Cooldown Sans', 'Segoe UI', system-ui, sans-serif;
+  --font-brand: 'Cooldown Sans', 'Segoe UI', system-ui, sans-serif;
+  --font-body: 'Cooldown Sans', 'Segoe UI', system-ui, sans-serif;
 
   /* UI */
   --border-color: rgba(255, 255, 255, 0.08);

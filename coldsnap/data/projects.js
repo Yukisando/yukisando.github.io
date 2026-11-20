@@ -1391,45 +1391,45 @@ const COLDSNAP_PROJECTS = [
   {
     id: 'cooldown',
     category: 'Open Source',
-    type: 'Font',
-    title: 'Cooldown',
+    type: 'Typeface',
+    title: 'Cooldown Sans',
     // The viewer shows this page live instead of the screenshot (coldsnap.js, renderStage).
     playground: '/lab/cooldown/',
-    shortDescription: 'Our own typeface, made from Comfortaa to read more easily: tails on d and q, adjustable x-height, a slight wobble',
-    description: 'Cooldown is the typeface of this site. It starts from Comfortaa and changes what makes some readers stumble. In Comfortaa, d and q are b and p flipped over, which dyslexic readers can mix up; Cooldown can give them a rounded tail so each letter has its own shape, and letters sit a little further apart. The lowercase height adjusts for small text and kiosk screens. A wobble setting tilts each letter its own way, which this site uses instead of italics, and dots can turn into frost sparkles. It is a variable font under the SIL Open Font License, built with Python.',
+    shortDescription: 'The typeface we built for all our projects, so that everyone can read them: dyslexic readers, people with low vision, children',
+    description: 'Cooldown Sans is the typeface we designed and use in every ColdSnap project, this site included. We make serious games, museum exhibits and learning tools, and the people who play them include children, dyslexic readers and people with low vision. Instead of picking a font and hoping, we built one for them. Dyslexia: d and q can end in a rounded tail, so they are never b and p turned around, and letters sit a little further apart. Low vision: the height of the lowercase letters adjusts, for small text and for kiosk screens read from a few steps away. For fun: each letter can tilt its own way, as if written by hand (on this site it replaces italics), and dots can turn into frost sparkles, because a game should look like one.',
     icon: '❄',
-    thumbnail: '/assets/projects/cooldown/cooldown-1-thumb.webp?v=20261120a',
+    thumbnail: '/assets/projects/cooldown/cooldown-1-thumb.webp?v=20261120b',
     media: [
       '/assets/projects/cooldown/cooldown-1.png'
     ],
     // Descriptions for screen readers and search, one per media item, same order.
     alt: [
-      'The word Cooldown with a snowflake, the letters b d p q with tails on d and q, Aa with a taller lowercase, the word wobble with tilted letters, and weights from 300 to 700'
+      'The words Cooldown Sans with a snowflake, the letters b d p q with tails on d and q, Aa with taller lowercase letters, the word wobble with tilted letters, and weights from 300 to 700'
     ],
     tech: ['Variable font', 'OpenType', 'Python', 'fontTools'],
     features: [
-      'Tails on d and q (stylistic set ss03): no more b/d/p/q mirrors',
-      'Adjustable lowercase height for small text and distant screens',
+      'Tails on d and q (stylistic set ss03), so b, d, p and q never mirror each other',
+      'Adjustable lowercase height for small text and screens read from a distance',
       'Wobble axis: each letter tilts its own way, used instead of italics',
-      'Weights 300 to 700, sparkle dots (ss02) and a snowflake glyph',
-      'Free licence (SIL Open Font License), built from Comfortaa'
+      'Weights 300 to 700, sparkle dots (ss02) and a snowflake',
+      'Used on every ColdSnap game, app and exhibit'
     ],
     links: [
       { label: 'Try it', labelFr: 'Essayer', href: '/lab/cooldown/', icon: 'fa-play' }
     ],
     fr: {
       alt: [
-        'Le mot Cooldown avec un flocon, les lettres b d p q avec des queues sur d et q, Aa avec des minuscules plus hautes, le mot wobble aux lettres penchées, et les graisses de 300 à 700'
+        'Les mots Cooldown Sans avec un flocon, les lettres b d p q avec des queues sur d et q, Aa avec des minuscules plus hautes, le mot wobble aux lettres penchées, et les graisses de 300 à 700'
       ],
-      type: 'Police',
-      shortDescription: 'Notre propre police, faite à partir de Comfortaa pour se lire plus facilement : queues sur d et q, minuscules réglables, léger bancal',
-      description: "Cooldown est la police de ce site. Elle part de Comfortaa et change ce qui fait trébucher certains lecteurs. Dans Comfortaa, d et q sont b et p retournés, ce que les lecteurs dyslexiques peuvent confondre ; Cooldown peut leur ajouter une queue arrondie pour que chaque lettre ait sa propre forme, et les lettres sont un peu plus espacées. La hauteur des minuscules se règle pour les petits textes et les écrans de bornes. Un réglage « bancal » fait pencher chaque lettre à sa façon, ce que ce site utilise à la place de l'italique, et les points peuvent devenir des étoiles de givre. C'est une police variable sous licence SIL Open Font License, construite en Python.",
+      type: 'Police de caractères',
+      shortDescription: 'La police que nous avons créée pour tous nos projets, pour que chacun puisse les lire : lecteurs dyslexiques, malvoyants, enfants',
+      description: "Cooldown Sans est la police que nous avons dessinée et que nous utilisons dans tous les projets ColdSnap, ce site compris. Nous faisons des serious games, des installations de musée et des outils pédagogiques, et parmi celles et ceux qui y jouent il y a des enfants, des lecteurs dyslexiques et des personnes malvoyantes. Plutôt que de choisir une police en espérant qu'elle convienne, nous en avons construit une pour eux. Dyslexie : d et q peuvent se terminer par une queue arrondie, pour ne jamais être un b ou un p retourné, et les lettres sont un peu plus espacées. Basse vision : la hauteur des minuscules se règle, pour les petits textes et les écrans de bornes lus à quelques pas. Pour jouer : chaque lettre peut pencher à sa façon, comme écrite à la main (sur ce site, elle remplace l'italique), et les points peuvent devenir des étoiles de givre, parce qu'un jeu doit en avoir l'air.",
       features: [
-        'Queues sur d et q (jeu stylistique ss03) : fini les miroirs b/d/p/q',
-        'Hauteur des minuscules réglable pour les petits textes et les écrans éloignés',
+        'Queues sur d et q (jeu stylistique ss03) : b, d, p et q ne se ressemblent plus en miroir',
+        'Hauteur des minuscules réglable pour les petits textes et les écrans lus de loin',
         'Axe « bancal » : chaque lettre penche à sa façon, à la place de l’italique',
         'Graisses de 300 à 700, points en étoile (ss02) et un flocon',
-        'Licence libre (SIL Open Font License), construite à partir de Comfortaa'
+        'Utilisée dans tous les jeux, apps et installations ColdSnap'
       ]
     }
   },

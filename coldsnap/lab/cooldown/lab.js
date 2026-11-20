@@ -1,6 +1,7 @@
-// Cooldown playground: sliders drive the font's axes through CSS variables, checkboxes switch
-// its OpenType sets (ss03 tails on d/q, ss02 sparkle dots). Each "story" button explains one
-// reason the font exists and sets the controls to show it. ?lang=en for English.
+// Cooldown Sans playground: sliders drive the font's axes through CSS variables, switches turn
+// on its OpenType sets (ss03 tails on d/q, ss02 sparkle dots), and three preset buttons show
+// what it was built for. The "why" text lives in the project description, not here.
+// ?lang=en for English.
 (function () {
   const lang = new URLSearchParams(location.search).get('lang') === 'en' ? 'en' : 'fr';
   document.documentElement.lang = lang;
@@ -10,32 +11,17 @@
   const T = {
     fr: {
       weight: 'Graisse', xheight: 'Hauteur des minuscules', wobble: 'Bancal',
-      tail: 'Queues sur d et q', spark: 'Points en étoile', compare: 'Comparer sans réglages',
-      plain: 'Sans réglages (≈ Comfortaa)',
-      stories: {
-        dyslexia: ['Dyslexie', 'bdpq · qdbp',
-          'Dans Comfortaa, d et q sont b et p retournés : un lecteur dyslexique peut les confondre. Avec les queues, chaque lettre a sa propre forme. Les lettres sont aussi un peu plus espacées.'],
-        vision: ['Basse vision', 'Salle 3 · 14 h 30',
-          'Des minuscules plus hautes se lisent mieux en petit et de loin, sur une borne ou un panneau. La hauteur se règle sans toucher aux majuscules.'],
-        fun: ['Pour jouer', 'Joyeux hiver ❄ !',
-          'Chaque lettre peut pencher à sa façon, comme écrite à la main, et les points deviennent des étoiles de givre. Sur notre site, ce léger bancal remplace l’italique.']
-      }
+      tail: 'Queues sur d et q', spark: 'Points en étoile',
+      presets: { dyslexia: ['Dyslexie', 'bdpq · qdbp'], vision: ['Basse vision', 'Salle 3 · 14 h 30'], fun: ['Pour jouer', 'Joyeux hiver ❄ !'] }
     },
     en: {
       weight: 'Weight', xheight: 'Lowercase height', wobble: 'Wobble',
-      tail: 'Tails on d and q', spark: 'Sparkle dots', compare: 'Compare with no settings',
-      plain: 'No settings (≈ Comfortaa)',
-      stories: {
-        dyslexia: ['Dyslexia', 'bdpq · qdbp',
-          'In Comfortaa, d and q are b and p flipped over, so a dyslexic reader can mix them up. With tails, each letter has a shape of its own. Letters also sit a little further apart.'],
-        vision: ['Low vision', 'Room 3 · 2:30 pm',
-          'Taller lowercase letters read better small and from a distance, on a kiosk or a sign. The height changes without touching the capitals.'],
-        fun: ['For fun', 'Happy winter ❄ !',
-          'Each letter can tilt its own way, as if written by hand, and dots turn into frost sparkles. On our site, this slight wobble stands in for italics.']
-      }
+      tail: 'Tails on d and q', spark: 'Sparkle dots',
+      presets: { dyslexia: ['Dyslexia', 'bdpq · qdbp'], vision: ['Low vision', 'Room 3 · 2:30 pm'], fun: ['For fun', 'Happy winter ❄ !'] }
     }
   }[lang];
 
+  const DEFAULT = { wght: 400, xhgt: 547, wobl: 0, tail: false, spark: false };
   const PRESETS = {
     dyslexia: { wght: 400, xhgt: 547, wobl: 0, tail: true, spark: false },
     vision: { wght: 500, xhgt: 595, wobl: 0, tail: true, spark: false },
@@ -44,13 +30,11 @@
 
   const $ = id => document.getElementById(id);
   const root = document.documentElement.style;
-  const sample = $('sample'), story = $('story'), css = $('css');
+  const sample = $('sample'), css = $('css');
   const sliders = { wght: $('wght'), xhgt: $('xhgt'), wobl: $('wobl') };
-  const tail = $('tail'), spark = $('spark'), compare = $('compare');
-  const compareBox = $('compareBox'), compareText = $('compareText');
+  const tail = $('tail'), spark = $('spark');
 
   document.querySelectorAll('[data-t]').forEach(el => { el.textContent = T[el.dataset.t]; });
-  document.querySelector('.lab__compare-label').textContent = T.plain;
 
   function apply() {
     for (const [axis, input] of Object.entries(sliders)) {
@@ -59,12 +43,18 @@
     }
     const feats = [tail.checked && '"ss03" 1', spark.checked && '"ss02" 1'].filter(Boolean);
     sample.style.fontFeatureSettings = feats.length ? feats.join(', ') : 'normal';
-    compareBox.hidden = !compare.checked;
-    compareText.textContent = sample.innerText;
     css.textContent =
-      'font-family: "Cooldown";\n' +
+      'font-family: "Cooldown Sans";\n' +
       `font-variation-settings: "wght" ${sliders.wght.value}, "XHGT" ${sliders.xhgt.value}, "WOBL" ${sliders.wobl.value};` +
       (feats.length ? `\nfont-feature-settings: ${feats.join(', ')};` : '');
+  }
+
+  function set(values) {
+    sliders.wght.value = values.wght;
+    sliders.xhgt.value = values.xhgt;
+    sliders.wobl.value = values.wobl;
+    tail.checked = values.tail;
+    spark.checked = values.spark;
   }
 
   function setSample(text) {
@@ -79,56 +69,52 @@
     }
   }
 
-  const bar = $('stories');
   const buttons = {};
+  const select = key => { for (const [k, b] of Object.entries(buttons)) b.setAttribute('aria-pressed', String(k === key)); };
   function choose(key) {
-    const [, text, body] = T.stories[key];
-    const p = PRESETS[key];
-    for (const [k, b] of Object.entries(buttons)) b.setAttribute('aria-selected', String(k === key));
-    sliders.wght.value = p.wght;
-    sliders.xhgt.value = p.xhgt;
-    sliders.wobl.value = p.wobl;
-    tail.checked = p.tail;
-    spark.checked = p.spark;
-    setSample(text);
-    story.textContent = body;
+    select(key);
+    set(PRESETS[key]);
+    setSample(T.presets[key][1]);
     apply();
   }
-  for (const key of Object.keys(T.stories)) {
+  for (const key of Object.keys(PRESETS)) {
     const b = document.createElement('button');
     b.type = 'button';
-    b.className = 'lab__story-btn';
-    b.setAttribute('role', 'tab');
-    b.textContent = T.stories[key][0];
+    b.className = 'lab__preset';
+    b.textContent = T.presets[key][0];
     b.addEventListener('click', () => choose(key));
-    bar.appendChild(b);
+    $('presets').appendChild(b);
     buttons[key] = b;
   }
 
-  Object.values(sliders).forEach(s => s.addEventListener('input', apply));
-  [tail, spark, compare].forEach(c => c.addEventListener('change', apply));
+  // Touching a slider or switch by hand leaves the presets.
+  Object.values(sliders).forEach(s => s.addEventListener('input', () => { select(null); apply(); }));
+  [tail, spark].forEach(c => c.addEventListener('change', () => { select(null); apply(); }));
   sample.addEventListener('input', apply);
-  choose('dyslexia');
 
-  // Until the visitor touches anything, the font plays with itself: the sliders sweep weight,
-  // x-height and wobble, and the tail and sparkle switches flip now and then, so it is clear
-  // what each control does. The first touch, key or click stops it where it is.
+  set(DEFAULT);
+  setSample('Cooldown Sans · bdpq ❄');
+  apply();
+
+  // Until the visitor touches anything, the font plays with itself, slowly: the sliders drift
+  // through weight, x-height and wobble, and the switches turn on and off now and then. The
+  // first touch, click or key puts everything back to normal, so only what the visitor then
+  // picks is on.
   if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   const page = document.documentElement;
   page.classList.add('is-demo');
-  setSample(lang === 'fr' ? 'Cooldown ❄ · bdpq' : 'Cooldown ❄ · bdpq');
   let running = true;
   const start = performance.now();
   let lastFlip = 0;
   function frame(now) {
     if (!running) return;
     const t = (now - start) / 1000;
-    sliders.wght.value = Math.round(500 + 200 * Math.sin(t * 0.9));
-    sliders.xhgt.value = Math.round(555 + 40 * Math.sin(t * 0.6 + 1));
-    sliders.wobl.value = (0.35 + 0.35 * Math.sin(t * 0.75 + 2)).toFixed(2);
-    if (t - lastFlip > 2.2) {
+    sliders.wght.value = Math.round(500 - 200 * Math.cos(t * 0.28));
+    sliders.xhgt.value = Math.round(555 - 35 * Math.cos(t * 0.19));
+    sliders.wobl.value = (0.3 - 0.3 * Math.cos(t * 0.23)).toFixed(2);
+    if (t - lastFlip > 5) {
       lastFlip = t;
-      const step = Math.round(t / 2.2) % 4;
+      const step = Math.round(t / 5) % 4;
       tail.checked = step === 1 || step === 2;
       spark.checked = step >= 2;
     }
@@ -139,8 +125,11 @@
     if (!running) return;
     running = false;
     page.classList.remove('is-demo');
+    set(DEFAULT);
+    select(null);
+    apply();
   }
-  ['pointerdown', 'keydown', 'wheel', 'touchstart'].forEach(type =>
+  ['pointerdown', 'keydown', 'touchstart'].forEach(type =>
     addEventListener(type, stop, { once: true, passive: true, capture: true }));
   requestAnimationFrame(frame);
 })();
