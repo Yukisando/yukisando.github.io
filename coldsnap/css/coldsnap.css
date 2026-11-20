@@ -1,8 +1,11 @@
 /* ColdSnap CSS */
 
+/* Cooldown: ColdSnap's own typeface (github.com/Yukisando/cooldown-font).
+   Axes: wght 300-700, XHGT 470-600 (x-height, 547 default), WOBL 0-1 (letters tilt).
+   Features: ss03 = d and q with a rounded foot (paragraphs), ss02 = sparkle dots. */
 @font-face {
-  font-family: 'Comfortaa';
-  src: url('../fonts/Comfortaa-var.woff2') format('woff2');
+  font-family: 'Cooldown';
+  src: url('../fonts/Cooldown-var.woff2') format('woff2');
   font-weight: 300 700;
   font-style: normal;
   font-display: swap;
@@ -40,9 +43,9 @@
   --on-orange: #1a0e05;
 
   /* Type */
-  --font-display: 'Comfortaa', 'Segoe UI', system-ui, sans-serif;
-  --font-brand: 'Comfortaa', 'Segoe UI', system-ui, sans-serif;
-  --font-body: 'Comfortaa', 'Segoe UI', system-ui, sans-serif;
+  --font-display: 'Cooldown', 'Segoe UI', system-ui, sans-serif;
+  --font-brand: 'Cooldown', 'Segoe UI', system-ui, sans-serif;
+  --font-body: 'Cooldown', 'Segoe UI', system-ui, sans-serif;
 
   /* UI */
   --border-color: rgba(255, 255, 255, 0.08);
@@ -124,6 +127,16 @@ button {
 ::selection {
   background: var(--orange);
   color: var(--on-orange);
+}
+
+/* Paragraphs: d and q end in a soft foot so they never mirror b and p (easier to read). */
+p {
+  font-feature-settings: "ss03" 1;
+}
+
+/* Subtitles: a light wobble, as if set by hand. */
+h2, h3 {
+  font-variation-settings: "WOBL" 0.3;
 }
 
 h1, h2, h3 {
@@ -638,8 +651,12 @@ h1.hero__brand-text {
   background-position: 100% 0;
   -webkit-background-clip: text;
   background-clip: text;
+  /* Cooldown's axes move with the frost: it shrinks and shivers as it freezes,
+     arrives wobbly and puffed up, and settles back as it thaws. */
+  font-variation-settings: "XHGT" 547, "WOBL" 0;
   transition:
     background-position 0.7s ease-in,
+    font-variation-settings 0.7s ease-in,
     filter 0.5s ease,
     opacity 0.35s ease,
     transform 0.45s var(--ease-out),
@@ -648,12 +665,14 @@ h1.hero__brand-text {
 
 .hero__phrase.is-frozen {
   background-position: 0 0;
+  font-variation-settings: "XHGT" 495, "WOBL" 0.45;
   filter: drop-shadow(0 0 6px rgba(150, 215, 240, 0.55));
 }
 
 /* The next phrase arrives iced over and out of focus, */
 .hero__phrase.is-entering {
   opacity: 0;
+  font-variation-settings: "XHGT" 600, "WOBL" 1;
   filter: blur(5px) drop-shadow(0 0 6px rgba(150, 215, 240, 0.55));
   transform: translateY(-5px) scale(0.97);
   transition: none;
@@ -663,6 +682,7 @@ h1.hero__brand-text {
 .hero__phrase.is-thawing {
   transition:
     background-position 0.95s cubic-bezier(0.3, 0, 0.2, 1),
+    font-variation-settings 1.1s cubic-bezier(0.3, 0, 0.2, 1),
     filter 0.6s ease,
     opacity 0.35s ease,
     transform 0.45s var(--ease-out),
