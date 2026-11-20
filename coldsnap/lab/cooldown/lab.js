@@ -14,15 +14,15 @@
   const T = {
     fr: {
       weight: 'Graisse', xheight: 'Hauteur des minuscules', wobble: 'Bancal',
-      tail: 'Queues sur d et q', spark: 'Points en flocon',
+      tail: 'Queues sur d et q', spark: 'Points en flocon', hint: 'Écrivez ici',
       sample: 'Cooldown Sans · bdpq ij !',
-      presets: { dyslexia: ['Dyslexie', 'bdpq · qdbp'], vision: ['Basse vision', 'Salle 3 · 14 h 30'], fun: ['Pour jouer', 'Joyeux hiver ❄ · jeu, joie !'] }
+      presets: { dyslexia: ['Dyslexie', 'bdpq · qdbp'], vision: ['Basse vision', 'Salle 3 · 14 h 30'], fun: ['Pour jouer', 'Dis donc, · tu es grand, toi !'] }
     },
     en: {
       weight: 'Weight', xheight: 'Lowercase height', wobble: 'Wobble',
-      tail: 'Tails on d and q', spark: 'Snowflake dots',
+      tail: 'Tails on d and q', spark: 'Snowflake dots', hint: 'Type here',
       sample: 'Cooldown Sans · bdpq ij !',
-      presets: { dyslexia: ['Dyslexia', 'bdpq · qdbp'], vision: ['Low vision', 'Room 3 · 2:30 pm'], fun: ['For fun', 'Happy winter ❄ · join in!'] }
+      presets: { dyslexia: ['Dyslexia', 'bdpq · qdbp'], vision: ['Low vision', 'Room 3 · 2:30 pm'], fun: ['For fun', 'My, · you’re a tall one!'] }
     }
   }[lang];
 
@@ -40,6 +40,8 @@
   const tail = $('tail'), spark = $('spark');
 
   document.querySelectorAll('[data-t]').forEach(el => { el.textContent = T[el.dataset.t]; });
+  sample.dataset.hint = T.hint;
+  sample.setAttribute('aria-label', T.hint);
 
   // What the sliders ask for, and what the text shows right now.
   const target = { wght: DEFAULT.wght, xhgt: DEFAULT.xhgt, wobl: DEFAULT.wobl };

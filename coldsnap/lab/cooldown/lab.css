@@ -38,16 +38,36 @@ html, body {
   margin: 0 auto;
 }
 
+/* The sample is a text box the visitor can type in: dashed frame, text cursor and a
+   "type here" tag, so it reads as editable at a glance. */
 .lab__sample {
+  position: relative;
   font-size: clamp(2.4rem, 9vw, 4.6rem);
   line-height: 1.08;
   outline: none;
-  padding: 4px 6px;
-  border-radius: 10px;
+  padding: 10px 14px;
+  border: 1.5px dashed rgba(255, 255, 255, 0.22);
+  border-radius: 14px;
+  cursor: text;
   word-break: break-word;
+  transition: border-color 0.2s ease, background 0.2s ease;
 }
 
-.lab__sample:focus { box-shadow: 0 0 0 2px var(--line); }
+.lab__sample::after {
+  content: attr(data-hint);
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--muted);
+  pointer-events: none;
+}
+
+.lab__sample:hover { border-color: rgba(255, 255, 255, 0.4); }
+.lab__sample:focus { border-style: solid; border-color: var(--orange); background: rgba(255, 255, 255, 0.03); }
+.lab__sample:focus::after { content: none; }
 .lab__pairs { color: var(--orange); }
 
 .lab__presets {
