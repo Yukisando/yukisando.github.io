@@ -492,43 +492,52 @@
           margin-top: 6px;
       }
 
-      /* the portrait: a photo print, slightly askew, taped to the page */
+      /* the portrait: a soft hand-drawn blob, with a loose outline that
+         drifts behind it and settles when hovered */
       .about__portrait {
           position: relative;
           margin: 0;
           justify-self: center;
           width: 320px;
-          padding: 12px 12px 34px;
-          border-radius: 3px;
-          background: #fff;
-          transform: rotate(2.5deg);
-          transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
-      }
-
-      .about__portrait:hover {
-          transform: rotate(0deg) scale(1.02);
+          --blob: 46% 54% 43% 57% / 38% 44% 56% 62%;
       }
 
       .about__portrait::before {
           content: '';
           position: absolute;
-          top: -12px;
-          left: 50%;
-          width: 120px;
-          height: 30px;
-          background: rgba(255, 255, 255, 0.45);
-          border-left: 1px dashed rgba(255, 255, 255, 0.7);
-          border-right: 1px dashed rgba(255, 255, 255, 0.7);
-          transform: translateX(-50%) rotate(-4deg);
+          inset: 0;
+          border: 3px solid rgba(255, 255, 255, 0.85);
+          border-radius: 55% 45% 58% 42% / 44% 58% 42% 56%;
+          transform: translate(14px, 12px) rotate(3deg);
+          transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), border-radius 0.6s ease;
+          pointer-events: none;
       }
 
       .about__portrait img {
+          position: relative;
           display: block;
           width: 100%;
           height: auto;
           aspect-ratio: 480 / 706;
           object-fit: cover;
-          border-radius: 2px;
+          border-radius: var(--blob);
+          transition: border-radius 0.6s ease;
+      }
+
+      .about__portrait:hover img {
+          border-radius: 52% 48% 47% 53% / 42% 40% 60% 58%;
+      }
+
+      .about__portrait:hover::before {
+          transform: translate(-10px, 8px) rotate(-2deg);
+          border-radius: 48% 52% 44% 56% / 52% 46% 54% 48%;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+          .about__portrait img,
+          .about__portrait::before {
+              transition: none;
+          }
       }
 
       @media (max-width: 767px) {
@@ -544,7 +553,6 @@
           .about__portrait {
               order: -1;
               width: 220px;
-              transform: rotate(-2.5deg);
           }
 
           .about__text .section-heading {
@@ -567,3 +575,42 @@
               width: fit-content;
           }
       }
+
+
+/* ── Cooldown Sans, freer here than on coldsnap.fr ─────────── */
+/* The name: max weight, a touch bigger. */
+header .header-content .header-content-inner h1 {
+    font-weight: 700;
+    font-size: 38px;
+    letter-spacing: 0.02em;
+}
+
+@media (min-width: 768px) {
+    header .header-content .header-content-inner h1 {
+        font-size: 64px;
+    }
+}
+
+/* Wobble: the hero line leans all the way, headings a little,
+   buttons wobble when touched. */
+header .header-content .header-content-inner p {
+    font-variation-settings: "WOBL" 0.8;
+}
+
+.section-heading {
+    font-variation-settings: "WOBL" 0.3;
+}
+
+em, i, cite {
+    font-variation-settings: "WOBL" 0.6;
+}
+
+.site-button {
+    transition: transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease,
+        font-variation-settings 0.3s ease;
+}
+
+.site-button:hover,
+.site-button:focus-visible {
+    font-variation-settings: "WOBL" 1;
+}
