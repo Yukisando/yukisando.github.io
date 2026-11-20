@@ -16,9 +16,6 @@
   --orange: #F5841A;
   --on-orange: #1a0e05;
   --ice: #7fd0ec;
-  --wght: 400;
-  --xhgt: 547;
-  --wobl: 0;
 }
 
 * { box-sizing: border-box; }
@@ -47,8 +44,6 @@ html, body {
   outline: none;
   padding: 4px 6px;
   border-radius: 10px;
-  font-variation-settings: "wght" var(--wght), "XHGT" var(--xhgt), "WOBL" var(--wobl);
-  transition: font-variation-settings 0.45s cubic-bezier(0.3, 0, 0.2, 1);
   word-break: break-word;
 }
 
@@ -90,7 +85,7 @@ html, body {
 
 .lab__slider {
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: 1fr;
   align-items: center;
   gap: 2px 8px;
   font-size: 0.82rem;
@@ -102,11 +97,6 @@ html, body {
   grid-row: 2;
   width: 100%;
   accent-color: var(--orange);
-}
-
-.lab__slider output {
-  color: var(--ice);
-  font-weight: 400;
 }
 
 .lab__toggles {
@@ -155,8 +145,7 @@ html, body {
 .lab__switch input:checked::after { transform: translateX(14px); background: var(--on-orange); }
 .lab__switch input:focus-visible { outline: 2px solid var(--ice); outline-offset: 2px; }
 
-/* The intro animation sets values every frame; no easing so it doesn't lag behind. */
-.is-demo .lab__sample { transition: none; }
+
 
 .lab__css {
   margin: auto 0 0;
@@ -170,7 +159,7 @@ html, body {
 .is-embed .lab { gap: 8px; padding: 12px 14px; min-height: 0; }
 .is-embed .lab__sample { font-size: clamp(2.2rem, 8vw, 3.6rem); }
 .is-embed .lab__controls { grid-template-columns: 1fr; gap: 8px; padding: 2px; }
-.is-embed .lab__slider { grid-template-columns: 9.5em 1fr 2.6em; }
+.is-embed .lab__slider { grid-template-columns: 9.5em 1fr; }
 .is-embed .lab__slider input { grid-column: 2; grid-row: 1; }
 .is-embed .lab__css { display: none; }
 
@@ -179,6 +168,4 @@ html, body {
   .lab__controls { grid-template-columns: 1fr; }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .lab__sample { transition: none; }
-}
+
