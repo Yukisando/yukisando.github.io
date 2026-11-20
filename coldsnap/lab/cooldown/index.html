@@ -7,8 +7,8 @@
   <meta name="description" content="Cooldown, la police de ColdSnap : plus lisible pour les lecteurs dyslexiques, réglable en direct.">
   <link rel="canonical" href="https://coldsnap.fr/lab/cooldown/">
   <link rel="preload" href="/fonts/Cooldown-var.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="/lab/cooldown/lab.css?v=20261120b">
-  <script src="/lab/cooldown/lab.js?v=20261120b" defer></script>
+  <link rel="stylesheet" href="/lab/cooldown/lab.css?v=20261120c">
+  <script src="/lab/cooldown/lab.js?v=20261120c" defer></script>
 </head>
 <body>
   <main class="lab">
@@ -22,9 +22,9 @@
       <label class="lab__slider"><span data-t="xheight">Hauteur des minuscules</span><input type="range" id="xhgt" min="470" max="600" value="547"><output id="xhgtOut">547</output></label>
       <label class="lab__slider"><span data-t="wobble">Bancal</span><input type="range" id="wobl" min="0" max="1" step="0.01" value="0"><output id="woblOut">0</output></label>
       <div class="lab__toggles">
-        <label class="lab__chip"><input type="checkbox" id="tail"><span data-t="tail">Queues sur d et q</span></label>
-        <label class="lab__chip"><input type="checkbox" id="spark"><span data-t="spark">Points en étoile</span></label>
-        <label class="lab__chip"><input type="checkbox" id="compare"><span data-t="compare">Comparer à Comfortaa</span></label>
+        <label class="lab__switch"><input type="checkbox" role="switch" id="tail"><span data-t="tail">Queues sur d et q</span></label>
+        <label class="lab__switch"><input type="checkbox" role="switch" id="spark"><span data-t="spark">Points en étoile</span></label>
+        <label class="lab__switch"><input type="checkbox" role="switch" id="compare"><span data-t="compare">Comparer à Comfortaa</span></label>
       </div>
     </div>
     <div class="lab__compare" id="compareBox" hidden>

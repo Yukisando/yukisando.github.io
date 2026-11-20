@@ -18,9 +18,7 @@
         vision: ['Basse vision', 'Salle 3 · 14 h 30',
           'Des minuscules plus hautes se lisent mieux en petit et de loin, sur une borne ou un panneau. La hauteur se règle sans toucher aux majuscules.'],
         fun: ['Pour jouer', 'Joyeux hiver ❄ !',
-          'Chaque lettre peut pencher à sa façon, comme écrite à la main, et les points deviennent des étoiles de givre. Sur notre site, ce léger bancal remplace l’italique.'],
-        name: ['Le nom', 'Cooldown ❄',
-          'Cold Snap est le sort qui remet tous les temps de recharge à zéro. Cooldown garde les formes rondes de Comfortaa et retire ce qui fait trébucher à la lecture.']
+          'Chaque lettre peut pencher à sa façon, comme écrite à la main, et les points deviennent des étoiles de givre. Sur notre site, ce léger bancal remplace l’italique.']
       }
     },
     en: {
@@ -33,9 +31,7 @@
         vision: ['Low vision', 'Room 3 · 2:30 pm',
           'Taller lowercase letters read better small and from a distance, on a kiosk or a sign. The height changes without touching the capitals.'],
         fun: ['For fun', 'Happy winter ❄ !',
-          'Each letter can tilt its own way, as if written by hand, and dots turn into frost sparkles. On our site, this slight wobble stands in for italics.'],
-        name: ['The name', 'Cooldown ❄',
-          'Cold Snap is the spell that resets every cooldown. Cooldown keeps Comfortaa’s round shapes and removes what makes readers stumble.']
+          'Each letter can tilt its own way, as if written by hand, and dots turn into frost sparkles. On our site, this slight wobble stands in for italics.']
       }
     }
   }[lang];
@@ -43,8 +39,7 @@
   const PRESETS = {
     dyslexia: { wght: 400, xhgt: 547, wobl: 0, tail: true, spark: false },
     vision: { wght: 500, xhgt: 595, wobl: 0, tail: true, spark: false },
-    fun: { wght: 600, xhgt: 560, wobl: 0.7, tail: false, spark: true },
-    name: { wght: 700, xhgt: 547, wobl: 0, tail: false, spark: false }
+    fun: { wght: 600, xhgt: 560, wobl: 0.7, tail: false, spark: true }
   };
 
   const $ = id => document.getElementById(id);
@@ -114,4 +109,38 @@
   [tail, spark, compare].forEach(c => c.addEventListener('change', apply));
   sample.addEventListener('input', apply);
   choose('dyslexia');
+
+  // Until the visitor touches anything, the font plays with itself: the sliders sweep weight,
+  // x-height and wobble, and the tail and sparkle switches flip now and then, so it is clear
+  // what each control does. The first touch, key or click stops it where it is.
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const page = document.documentElement;
+  page.classList.add('is-demo');
+  setSample(lang === 'fr' ? 'Cooldown ❄ · bdpq' : 'Cooldown ❄ · bdpq');
+  let running = true;
+  const start = performance.now();
+  let lastFlip = 0;
+  function frame(now) {
+    if (!running) return;
+    const t = (now - start) / 1000;
+    sliders.wght.value = Math.round(500 + 200 * Math.sin(t * 0.9));
+    sliders.xhgt.value = Math.round(555 + 40 * Math.sin(t * 0.6 + 1));
+    sliders.wobl.value = (0.35 + 0.35 * Math.sin(t * 0.75 + 2)).toFixed(2);
+    if (t - lastFlip > 2.2) {
+      lastFlip = t;
+      const step = Math.round(t / 2.2) % 4;
+      tail.checked = step === 1 || step === 2;
+      spark.checked = step >= 2;
+    }
+    apply();
+    requestAnimationFrame(frame);
+  }
+  function stop() {
+    if (!running) return;
+    running = false;
+    page.classList.remove('is-demo');
+  }
+  ['pointerdown', 'keydown', 'wheel', 'touchstart'].forEach(type =>
+    addEventListener(type, stop, { once: true, passive: true, capture: true }));
+  requestAnimationFrame(frame);
 })();
