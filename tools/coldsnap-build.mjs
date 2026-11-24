@@ -31,7 +31,8 @@ vm.runInNewContext(read('coldsnap/js/i18n-strings.js'), sandbox);
 const { FR, TITLES } = sandbox.window.CS_STRINGS;
 const data = {};
 vm.runInNewContext(read('coldsnap/data/projects.js') + '\nthis.projects = COLDSNAP_ALL_PROJECTS;', data);
-// ALL_PROJECTS get a page; PROJECTS (hidden: true left out) are the ones listed anywhere.
+// hidden: true only keeps a project out of what visitors browse (cards, lists, services, related,
+// noscript list). Everything else uses ALL_PROJECTS: its pages, sitemap, structured data, llms.txt.
 const ALL_PROJECTS = data.projects.filter(p => p.id && p.id !== 'unique-id');
 const PROJECTS = ALL_PROJECTS.filter(p => !p.hidden);
 
@@ -530,7 +531,7 @@ ${PROJECTS.filter(p => p.category === category).map(p => projectItem(p, lang)).j
     url,
     inLanguage: lang,
     publisher: ORGANIZATION,
-    hasPart: PROJECTS.map(p => ({ '@type': 'CreativeWork', name: p.title, url: SITE_URL + projectPath(lang, p.id) })),
+    hasPart: ALL_PROJECTS.map(p => ({ '@type': 'CreativeWork', name: p.title, url: SITE_URL + projectPath(lang, p.id) })),
   };
   return { path, html: renderSub(lang, {
     title: escapeAttr(`${say(lang, 'work.title')} | ColdSnap`),
@@ -670,7 +671,7 @@ ${SERVICES.map(sv => `- [${sv.en.title}](${SITE_URL}${sv.path.en}): ${sv.en.intr
 
 ## Projects
 
-${PROJECTS.map(p => `- [${p.title}](${SITE_URL}${projectPath('en', p.id)}) (${p.type || p.category}): ${p.shortDescription || ''}`).join('\n')}
+${ALL_PROJECTS.map(p => `- [${p.title}](${SITE_URL}${projectPath('en', p.id)}) (${p.type || p.category}): ${p.shortDescription || ''}`).join('\n')}
 
 ## Optional
 

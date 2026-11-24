@@ -1454,7 +1454,7 @@ const COLDSNAP_ALL_PROJECTS = [
 ];
 
 // hidden: true = unlisted. The project keeps its pages (/projets/<id>/, /en/projects/<id>/) so its
-// address can be shared, but it shows in no list: homepage cards, project lists, services, related projects. Its pages stay in the sitemap.
+// address can be shared, but it shows in no list: homepage cards, project lists, services, related projects. Search engines and AI still see it (sitemap, llms.txt).
 const COLDSNAP_PROJECTS = COLDSNAP_ALL_PROJECTS.filter(p => !p.hidden);
 
 // Export for module systems (if needed)
