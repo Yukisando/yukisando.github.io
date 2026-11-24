@@ -48,7 +48,7 @@
  * Links are what a visitor wants to do next (play, download, try, visit); legal pages stay off them.
  */
 
-const COLDSNAP_PROJECTS = [
+const COLDSNAP_ALL_PROJECTS = [
   // ============================================
   // INTERACTIVE INSTALLATIONS
   // ============================================
@@ -728,7 +728,7 @@ const COLDSNAP_PROJECTS = [
   // ============================================
   {
     id: 'prismo',
-    hidden: true, // off the site until the app is live (2026-11-13)
+    hidden: true, // unlisted until the app is live (2026-11-13); the page stays reachable
     category: 'Interactive Installations',
     fit: ['game', 'school', 'public', 'company'],
     type: 'VR Training',
@@ -1451,7 +1451,11 @@ const COLDSNAP_PROJECTS = [
     }
   },
 
-].filter(p => !p.hidden); // hidden: true keeps a project here but off the site
+];
+
+// hidden: true = unlisted. The project keeps its pages (/projets/<id>/, /en/projects/<id>/, noindex) so its
+// address can be shared, but it shows in no list: homepage cards, project lists, services, related projects, sitemap.
+const COLDSNAP_PROJECTS = COLDSNAP_ALL_PROJECTS.filter(p => !p.hidden);
 
 // Export for module systems (if needed)
 if (typeof module !== 'undefined' && module.exports) {

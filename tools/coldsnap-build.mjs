@@ -30,8 +30,10 @@ const sandbox = { window: {} };
 vm.runInNewContext(read('coldsnap/js/i18n-strings.js'), sandbox);
 const { FR, TITLES } = sandbox.window.CS_STRINGS;
 const data = {};
-vm.runInNewContext(read('coldsnap/data/projects.js') + '\nthis.projects = COLDSNAP_PROJECTS;', data);
-const PROJECTS = data.projects.filter(p => p.id && p.id !== 'unique-id');
+vm.runInNewContext(read('coldsnap/data/projects.js') + '\nthis.projects = COLDSNAP_ALL_PROJECTS;', data);
+// ALL_PROJECTS get a page; PROJECTS (hidden: true left out) are the ones listed anywhere.
+const ALL_PROJECTS = data.projects.filter(p => p.id && p.id !== 'unique-id');
+const PROJECTS = ALL_PROJECTS.filter(p => !p.hidden);
 
 const escapeAttr = s => String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
 const escapeText = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;');
@@ -216,7 +218,7 @@ const addSize = src => {
   const size = webpSize(key);
   if (size) mediaSizes[key] = [size.w, size.h];
 };
-for (const p of PROJECTS) {
+for (const p of ALL_PROJECTS) {
   for (const lang of ['en', 'fr']) {
     const thumb = field(p, 'thumbnail', lang);
     if (thumb) [thumb, small(thumb)].forEach(addSize);
@@ -357,10 +359,10 @@ const SERVICES = [
     },
   },
 ];
-// Projects marked hidden: true in projects.js are already filtered out; drop them here too, with a note.
+// Projects marked hidden: true (unlisted) never appear in a service list; drop them here, with a note.
 for (const service of SERVICES) {
   for (const id of service.projects) {
-    if (!PROJECTS.some(p => p.id === id)) console.warn(`Service ${service.id}: project ${id} is hidden or unknown, left out`);
+    if (!PROJECTS.some(p => p.id === id)) console.warn(`Service ${service.id}: project ${id} is unlisted (hidden) or unknown, left out`);
   }
   service.projects = service.projects.filter(id => PROJECTS.some(p => p.id === id));
 }
@@ -393,7 +395,7 @@ function relatedProjects(project) {
 // as the project pages, so the viewer and the pages always suggest the same ones.
 const viewerDataJs = `// ${BANNER}
 window.CS_MEDIA_SIZES = ${JSON.stringify(mediaSizes)};
-window.CS_RELATED = ${JSON.stringify(Object.fromEntries(PROJECTS.map(p => [p.id, relatedProjects(p).map(r => r.id)])))};
+window.CS_RELATED = ${JSON.stringify(Object.fromEntries(ALL_PROJECTS.map(p => [p.id, relatedProjects(p).map(r => r.id)])))};
 `;
 writeFileSync(join(site, 'data', 'viewer-data.js'), viewerDataJs);
 const VIEWER_DATA_VERSION = createHash('sha256').update(viewerDataJs).digest('hex').slice(0, 10);
@@ -629,15 +631,17 @@ for (const lang of ['fr', 'en']) {
 for (const lang of ['fr', 'en']) {
   const dir = join(site, LANGS[lang].projects);
   if (existsSync(dir)) {
-    const ids = new Set(PROJECTS.map(p => p.id));
+    const ids = new Set(ALL_PROJECTS.map(p => p.id));
     for (const entry of readdirSync(dir, { withFileTypes: true })) {
       if (entry.isDirectory() && !ids.has(entry.name)) rmSync(join(dir, entry.name), { recursive: true });
     }
   }
   const index = indexPage(lang);
   write(index.path.slice(1) + 'index.html', index.html, lang);
-  for (const project of PROJECTS) {
+  for (const project of ALL_PROJECTS) {
     const page = projectPage(project, lang);
+    // Unlisted projects: reachable by address, kept out of search results.
+    if (project.hidden) page.html = page.html.replace('content="index, follow, max-image-preview:large"', 'content="noindex, follow"');
     write(page.path.slice(1) + 'index.html', page.html, lang);
   }
 }
