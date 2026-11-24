@@ -274,22 +274,6 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://coldsnap.fr/projets/badalone/"/>
   </url>
   <url>
-    <loc>https://coldsnap.fr/projets/prismo/</loc>
-    <lastmod>2026-11-24</lastmod>
-    <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://coldsnap.fr/projets/prismo/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://coldsnap.fr/en/projects/prismo/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://coldsnap.fr/projets/prismo/"/>
-  </url>
-  <url>
-    <loc>https://coldsnap.fr/en/projects/prismo/</loc>
-    <lastmod>2026-11-24</lastmod>
-    <priority>0.6</priority>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://coldsnap.fr/projets/prismo/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://coldsnap.fr/en/projects/prismo/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://coldsnap.fr/projets/prismo/"/>
-  </url>
-  <url>
     <loc>https://coldsnap.fr/projets/propos/</loc>
     <lastmod>2026-11-24</lastmod>
     <priority>0.7</priority>

@@ -728,6 +728,7 @@ const COLDSNAP_PROJECTS = [
   // ============================================
   {
     id: 'prismo',
+    hidden: true, // off the site until the app is live (2026-11-13)
     category: 'Interactive Installations',
     fit: ['game', 'school', 'public', 'company'],
     type: 'VR Training',
