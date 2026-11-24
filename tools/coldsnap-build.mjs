@@ -710,7 +710,8 @@ ${[
   pair(LANGS.fr.home, LANGS.en.home, homeDate, ['1.0', '0.9']),
   pair(LANGS.fr.projects, LANGS.en.projects, projectsDate, ['0.8', '0.7']),
   ...SERVICES.map(sv => pair(sv.path.fr, sv.path.en, lastChange('tools/coldsnap-build.mjs'), ['0.8', '0.7'])),
-  ...PROJECTS.map(p => pair(projectPath('fr', p.id), projectPath('en', p.id), projectsDate, ['0.7', '0.6'])),
+  // Unlisted (hidden) projects too: their pages are live and meant to be found by address.
+  ...ALL_PROJECTS.map(p => pair(projectPath('fr', p.id), projectPath('en', p.id), projectsDate, ['0.7', '0.6'])),
   ...LEGAL.map(([path, priority]) => `  <url>
     <loc>${SITE_URL}${path}</loc>
     <lastmod>2026-11-04</lastmod>
@@ -720,7 +721,7 @@ ${[
 </urlset>
 `;
 writeFileSync(join(site, 'sitemap.xml'), sitemap);
-written.push(`sitemap.xml  ${(PROJECTS.length + SERVICES.length) * 2 + 4 + LEGAL.length} URLs`);
+written.push(`sitemap.xml  ${(ALL_PROJECTS.length + SERVICES.length) * 2 + 4 + LEGAL.length} URLs`);
 
 console.log(`coldsnap/  ${written.length} files\n  ${written.filter((_, i) => i < 4 || i >= written.length - 1).join('\n  ')}\n  …`);
 if (missing.size) console.warn(`No French for: ${[...missing].join(', ')}`);
