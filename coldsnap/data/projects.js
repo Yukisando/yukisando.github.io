@@ -1453,7 +1453,7 @@ const COLDSNAP_ALL_PROJECTS = [
 
 ];
 
-// hidden: true = unlisted. The project keeps its pages (/projets/<id>/, /en/projects/<id>/, noindex) so its
+// hidden: true = unlisted. The project keeps its pages (/projets/<id>/, /en/projects/<id>/) so its
 // address can be shared, but it shows in no list: homepage cards, project lists, services, related projects, sitemap.
 const COLDSNAP_PROJECTS = COLDSNAP_ALL_PROJECTS.filter(p => !p.hidden);
 

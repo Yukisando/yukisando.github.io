@@ -640,8 +640,6 @@ for (const lang of ['fr', 'en']) {
   write(index.path.slice(1) + 'index.html', index.html, lang);
   for (const project of ALL_PROJECTS) {
     const page = projectPage(project, lang);
-    // Unlisted projects: reachable by address, kept out of search results.
-    if (project.hidden) page.html = page.html.replace('content="index, follow, max-image-preview:large"', 'content="noindex, follow"');
     write(page.path.slice(1) + 'index.html', page.html, lang);
   }
 }
