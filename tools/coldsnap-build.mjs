@@ -299,7 +299,7 @@ const SERVICES = [
   {
     id: 'installations',
     path: { fr: '/installations-interactives/', en: '/en/interactive-installations/' },
-    projects: ['cpps-exhibit', 'sdana-installation', 'helpdetective', 'exploreum'],
+    projects: ['cpps-exhibit', 'sdana-installation', 'prismo', 'exploreum'],
     fr: {
       name: 'installations interactives',
       title: 'Installations interactives pour musées et lieux de visite',
@@ -314,7 +314,7 @@ const SERVICES = [
   {
     id: 'serious-games',
     path: { fr: '/jeux-educatifs/', en: '/en/educational-games/' },
-    projects: ['cpps-exhibit', 'helpdetective', 'sdana-installation', 'exploreum', 'seba'],
+    projects: ['cpps-exhibit', 'prismo', 'sdana-installation', 'exploreum', 'seba'],
     fr: {
       name: 'jeux éducatifs',
       title: 'Jeux éducatifs et serious games',

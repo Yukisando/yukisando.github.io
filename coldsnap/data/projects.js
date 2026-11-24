@@ -727,56 +727,74 @@ const COLDSNAP_PROJECTS = [
   // FLUTTER APPS (continued)
   // ============================================
   {
-    id: 'helpdetective',
+    id: 'prismo',
     hidden: true, // off the site until the app is live (2026-11-13)
     category: 'Interactive Installations',
     fit: ['game', 'school', 'public', 'company'],
     type: 'VR Training',
-    title: 'Petites Attentions',
-    shortDescription: 'Standalone VR on Meta Quest: step into a care job through 360° video, answer questions and spot the dangers',
-    description: 'Makes people want to work in care jobs that are little known or undervalued, such as childcare, by letting them live a moment of the job in VR. In a 360° scene filmed in a real home, the player answers questions about what is happening and hunts for hidden dangers with a flashlight. Runs offline on Meta Quest 2 and 3, and trainers write new scenarios inside the headset, with no new build.',
+    title: 'Prismo',
+    shortDescription: 'Standalone VR on Meta Quest that makes people want to work in care jobs: 360° scenes, an impairment simulator for two, a scenario workshop',
+    description: 'Prismo ("Tu vois ce que je vois", do you see what I see) makes people want to work in care jobs by letting them live a moment of the job in VR. In the scenarios, the player stands inside a 360° video filmed on site, such as a heart massage or a computer repair workshop: the video stops on questions, and the player spots the dangers around them with a flashlight. The impairment simulator is a game for two or a whole class: the player in the headset sees a broken music box only through a small lens, while the others read the printed repair notebook and talk them through it, with no impairment or with colour blindness, tunnel vision, a central blind spot or dyslexia. Trainers create and edit scenarios inside the headset, with no new build. Two bonuses, a spinning vortex tunnel and a plank over a 220 m drop, break the ice. Runs fully offline on Meta Quest 2 and 3, with controllers or bare hands, and anyone on the same network can follow the player\'s view in a browser.',
     icon: '🥽',
-    thumbnail: '/assets/projects/helpdetective/petites-attentions-1-thumb.webp',
+    thumbnail: '/assets/projects/prismo/prismo-1-thumb.webp',
     media: [
-      '/assets/projects/helpdetective/petites-attentions-1.jpg',
-      '/assets/projects/helpdetective/petites-attentions-2.jpg',
-      '/assets/projects/helpdetective/petites-attentions-3.jpg',
-      '/assets/projects/helpdetective/petites-attentions-4.jpg'
+      '/assets/projects/prismo/prismo-1.jpg',
+      '/assets/projects/prismo/prismo-2.png',
+      '/assets/projects/prismo/prismo-3.png',
+      '/assets/projects/prismo/prismo-4.png',
+      '/assets/projects/prismo/prismo-5.jpg',
+      '/assets/projects/prismo/prismo-6.png',
+      '/assets/projects/prismo/prismo-7.png',
+      '/assets/projects/prismo/prismo-8.png'
     ],
     // Descriptions for screen readers and search, one per media item, same order.
     alt: [
-      'A frosted question card floating over a 360° video of a living room: what is the adult doing while the child talks?',
-      'The right answer turns green and an explanation appears, with a Continue button',
-      'End screen: 2/2 right first time, 2 of 3 dangers spotted, the dangers found and what to do next',
-      'Petites Attentions menu on a pastel sky with drifting lights, the \'Le salon\' scenario card and the workshop button'
+      'In the headset, a question card floats over a blurred 360° video: the man has collapsed, what should be done first?',
+      'Prismo menu with its two sections, Scenarios (the 360° videos) and Impairment simulator (the music box), then Workshop, Controls and the two bonuses',
+      'Scenario list: the heart massage with 5 questions and 3 info points, the computer workshop with 4 questions and 5 dangers to spot',
+      'Impairment simulator: play the music box with no impairment, or with two kinds of colour blindness, no colours, tunnel vision, a central blind spot or dyslexia',
+      'First page of the printed repair notebook: one player is the hands in the headset, the others the voice, how a game goes and the three levels',
+      'Workshop in the headset listing both scenarios with Edit buttons, and a New scenario button',
+      'Controls card: trigger, A / X, thumbstick, grips, recenter and the bare-hand gestures',
+      'End of a scenario: 4/5 right first time, with Replay and Menu'
     ],
-    tech: ['Unity 6', 'OpenXR', 'Meta Quest', 'UI Toolkit', '360° video'],
+    tech: ['Unity 6', 'OpenXR', 'Meta Quest', 'UI Toolkit', '360° video', 'Hand tracking'],
     features: [
-      '360° video that pauses for multiple-choice questions',
-      'Flashlight hunt for hidden dangers in each scene',
-      'Smooth scrubbing through time with the thumbstick',
-      'In-headset workshop to create and edit scenarios',
-      'Fully offline on Quest 2 and Quest 3',
-      'Explanations after a wrong answer, then a retry'
+      '360° video that stops on questions, with an explanation and a retry after a wrong answer',
+      'Flashlight hunt for the dangers in each scene, and info points to open',
+      'Impairment simulator: a broken music box, repaired by talking, seen through a small lens',
+      'No impairment, colour blindness, tunnel vision, central blind spot or dyslexia',
+      'Printed repair notebooks in three levels; in class the pages are split between tables',
+      'In-headset workshop to create and edit scenarios, with no new build',
+      'Two bonuses: a vortex tunnel and a plank over a 220 m drop',
+      'Live view of the headset in any browser on the same network',
+      'Controllers or bare hands, fully offline on Quest 2 and Quest 3'
     ],
     links: [],
     fr: {
       alt: [
-        'Une carte de question givrée flotte devant une vidéo 360° d\'un salon : que fait l\'adulte pendant que l\'enfant lui parle ?',
-        'La bonne réponse passe au vert et une explication s\'affiche, avec un bouton Continuer',
-        'Écran de fin : 2/2 bonnes réponses du premier coup, 2 dangers repérés sur 3, la liste des dangers trouvés et la suite',
-        'Menu de Petites Attentions sur un ciel pastel avec des lumières qui dérivent, la carte du scénario « Le salon » et le bouton Atelier'
+        'Dans le casque, une carte de question flotte devant une vidéo 360° floutée : l\'homme s\'est effondré, que faut-il faire en premier ?',
+        'Menu de Prismo avec ses deux parties, Scénarios (les vidéos 360°) et Simulateur de handicap (la boîte à musique), puis Atelier, Commandes et les deux bonus',
+        'Liste des scénarios : le massage cardiaque avec 5 questions et 3 points info, l\'atelier informatique avec 4 questions et 5 dangers à repérer',
+        'Simulateur de handicap : jouer la boîte à musique sans trouble, ou avec deux daltonismes, sans couleurs, en vision en tunnel, avec une tache au centre ou une dyslexie',
+        'Première page du carnet de réparation imprimé : un joueur fait les mains dans le casque, les autres la voix, le déroulement d\'une partie et les trois niveaux',
+        'Atelier dans le casque avec les deux scénarios, leurs boutons Modifier et un bouton Nouveau scénario',
+        'Carte des commandes : gâchette, A / X, stick, grips, recentrage et les gestes à mains nues',
+        'Fin d\'un scénario : 4/5 bonnes réponses du premier coup, avec Rejouer et Menu'
       ],
       type: 'Formation en VR',
-      shortDescription: 'VR autonome sur Meta Quest : se glisser dans un métier du soin en vidéo 360°, répondre aux questions et repérer les dangers',
-      description: 'Donner envie de travailler dans des métiers du soin méconnus ou peu valorisés, comme la petite enfance, en en faisant vivre un moment en VR. Dans une scène 360° filmée dans un vrai logement, le joueur répond à des questions sur ce qui se passe et cherche les dangers cachés à la lampe torche. Fonctionne hors ligne sur Meta Quest 2 et 3, et les formateurs écrivent de nouveaux scénarios directement dans le casque, sans nouvelle version de l\'app.',
+      shortDescription: 'VR autonome sur Meta Quest pour donner envie des métiers du soin : scènes 360°, simulateur de handicap à deux, atelier de scénarios',
+      description: 'Prismo, « Tu vois ce que je vois », donne envie de travailler dans les métiers du soin en en faisant vivre un moment en VR. Dans les scénarios, le joueur se tient au cœur d\'une vidéo 360° filmée sur place, comme un massage cardiaque ou un atelier de réparation informatique : la vidéo s\'arrête sur des questions, et il repère les dangers autour de lui à la lampe torche. Le simulateur de handicap se joue à deux ou en classe : le joueur casqué ne voit une boîte à musique en panne qu\'à travers une petite loupe, les autres lisent le carnet de réparation imprimé et le guident à la voix, sans trouble ou avec un daltonisme, une vision en tunnel, une tache au centre de la vue ou une dyslexie. Les formateurs créent et modifient les scénarios directement dans le casque, sans nouvelle version de l\'app. Deux bonus, un tunnel tournant et une planche au-dessus de 220 m de vide, servent à briser la glace. Fonctionne entièrement hors ligne sur Meta Quest 2 et 3, aux manettes ou à mains nues, et toute personne sur le même réseau peut suivre la vue du joueur dans un navigateur.',
       features: [
-        'Vidéo 360° qui s\'arrête pour des questions à choix multiples',
-        'Chasse aux dangers cachés à la lampe torche',
-        'Avance et retour fluides dans le temps au stick',
-        'Atelier dans le casque pour créer et modifier les scénarios',
-        'Entièrement hors ligne sur Quest 2 et Quest 3',
-        'Explication après une mauvaise réponse, puis nouvel essai'
+        'Vidéo 360° qui s\'arrête sur des questions, avec explication et nouvel essai après une erreur',
+        'Chasse aux dangers à la lampe torche, et points info à ouvrir',
+        'Simulateur de handicap : une boîte à musique en panne, réparée à la voix, vue à travers une petite loupe',
+        'Sans trouble, daltonisme, vision en tunnel, tache au centre ou dyslexie',
+        'Carnets de réparation imprimés en trois niveaux ; en classe, les pages sont réparties entre les tables',
+        'Atelier dans le casque pour créer et modifier les scénarios, sans nouvelle version',
+        'Deux bonus : un tunnel tournant et une planche au-dessus de 220 m de vide',
+        'Vue du casque en direct dans n\'importe quel navigateur du même réseau',
+        'Manettes ou mains nues, entièrement hors ligne sur Quest 2 et Quest 3'
       ]
     }
   },
