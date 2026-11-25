@@ -18,22 +18,35 @@
   .tag { font-size: 12px; line-height: 17px; color: #3a2e2a; padding-top: 3px; }
   .pill { height: 26px; line-height: 26px; padding: 0 12px; border-radius: 13px; font-size: 12px; font-weight: 600; white-space: nowrap; background: #fff; color: #3a2e2a; }
   .pill.go { background: #f5821f; color: #fff; font-weight: 700; }
+  /* Winston (Claude's sender name): same layout, ColdSnap's ice/blue side of the palette. */
+  .w .name { color: #1b2333; }
+  .w .tag { color: #3d4a5c; }
+  .w .pill { color: #1b2333; }
+  .w .pill.go { background: #4fa8bb; color: #fff; }
 </style>
 </head>
 <body>
   <div class="row"><div class="piece" id="text">
     <div class="name">Nathan de Castro</div>
-    <div class="title">Founder &amp; Creative Technologist at <b>ColdSnap</b></div>
+    <div class="title">Founder &amp; Full-Stack Developer at <b>ColdSnap</b></div>
     <div class="tag">Educational games, mobile &amp; web apps, software you'll enjoy using.</div>
   </div></div>
   <div class="row"><div class="piece pill" id="phone">+33 6 27 64 80 28</div></div>
   <div class="row"><div class="piece pill" id="mail">contact@coldsnap.fr</div></div>
   <div class="row"><div class="piece pill go" id="site">coldsnap.fr</div></div>
+  <div class="w">
+    <div class="row"><div class="piece" id="w-text">
+      <div class="name">Winston</div>
+      <div class="tag">ColdSnap · Educational games, mobile &amp; web apps, software you'll enjoy using.</div>
+    </div></div>
+    <div class="row"><div class="piece pill" id="w-mail">contact@coldsnap.fr</div></div>
+    <div class="row"><div class="piece pill go" id="w-site">coldsnap.fr</div></div>
+  </div>
   <pre id="rects"></pre>
   <script>
     document.fonts.ready.then(() => {
       const out = {};
-      for (const id of ['text', 'phone', 'mail', 'site']) {
+      for (const id of ['text', 'phone', 'mail', 'site', 'w-text', 'w-mail', 'w-site']) {
         const r = document.getElementById(id).getBoundingClientRect();
         out[id] = { x: r.left, y: r.top, w: r.width, h: r.height };
       }

@@ -4,33 +4,36 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>Email signature</title>
+<title>Email signatures</title>
 <style>
-  /* Only for this helper page. The signature itself (between the SIGNATURE markers) uses tables and
-     inline styles only: that is all Gmail and Outlook keep. Its text and buttons are PNGs drawn in
-     Cooldown Sans (tools/email-signature/render.py), since mail clients drop web fonts. */
+  /* Only for this helper page. Each signature (between its markers) uses tables and inline styles
+     only: that is all Gmail and Outlook keep. Text and buttons are PNGs drawn in Cooldown Sans
+     (tools/email-signature/render.py), since mail clients drop web fonts. Claude's mail.py and the
+     home.coldsnap.fr draft sender read the signatures from this page. */
   body { margin: 0; padding: 24px 16px 48px; background: #f4f1ec; font-family: "Segoe UI", Arial, sans-serif; color: #3a2e2a; }
-  .help { max-width: 680px; margin: 0 auto 20px; font-size: 14px; line-height: 1.5; }
-  .help h1 { font-size: 18px; margin: 0 0 8px; }
-  .help ol { margin: 10px 0 12px; padding-left: 20px; }
-  .copy { font: inherit; font-weight: 600; padding: 10px 18px; border: 0; border-radius: 999px; background: #f5821f; color: #fff; cursor: pointer; }
+  .help, .frame { max-width: 640px; margin: 0 auto; }
+  .help { font-size: 14px; line-height: 1.5; margin-bottom: 14px; }
+  .help h1 { font-size: 18px; margin: 0 0 6px; }
+  .help h2 { font-size: 15px; margin: 26px 0 6px; }
+  .help ol { margin: 8px 0 0; padding-left: 20px; }
+  .copy { font: inherit; font-weight: 600; padding: 9px 16px; border: 0; border-radius: 999px; background: #f5821f; color: #fff; cursor: pointer; }
+  .copy.w { background: #4fa8bb; }
   .done { margin-left: 10px; color: #2e8b57; font-weight: 600; }
-  .frame { max-width: 680px; margin: 0 auto; background: #fff; border-radius: 12px; padding: 16px; overflow-x: auto; }
+  .frame { background: #fff; border-radius: 12px; padding: 16px; overflow-x: auto; }
 </style>
 </head>
 <body>
 <div class="help">
-  <h1>Email signature: Nathan de Castro, ColdSnap</h1>
-  <button class="copy" type="button" id="copy">Copy the signature</button><span class="done" id="done" hidden>Copied</span>
+  <h1>ColdSnap email signatures</h1>
+  To use one: press its Copy button, then paste it.
   <ol>
-    <li><b>Gmail</b> (on a computer): Settings → See all settings → General → Signature → Create new → click in the box → Ctrl+V → Save changes at the bottom. Then pick it under "Signature defaults", for each "From" address.</li>
+    <li><b>Gmail</b> (on a computer): Settings → See all settings → General → Signature → Create new → click in the box → Ctrl+V → Save changes at the bottom. Under "Signature defaults", pick it for each "From" address.</li>
     <li><b>Outlook</b>: Settings → Mail → Compose and reply (new Outlook / web), or File → Options → Mail → Signatures (classic) → New → Ctrl+V → Save.</li>
   </ol>
-  Pictures load from coldsnap.fr, so the signature looks the same wherever the mail is read. The phone,
-  email and site buttons are real links.
+  <h2>Nathan (nathan@coldsnap.fr and his personal address)</h2>
+  <button class="copy" type="button" data-copy="nathan">Copy Nathan's signature</button><span class="done" hidden>Copied</span>
 </div>
-
-<div class="frame">
+<div class="frame" id="nathan">
 <!-- SIGNATURE START -->
 <table cellpadding="0" cellspacing="0" border="0" role="presentation" style="border-collapse:separate;background-color:#fdf3e9;border-radius:16px;font-family:'Cooldown Sans','Segoe UI',Calibri,Arial,sans-serif;">
   <tr>
@@ -38,7 +41,7 @@
       <a href="https://coldsnap.fr" style="text-decoration:none;"><img src="https://coldsnap.fr/assets/email/nathan-wizard.png" width="72" height="72" alt="ColdSnap" style="display:block;width:72px;height:72px;border:0;border-radius:36px;"></a>
     </td>
     <td valign="middle" style="padding:11px 16px 11px 10px;">
-      <a href="https://coldsnap.fr" style="text-decoration:none;"><img src="https://coldsnap.fr/assets/email/sig-text.png" width="426" height="64" alt="Nathan de Castro, Founder &amp; Creative Technologist at ColdSnap. Educational games, mobile &amp; web apps, software you'll enjoy using." style="display:block;width:426px;max-width:100%;height:auto;border:0;"></a>
+      <a href="https://coldsnap.fr" style="text-decoration:none;"><img src="https://coldsnap.fr/assets/email/sig-text.png" width="426" height="64" alt="Nathan de Castro, Founder &amp; Full-Stack Developer at ColdSnap. Educational games, mobile &amp; web apps, software you'll enjoy using." style="display:block;width:426px;max-width:100%;height:auto;border:0;"></a>
       <table cellpadding="0" cellspacing="0" border="0" role="presentation" style="margin-top:8px;border-collapse:collapse;">
         <tr>
           <td style="padding:0 7px 0 0;"><a href="tel:+33627648028" style="text-decoration:none;"><img src="https://coldsnap.fr/assets/email/sig-phone.png" width="129" height="26" alt="+33 6 27 64 80 28" style="display:block;width:129px;height:26px;border:0;"></a></td>
@@ -52,19 +55,46 @@
 <!-- SIGNATURE END -->
 </div>
 
+<div class="help">
+  <h2>Winston (winston@coldsnap.fr, Claude's sender name)</h2>
+  <button class="copy w" type="button" data-copy="winston">Copy Winston's signature</button><span class="done" hidden>Copied</span>
+</div>
+<div class="frame" id="winston">
+<!-- WINSTON SIGNATURE START -->
+<table cellpadding="0" cellspacing="0" border="0" role="presentation" style="border-collapse:separate;background-color:#e8f6fa;border-radius:16px;font-family:'Cooldown Sans','Segoe UI',Calibri,Arial,sans-serif;">
+  <tr>
+    <td valign="middle" style="padding:12px 4px 12px 14px;">
+      <a href="https://coldsnap.fr" style="text-decoration:none;"><img src="https://coldsnap.fr/assets/email/nathan-wizard.png" width="60" height="60" alt="ColdSnap" style="display:block;width:60px;height:60px;border:0;border-radius:30px;"></a>
+    </td>
+    <td valign="middle" style="padding:11px 16px 11px 10px;">
+      <a href="https://coldsnap.fr" style="text-decoration:none;"><img src="https://coldsnap.fr/assets/email/sig-w-text.png" width="499" height="44" alt="Winston, ColdSnap. Educational games, mobile &amp; web apps, software you'll enjoy using." style="display:block;width:499px;max-width:100%;height:auto;border:0;"></a>
+      <table cellpadding="0" cellspacing="0" border="0" role="presentation" style="margin-top:8px;border-collapse:collapse;">
+        <tr>
+          <td style="padding:0 7px 0 0;"><a href="mailto:contact@coldsnap.fr" style="text-decoration:none;"><img src="https://coldsnap.fr/assets/email/sig-w-mail.png" width="159" height="26" alt="contact@coldsnap.fr" style="display:block;width:159px;height:26px;border:0;"></a></td>
+          <td style="padding:0;"><a href="https://coldsnap.fr" style="text-decoration:none;"><img src="https://coldsnap.fr/assets/email/sig-w-site.png" width="97" height="26" alt="coldsnap.fr" style="display:block;width:97px;height:26px;border:0;"></a></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- WINSTON SIGNATURE END -->
+</div>
+
 <script>
-  // Copies the signature as rich text (what Gmail and Outlook paste), by selecting it like a mouse would.
-  document.getElementById('copy').addEventListener('click', () => {
-    const r = document.createRange();
-    r.selectNode(document.querySelector('.frame > table'));
-    const s = getSelection();
-    s.removeAllRanges();
-    s.addRange(r);
-    const ok = document.execCommand('copy');
-    s.removeAllRanges();
-    document.getElementById('done').hidden = !ok;
-    if (!ok) alert('Copy failed: select the signature with the mouse and press Ctrl+C.');
-  });
+  // Copies a signature as rich text (what Gmail and Outlook paste), by selecting it like a mouse would.
+  for (const b of document.querySelectorAll('[data-copy]')) {
+    b.addEventListener('click', () => {
+      const r = document.createRange();
+      r.selectNode(document.querySelector('#' + b.dataset.copy + ' > table'));
+      const s = getSelection();
+      s.removeAllRanges();
+      s.addRange(r);
+      const ok = document.execCommand('copy');
+      s.removeAllRanges();
+      b.nextElementSibling.hidden = !ok;
+      if (!ok) alert('Copy failed: select the signature with the mouse and press Ctrl+C.');
+    });
+  }
 </script>
 </body>
 </html>

@@ -20,7 +20,7 @@ OUT = ROOT / "coldsnap" / "assets" / "email"
 EDGE = r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
 PAGE = (HERE / "render.html").as_uri()
 SCALE = 2
-W, H = 640, 420
+W, H = 640, 640
 
 common = [EDGE, "--headless=new", "--disable-gpu", "--hide-scrollbars", "--virtual-time-budget=4000",
           f"--window-size={W},{H}", f"--force-device-scale-factor={SCALE}", "--allow-file-access-from-files"]
