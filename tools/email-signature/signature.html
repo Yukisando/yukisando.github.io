@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Email signature</title>
+<style>
+  /* Only for this helper page. The signature below uses inline styles and tables only:
+     that is all Gmail and Outlook keep. */
+  body { margin: 0; padding: 24px 16px 48px; background: #f4f1ec; font-family: "Segoe UI", Arial, sans-serif; color: #3a2e2a; }
+  .help { max-width: 640px; margin: 0 auto 20px; font-size: 14px; line-height: 1.5; }
+  .help h1 { font-size: 18px; margin: 0 0 6px; }
+  .help ol { margin: 6px 0 12px; padding-left: 20px; }
+  .copy { font: inherit; font-weight: 600; padding: 10px 18px; border: 0; border-radius: 999px; background: #f5821f; color: #fff; cursor: pointer; }
+  .done { margin-left: 10px; color: #2e8b57; font-weight: 600; }
+  .frame { max-width: 640px; margin: 0 auto; background: #fff; border-radius: 12px; padding: 16px; }
+</style>
+</head>
+<body>
+<div class="help">
+  <h1>Email signature: Nathan de Castro, ColdSnap</h1>
+  <button class="copy" type="button" id="copy">Copy the signature</button><span class="done" id="done" hidden>Copied</span>
+  <ol>
+    <li><b>Gmail</b> (on a computer): Settings → See all settings → General → Signature → Create new → click in the box → Ctrl+V → Save changes at the bottom. Then pick it under "Signature defaults".</li>
+    <li><b>Outlook</b>: Settings → Mail → Compose and reply (new Outlook / web), or File → Options → Mail → Signatures (classic) → New → Ctrl+V → Save.</li>
+  </ol>
+  The picture loads from coldsnap.fr, so it shows wherever the mail is read. The phone, email and
+  site buttons are real links.
+</div>
+
+<div class="frame">
+<!-- SIGNATURE START -->
+<div id="sig">
+<table cellpadding="0" cellspacing="0" border="0" role="presentation" style="border-collapse:separate;max-width:600px;background-color:#fdf3e9;border-radius:22px;font-family:'Segoe UI',Calibri,Arial,Helvetica,sans-serif;">
+  <tr>
+    <td valign="middle" style="padding:18px 6px 18px 20px;">
+      <a href="https://coldsnap.fr" style="text-decoration:none;"><img src="https://coldsnap.fr/assets/email/nathan-wizard.png" width="96" height="96" alt="ColdSnap" style="display:block;width:96px;height:96px;border:0;border-radius:48px;"></a>
+    </td>
+    <td valign="middle" style="padding:16px 22px 16px 14px;">
+      <div style="font-size:24px;line-height:30px;font-weight:700;color:#3a2e2a;">Nathan de Castro</div>
+      <div style="font-size:15px;line-height:21px;color:#8a7f78;padding-top:2px;">Founder &amp; Creative Technologist at <a href="https://coldsnap.fr" style="color:#f5821f;font-weight:700;text-decoration:none;">ColdSnap</a></div>
+      <div style="font-size:14px;line-height:20px;color:#3a2e2a;font-style:italic;padding-top:6px;">Educational games, mobile &amp; web apps, software you'll enjoy using.</div>
+      <table cellpadding="0" cellspacing="0" border="0" role="presentation" style="margin-top:12px;border-collapse:separate;">
+        <tr>
+          <td style="background-color:#ffffff;border-radius:18px;padding:7px 15px;">
+            <a href="tel:+33627648028" style="font-size:14px;line-height:18px;color:#3a2e2a;text-decoration:none;white-space:nowrap;">+33 6 27 64 80 28</a>
+          </td>
+          <td style="width:8px;font-size:0;line-height:0;">&nbsp;</td>
+          <td style="background-color:#ffffff;border-radius:18px;padding:7px 15px;">
+            <a href="mailto:contact@coldsnap.fr" style="font-size:14px;line-height:18px;color:#3a2e2a;text-decoration:none;white-space:nowrap;">contact@coldsnap.fr</a>
+          </td>
+          <td style="width:8px;font-size:0;line-height:0;">&nbsp;</td>
+          <td style="background-color:#f5821f;border-radius:18px;padding:7px 16px;">
+            <a href="https://coldsnap.fr" style="font-size:14px;line-height:18px;color:#ffffff;font-weight:700;text-decoration:none;white-space:nowrap;">coldsnap.fr</a>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+</div>
+<!-- SIGNATURE END -->
+</div>
+
+<script>
+  // Copies the signature as rich text (what Gmail and Outlook paste), by selecting it like a mouse would.
+  document.getElementById('copy').addEventListener('click', () => {
+    const r = document.createRange();
+    r.selectNode(document.getElementById('sig'));
+    const s = getSelection();
+    s.removeAllRanges();
+    s.addRange(r);
+    const ok = document.execCommand('copy');
+    s.removeAllRanges();
+    document.getElementById('done').hidden = !ok;
+    if (!ok) alert('Copy failed: select the signature with the mouse and press Ctrl+C.');
+  });
+</script>
+</body>
+</html>
