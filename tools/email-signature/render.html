@@ -2,20 +2,23 @@
 <html>
 <head>
 <meta charset="utf-8">
-<!-- Draws the signature's text pieces in Cooldown Sans so render.py can cut them into PNGs.
-     Mail clients ignore web fonts, so images are the only way the signature shows in Cooldown. -->
+<!-- Draws each signature card whole (cream card, logo, Cooldown text, buttons) so render.py can cut it
+     into PNG slices. The card is nothing but pictures in the email: mail clients drop web fonts, and
+     dark mode (Outlook mobile, Gmail apps) recolours HTML backgrounds and text but never images,
+     so a picture-only card looks the same everywhere and shrinks as one piece. -->
 <style>
   @font-face { font-family: "Cooldown Sans"; src: url("../../coldsnap/fonts/Cooldown-var.woff2") format("woff2"); font-weight: 300 700; }
   html, body { margin: 0; background: transparent; }
   body { font-family: "Cooldown Sans", sans-serif; padding: 10px; }
-  .piece { display: inline-block; margin: 0 0 24px; }
-  .row { display: block; }
-  #text { width: max-content; }
+  .card { display: inline-flex; align-items: center; background: #fdf3e9; border-radius: 16px; margin: 0 0 24px; }
+  .logo { display: block; width: 72px; height: 72px; border-radius: 36px; margin: 12px 4px 12px 14px; }
+  .body { padding: 11px 16px 11px 10px; }
+  .text { width: max-content; }
   .name { font-size: 19px; line-height: 24px; font-weight: 700; color: #3a2e2a; }
   .title { font-size: 12.5px; line-height: 18px; color: #8a7f78; padding-top: 2px; }
-  .title b { color: #f5821f; font-weight: 700; }
   /* No wobble here: it reads goofy, so only in playful sections, never in a pro signature (Nathan, 2026-11-25). */
   .tag { font-size: 12px; line-height: 17px; color: #3a2e2a; padding-top: 3px; }
+  .pills { display: flex; gap: 7px; margin-top: 8px; }
   .pill { height: 26px; line-height: 26px; padding: 0 12px; border-radius: 13px; font-size: 12px; font-weight: 600; white-space: nowrap; background: #fff; color: #3a2e2a; }
   .pill.go { background: #f5821f; color: #fff; font-weight: 700; }
   /* Winston (Claude's sender name): the same signature, only his name and no title (Nathan, 2026-11-25:
@@ -23,27 +26,36 @@
 </style>
 </head>
 <body>
-  <div class="row"><div class="piece" id="text">
-    <div class="name">Nathan de Castro</div>
-    <div class="title">Founder &amp; Full-Stack Developer</div>
-    <div class="tag">Educational games, mobile &amp; web apps, software you'll enjoy using.</div>
+  <div><div class="card" id="nathan">
+    <img class="logo" src="../../coldsnap/assets/email/nathan-wizard.png" alt="">
+    <div class="body">
+      <div class="text">
+        <div class="name">Nathan de Castro</div>
+        <div class="title">Founder &amp; Full-Stack Developer</div>
+        <div class="tag">Educational games, mobile &amp; web apps, software you'll enjoy using.</div>
+      </div>
+      <div class="pills"><div class="pill">+33 6 27 64 80 28</div><div class="pill">contact@coldsnap.fr</div><div class="pill go">coldsnap.fr</div></div>
+    </div>
   </div></div>
-  <div class="row"><div class="piece pill" id="phone">+33 6 27 64 80 28</div></div>
-  <div class="row"><div class="piece pill" id="mail">contact@coldsnap.fr</div></div>
-  <div class="row"><div class="piece pill go" id="site">coldsnap.fr</div></div>
-  <div class="w">
-    <div class="row"><div class="piece" id="w-text">
-      <div class="name">Winston</div>
-      <div class="tag">Educational games, mobile &amp; web apps, software you'll enjoy using.</div>
-    </div></div>
-  </div>
+  <div><div class="card" id="winston">
+    <img class="logo" src="../../coldsnap/assets/email/nathan-wizard.png" alt="">
+    <div class="body">
+      <div class="text">
+        <div class="name">Winston</div>
+        <div class="tag">Educational games, mobile &amp; web apps, software you'll enjoy using.</div>
+      </div>
+      <div class="pills"><div class="pill">+33 6 27 64 80 28</div><div class="pill">contact@coldsnap.fr</div><div class="pill go">coldsnap.fr</div></div>
+    </div>
+  </div></div>
   <pre id="rects"></pre>
   <script>
-    document.fonts.ready.then(() => {
+    // For each card: its box, and the three buttons' boxes (render.py cuts the slices from these).
+    const box = el => { const r = el.getBoundingClientRect(); return { x: r.left, y: r.top, w: r.width, h: r.height }; };
+    Promise.all([document.fonts.ready, ...[...document.images].map(i => i.decode())]).then(() => {
       const out = {};
-      for (const id of ['text', 'phone', 'mail', 'site', 'w-text']) {
-        const r = document.getElementById(id).getBoundingClientRect();
-        out[id] = { x: r.left, y: r.top, w: r.width, h: r.height };
+      for (const id of ['nathan', 'winston']) {
+        const card = document.getElementById(id);
+        out[id] = { card: box(card), pills: [...card.querySelectorAll('.pill')].map(box) };
       }
       out.font = document.fonts.check('16px "Cooldown Sans"');
       document.getElementById('rects').textContent = JSON.stringify(out);

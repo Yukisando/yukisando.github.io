@@ -2,6 +2,11 @@
 
 Nathan's signature lives at https://coldsnap.fr/assets/email/signature.html (source: `coldsnap/assets/email/signature.html`): open it, "Copy the signature", paste into Gmail or Outlook. Claude's `mail.py` and the dashboard's draft sender read it from that URL (between the SIGNATURE markers).
 
-Its text and buttons are PNGs drawn in Cooldown Sans, because mail clients drop web fonts. After changing the wording, colours or sizes in `render.html`, run `python tools/email-signature/render.py` (needs Edge), update the image sizes it prints in `signature.html`, and push to master.
+Each card is **pictures only** (2026-11-25): the whole card (cream background, logo, Cooldown text, buttons) is drawn by `render.html` and cut into four slices that tile exactly: the top and the three buttons, each its own link. Why:
+- mail clients drop web fonts, so text has to be a picture to show in Cooldown;
+- dark mode (Outlook mobile, Gmail apps) recolours HTML backgrounds and text but never pictures, so the card can't turn into dark text on a dark card;
+- the slices sit in percent-width cells, so on a narrow screen the whole card shrinks as one piece instead of squeezing the logo.
 
-After re-rendering, also **bump `?v=` on every image URL** in `signature.html`: Gmail and Outlook cache images by URL, so an unchanged URL keeps showing the old picture (2026-11-25: the removed wobble still showed).
+To change wording, colours or sizes: edit `render.html`, run `python tools/email-signature/render.py` (needs Edge). It writes the `sig-<card>-*.png` slices and rewrites the tables in `signature.html` itself, with a `?v=` taken from the pictures' bytes (Gmail and Outlook cache images by URL). Push to master, then paste the signature again in Gmail/Outlook.
+
+The older `sig-text/phone/mail/site/w-text.png` stay online: emails already sent still point at them.
