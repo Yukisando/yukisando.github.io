@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<!-- Draws the signature's text pieces in Cooldown Sans so render.py can cut them into PNGs.
+     Mail clients ignore web fonts, so images are the only way the signature shows in Cooldown. -->
+<style>
+  @font-face { font-family: "Cooldown Sans"; src: url("../../coldsnap/fonts/Cooldown-var.woff2") format("woff2"); font-weight: 300 700; }
+  html, body { margin: 0; background: transparent; }
+  body { font-family: "Cooldown Sans", sans-serif; padding: 10px; }
+  .piece { display: inline-block; margin: 0 0 24px; }
+  .row { display: block; }
+  #text { width: max-content; }
+  .name { font-size: 26px; line-height: 32px; font-weight: 700; color: #3a2e2a; }
+  .title { font-size: 15.5px; line-height: 22px; color: #8a7f78; padding-top: 2px; }
+  .title b { color: #f5821f; font-weight: 700; }
+  /* His rule: wobble instead of italics. */
+  .tag { font-size: 14.5px; line-height: 21px; color: #3a2e2a; padding-top: 5px; font-variation-settings: "WOBL" 1; }
+  .pill { height: 34px; line-height: 34px; padding: 0 16px; border-radius: 17px; font-size: 14.5px; font-weight: 600; white-space: nowrap; background: #fff; color: #3a2e2a; }
+  .pill.go { background: #f5821f; color: #fff; font-weight: 700; }
+</style>
+</head>
+<body>
+  <div class="row"><div class="piece" id="text">
+    <div class="name">Nathan de Castro</div>
+    <div class="title">Founder &amp; Creative Technologist at <b>ColdSnap</b></div>
+    <div class="tag">Educational games, mobile &amp; web apps, software you'll enjoy using.</div>
+  </div></div>
+  <div class="row"><div class="piece pill" id="phone">+33 6 27 64 80 28</div></div>
+  <div class="row"><div class="piece pill" id="mail">contact@coldsnap.fr</div></div>
+  <div class="row"><div class="piece pill go" id="site">coldsnap.fr</div></div>
+  <pre id="rects"></pre>
+  <script>
+    document.fonts.ready.then(() => {
+      const out = {};
+      for (const id of ['text', 'phone', 'mail', 'site']) {
+        const r = document.getElementById(id).getBoundingClientRect();
+        out[id] = { x: r.left, y: r.top, w: r.width, h: r.height };
+      }
+      out.font = document.fonts.check('16px "Cooldown Sans"');
+      document.getElementById('rects').textContent = JSON.stringify(out);
+      document.getElementById('rects').style.color = 'transparent';
+    });
+  </script>
+</body>
+</html>
